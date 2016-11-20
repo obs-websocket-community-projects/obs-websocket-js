@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <script type='text/javascript' src='dist/obs-websocket.js'></script>
+    <script>
+      var ws = new OBSWebSocket();
+
+      // Bind some methods.
+      ws.onConnectionOpened = function() {
+        console.log('Connection Opened');
+
+        // Send some queries.
+        ws.getCurrentScene(function(message) {
+          console.log(message);
+          console.log(marshalOBSScene(message));
+          console.log('Active Scene Name:', message.name);
+          document.getElementById('scene_name').textContent = message.name;
+        });
+      };
+
+      // Open the connection and Authenticate if needed. URL defaults to localhost:4444
+      ws.connect(); // ws.connect('url', 'password');
+    </script>
+  </head>
+  <body>
+    <p id='scene_name'></p>
+  </body>
+</html>

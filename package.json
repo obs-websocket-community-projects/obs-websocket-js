@@ -1,0 +1,39 @@
+{
+  "name": "obs-websocket-js",
+  "version": "0.1.0",
+  "description": "OBS Websocket API in Javascript",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haganbmj/obs-websocket-js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "grunt": "grunt",
+    "build": "grunt"
+  },
+  "keywords": [
+    "obs",
+    "studio",
+    "websocket",
+    "node",
+    "node.js"
+  ],
+  "files": [
+    "README.md",
+    "index.js",
+    "dist/obs-websocket.js"
+  ],
+  "author": "Brendan Hagan (haganbmj)",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^1.1.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-jsdoc-to-markdown": "^2.0.0",
+    "load-grunt-tasks": "^3.5.2"
+  }
+}
