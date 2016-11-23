@@ -11,8 +11,8 @@
  */
 (function() {
   function OBSSource(name, type, x, y, boundsX, boundsY, volume, visible) {
-    this.name = name || '';
-    this.type = type || '';
+    this.name = (typeof name === 'undefined') ? '' : name;
+    this.type = (typeof type === 'undefined') ? '' : type;
     this.x = x || 0;
     this.y = y || 0;
     this.boundsX = boundsX || 0;
@@ -28,6 +28,6 @@
   }
 })();
 
-function marshalOBSSource(source) {
+function marshalOBSSource(source) { // jshint ignore:line
   return new OBSSource(source.name, source.type, source.x, source.y, source.cx, source.cy, source.volume, source.render);
 }

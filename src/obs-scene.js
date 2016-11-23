@@ -5,13 +5,13 @@
  */
 (function() {
   function OBSScene(name, sources) {
-    this.name = name || '';
-    this.sources = sources || [];
+    this.name = (typeof name === 'undefined') ? '' : name;
+    this.sources = (typeof sources === 'undefined') ? [] : sources;
 
     var self = this;
 
     if (sources.length > 0 && !(sources[0] instanceof OBSSource)) {
-      self.sources = [];
+      this.sources = [];
       sources.forEach(function(source) {
         self.sources.push(marshalOBSSource(source));
       });
@@ -25,6 +25,6 @@
   }
 })();
 
-function marshalOBSScene(scene) {
+function marshalOBSScene(scene) { // jshint ignore:line
   return new OBSScene(scene.name, scene.sources);
 }

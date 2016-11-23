@@ -1,6 +1,6 @@
 <html>
   <head>
-    <script type='text/javascript' src='dist/obs-websocket.js'></script>
+    <script type='text/javascript' src='../dist/obs-websocket.js'></script>
     <script>
       var ws = new OBSWebSocket();
 
@@ -9,11 +9,8 @@
         console.log('Connection Opened');
 
         // Send some queries.
-        ws.getCurrentScene(function(message) {
-          console.log(message);
-          console.log(marshalOBSScene(message));
-          console.log('Active Scene Name:', message.name);
-          document.getElementById('scene_name').textContent = message.name;
+        ws.getSceneList(function(sceneList) {
+          document.getElementById('scene_name').textContent = sceneList['current-scene'];
         });
       };
 

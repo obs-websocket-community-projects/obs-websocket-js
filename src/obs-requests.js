@@ -1,18 +1,32 @@
 /**
+ * Callback for GetVersion.
+ * @callback getVersionCb
+ * @param obsVersion {string}
+ */
+/**
  * Retrieve OBSWebSocket version information.
  *
  * @function
  * @category request
+ * @param callback {getVersionCb}
  */
 OBSWebSocket.prototype.getVersion = function(callback) {
   this._sendRequest('GetVersion', {}, callback);
 };
 
 /**
+ * Callback for getAuthRequired.
+ * @callback getAuthRequiredCb
+ * @param authRequired {bool}
+ * @param salt {string=}
+ * @param challenge {string=}
+ */
+/**
  * Retrieve information about the OBSWebSocket authentication requirements.
  *
  * @function
  * @category request
+ * @param callback {getAuthRequiredCb}
  */
 OBSWebSocket.prototype.getAuthRequired = function(callback) {
   this._sendRequest('GetAuthRequired', {}, callback);
@@ -23,13 +37,17 @@ OBSWebSocket.prototype.getAuthRequired = function(callback) {
  *
  * @function
  * @category request
+ * @param password {string=}
  */
 OBSWebSocket.prototype.authenticate = function(password) {
+  password = password || '';
+
   var self = this;
+
   this._authHash(password, function(authResp) {
     self._sendRequest('Authenticate', { 'auth' : authResp }, function(message) {
       if (message.status === 'ok') {
-        console.info(OBSWebSocket.CONSOLE_NAME, "Authentication Success.")
+        console.info(OBSWebSocket.CONSOLE_NAME, "Authentication Success.");
         self.onAuthenticationSuccess();
       } else {
         console.error(OBSWebSocket.CONSOLE_NAME, "Authentication Failure.", message);
@@ -44,6 +62,8 @@ OBSWebSocket.prototype.authenticate = function(password) {
  *
  * @function
  * @category request
+ * @param address=localhost {string}
+ * @param password {string=}
  */
 OBSWebSocket.prototype.connect = function(address, password) {
   address = address || 'localhost';
@@ -71,31 +91,37 @@ OBSWebSocket.prototype.connect = function(address, password) {
         self.authenticate(password);
       }
     });
-  }
+  };
 
   this._socket.onclose = function() {
     if (self._connected) {
       self.onConnectionClosed();
     }
     self._connected = false;
-  }
+  };
 
   this._socket.onerror = function(evt) {
     self.onConnectionFailed(evt);
     self._connected = false;
-  }
+  };
 
   this._socket.onmessage = function(msg) {
     // console.log(OBSWebSocket.CONSOLE_NAME, msg);
     self._onMessage(msg);
-  }
+  };
 };
 
+/**
+ * Callback for getCurrentScene.
+ * @callback getCurrentSceneCb
+ * @param scene {OBSScene}
+ */
 /**
  * Retrieve the currently active scene.
  *
  * @function
  * @category request
+ * @param callback {getCurrentSceneCb}
  */
 OBSWebSocket.prototype.getCurrentScene = function(callback) {
   this._sendRequest('GetCurrentScene', {}, callback);
@@ -106,6 +132,7 @@ OBSWebSocket.prototype.getCurrentScene = function(callback) {
  *
  * @function
  * @category request
+ * @param sceneName {string} - Scene name.
  */
 OBSWebSocket.prototype.setCurrentScene = function(sceneName) {
   this._sendRequest('SetCurrentScene',
@@ -113,10 +140,17 @@ OBSWebSocket.prototype.setCurrentScene = function(sceneName) {
 };
 
 /**
+ * Callback for getSceneList.
+ * @callback getSceneListCb
+ * @param currentScene {string} - Name of the currently active scene.
+ * @param scenes {Array.<OBSScene>} - Array of {@link OBSScene}s.
+ */
+/**
  * Retrieve the list of available scenes.
  *
  * @function
  * @category request
+ * @param callback {getSceneListCb}
  */
 OBSWebSocket.prototype.getSceneList = function(callback) {
   this._sendRequest('GetSceneList', {}, callback);
@@ -127,6 +161,8 @@ OBSWebSocket.prototype.getSceneList = function(callback) {
  *
  * @function
  * @category request
+ * @param sourceName {string} - Name of the source.
+ * @param visible {bool} - Whether the source should be visible or not.
  */
 OBSWebSocket.prototype.setSourceVisbility = function(sourceName, visible) {
   this._sendRequest('SetSourceVisibility',
@@ -194,30 +230,57 @@ OBSWebSocket.prototype.stopRecording = function() {
 };
 
 /**
+ * Callback for getStreamStatus.
+ * @callback getStreamStatusCb
+ * @param streaming {bool}
+ * @param recording {bool}
+ * @param previewOnly {bool} - Always false.
+ * @param bytesPerSec {int=}
+ * @param strain {double=}
+ * @param totalStreamTime {int=}
+ * @param numTotalFrames {int=}
+ * @param numDroppedFrames {int=}
+ * @param fps {double=}
+ */
+/**
  * Retrieve details about the stream status.
  *
  * @function
  * @category request
+ * @param callback {getStreamStatusCb}
  */
 OBSWebSocket.prototype.getStreamStatus = function(callback) {
   this._sendRequest('GetStreamingStatus', {}, callback);
 };
 
 /**
+ * Callback for getTransitionList.
+ * @callback getTransitionListCb
+ * @param currentTransition {string}
+ * @param transitions {Array.<string>}
+ */
+/**
  * Retrieve the list of available transitions.
  *
  * @function
  * @category request
+ * @param callback {getTransitionListCb}
  */
 OBSWebSocket.prototype.getTransitionList = function(callback) {
   this._sendRequest('GetTransitionList', {}, callback);
 };
 
 /**
+ * Callback for getCurrentTransition.
+ * @callback getCurrentTransitionCb
+ * @param name {string}
+ */
+/**
  * Retrieve the currently selected transition.
  *
  * @function
  * @category request
+ * @param callback {getCurrentTransitionCb}
  */
 OBSWebSocket.prototype.getCurrentTransition = function(callback) {
   this._sendRequest('GetCurrentTransition', {}, callback);
@@ -228,6 +291,7 @@ OBSWebSocket.prototype.getCurrentTransition = function(callback) {
  *
  * @function
  * @category request
+ * @param transitionName {string}
  */
 OBSWebSocket.prototype.setCurrentTransition = function(transitionName) {
   this._sendRequest('SetCurrentTransition',

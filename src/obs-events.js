@@ -44,14 +44,14 @@ OBSWebSocket.prototype.onAuthenticationFailure = function() {};
  * @function
  * @category listener
  */
-OBSWebSocket.prototype.onSceneSwitch = function(sceneName) {};
+OBSWebSocket.prototype.onSceneSwitch = function(sceneName) {}; // jshint ignore:line
 
 /**
  * Triggered when the scene list is modified (a scene has been created, removed, or renamed).
  * @function
  * @category listener
  */
-OBSWebSocket.prototype.onSceneListChanged = function(sceneList) {};
+OBSWebSocket.prototype.onSceneListChanged = function(sceneList) {}; // jshint ignore:line
 
 /**
  * Triggered when a request to start streaming has been issued.
@@ -123,7 +123,7 @@ OBSWebSocket.prototype.onRecordingStopped = function() {};
  * @function
  * @category listener
  */
-OBSWebSocket.prototype.onStreamStatus = function(streaming, recording, bytesPerSecond, strain, totalStreamTime, numberOfFrames, numberOfDroppedFrames, fps) {};
+OBSWebSocket.prototype.onStreamStatus = function(streaming, recording, bytesPerSecond, strain, totalStreamTime, numberOfFrames, numberOfDroppedFrames, fps) {}; // jshint ignore:line
 
 /**
  * Triggered when OBS has been closed.

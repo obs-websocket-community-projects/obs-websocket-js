@@ -9,6 +9,32 @@
 <dd></dd>
 </dl>
 
+## Typedefs
+
+<dl>
+<dt><a href="#getVersionCb">getVersionCb</a> : <code>function</code></dt>
+<dd><p>Callback for GetVersion.</p>
+</dd>
+<dt><a href="#getAuthRequiredCb">getAuthRequiredCb</a> : <code>function</code></dt>
+<dd><p>Callback for getAuthRequired.</p>
+</dd>
+<dt><a href="#getCurrentSceneCb">getCurrentSceneCb</a> : <code>function</code></dt>
+<dd><p>Callback for getCurrentScene.</p>
+</dd>
+<dt><a href="#getSceneListCb">getSceneListCb</a> : <code>function</code></dt>
+<dd><p>Callback for getSceneList.</p>
+</dd>
+<dt><a href="#getStreamStatusCb">getStreamStatusCb</a> : <code>function</code></dt>
+<dd><p>Callback for getStreamStatus.</p>
+</dd>
+<dt><a href="#getTransitionListCb">getTransitionListCb</a> : <code>function</code></dt>
+<dd><p>Callback for getTransitionList.</p>
+</dd>
+<dt><a href="#getCurrentTransitionCb">getCurrentTransitionCb</a> : <code>function</code></dt>
+<dd><p>Callback for getCurrentTransition.</p>
+</dd>
+</dl>
+
 <a name="OBSSource"></a>
 
 ## OBSSource
@@ -66,24 +92,24 @@
         * [.onStreamStatus()](#OBSWebSocket+onStreamStatus)
         * [.onExit()](#OBSWebSocket+onExit)
     * _request_
-        * [.getVersion()](#OBSWebSocket+getVersion)
-        * [.getAuthRequired()](#OBSWebSocket+getAuthRequired)
-        * [.authenticate()](#OBSWebSocket+authenticate)
-        * [.connect()](#OBSWebSocket+connect)
-        * [.getCurrentScene()](#OBSWebSocket+getCurrentScene)
-        * [.setCurrentScene()](#OBSWebSocket+setCurrentScene)
-        * [.getSceneList()](#OBSWebSocket+getSceneList)
-        * [.setSourceVisbility()](#OBSWebSocket+setSourceVisbility)
+        * [.getVersion(callback)](#OBSWebSocket+getVersion)
+        * [.getAuthRequired(callback)](#OBSWebSocket+getAuthRequired)
+        * [.authenticate([password])](#OBSWebSocket+authenticate)
+        * [.connect(address, password=)](#OBSWebSocket+connect)
+        * [.getCurrentScene(callback)](#OBSWebSocket+getCurrentScene)
+        * [.setCurrentScene(sceneName)](#OBSWebSocket+setCurrentScene)
+        * [.getSceneList(callback)](#OBSWebSocket+getSceneList)
+        * [.setSourceVisbility(sourceName, visible)](#OBSWebSocket+setSourceVisbility)
         * [.toggleStreaming()](#OBSWebSocket+toggleStreaming)
         * [.startStreaming()](#OBSWebSocket+startStreaming)
         * [.stopStreaming()](#OBSWebSocket+stopStreaming)
         * [.startStopRecording()](#OBSWebSocket+startStopRecording)
         * [.startRecording()](#OBSWebSocket+startRecording)
         * [.stopRecording()](#OBSWebSocket+stopRecording)
-        * [.getStreamStatus()](#OBSWebSocket+getStreamStatus)
-        * [.getTransitionList()](#OBSWebSocket+getTransitionList)
-        * [.getCurrentTransition()](#OBSWebSocket+getCurrentTransition)
-        * [.setCurrentTransition()](#OBSWebSocket+setCurrentTransition)
+        * [.getStreamStatus(callback)](#OBSWebSocket+getStreamStatus)
+        * [.getTransitionList(callback)](#OBSWebSocket+getTransitionList)
+        * [.getCurrentTransition(callback)](#OBSWebSocket+getCurrentTransition)
+        * [.setCurrentTransition(transitionName)](#OBSWebSocket+setCurrentTransition)
 
 <a name="OBSWebSocket+onConnectionOpened"></a>
 
@@ -206,60 +232,102 @@ Triggered when OBS has been closed.
 **Category**: listener  
 <a name="OBSWebSocket+getVersion"></a>
 
-### obsWebSocket.getVersion()
+### obsWebSocket.getVersion(callback)
 Retrieve OBSWebSocket version information.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| callback | <code>[getVersionCb](#getVersionCb)</code> | 
+
 <a name="OBSWebSocket+getAuthRequired"></a>
 
-### obsWebSocket.getAuthRequired()
+### obsWebSocket.getAuthRequired(callback)
 Retrieve information about the OBSWebSocket authentication requirements.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| callback | <code>[getAuthRequiredCb](#getAuthRequiredCb)</code> | 
+
 <a name="OBSWebSocket+authenticate"></a>
 
-### obsWebSocket.authenticate()
+### obsWebSocket.authenticate([password])
 Attempt to authenticate the OBSWebSocket connection.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| [password] | <code>string</code> | 
+
 <a name="OBSWebSocket+connect"></a>
 
-### obsWebSocket.connect()
+### obsWebSocket.connect(address, password=)
 Initialize and authenticate the connection.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type | Default |
+| --- | --- | --- |
+| address | <code>string</code> | <code>&quot;localhost&quot;</code> | 
+| password= | <code>string</code> |  | 
+
 <a name="OBSWebSocket+getCurrentScene"></a>
 
-### obsWebSocket.getCurrentScene()
+### obsWebSocket.getCurrentScene(callback)
 Retrieve the currently active scene.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| callback | <code>[getCurrentSceneCb](#getCurrentSceneCb)</code> | 
+
 <a name="OBSWebSocket+setCurrentScene"></a>
 
-### obsWebSocket.setCurrentScene()
+### obsWebSocket.setCurrentScene(sceneName)
 Set the currently active scene.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| sceneName | <code>string</code> | Scene name. |
+
 <a name="OBSWebSocket+getSceneList"></a>
 
-### obsWebSocket.getSceneList()
+### obsWebSocket.getSceneList(callback)
 Retrieve the list of available scenes.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| callback | <code>[getSceneListCb](#getSceneListCb)</code> | 
+
 <a name="OBSWebSocket+setSourceVisbility"></a>
 
-### obsWebSocket.setSourceVisbility()
+### obsWebSocket.setSourceVisbility(sourceName, visible)
 Set the visibility of a selected source.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| sourceName | <code>string</code> | Name of the source. |
+| visible | <code>bool</code> | Whether the source should be visible or not. |
+
 <a name="OBSWebSocket+toggleStreaming"></a>
 
 ### obsWebSocket.toggleStreaming()
@@ -304,29 +372,138 @@ Stop recording.
 **Category**: request  
 <a name="OBSWebSocket+getStreamStatus"></a>
 
-### obsWebSocket.getStreamStatus()
+### obsWebSocket.getStreamStatus(callback)
 Retrieve details about the stream status.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| callback | <code>[getStreamStatusCb](#getStreamStatusCb)</code> | 
+
 <a name="OBSWebSocket+getTransitionList"></a>
 
-### obsWebSocket.getTransitionList()
+### obsWebSocket.getTransitionList(callback)
 Retrieve the list of available transitions.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| callback | <code>[getTransitionListCb](#getTransitionListCb)</code> | 
+
 <a name="OBSWebSocket+getCurrentTransition"></a>
 
-### obsWebSocket.getCurrentTransition()
+### obsWebSocket.getCurrentTransition(callback)
 Retrieve the currently selected transition.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| callback | <code>[getCurrentTransitionCb](#getCurrentTransitionCb)</code> | 
+
 <a name="OBSWebSocket+setCurrentTransition"></a>
 
-### obsWebSocket.setCurrentTransition()
+### obsWebSocket.setCurrentTransition(transitionName)
 Set the currently selected transition.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+
+| Param | Type |
+| --- | --- |
+| transitionName | <code>string</code> | 
+
+<a name="getVersionCb"></a>
+
+## getVersionCb : <code>function</code>
+Callback for GetVersion.
+
+**Kind**: global typedef  
+
+| Param | Type |
+| --- | --- |
+| obsVersion | <code>string</code> | 
+
+<a name="getAuthRequiredCb"></a>
+
+## getAuthRequiredCb : <code>function</code>
+Callback for getAuthRequired.
+
+**Kind**: global typedef  
+
+| Param | Type |
+| --- | --- |
+| authRequired | <code>bool</code> | 
+| [salt] | <code>string</code> | 
+| [challenge] | <code>string</code> | 
+
+<a name="getCurrentSceneCb"></a>
+
+## getCurrentSceneCb : <code>function</code>
+Callback for getCurrentScene.
+
+**Kind**: global typedef  
+
+| Param | Type |
+| --- | --- |
+| scene | <code>[OBSScene](#OBSScene)</code> | 
+
+<a name="getSceneListCb"></a>
+
+## getSceneListCb : <code>function</code>
+Callback for getSceneList.
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| currentScene | <code>string</code> | Name of the currently active scene. |
+| scenes | <code>[Array.&lt;OBSScene&gt;](#OBSScene)</code> | Array of [OBSScene](#OBSScene)s. |
+
+<a name="getStreamStatusCb"></a>
+
+## getStreamStatusCb : <code>function</code>
+Callback for getStreamStatus.
+
+**Kind**: global typedef  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| streaming | <code>bool</code> |  |
+| recording | <code>bool</code> |  |
+| previewOnly | <code>bool</code> | Always false. |
+| [bytesPerSec] | <code>int</code> |  |
+| [strain] | <code>double</code> |  |
+| [totalStreamTime] | <code>int</code> |  |
+| [numTotalFrames] | <code>int</code> |  |
+| [numDroppedFrames] | <code>int</code> |  |
+| [fps] | <code>double</code> |  |
+
+<a name="getTransitionListCb"></a>
+
+## getTransitionListCb : <code>function</code>
+Callback for getTransitionList.
+
+**Kind**: global typedef  
+
+| Param | Type |
+| --- | --- |
+| currentTransition | <code>string</code> | 
+| transitions | <code>Array.&lt;string&gt;</code> | 
+
+<a name="getCurrentTransitionCb"></a>
+
+## getCurrentTransitionCb : <code>function</code>
+Callback for getCurrentTransition.
+
+**Kind**: global typedef  
+
+| Param | Type |
+| --- | --- |
+| name | <code>string</code> | 
+

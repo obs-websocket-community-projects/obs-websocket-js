@@ -51,7 +51,10 @@ function isModule() {
       args['message-id'] = this._generateMessageId();
       args['request-type'] = requestType;
 
-      this._responseCallbacks[args['message-id']] = callback;
+      this._responseCallbacks[args['message-id']] = {
+        'requestType': requestType,
+        'callbackFunction': callback
+      };
 
       this._socket.send(JSON.stringify(args));
     }
@@ -71,7 +74,10 @@ function isModule() {
           this.onSceneSwitch(message['scene-name']);
           return;
         case 'ScenesChanged':
-          this.onSceneListChanged();
+          this.getSceneList(function(sceneList) {
+            console.log('debug', sceneList);
+            self.onSceneListChanged(sceneList);
+          });
           return;
         case 'StreamStarting':
           this.onStreamStarting();
@@ -115,15 +121,64 @@ function isModule() {
           console.warn(OBSWebSocket.CONSOLE_NAME, 'Unknown UpdateType:', updateType, message);
       }
     } else {
-      var messageId = message['message-id'];
       if (message.status === 'error') {
         console.error(OBSWebSocket.CONSOLE_NAME, 'Error:', message.error);
       }
 
-      var callback = this._responseCallbacks[messageId];
-      callback(message);
+      var messageId = message['message-id'];
+      var requestType = this._responseCallbacks[messageId].requestType;
+      var callback = this._responseCallbacks[messageId].callbackFunction;
+
+      var parsedMessage = this._parseMessage(requestType, message);
+
+      callback(parsedMessage);
       delete this._responseCallbacks[messageId];
     }
+  };
+
+  OBSWebSocket.prototype._parseMessage = function(requestType, message) {
+    switch(requestType) {
+      case 'GetVersion':
+        break;
+      case 'GetAuthRequired':
+        break;
+      case 'Authenticate':
+        break;
+      case 'GetCurrentScene':
+        message = marshalOBSScene(message);
+        break;
+      case 'SetCurrentScene':
+        break;
+      case 'GetSceneList':
+        message['currentScene'] = message['current-scene'];
+        message['scenes'] = Object.keys(message['scenes']).map(function(key) { return marshalOBSScene(message['scenes'][key]); });
+        break;
+      case 'SetSourceVisibility':
+        break;
+      case 'StartStopStreaming':
+        break;
+      case 'StartStopRecording':
+        break;
+      case 'GetStreamingStatus':
+        message['previewOnly'] = message['preview-only'];
+        message['bytesPerSec'] = message['bytes-per-sec'];
+        message['totalStreamTime'] = message['total-stream-time'];
+        message['numTotalFrames'] = message['num-total-frames'];
+        message['numDroppedFrames'] = message['num-dropped-frames'];
+        break;
+      case 'GetTransitionList':
+        message['currentTransition'] = message['current-transition'];
+        break;
+      case 'GetCurrentTransition':
+        break;
+      case 'SetCurrentTransition':
+        break;
+      default:
+        console.warn(OBSWebSocket.CONSOLE_NAME, 'Unknown RequestType:', requestType, message);
+    }
+
+    console.log('parsedMessage', message);
+    return message;
   };
 
   if (isModule()) {

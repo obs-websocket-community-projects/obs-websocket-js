@@ -2,7 +2,7 @@
 OBSWebSocket.JS allows Javascript-based connections to [obs-websocket](https://github.com/Palakis/obs-websocket).  
 Based heavily on [obs-remote](https://github.com/nodecg/obs-remote-js), which is built for the older, obs-classic compatible plugin.
 
-# [API Documentation](dist/documentation.md)
+# [API Documentation](dist/DOCUMENTATION.md)
 
 ## Usage
 
@@ -52,6 +52,7 @@ obsWS.connect('url', 'password');
 - Go nuts.
 - Generate the concatenated Javascript file and API documentation by running the following...
 ```sh
+npm install
 npm run build
 ```
 
