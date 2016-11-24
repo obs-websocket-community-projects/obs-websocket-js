@@ -11,7 +11,11 @@
  * @param callback {getVersionCb}
  */
 OBSWebSocket.prototype.getVersion = function(callback) {
-  this._sendRequest('GetVersion', {}, callback);
+  function nestedCallback(message) {
+    message['obsVersion'] = '1.0'; // TODO: Make this relevant.
+    callback(message);
+  }
+  this._sendRequest('GetVersion', {}, nestedCallback);
 };
 
 /**
@@ -124,7 +128,12 @@ OBSWebSocket.prototype.connect = function(address, password) {
  * @param callback {getCurrentSceneCb}
  */
 OBSWebSocket.prototype.getCurrentScene = function(callback) {
-  this._sendRequest('GetCurrentScene', {}, callback);
+  function nestedCallback(message) {
+    message = marshalOBSScene(message);
+    callback(message);
+  }
+
+  this._sendRequest('GetCurrentScene', {}, nestedCallback);
 };
 
 /**
@@ -153,7 +162,13 @@ OBSWebSocket.prototype.setCurrentScene = function(sceneName) {
  * @param callback {getSceneListCb}
  */
 OBSWebSocket.prototype.getSceneList = function(callback) {
-  this._sendRequest('GetSceneList', {}, callback);
+  function nestedCallback(message) {
+    message['currentScene'] = message['current-scene'];
+    message['scenes'] = Object.keys(message['scenes']).map(function(key) { return marshalOBSScene(message['scenes'][key]); });
+    callback(message);
+  }
+
+  this._sendRequest('GetSceneList', {}, nestedCallback);
 };
 
 /**
@@ -250,7 +265,16 @@ OBSWebSocket.prototype.stopRecording = function() {
  * @param callback {getStreamStatusCb}
  */
 OBSWebSocket.prototype.getStreamStatus = function(callback) {
-  this._sendRequest('GetStreamingStatus', {}, callback);
+  function nestedCallback(message) {
+    message['previewOnly'] = message['preview-only'];
+    message['bytesPerSec'] = message['bytes-per-sec'];
+    message['totalStreamTime'] = message['total-stream-time'];
+    message['numTotalFrames'] = message['num-total-frames'];
+    message['numDroppedFrames'] = message['num-dropped-frames'];
+    callback(message);
+  }
+
+  this._sendRequest('GetStreamingStatus', {}, nestedCallback);
 };
 
 /**
@@ -267,7 +291,12 @@ OBSWebSocket.prototype.getStreamStatus = function(callback) {
  * @param callback {getTransitionListCb}
  */
 OBSWebSocket.prototype.getTransitionList = function(callback) {
-  this._sendRequest('GetTransitionList', {}, callback);
+  function nestedCallback(message) {
+    message['currentTransition'] = message['current-transition'];
+    callback(message);
+  }
+
+  this._sendRequest('GetTransitionList', {}, nestedCallback);
 };
 
 /**

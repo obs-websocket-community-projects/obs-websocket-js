@@ -57,6 +57,8 @@ function isModule() {
       };
 
       this._socket.send(JSON.stringify(args));
+    } else {
+      console.warn(OBSWebSocket.CONSOLE_NAME, "Not connected.");
     }
   };
 
@@ -65,120 +67,73 @@ function isModule() {
     if (!message)
       return;
 
-    var self = this;
+    if (message.status === 'error') {
+      console.error(OBSWebSocket.CONSOLE_NAME, 'Error:', message.error);
+    }
 
     var updateType = message['update-type'];
-    if (updateType) {
-      switch(updateType) {
-        case 'SwitchScenes':
-          this.onSceneSwitch(message['scene-name']);
-          return;
-        case 'ScenesChanged':
-          this.getSceneList(function(sceneList) {
-            console.log('debug', sceneList);
-            self.onSceneListChanged(sceneList);
-          });
-          return;
-        case 'StreamStarting':
-          this.onStreamStarting();
-          return;
-        case 'StreamStarted':
-          this.onStreamStarted();
-          return;
-        case 'StreamStopping':
-          this.onStreamStopping();
-          return;
-        case 'StreamStopped':
-          this.onStreamStopped();
-          return;
-        case 'RecordingStarting':
-          this.onRecordingStarting();
-          return;
-        case 'RecordingStarted':
-          this.onRecordingStarted();
-          return;
-        case 'RecordingStopping':
-          this.onRecordingStopping();
-          return;
-        case 'RecordingStopped':
-          this.onRecordingStopped();
-          return;
-        case 'StreamStatus':
-          this.onStreamStatus(
-              message['streaming'],
-              message['recording'],
-              message['bytes-per-sec'],
-              message['strain'],
-              message['total-stream-time'],
-              message['num-total-frames'],
-              message['num-dropped-frames'],
-              message['fps']);
-            return;
-          case 'Exiting':
-            this.onExit();
-            return;
-        default:
-          console.warn(OBSWebSocket.CONSOLE_NAME, 'Unknown UpdateType:', updateType, message);
-      }
-    } else {
-      if (message.status === 'error') {
-        console.error(OBSWebSocket.CONSOLE_NAME, 'Error:', message.error);
-      }
 
+    if (updateType) {
+      this._buildEventCallback(updateType, message);
+    } else {
       var messageId = message['message-id'];
-      var requestType = this._responseCallbacks[messageId].requestType;
       var callback = this._responseCallbacks[messageId].callbackFunction;
 
-      var parsedMessage = this._parseMessage(requestType, message);
-
-      callback(parsedMessage);
+      callback(message);
       delete this._responseCallbacks[messageId];
     }
   };
 
-  OBSWebSocket.prototype._parseMessage = function(requestType, message) {
-    switch(requestType) {
-      case 'GetVersion':
-        break;
-      case 'GetAuthRequired':
-        break;
-      case 'Authenticate':
-        break;
-      case 'GetCurrentScene':
-        message = marshalOBSScene(message);
-        break;
-      case 'SetCurrentScene':
-        break;
-      case 'GetSceneList':
-        message['currentScene'] = message['current-scene'];
-        message['scenes'] = Object.keys(message['scenes']).map(function(key) { return marshalOBSScene(message['scenes'][key]); });
-        break;
-      case 'SetSourceVisibility':
-        break;
-      case 'StartStopStreaming':
-        break;
-      case 'StartStopRecording':
-        break;
-      case 'GetStreamingStatus':
-        message['previewOnly'] = message['preview-only'];
-        message['bytesPerSec'] = message['bytes-per-sec'];
-        message['totalStreamTime'] = message['total-stream-time'];
-        message['numTotalFrames'] = message['num-total-frames'];
-        message['numDroppedFrames'] = message['num-dropped-frames'];
-        break;
-      case 'GetTransitionList':
-        message['currentTransition'] = message['current-transition'];
-        break;
-      case 'GetCurrentTransition':
-        break;
-      case 'SetCurrentTransition':
-        break;
-      default:
-        console.warn(OBSWebSocket.CONSOLE_NAME, 'Unknown RequestType:', requestType, message);
-    }
+  OBSWebSocket.prototype._buildEventCallback = function(updateType, message) {
+    var self = this;
 
-    console.log('parsedMessage', message);
-    return message;
+    switch(updateType) {
+      case 'SwitchScenes':
+        this.onSceneSwitch(message['scene-name']);
+        return;
+      case 'ScenesChanged':
+        this.getSceneList(function(sceneList) {
+          console.log('debug', sceneList);
+          self.onSceneListChanged(sceneList);
+        });
+        return;
+      case 'StreamStarting':
+        this.onStreamStarting();
+        return;
+      case 'StreamStarted':
+        this.onStreamStarted();
+        return;
+      case 'StreamStopping':
+        this.onStreamStopping();
+        return;
+      case 'StreamStopped':
+        this.onStreamStopped();
+        return;
+      case 'RecordingStarting':
+        this.onRecordingStarting();
+        return;
+      case 'RecordingStarted':
+        this.onRecordingStarted();
+        return;
+      case 'RecordingStopping':
+        this.onRecordingStopping();
+        return;
+      case 'RecordingStopped':
+        this.onRecordingStopped();
+        return;
+      case 'StreamStatus':
+        message['bytesPerSecond'] = message['bytes-per-sec'];
+        message['totalStreamTime'] = message['total-stream-time'];
+        message['numberOfFrames'] = message['num-total-frames'];
+        message['numberOfDroppedFrames'] = message['num-dropped-frames'];
+        this.onStreamStatus(message);
+        return;
+      case 'Exiting':
+        this.onExit();
+        return;
+      default:
+        console.warn(OBSWebSocket.CONSOLE_NAME, 'Unknown UpdateType:', updateType, message);
+    }
   };
 
   if (isModule()) {

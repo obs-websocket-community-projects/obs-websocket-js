@@ -50,8 +50,11 @@ OBSWebSocket.prototype.onSceneSwitch = function(sceneName) {}; // jshint ignore:
  * Triggered when the scene list is modified (a scene has been created, removed, or renamed).
  * @function
  * @category listener
+ * @param response {object}
+ * @param response.currentScene {string} - Name of the currently active scene.
+ * @param response.scenes {Array.<OBSScene>}
  */
-OBSWebSocket.prototype.onSceneListChanged = function(sceneList) {}; // jshint ignore:line
+OBSWebSocket.prototype.onSceneListChanged = function(response) {}; // jshint ignore:line
 
 /**
  * Triggered when a request to start streaming has been issued.
@@ -122,8 +125,17 @@ OBSWebSocket.prototype.onRecordingStopped = function() {};
  *
  * @function
  * @category listener
+ * @param response {object}
+ * @param response.streaming {bool}
+ * @param response.recording {bool}
+ * @param response.bytesPerSecond {int}
+ * @param response.strain {int}
+ * @param response.totalStreamTime {int}
+ * @param response.numberOfFrames {int}
+ * @param response.numberOfDroppedFrames {int}
+ * @param response.fps {double}
  */
-OBSWebSocket.prototype.onStreamStatus = function(streaming, recording, bytesPerSecond, strain, totalStreamTime, numberOfFrames, numberOfDroppedFrames, fps) {}; // jshint ignore:line
+OBSWebSocket.prototype.onStreamStatus = function(response) {}; // jshint ignore:line
 
 /**
  * Triggered when OBS has been closed.

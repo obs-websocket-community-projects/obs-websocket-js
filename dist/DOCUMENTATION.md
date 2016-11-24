@@ -80,7 +80,7 @@
         * [.onAuthenticationSuccess()](#OBSWebSocket+onAuthenticationSuccess)
         * [.onAuthenticationFailure()](#OBSWebSocket+onAuthenticationFailure)
         * [.onSceneSwitch()](#OBSWebSocket+onSceneSwitch)
-        * [.onSceneListChanged()](#OBSWebSocket+onSceneListChanged)
+        * [.onSceneListChanged(response)](#OBSWebSocket+onSceneListChanged)
         * [.onStreamStarting()](#OBSWebSocket+onStreamStarting)
         * [.onStreamStarted()](#OBSWebSocket+onStreamStarted)
         * [.onStreamStopping()](#OBSWebSocket+onStreamStopping)
@@ -89,13 +89,13 @@
         * [.onRecordingStarted()](#OBSWebSocket+onRecordingStarted)
         * [.onRecordingStopping()](#OBSWebSocket+onRecordingStopping)
         * [.onRecordingStopped()](#OBSWebSocket+onRecordingStopped)
-        * [.onStreamStatus()](#OBSWebSocket+onStreamStatus)
+        * [.onStreamStatus(response)](#OBSWebSocket+onStreamStatus)
         * [.onExit()](#OBSWebSocket+onExit)
     * _request_
         * [.getVersion(callback)](#OBSWebSocket+getVersion)
         * [.getAuthRequired(callback)](#OBSWebSocket+getAuthRequired)
         * [.authenticate([password])](#OBSWebSocket+authenticate)
-        * [.connect(address, password=)](#OBSWebSocket+connect)
+        * [.connect(address, [password])](#OBSWebSocket+connect)
         * [.getCurrentScene(callback)](#OBSWebSocket+getCurrentScene)
         * [.setCurrentScene(sceneName)](#OBSWebSocket+setCurrentScene)
         * [.getSceneList(callback)](#OBSWebSocket+getSceneList)
@@ -155,11 +155,18 @@ Triggered on Scene Change.
 **Category**: listener  
 <a name="OBSWebSocket+onSceneListChanged"></a>
 
-### obsWebSocket.onSceneListChanged()
+### obsWebSocket.onSceneListChanged(response)
 Triggered when the scene list is modified (a scene has been created, removed, or renamed).
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: listener  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| response | <code>object</code> |  |
+| response.currentScene | <code>string</code> | Name of the currently active scene. |
+| response.scenes | <code>[Array.&lt;OBSScene&gt;](#OBSScene)</code> |  |
+
 <a name="OBSWebSocket+onStreamStarting"></a>
 
 ### obsWebSocket.onStreamStarting()
@@ -218,11 +225,24 @@ Triggered when the recording has successfully stopped.
 **Category**: listener  
 <a name="OBSWebSocket+onStreamStatus"></a>
 
-### obsWebSocket.onStreamStatus()
+### obsWebSocket.onStreamStatus(response)
 Triggered once per second while streaming. Emits details about the stream status.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: listener  
+
+| Param | Type |
+| --- | --- |
+| response | <code>object</code> | 
+| response.streaming | <code>bool</code> | 
+| response.recording | <code>bool</code> | 
+| response.bytesPerSecond | <code>int</code> | 
+| response.strain | <code>int</code> | 
+| response.totalStreamTime | <code>int</code> | 
+| response.numberOfFrames | <code>int</code> | 
+| response.numberOfDroppedFrames | <code>int</code> | 
+| response.fps | <code>double</code> | 
+
 <a name="OBSWebSocket+onExit"></a>
 
 ### obsWebSocket.onExit()
@@ -268,7 +288,7 @@ Attempt to authenticate the OBSWebSocket connection.
 
 <a name="OBSWebSocket+connect"></a>
 
-### obsWebSocket.connect(address, password=)
+### obsWebSocket.connect(address, [password])
 Initialize and authenticate the connection.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
@@ -277,7 +297,7 @@ Initialize and authenticate the connection.
 | Param | Type | Default |
 | --- | --- | --- |
 | address | <code>string</code> | <code>&quot;localhost&quot;</code> | 
-| password= | <code>string</code> |  | 
+| [password] | <code>string</code> |  | 
 
 <a name="OBSWebSocket+getCurrentScene"></a>
 

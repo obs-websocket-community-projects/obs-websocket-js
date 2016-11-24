@@ -17,11 +17,11 @@ Then make use of it.
 <script>
   var ws = new OBSWebSocket();
 
-  // Bind some listeners.
+  // Bind some listeners by assigning functions, with params if applicable.
   ws.onConnectionOpened = function() {
     console.log('Connection Opened');
 
-    // Send some requests.
+    // Send some requests by calling existing functions and passing callbacks.
     ws.getCurrentScene(function(message) {
       console.log(message);
     });
@@ -53,6 +53,7 @@ obsWS.connect('url', 'password');
 - Generate the concatenated Javascript file and API documentation by running the following...
 ```sh
 npm install
+npm install --only=dev
 npm run build
 ```
 
