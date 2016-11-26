@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/haganbmj/obs-websocket-js"
+    "url": "git+https://github.com/haganbmj/obs-websocket-js.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -22,7 +22,7 @@
   "files": [
     "README.md",
     "index.js",
-    "dist/obs-websocket.js"
+    "dist/*"
   ],
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
