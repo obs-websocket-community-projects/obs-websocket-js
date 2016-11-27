@@ -9,8 +9,8 @@
         console.log('Connection Opened');
 
         // Send some queries.
-        ws.getSceneList(function(sceneList) {
-          document.getElementById('scene_name').textContent = sceneList['current-scene'];
+        ws.getSceneList(function(err, data) {
+          document.getElementById('scene_name').textContent = data['current-scene'];
         });
       };
 

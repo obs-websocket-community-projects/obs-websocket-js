@@ -22,8 +22,8 @@ Then make use of it.
     console.log('Connection Opened');
 
     // Send some requests by calling existing functions and passing callbacks.
-    ws.getCurrentScene(function(message) {
-      console.log(message);
+    ws.getCurrentScene(function(err, data) {
+      console.log(err, data);
     });
   };
 
@@ -55,6 +55,10 @@ obsWS.connect('url', 'password');
 npm install
 npm install --only=dev
 npm run build
+```
+- Run grunt watch using the following. This will only update the distribution js file, not the markdown.
+```sh
+npm run grunt watch
 ```
 
 ## Formatting Guidelines

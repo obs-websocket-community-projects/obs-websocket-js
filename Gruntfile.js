@@ -31,6 +31,15 @@ module.exports = function(grunt) {
         src: ['src/obs-source.js', 'src/obs-scene.js', 'src/obs-websocket.js', 'src/obs-crypto.js', 'src/obs-events.js', 'src/obs-requests.js'],
         dest: 'dist/obs-websocket.js'
       }
+    },
+    watch: {
+      scripts: {
+        files: ['src/**/*.js'],
+        tasks: ['build'],
+        options: {
+          debounceDelay: 1000
+        }
+      }
     }
   });
 

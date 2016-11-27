@@ -64,22 +64,31 @@ function isModule() {
 
   OBSWebSocket.prototype._onMessage = function(msg) {
     var message = JSON.parse(msg.data);
+    var err = null;
+
     if (!message)
       return;
 
+    var updateType = message['update-type'];
+    var messageId = message['message-id'];
+
     if (message.status === 'error') {
       console.error(OBSWebSocket.CONSOLE_NAME, 'Error:', message.error);
+      err = message.error;
+      message = null;
     }
 
-    var updateType = message['update-type'];
-
     if (updateType) {
-      this._buildEventCallback(updateType, message);
+      if (message) {
+        this._buildEventCallback(updateType, message);
+      }
     } else {
-      var messageId = message['message-id'];
       var callback = this._responseCallbacks[messageId].callbackFunction;
 
-      callback(message);
+      if (callback) {
+        callback(err, message);
+      }
+
       delete this._responseCallbacks[messageId];
     }
   };
@@ -93,7 +102,6 @@ function isModule() {
         return;
       case 'ScenesChanged':
         this.getSceneList(function(sceneList) {
-          console.log('debug', sceneList);
           self.onSceneListChanged(sceneList);
         });
         return;

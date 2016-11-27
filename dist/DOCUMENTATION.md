@@ -79,7 +79,7 @@
         * [.onConnectionFailed()](#OBSWebSocket+onConnectionFailed)
         * [.onAuthenticationSuccess()](#OBSWebSocket+onAuthenticationSuccess)
         * [.onAuthenticationFailure()](#OBSWebSocket+onAuthenticationFailure)
-        * [.onSceneSwitch()](#OBSWebSocket+onSceneSwitch)
+        * [.onSceneSwitch(sceneName)](#OBSWebSocket+onSceneSwitch)
         * [.onSceneListChanged(response)](#OBSWebSocket+onSceneListChanged)
         * [.onStreamStarting()](#OBSWebSocket+onStreamStarting)
         * [.onStreamStarted()](#OBSWebSocket+onStreamStarted)
@@ -148,11 +148,16 @@ Triggered on [OBSWebSocket.authenticate](OBSWebSocket.authenticate) failure.
 **Category**: listener  
 <a name="OBSWebSocket+onSceneSwitch"></a>
 
-### obsWebSocket.onSceneSwitch()
+### obsWebSocket.onSceneSwitch(sceneName)
 Triggered on Scene Change.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: listener  
+
+| Param | Type |
+| --- | --- |
+| sceneName | <code>string</code> | 
+
 <a name="OBSWebSocket+onSceneListChanged"></a>
 
 ### obsWebSocket.onSceneListChanged(response)
@@ -447,7 +452,9 @@ Callback for GetVersion.
 
 | Param | Type |
 | --- | --- |
-| obsVersion | <code>string</code> | 
+| err | <code>object</code> | 
+| data | <code>object</code> | 
+| data.obsVersion | <code>string</code> | 
 
 <a name="getAuthRequiredCb"></a>
 
@@ -458,9 +465,11 @@ Callback for getAuthRequired.
 
 | Param | Type |
 | --- | --- |
-| authRequired | <code>bool</code> | 
-| [salt] | <code>string</code> | 
-| [challenge] | <code>string</code> | 
+| err |  | 
+| data |  | 
+| data.authRequired | <code>bool</code> | 
+| [data.salt] | <code>string</code> | 
+| [data.challenge] | <code>string</code> | 
 
 <a name="getCurrentSceneCb"></a>
 
@@ -471,7 +480,8 @@ Callback for getCurrentScene.
 
 | Param | Type |
 | --- | --- |
-| scene | <code>[OBSScene](#OBSScene)</code> | 
+| err |  | 
+| data | <code>[OBSScene](#OBSScene)</code> | 
 
 <a name="getSceneListCb"></a>
 
@@ -482,8 +492,10 @@ Callback for getSceneList.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| currentScene | <code>string</code> | Name of the currently active scene. |
-| scenes | <code>[Array.&lt;OBSScene&gt;](#OBSScene)</code> | Array of [OBSScene](#OBSScene)s. |
+| err |  |  |
+| data |  |  |
+| data.currentScene | <code>string</code> | Name of the currently active scene. |
+| data.scenes | <code>[Array.&lt;OBSScene&gt;](#OBSScene)</code> | Array of [OBSScene](#OBSScene)s. |
 
 <a name="getStreamStatusCb"></a>
 
@@ -494,15 +506,17 @@ Callback for getStreamStatus.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| streaming | <code>bool</code> |  |
-| recording | <code>bool</code> |  |
-| previewOnly | <code>bool</code> | Always false. |
-| [bytesPerSec] | <code>int</code> |  |
-| [strain] | <code>double</code> |  |
-| [totalStreamTime] | <code>int</code> |  |
-| [numTotalFrames] | <code>int</code> |  |
-| [numDroppedFrames] | <code>int</code> |  |
-| [fps] | <code>double</code> |  |
+| err |  |  |
+| data |  |  |
+| data.streaming | <code>bool</code> |  |
+| data.recording | <code>bool</code> |  |
+| data.previewOnly | <code>bool</code> | Always false. |
+| [data.bytesPerSec] | <code>int</code> |  |
+| [data.strain] | <code>double</code> |  |
+| [data.totalStreamTime] | <code>int</code> |  |
+| [data.numTotalFrames] | <code>int</code> |  |
+| [data.numDroppedFrames] | <code>int</code> |  |
+| [data.fps] | <code>double</code> |  |
 
 <a name="getTransitionListCb"></a>
 
@@ -513,8 +527,10 @@ Callback for getTransitionList.
 
 | Param | Type |
 | --- | --- |
-| currentTransition | <code>string</code> | 
-| transitions | <code>Array.&lt;string&gt;</code> | 
+| err |  | 
+| data |  | 
+| data.currentTransition | <code>string</code> | 
+| data.transitions | <code>Array.&lt;string&gt;</code> | 
 
 <a name="getCurrentTransitionCb"></a>
 
@@ -525,5 +541,7 @@ Callback for getCurrentTransition.
 
 | Param | Type |
 | --- | --- |
-| name | <code>string</code> | 
+| err |  | 
+| data |  | 
+| data.name | <code>string</code> | 
 

@@ -43,6 +43,7 @@ OBSWebSocket.prototype.onAuthenticationFailure = function() {};
  *
  * @function
  * @category listener
+ * @param sceneName {string}
  */
 OBSWebSocket.prototype.onSceneSwitch = function(sceneName) {}; // jshint ignore:line
 
