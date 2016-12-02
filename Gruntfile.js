@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   grunt.util.linefeed = '\n';
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    banner: '/*!\n' +
+    banner: '\n/*\n' +
     ' * OBS WebSocket Javascript API (<%= pkg.name %>) v<%= pkg.version %>\n' +
     ' * Author: <%= pkg.author %>\n' +
     ' * Repo: <%= pkg.repository.url %>\n' +
@@ -32,6 +32,14 @@ module.exports = function(grunt) {
         dest: 'dist/obs-websocket.js'
       }
     },
+    anonymous: {
+      dist: {
+        options: {},
+        files: {
+          'dist/obs-websocket.js': ['dist/obs-websocket.js']
+        }
+      }
+    },
     watch: {
       scripts: {
         files: ['src/**/*.js'],
@@ -45,6 +53,6 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt, { scope: 'devDependencies' });
 
-  grunt.registerTask('build', ['clean:dist', 'concat']);
+  grunt.registerTask('build', ['clean:dist', 'concat', 'anonymous']);
   grunt.registerTask('default', ['build', 'jsdoc2md']);
 };

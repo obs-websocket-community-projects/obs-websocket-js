@@ -90,7 +90,7 @@ OBSWebSocket.prototype.connect = function(address, password) {
     this._connected = false;
   }
 
-  this._socket = new WebSocket('ws://' + address, ['soap', 'xmpp']);
+  this._socket = new WebSocket('ws://' + address);
 
   this._socket.onopen = function() {
     self._connected = true;

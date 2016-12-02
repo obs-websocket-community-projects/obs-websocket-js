@@ -1,5 +1,6 @@
-/*!
- * OBS WebSocket Javascript API (obs-websocket-js) v0.1.0
+(function(){
+/*
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.1.1
  * Author: Brendan Hagan (haganbmj)
  * Repo: git+https://github.com/haganbmj/obs-websocket-js.git
  */
@@ -48,7 +49,7 @@ function marshalOBSSource(source) { // jshint ignore:line
 (function() {
   function OBSScene(name, sources) {
     this.name = (typeof name === 'undefined') ? '' : name;
-    this.sources = (typeof sources === 'undefined') ? [] : sources;
+    sources = (typeof sources === 'undefined') ? [] : sources;
 
     var self = this;
 
@@ -75,256 +76,252 @@ function isModule() {
   return typeof module !== 'undefined' && typeof module.exports !== 'undefined';
 }
 
+var OBSSource = {};
+var OBSScene = {};
+
+if (isModule()) {
+  OBSSource = module.exports.OBSSource;
+  OBSScene = module.exports.OBSScene;
+} else {
+  OBSSource = window.OBSSource;
+  OBSScene = window.OBSScene;
+}
+
 /**
  * @class OBSWebSocket
  * @example
  * var ws = new OBSWebSocket();
  * ws.connect('url', 'password');
  */
-(function() {
-  var OBSSource = {};
-  var OBSScene = {};
+function OBSWebSocket() {
+  OBSWebSocket.DEFAULT_PORT = 4444;
+  OBSWebSocket.CONSOLE_NAME = '[OBSWebSocket]';
 
-  if (isModule()) {
-    OBSSource = module.exports.OBSSource;
-    OBSScene = module.exports.OBSScene;
+  this._connected = false;
+  this._socket = undefined;
+  this._requestCounter = 0;
+  this._responseCallbacks = {};
+  this._auth = { salt: '', challenge: '' };
+}
+
+var WebSocket = {};
+
+if (isModule()) {
+  WebSocket = require('ws');
+} else {
+  WebSocket = window.WebSocket;
+}
+
+OBSWebSocket.prototype._generateMessageId = function() {
+  this._requestCounter++;
+  return this._requestCounter + '';
+};
+
+OBSWebSocket.prototype._sendRequest = function(requestType, args, callback) {
+  if (this._connected) {
+    args = args || {};
+    callback = callback || function() {};
+    args['message-id'] = this._generateMessageId();
+    args['request-type'] = requestType;
+
+    this._responseCallbacks[args['message-id']] = {
+      'requestType': requestType,
+      'callbackFunction': callback
+    };
+
+    this._socket.send(JSON.stringify(args));
   } else {
-    OBSSource = window.OBSSource;
-    OBSScene = window.OBSScene;
+    console.warn(OBSWebSocket.CONSOLE_NAME, "Not connected.");
+  }
+};
+
+OBSWebSocket.prototype._onMessage = function(msg) {
+  var message = JSON.parse(msg.data);
+  var err = null;
+
+  if (!message)
+    return;
+
+  var updateType = message['update-type'];
+  var messageId = message['message-id'];
+
+  if (message.status === 'error') {
+    console.error(OBSWebSocket.CONSOLE_NAME, 'Error:', message.error);
+    err = message.error;
+    message = null;
   }
 
-  function OBSWebSocket() {
-    OBSWebSocket.DEFAULT_PORT = 4444;
-    OBSWebSocket.CONSOLE_NAME = '[OBSWebSocket]';
-
-    this._connected = false;
-    this._socket = undefined;
-    this._requestCounter = 0;
-    this._responseCallbacks = {};
-    this._auth = { salt: '', challenge: '' };
-  }
-
-  var WebSocket = {};
-
-  if (isModule()) {
-    WebSocket = require('ws');
-  } else {
-    WebSocket = window.WebSocket;
-  }
-
-  OBSWebSocket.prototype._generateMessageId = function() {
-    this._requestCounter++;
-    return this._requestCounter + '';
-  };
-
-  OBSWebSocket.prototype._sendRequest = function(requestType, args, callback) {
-    if (this._connected) {
-      args = args || {};
-      callback = callback || function() {};
-      args['message-id'] = this._generateMessageId();
-      args['request-type'] = requestType;
-
-      this._responseCallbacks[args['message-id']] = {
-        'requestType': requestType,
-        'callbackFunction': callback
-      };
-
-      this._socket.send(JSON.stringify(args));
-    } else {
-      console.warn(OBSWebSocket.CONSOLE_NAME, "Not connected.");
+  if (updateType) {
+    if (message) {
+      this._buildEventCallback(updateType, message);
     }
-  };
+  } else {
+    var callback = this._responseCallbacks[messageId].callbackFunction;
 
-  OBSWebSocket.prototype._onMessage = function(msg) {
-    var message = JSON.parse(msg.data);
-    var err = null;
+    if (callback) {
+      callback(err, message);
+    }
 
-    if (!message)
+    delete this._responseCallbacks[messageId];
+  }
+};
+
+OBSWebSocket.prototype._buildEventCallback = function(updateType, message) {
+  var self = this;
+
+  switch(updateType) {
+    case 'SwitchScenes':
+      this.onSceneSwitch(message['scene-name']);
       return;
-
-    var updateType = message['update-type'];
-    var messageId = message['message-id'];
-
-    if (message.status === 'error') {
-      console.error(OBSWebSocket.CONSOLE_NAME, 'Error:', message.error);
-      err = message.error;
-      message = null;
-    }
-
-    if (updateType) {
-      if (message) {
-        this._buildEventCallback(updateType, message);
-      }
-    } else {
-      var callback = this._responseCallbacks[messageId].callbackFunction;
-
-      if (callback) {
-        callback(err, message);
-      }
-
-      delete this._responseCallbacks[messageId];
-    }
-  };
-
-  OBSWebSocket.prototype._buildEventCallback = function(updateType, message) {
-    var self = this;
-
-    switch(updateType) {
-      case 'SwitchScenes':
-        this.onSceneSwitch(message['scene-name']);
-        return;
-      case 'ScenesChanged':
-        this.getSceneList(function(sceneList) {
-          self.onSceneListChanged(sceneList);
-        });
-        return;
-      case 'StreamStarting':
-        this.onStreamStarting();
-        return;
-      case 'StreamStarted':
-        this.onStreamStarted();
-        return;
-      case 'StreamStopping':
-        this.onStreamStopping();
-        return;
-      case 'StreamStopped':
-        this.onStreamStopped();
-        return;
-      case 'RecordingStarting':
-        this.onRecordingStarting();
-        return;
-      case 'RecordingStarted':
-        this.onRecordingStarted();
-        return;
-      case 'RecordingStopping':
-        this.onRecordingStopping();
-        return;
-      case 'RecordingStopped':
-        this.onRecordingStopped();
-        return;
-      case 'StreamStatus':
-        message['bytesPerSecond'] = message['bytes-per-sec'];
-        message['totalStreamTime'] = message['total-stream-time'];
-        message['numberOfFrames'] = message['num-total-frames'];
-        message['numberOfDroppedFrames'] = message['num-dropped-frames'];
-        this.onStreamStatus(message);
-        return;
-      case 'Exiting':
-        this.onExit();
-        return;
-      default:
-        console.warn(OBSWebSocket.CONSOLE_NAME, 'Unknown UpdateType:', updateType, message);
-    }
-  };
-
-  if (isModule()) {
-    module.exports.OBSWebSocket = OBSWebSocket;
-  } else {
-    window.OBSWebSocket = OBSWebSocket;
-  }
-})();
-
-(function() {
-  OBSWebSocket.prototype._webCryptoHash = function(pass, callback) {
-    var self = this;
-
-    var utf8Pass = _encodeStringAsUTF8(pass);
-    var utf8Salt = _encodeStringAsUTF8(this._auth.salt);
-    var ab1 = _stringToArrayBuffer(utf8Pass + utf8Salt);
-
-    crypto.subtle.digest('SHA-256', ab1)
-      .then(function(authHash) {
-        var utf8AuthHash = _encodeStringAsUTF8(_arrayBufferToBase64(authHash));
-        var utf8Challenge = _encodeStringAsUTF8(self._auth.challenge);
-        var ab2 = _stringToArrayBuffer(utf8AuthHash + utf8Challenge);
-
-        crypto.subtle.digest('SHA-256', ab2)
-          .then(function(authResp) {
-            var authRespB64 = _arrayBufferToBase64(authResp);
-            callback(authRespB64);
-          });
+    case 'ScenesChanged':
+      this.getSceneList(function(sceneList) {
+        self.onSceneListChanged(sceneList);
       });
-  };
+      return;
+    case 'StreamStarting':
+      this.onStreamStarting();
+      return;
+    case 'StreamStarted':
+      this.onStreamStarted();
+      return;
+    case 'StreamStopping':
+      this.onStreamStopping();
+      return;
+    case 'StreamStopped':
+      this.onStreamStopped();
+      return;
+    case 'RecordingStarting':
+      this.onRecordingStarting();
+      return;
+    case 'RecordingStarted':
+      this.onRecordingStarted();
+      return;
+    case 'RecordingStopping':
+      this.onRecordingStopping();
+      return;
+    case 'RecordingStopped':
+      this.onRecordingStopped();
+      return;
+    case 'StreamStatus':
+      message['bytesPerSecond'] = message['bytes-per-sec'];
+      message['totalStreamTime'] = message['total-stream-time'];
+      message['numberOfFrames'] = message['num-total-frames'];
+      message['numberOfDroppedFrames'] = message['num-dropped-frames'];
+      this.onStreamStatus(message);
+      return;
+    case 'Exiting':
+      this.onExit();
+      return;
+    default:
+      console.warn(OBSWebSocket.CONSOLE_NAME, 'Unknown UpdateType:', updateType, message);
+  }
+};
 
-  OBSWebSocket.prototype._cryptoJSHash = function(pass, callback) {
-    var utf8Pass = _encodeStringAsUTF8(pass);
-    var utf8Salt = _encodeStringAsUTF8(this._auth.salt);
+if (isModule()) {
+  module.exports.OBSWebSocket = OBSWebSocket;
+} else {
+  window.OBSWebSocket = OBSWebSocket;
+}
 
-    var authHash = CryptoJS.SHA256(utf8Pass + utf8Salt).toString(CryptoJS.enc.Base64);
+OBSWebSocket.prototype._webCryptoHash = function(pass, callback) {
+  var self = this;
 
-    var utf8AuthHash = _encodeStringAsUTF8(authHash);
-    var utf8Challenge = _encodeStringAsUTF8(this._auth.challenge);
+  var utf8Pass = _encodeStringAsUTF8(pass);
+  var utf8Salt = _encodeStringAsUTF8(this._auth.salt);
+  var ab1 = _stringToArrayBuffer(utf8Pass + utf8Salt);
 
-    var authResp = CryptoJS.SHA256(utf8AuthHash + utf8Challenge).toString(CryptoJS.enc.Base64);
-    callback(authResp);
-  };
+  crypto.subtle.digest('SHA-256', ab1)
+    .then(function(authHash) {
+      var utf8AuthHash = _encodeStringAsUTF8(_arrayBufferToBase64(authHash));
+      var utf8Challenge = _encodeStringAsUTF8(self._auth.challenge);
+      var ab2 = _stringToArrayBuffer(utf8AuthHash + utf8Challenge);
 
-  OBSWebSocket.prototype._nodeCryptoHash = function(pass, callback) {
-    var authHasher = crypto.createHash('sha256');
+      crypto.subtle.digest('SHA-256', ab2)
+        .then(function(authResp) {
+          var authRespB64 = _arrayBufferToBase64(authResp);
+          callback(authRespB64);
+        });
+    });
+};
 
-    var utf8Pass = _encodeStringAsUTF8(pass);
-    var utf8Salt = _encodeStringAsUTF8(this._auth.salt);
+OBSWebSocket.prototype._cryptoJSHash = function(pass, callback) {
+  var utf8Pass = _encodeStringAsUTF8(pass);
+  var utf8Salt = _encodeStringAsUTF8(this._auth.salt);
 
-    authHasher.update(utf8Pass + utf8Salt);
-    var authHash = authHasher.digest('base64');
+  var authHash = CryptoJS.SHA256(utf8Pass + utf8Salt).toString(CryptoJS.enc.Base64);
 
-    var respHasher = crypto.createHash('sha256');
+  var utf8AuthHash = _encodeStringAsUTF8(authHash);
+  var utf8Challenge = _encodeStringAsUTF8(this._auth.challenge);
 
-    var utf8AuthHash = _encodeStringAsUTF8(authHash);
-    var utf8Challenge = _encodeStringAsUTF8(this._auth.challenge);
+  var authResp = CryptoJS.SHA256(utf8AuthHash + utf8Challenge).toString(CryptoJS.enc.Base64);
+  callback(authResp);
+};
 
-    respHasher.update(utf8AuthHash + utf8Challenge);
-    var respHash = respHasher.digest('base64');
+OBSWebSocket.prototype._nodeCryptoHash = function(pass, callback) {
+  var authHasher = crypto.createHash('sha256');
 
-    callback(respHash);
-  };
+  var utf8Pass = _encodeStringAsUTF8(pass);
+  var utf8Salt = _encodeStringAsUTF8(this._auth.salt);
 
-  function _encodeStringAsUTF8(string) {
-    return unescape(encodeURIComponent(string));
+  authHasher.update(utf8Pass + utf8Salt);
+  var authHash = authHasher.digest('base64');
+
+  var respHasher = crypto.createHash('sha256');
+
+  var utf8AuthHash = _encodeStringAsUTF8(authHash);
+  var utf8Challenge = _encodeStringAsUTF8(this._auth.challenge);
+
+  respHasher.update(utf8AuthHash + utf8Challenge);
+  var respHash = respHasher.digest('base64');
+
+  callback(respHash);
+};
+
+function _encodeStringAsUTF8(string) {
+  return unescape(encodeURIComponent(string));
+}
+
+function _stringToArrayBuffer(string) {
+  var ret = new Uint8Array(string.length);
+  for (var i = 0; i < string.length; i++) {
+    ret[i] = string.charCodeAt(i);
   }
 
-  function _stringToArrayBuffer(string) {
-    var ret = new Uint8Array(string.length);
-    for (var i = 0; i < string.length; i++) {
-      ret[i] = string.charCodeAt(i);
-    }
+  return ret.buffer;
+}
 
-    return ret.buffer;
+function _arrayBufferToBase64(arrayBuffer) {
+  var binary = '';
+  var bytes = new Uint8Array(arrayBuffer);
+
+  var length = bytes.byteLength;
+  for (var i = 0; i < length; i++) {
+    binary += String.fromCharCode(bytes[i]);
   }
 
-  function _arrayBufferToBase64(arrayBuffer) {
-    var binary = '';
-    var bytes = new Uint8Array(arrayBuffer);
+  return btoa(binary);
+}
 
-    var length = bytes.byteLength;
-    for (var i = 0; i < length; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
+var crypto = {};
 
-    return btoa(binary);
-  }
+if (isModule()) {
+  crypto = require('crypto');
+  OBSWebSocket.prototype._authHash = OBSWebSocket.prototype._nodeCryptoHash;
+} else {
+  crypto = window.crypto || window.msCrypto || {};
+  OBSWebSocket.prototype._authHash = OBSWebSocket.prototype._webCryptoHash;
 
-  var crypto = {};
-
-  if (isModule()) {
-    crypto = require('crypto');
-    OBSWebSocket.prototype._authHash = OBSWebSocket.prototype._nodeCryptoHash;
-  } else {
-    crypto = window.crypto || window.msCrypto || {};
-    OBSWebSocket.prototype._authHash = OBSWebSocket.prototype._webCryptoHash;
-
-    if (typeof crypto.subtle === 'undefined') {
-      if (typeof crypto.webkitSubtle === 'undefined') {
-        if (typeof CryptoJS === 'undefined') {
-          throw new Error('OBS WebSocket requires CryptoJS when native crypto is unavailable.');
-        }
-        OBSWebSocket.prototype._authHash = OBSWebSocket.prototype._cryptoJSHash;
-      } else {
-        crypto.subtle = crypto.webkitSubtle;
+  if (typeof crypto.subtle === 'undefined') {
+    if (typeof crypto.webkitSubtle === 'undefined') {
+      if (typeof CryptoJS === 'undefined') {
+        throw new Error('OBS WebSocket requires CryptoJS when native crypto is unavailable.');
       }
+      OBSWebSocket.prototype._authHash = OBSWebSocket.prototype._cryptoJSHash;
+    } else {
+      crypto.subtle = crypto.webkitSubtle;
     }
   }
-})();
+}
 
 /**
  * Triggered on socket open.
@@ -566,7 +563,7 @@ OBSWebSocket.prototype.connect = function(address, password) {
     this._connected = false;
   }
 
-  this._socket = new WebSocket('ws://' + address, ['soap', 'xmpp']);
+  this._socket = new WebSocket('ws://' + address);
 
   this._socket.onopen = function() {
     self._connected = true;
@@ -832,3 +829,4 @@ OBSWebSocket.prototype.setCurrentTransition = function(transitionName) {
   this._sendRequest('SetCurrentTransition',
   { 'transition-name' : transitionName });
 };
+})();

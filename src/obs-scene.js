@@ -6,7 +6,7 @@
 (function() {
   function OBSScene(name, sources) {
     this.name = (typeof name === 'undefined') ? '' : name;
-    this.sources = (typeof sources === 'undefined') ? [] : sources;
+    sources = (typeof sources === 'undefined') ? [] : sources;
 
     var self = this;
 
