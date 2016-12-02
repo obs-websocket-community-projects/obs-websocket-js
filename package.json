@@ -1,6 +1,6 @@
 {
   "name": "obs-websocket-js",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "OBS Websocket API in Javascript",
   "main": "index.js",
   "repository": {
