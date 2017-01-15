@@ -1,6 +1,6 @@
 (function(){
 /*
- * OBS WebSocket Javascript API (obs-websocket-js) v0.1.1
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.2.0
  * Author: Brendan Hagan (haganbmj)
  * Repo: git+https://github.com/haganbmj/obs-websocket-js.git
  */
@@ -51,6 +51,7 @@ function marshalOBSSource(source) { // jshint ignore:line
     this.name = (typeof name === 'undefined') ? '' : name;
     sources = (typeof sources === 'undefined') ? [] : sources;
 
+    this.sources = sources;
     var self = this;
 
     if (sources.length > 0 && !(sources[0] instanceof OBSSource)) {
@@ -543,7 +544,7 @@ OBSWebSocket.prototype.authenticate = function(password) {
 };
 
 /**
- * Initialize and authenticate the connection.
+ * Initialize and authenticate the WebSocket connection.
  *
  * @function
  * @category request
@@ -596,6 +597,16 @@ OBSWebSocket.prototype.connect = function(address, password) {
     // console.log(OBSWebSocket.CONSOLE_NAME, msg);
     self._onMessage(msg);
   };
+};
+
+/**
+ * Close and disconnect the WebSocket connection.
+ *
+ * @function
+ * @category request
+ */
+OBSWebSocket.prototype.disconnect = function() {
+  this._socket.close();
 };
 
 /**

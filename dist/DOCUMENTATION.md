@@ -96,6 +96,7 @@
         * [.getAuthRequired(callback)](#OBSWebSocket+getAuthRequired)
         * [.authenticate([password])](#OBSWebSocket+authenticate)
         * [.connect(address, [password])](#OBSWebSocket+connect)
+        * [.disconnect()](#OBSWebSocket+disconnect)
         * [.getCurrentScene(callback)](#OBSWebSocket+getCurrentScene)
         * [.setCurrentScene(sceneName)](#OBSWebSocket+setCurrentScene)
         * [.getSceneList(callback)](#OBSWebSocket+getSceneList)
@@ -294,7 +295,7 @@ Attempt to authenticate the OBSWebSocket connection.
 <a name="OBSWebSocket+connect"></a>
 
 ### obsWebSocket.connect(address, [password])
-Initialize and authenticate the connection.
+Initialize and authenticate the WebSocket connection.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
@@ -304,6 +305,13 @@ Initialize and authenticate the connection.
 | address | <code>string</code> | <code>&quot;localhost&quot;</code> | 
 | [password] | <code>string</code> |  | 
 
+<a name="OBSWebSocket+disconnect"></a>
+
+### obsWebSocket.disconnect()
+Close and disconnect the WebSocket connection.
+
+**Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
+**Category**: request  
 <a name="OBSWebSocket+getCurrentScene"></a>
 
 ### obsWebSocket.getCurrentScene(callback)

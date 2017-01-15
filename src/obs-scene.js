@@ -8,6 +8,7 @@
     this.name = (typeof name === 'undefined') ? '' : name;
     sources = (typeof sources === 'undefined') ? [] : sources;
 
+    this.sources = sources;
     var self = this;
 
     if (sources.length > 0 && !(sources[0] instanceof OBSSource)) {
