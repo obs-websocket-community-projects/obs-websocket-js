@@ -98,6 +98,7 @@ function OBSWebSocket() {
   OBSWebSocket.DEFAULT_PORT = 4444;
   OBSWebSocket.CONSOLE_NAME = '[OBSWebSocket]';
 
+  this._debug = false;
   this._connected = false;
   this._socket = undefined;
   this._requestCounter = 0;
@@ -130,6 +131,9 @@ OBSWebSocket.prototype._sendRequest = function(requestType, args, callback) {
       'callbackFunction': callback
     };
 
+    if (this._debug)
+      console.log(OBSWebSocket.CONSOLE_NAME, '[sendRequest]', args);
+
     this._socket.send(JSON.stringify(args));
   } else {
     console.warn(OBSWebSocket.CONSOLE_NAME, "Not connected.");
@@ -139,6 +143,9 @@ OBSWebSocket.prototype._sendRequest = function(requestType, args, callback) {
 OBSWebSocket.prototype._onMessage = function(msg) {
   var message = JSON.parse(msg.data);
   var err = null;
+
+  if (this._debug)
+    console.log(OBSWebSocket.CONSOLE_NAME, '[onMessage]', message);
 
   if (!message)
     return;
@@ -175,8 +182,8 @@ OBSWebSocket.prototype._buildEventCallback = function(updateType, message) {
       this.onSceneSwitch(message['scene-name']);
       return;
     case 'ScenesChanged':
-      this.getSceneList(function(sceneList) {
-        self.onSceneListChanged(sceneList);
+      this.getSceneList(function(err, data) {
+        self.onSceneListChanged(data);
       });
       return;
     case 'StreamStarting':
