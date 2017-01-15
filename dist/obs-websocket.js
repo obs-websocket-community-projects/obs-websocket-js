@@ -689,7 +689,7 @@ OBSWebSocket.prototype.getSceneList = function(callback) {
  * @param visible {bool} - Whether the source should be visible or not.
  */
 OBSWebSocket.prototype.setSourceVisbility = function(sourceName, visible) {
-  this._sendRequest('SetSourceVisibility',
+  this._sendRequest('SetSourceRender',
   { 'source' : sourceName, 'render' : visible });
 };
 
