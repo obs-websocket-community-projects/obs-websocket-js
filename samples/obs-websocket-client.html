@@ -4,6 +4,8 @@
     <script>
       var ws = new OBSWebSocket();
 
+      ws._debug = true;
+
       // Bind some methods.
       ws.onConnectionOpened = function() {
         console.log('Connection Opened');

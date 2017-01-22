@@ -1,9 +1,10 @@
 /**
  * Callback for GetVersion.
  * @callback getVersionCb
- * @param err {object}
+ * @param err {object} - Only populated if an error occurred during the request.
  * @param data {object}
- * @param data.obsVersion {string}
+ * @param data.obsWebSocketVersion {string} - Current OBS WebSocket plugin version.
+ * @param data.version {double} - Hardcoded for OBS Remote backwards compatibility.
  */
 /**
  * Retrieve OBSWebSocket version information.
@@ -13,24 +14,17 @@
  * @param callback {getVersionCb}
  */
 OBSWebSocket.prototype.getVersion = function(callback) {
-  function nestedCallback(err, data) {
-    if (data) {
-      data['obsStudioVersion'] = data['obs-studio-version'];
-      data['obsWebSocketVersion'] = data['obs-websocket-version'];
-    }
-    callback(err, data);
-  }
-  this._sendRequest('GetVersion', {}, nestedCallback);
+  this._sendRequest('GetVersion', {}, callback);
 };
 
 /**
  * Callback for getAuthRequired.
  * @callback getAuthRequiredCb
- * @param err
- * @param data
- * @param data.authRequired {bool}
- * @param data.salt {string=}
- * @param data.challenge {string=}
+ * @param err {object} - Only populated if an error occurred during the request.
+ * @param data {object}
+ * @param data.authRequired {bool} - Indicates whether authentication is required.
+ * @param data.salt {string=} - Authentication Salt. Only populated if authentication is required.
+ * @param data.challenge {string=} - Authentication Challenge. Only populated if authentication is required.
  */
 /**
  * Retrieve information about the OBSWebSocket authentication requirements.
@@ -45,10 +39,12 @@ OBSWebSocket.prototype.getAuthRequired = function(callback) {
 
 /**
  * Attempt to authenticate the OBSWebSocket connection.
+ * Note that this method does not accept a callback.
+ * Bind all callbacks to {@link OBSWebSocket.onAuthenticationSuccess} and {@link OBSWebSocket.onAuthenticationFailure}.
  *
  * @function
  * @category request
- * @param password {string=}
+ * @param password='' {string=} - Defaults to empty.
  */
 OBSWebSocket.prototype.authenticate = function(password) {
   password = password || '';
@@ -74,8 +70,8 @@ OBSWebSocket.prototype.authenticate = function(password) {
  *
  * @function
  * @category request
- * @param address=localhost {string}
- * @param password {string=}
+ * @param address=localhost {string} - IP Adddress to connect to, with or without port.
+ * @param password='' {string=} - Defaults to empty.
  */
 OBSWebSocket.prototype.connect = function(address, password) {
   address = address || 'localhost';
@@ -120,7 +116,6 @@ OBSWebSocket.prototype.connect = function(address, password) {
   };
 
   this._socket.onmessage = function(msg) {
-    // console.log(OBSWebSocket.CONSOLE_NAME, msg);
     self._onMessage(msg);
   };
 };
@@ -138,8 +133,8 @@ OBSWebSocket.prototype.disconnect = function() {
 /**
  * Callback for getCurrentScene.
  * @callback getCurrentSceneCb
- * @param err
- * @param data {OBSScene}
+ * @param err {object} - Only populated if an error occurred during the request.
+ * @param data {OBSScene} - Currently active scene.
  */
 /**
  * Retrieve the currently active scene.
@@ -175,8 +170,8 @@ OBSWebSocket.prototype.setCurrentScene = function(sceneName) {
 /**
  * Callback for getSceneList.
  * @callback getSceneListCb
- * @param err
- * @param data
+ * @param err {object} - Only populated if an error occurred during the request.
+ * @param data {object}
  * @param data.currentScene {string} - Name of the currently active scene.
  * @param data.scenes {Array.<OBSScene>} - Array of {@link OBSScene}s.
  */
@@ -190,7 +185,6 @@ OBSWebSocket.prototype.setCurrentScene = function(sceneName) {
 OBSWebSocket.prototype.getSceneList = function(callback) {
   function nestedCallback(err, data) {
     if (data) {
-      data['currentScene'] = data['current-scene'];
       data['scenes'] = Object.keys(data['scenes']).map(function(key) { return marshalOBSScene(data['scenes'][key]); });
     }
     callback(err, data);
@@ -205,7 +199,7 @@ OBSWebSocket.prototype.getSceneList = function(callback) {
  * @function
  * @category request
  * @param sourceName {string} - Name of the source.
- * @param visible {bool} - Whether the source should be visible or not.
+ * @param visible {bool} - Indicates whether the source should be visible or not.
  */
 OBSWebSocket.prototype.setSourceVisbility = function(sourceName, visible) {
   this._sendRequest('SetSourceRender',
@@ -226,6 +220,7 @@ OBSWebSocket.prototype.toggleStreaming = function() {
  * Start streaming.
  *
  * @function
+ * @todo Implement.
  * @category request
  */
 OBSWebSocket.prototype.startStreaming = function() {
@@ -236,6 +231,7 @@ OBSWebSocket.prototype.startStreaming = function() {
  * Stop streaming.
  *
  * @function
+ * @todo Implement.
  * @category request
  */
 OBSWebSocket.prototype.stopStreaming = function() {
@@ -256,6 +252,7 @@ OBSWebSocket.prototype.startStopRecording = function() {
  * Start recording.
  *
  * @function
+ * @todo Implement.
  * @category request
  */
 OBSWebSocket.prototype.startRecording = function() {
@@ -266,6 +263,7 @@ OBSWebSocket.prototype.startRecording = function() {
  * Stop recording.
  *
  * @function
+ * @todo Implement.
  * @category request
  */
 OBSWebSocket.prototype.stopRecording = function() {
@@ -275,17 +273,17 @@ OBSWebSocket.prototype.stopRecording = function() {
 /**
  * Callback for getStreamStatus.
  * @callback getStreamStatusCb
- * @param err
- * @param data
- * @param data.streaming {bool}
- * @param data.recording {bool}
+ * @param err {object} - Only populated if an error occurred during the request.
+ * @param data {object}
+ * @param data.streaming {bool} - Indicates whether OBS is currently streaming.
+ * @param data.recording {bool} - Indicates whether OBS is currently recording.
  * @param data.previewOnly {bool} - Always false.
- * @param data.bytesPerSec {int=}
- * @param data.strain {double=}
- * @param data.totalStreamTime {int=}
- * @param data.numTotalFrames {int=}
- * @param data.numDroppedFrames {int=}
- * @param data.fps {double=}
+ * @param data.bytesPerSec {int=} - Current bitrate of the stream.
+ * @param data.strain {double=} - Percentage of dropped frames.
+ * @param data.totalStreamTime {int=} - Total uptime of the stream.
+ * @param data.numTotalFrames {int=} - Total number of frames since the start of stream.
+ * @param data.numDroppedFrames {int=} - Total number of dropped frames since the start of stream.
+ * @param data.fps {double=} - Current Frames per Second of the stream.
  */
 /**
  * Retrieve details about the stream status.
@@ -295,28 +293,16 @@ OBSWebSocket.prototype.stopRecording = function() {
  * @param callback {getStreamStatusCb}
  */
 OBSWebSocket.prototype.getStreamStatus = function(callback) {
-  function nestedCallback(err, data) {
-    if (data) {
-      data['previewOnly'] = data['preview-only'];
-      data['bytesPerSec'] = data['bytes-per-sec'];
-      data['totalStreamTime'] = data['total-stream-time'];
-      data['numTotalFrames'] = data['num-total-frames'];
-      data['numDroppedFrames'] = data['num-dropped-frames'];
-    }
-
-    callback(err, data);
-  }
-
-  this._sendRequest('GetStreamingStatus', {}, nestedCallback);
+  this._sendRequest('GetStreamingStatus', {}, callback);
 };
 
 /**
  * Callback for getTransitionList.
  * @callback getTransitionListCb
- * @param err
- * @param data
- * @param data.currentTransition {string}
- * @param data.transitions {Array.<string>}
+ * @param err {object} - Only populated if an error occurred during the request.
+ * @param data {object}
+ * @param data.currentTransition {string} - Name of the currently active transition.
+ * @param data.transitions {Array.<string>} - Array of available transitions by name.
  */
 /**
  * Retrieve the list of available transitions.
@@ -326,23 +312,15 @@ OBSWebSocket.prototype.getStreamStatus = function(callback) {
  * @param callback {getTransitionListCb}
  */
 OBSWebSocket.prototype.getTransitionList = function(callback) {
-  function nestedCallback(err, data) {
-    if (data) {
-      data['currentTransition'] = data['current-transition'];
-    }
-
-    callback(err, data);
-  }
-
-  this._sendRequest('GetTransitionList', {}, nestedCallback);
+  this._sendRequest('GetTransitionList', {}, callback);
 };
 
 /**
  * Callback for getCurrentTransition.
  * @callback getCurrentTransitionCb
- * @param err
- * @param data
- * @param data.name {string}
+ * @param err {object} - Only populated if an error occurred during the request.
+ * @param data {object}
+ * @param data.name {string} - Name of the currently active transition.
  */
 /**
  * Retrieve the currently selected transition.
@@ -360,7 +338,7 @@ OBSWebSocket.prototype.getCurrentTransition = function(callback) {
  *
  * @function
  * @category request
- * @param transitionName {string}
+ * @param transitionName {string} - Name of the transition.
  */
 OBSWebSocket.prototype.setCurrentTransition = function(transitionName) {
   this._sendRequest('SetCurrentTransition',

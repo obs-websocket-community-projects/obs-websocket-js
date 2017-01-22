@@ -43,7 +43,7 @@ OBSWebSocket.prototype.onAuthenticationFailure = function() {};
  *
  * @function
  * @category listener
- * @param sceneName {string}
+ * @param sceneName {string} - Name of the currently active scene.
  */
 OBSWebSocket.prototype.onSceneSwitch = function(sceneName) {}; // jshint ignore:line
 
@@ -53,7 +53,7 @@ OBSWebSocket.prototype.onSceneSwitch = function(sceneName) {}; // jshint ignore:
  * @category listener
  * @param response {object}
  * @param response.currentScene {string} - Name of the currently active scene.
- * @param response.scenes {Array.<OBSScene>}
+ * @param response.scenes {Array.<OBSScene>} - List of all scenes in the current profile.
  */
 OBSWebSocket.prototype.onSceneListChanged = function(response) {}; // jshint ignore:line
 
@@ -123,18 +123,20 @@ OBSWebSocket.prototype.onRecordingStopped = function() {};
 
 /**
  * Triggered once per second while streaming. Emits details about the stream status.
+ * NOTE: This is currently only emit when streaming, it is not emit when only recording.
  *
  * @function
  * @category listener
  * @param response {object}
- * @param response.streaming {bool}
- * @param response.recording {bool}
- * @param response.bytesPerSecond {int}
- * @param response.strain {int}
- * @param response.totalStreamTime {int}
- * @param response.numberOfFrames {int}
- * @param response.numberOfDroppedFrames {int}
- * @param response.fps {double}
+ * @param response.streaming {bool} - Indicates whether OBS is currently streaming.
+ * @param response.recording {bool} - Indicates whether OBS is currently recording.
+ * @param data.previewOnly {bool} - Always false.
+ * @param response.bytesPerSec {int} - Current bitrate of the stream.
+ * @param response.strain {int} - Percentage of dropped frames.
+ * @param response.totalStreamTime {int} - Total uptime of the stream.
+ * @param response.numTotalFrames {int} - Total number of frames since the start of stream.
+ * @param response.numDroppedFrames {int} - Total number of dropped frames since the start of stream.
+ * @param response.fps {double} - Current Frames per Second of the stream.
  */
 OBSWebSocket.prototype.onStreamStatus = function(response) {}; // jshint ignore:line
 

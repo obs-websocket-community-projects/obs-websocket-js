@@ -155,9 +155,9 @@ Triggered on Scene Change.
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: listener  
 
-| Param | Type |
-| --- | --- |
-| sceneName | <code>string</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| sceneName | <code>string</code> | Name of the currently active scene. |
 
 <a name="OBSWebSocket+onSceneListChanged"></a>
 
@@ -171,7 +171,7 @@ Triggered when the scene list is modified (a scene has been created, removed, or
 | --- | --- | --- |
 | response | <code>object</code> |  |
 | response.currentScene | <code>string</code> | Name of the currently active scene. |
-| response.scenes | <code>[Array.&lt;OBSScene&gt;](#OBSScene)</code> |  |
+| response.scenes | <code>[Array.&lt;OBSScene&gt;](#OBSScene)</code> | List of all scenes in the current profile. |
 
 <a name="OBSWebSocket+onStreamStarting"></a>
 
@@ -232,22 +232,23 @@ Triggered when the recording has successfully stopped.
 <a name="OBSWebSocket+onStreamStatus"></a>
 
 ### obsWebSocket.onStreamStatus(response)
-Triggered once per second while streaming. Emits details about the stream status.
+Triggered once per second while streaming. Emits details about the stream status.NOTE: This is currently only emit when streaming, it is not emit when only recording.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: listener  
 
-| Param | Type |
-| --- | --- |
-| response | <code>object</code> | 
-| response.streaming | <code>bool</code> | 
-| response.recording | <code>bool</code> | 
-| response.bytesPerSecond | <code>int</code> | 
-| response.strain | <code>int</code> | 
-| response.totalStreamTime | <code>int</code> | 
-| response.numberOfFrames | <code>int</code> | 
-| response.numberOfDroppedFrames | <code>int</code> | 
-| response.fps | <code>double</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| response | <code>object</code> |  |
+| response.streaming | <code>bool</code> | Indicates whether OBS is currently streaming. |
+| response.recording | <code>bool</code> | Indicates whether OBS is currently recording. |
+| data.previewOnly | <code>bool</code> | Always false. |
+| response.bytesPerSec | <code>int</code> | Current bitrate of the stream. |
+| response.strain | <code>int</code> | Percentage of dropped frames. |
+| response.totalStreamTime | <code>int</code> | Total uptime of the stream. |
+| response.numTotalFrames | <code>int</code> | Total number of frames since the start of stream. |
+| response.numDroppedFrames | <code>int</code> | Total number of dropped frames since the start of stream. |
+| response.fps | <code>double</code> | Current Frames per Second of the stream. |
 
 <a name="OBSWebSocket+onExit"></a>
 
@@ -283,14 +284,14 @@ Retrieve information about the OBSWebSocket authentication requirements.
 <a name="OBSWebSocket+authenticate"></a>
 
 ### obsWebSocket.authenticate([password])
-Attempt to authenticate the OBSWebSocket connection.
+Attempt to authenticate the OBSWebSocket connection.Note that this method does not accept a callback.Bind all callbacks to [OBSWebSocket.onAuthenticationSuccess](OBSWebSocket.onAuthenticationSuccess) and [OBSWebSocket.onAuthenticationFailure](OBSWebSocket.onAuthenticationFailure).
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
 
-| Param | Type |
-| --- | --- |
-| [password] | <code>string</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [password] | <code>string</code> | <code>&quot;&#x27;&#x27;&quot;</code> | Defaults to empty. |
 
 <a name="OBSWebSocket+connect"></a>
 
@@ -300,10 +301,10 @@ Initialize and authenticate the WebSocket connection.
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
 
-| Param | Type | Default |
-| --- | --- | --- |
-| address | <code>string</code> | <code>&quot;localhost&quot;</code> | 
-| [password] | <code>string</code> |  | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| address | <code>string</code> | <code>&quot;localhost&quot;</code> | IP Adddress to connect to, with or without port. |
+| [password] | <code>string</code> | <code>&quot;&#x27;&#x27;&quot;</code> | Defaults to empty. |
 
 <a name="OBSWebSocket+disconnect"></a>
 
@@ -359,7 +360,7 @@ Set the visibility of a selected source.
 | Param | Type | Description |
 | --- | --- | --- |
 | sourceName | <code>string</code> | Name of the source. |
-| visible | <code>bool</code> | Whether the source should be visible or not. |
+| visible | <code>bool</code> | Indicates whether the source should be visible or not. |
 
 <a name="OBSWebSocket+toggleStreaming"></a>
 
@@ -375,6 +376,10 @@ Start streaming.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+**Todo**
+
+- [ ] Implement.
+
 <a name="OBSWebSocket+stopStreaming"></a>
 
 ### obsWebSocket.stopStreaming()
@@ -382,6 +387,10 @@ Stop streaming.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+**Todo**
+
+- [ ] Implement.
+
 <a name="OBSWebSocket+startStopRecording"></a>
 
 ### obsWebSocket.startStopRecording()
@@ -396,6 +405,10 @@ Start recording.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+**Todo**
+
+- [ ] Implement.
+
 <a name="OBSWebSocket+stopRecording"></a>
 
 ### obsWebSocket.stopRecording()
@@ -403,6 +416,10 @@ Stop recording.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
+**Todo**
+
+- [ ] Implement.
+
 <a name="OBSWebSocket+getStreamStatus"></a>
 
 ### obsWebSocket.getStreamStatus(callback)
@@ -447,9 +464,9 @@ Set the currently selected transition.
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
 
-| Param | Type |
-| --- | --- |
-| transitionName | <code>string</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| transitionName | <code>string</code> | Name of the transition. |
 
 <a name="getVersionCb"></a>
 
@@ -458,11 +475,12 @@ Callback for GetVersion.
 
 **Kind**: global typedef  
 
-| Param | Type |
-| --- | --- |
-| err | <code>object</code> | 
-| data | <code>object</code> | 
-| data.obsVersion | <code>string</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>object</code> | Only populated if an error occurred during the request. |
+| data | <code>object</code> |  |
+| data.obsWebSocketVersion | <code>string</code> | Current OBS WebSocket plugin version. |
+| data.version | <code>double</code> | Hardcoded for OBS Remote backwards compatibility. |
 
 <a name="getAuthRequiredCb"></a>
 
@@ -471,13 +489,13 @@ Callback for getAuthRequired.
 
 **Kind**: global typedef  
 
-| Param | Type |
-| --- | --- |
-| err |  | 
-| data |  | 
-| data.authRequired | <code>bool</code> | 
-| [data.salt] | <code>string</code> | 
-| [data.challenge] | <code>string</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>object</code> | Only populated if an error occurred during the request. |
+| data | <code>object</code> |  |
+| data.authRequired | <code>bool</code> | Indicates whether authentication is required. |
+| [data.salt] | <code>string</code> | Authentication Salt. Only populated if authentication is required. |
+| [data.challenge] | <code>string</code> | Authentication Challenge. Only populated if authentication is required. |
 
 <a name="getCurrentSceneCb"></a>
 
@@ -486,10 +504,10 @@ Callback for getCurrentScene.
 
 **Kind**: global typedef  
 
-| Param | Type |
-| --- | --- |
-| err |  | 
-| data | <code>[OBSScene](#OBSScene)</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>object</code> | Only populated if an error occurred during the request. |
+| data | <code>[OBSScene](#OBSScene)</code> | Currently active scene. |
 
 <a name="getSceneListCb"></a>
 
@@ -500,8 +518,8 @@ Callback for getSceneList.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| err |  |  |
-| data |  |  |
+| err | <code>object</code> | Only populated if an error occurred during the request. |
+| data | <code>object</code> |  |
 | data.currentScene | <code>string</code> | Name of the currently active scene. |
 | data.scenes | <code>[Array.&lt;OBSScene&gt;](#OBSScene)</code> | Array of [OBSScene](#OBSScene)s. |
 
@@ -514,17 +532,17 @@ Callback for getStreamStatus.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| err |  |  |
-| data |  |  |
-| data.streaming | <code>bool</code> |  |
-| data.recording | <code>bool</code> |  |
+| err | <code>object</code> | Only populated if an error occurred during the request. |
+| data | <code>object</code> |  |
+| data.streaming | <code>bool</code> | Indicates whether OBS is currently streaming. |
+| data.recording | <code>bool</code> | Indicates whether OBS is currently recording. |
 | data.previewOnly | <code>bool</code> | Always false. |
-| [data.bytesPerSec] | <code>int</code> |  |
-| [data.strain] | <code>double</code> |  |
-| [data.totalStreamTime] | <code>int</code> |  |
-| [data.numTotalFrames] | <code>int</code> |  |
-| [data.numDroppedFrames] | <code>int</code> |  |
-| [data.fps] | <code>double</code> |  |
+| [data.bytesPerSec] | <code>int</code> | Current bitrate of the stream. |
+| [data.strain] | <code>double</code> | Percentage of dropped frames. |
+| [data.totalStreamTime] | <code>int</code> | Total uptime of the stream. |
+| [data.numTotalFrames] | <code>int</code> | Total number of frames since the start of stream. |
+| [data.numDroppedFrames] | <code>int</code> | Total number of dropped frames since the start of stream. |
+| [data.fps] | <code>double</code> | Current Frames per Second of the stream. |
 
 <a name="getTransitionListCb"></a>
 
@@ -533,12 +551,12 @@ Callback for getTransitionList.
 
 **Kind**: global typedef  
 
-| Param | Type |
-| --- | --- |
-| err |  | 
-| data |  | 
-| data.currentTransition | <code>string</code> | 
-| data.transitions | <code>Array.&lt;string&gt;</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>object</code> | Only populated if an error occurred during the request. |
+| data | <code>object</code> |  |
+| data.currentTransition | <code>string</code> | Name of the currently active transition. |
+| data.transitions | <code>Array.&lt;string&gt;</code> | Array of available transitions by name. |
 
 <a name="getCurrentTransitionCb"></a>
 
@@ -547,9 +565,9 @@ Callback for getCurrentTransition.
 
 **Kind**: global typedef  
 
-| Param | Type |
-| --- | --- |
-| err |  | 
-| data |  | 
-| data.name | <code>string</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| err | <code>object</code> | Only populated if an error occurred during the request. |
+| data | <code>object</code> |  |
+| data.name | <code>string</code> | Name of the currently active transition. |
 

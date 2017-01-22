@@ -69,11 +69,18 @@ OBSWebSocket.prototype._onMessage = function(msg) {
   var message = JSON.parse(msg.data);
   var err = null;
 
-  if (this._debug)
-    console.log(OBSWebSocket.CONSOLE_NAME, '[onMessage]', message);
-
   if (!message)
     return;
+
+  for (var key in message) {
+    if (message.hasOwnProperty(key)) {
+      var camelCasedKey = key.replace( /-([a-z])/gi, function ( $0, $1 ) { return $1.toUpperCase(); } );
+      message[camelCasedKey] = message[key];
+    }
+  }
+
+  if (this._debug)
+    console.log(OBSWebSocket.CONSOLE_NAME, '[onMessage]', message);
 
   var updateType = message['update-type'];
   var messageId = message['message-id'];
@@ -137,7 +144,6 @@ OBSWebSocket.prototype._buildEventCallback = function(updateType, message) {
       return;
     case 'StreamStatus':
       message['bytesPerSecond'] = message['bytes-per-sec'];
-      message['totalStreamTime'] = message['total-stream-time'];
       message['numberOfFrames'] = message['num-total-frames'];
       message['numberOfDroppedFrames'] = message['num-dropped-frames'];
       this.onStreamStatus(message);
