@@ -1,8 +1,12 @@
 # obs-websocket-js
+
+[![Build Status](https://travis-ci.org/haganbmj/obs-websocket-js.svg?branch=master)](https://travis-ci.org/haganbmj/obs-websocket-js)
+
 OBSWebSocket.JS allows Javascript-based connections to [obs-websocket](https://github.com/Palakis/obs-websocket).  
 Based heavily on [obs-remote](https://github.com/nodecg/obs-remote-js), which is built for the older, obs-classic compatible plugin.
 
-# [API Documentation](dist/DOCUMENTATION.md)
+# [API Documentation](https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/DOCUMENTATION.md)
+# [Distributable](https://haganbmj.github.io/obs-websocket-js/obs-websocket.js)
 
 ## Usage
 
