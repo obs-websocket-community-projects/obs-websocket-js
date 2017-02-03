@@ -232,7 +232,8 @@ Triggered when the recording has successfully stopped.
 <a name="OBSWebSocket+onStreamStatus"></a>
 
 ### obsWebSocket.onStreamStatus(response)
-Triggered once per second while streaming. Emits details about the stream status.NOTE: This is currently only emit when streaming, it is not emit when only recording.
+Triggered once per second while streaming. Emits details about the stream status.
+NOTE: This is currently only emit when streaming, it is not emit when only recording.
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: listener  
@@ -284,7 +285,9 @@ Retrieve information about the OBSWebSocket authentication requirements.
 <a name="OBSWebSocket+authenticate"></a>
 
 ### obsWebSocket.authenticate([password])
-Attempt to authenticate the OBSWebSocket connection.Note that this method does not accept a callback.Bind all callbacks to [OBSWebSocket.onAuthenticationSuccess](OBSWebSocket.onAuthenticationSuccess) and [OBSWebSocket.onAuthenticationFailure](OBSWebSocket.onAuthenticationFailure).
+Attempt to authenticate the OBSWebSocket connection.
+Note that this method does not accept a callback.
+Bind all callbacks to [OBSWebSocket.onAuthenticationSuccess](OBSWebSocket.onAuthenticationSuccess) and [OBSWebSocket.onAuthenticationFailure](OBSWebSocket.onAuthenticationFailure).
 
 **Kind**: instance method of <code>[OBSWebSocket](#OBSWebSocket)</code>  
 **Category**: request  
