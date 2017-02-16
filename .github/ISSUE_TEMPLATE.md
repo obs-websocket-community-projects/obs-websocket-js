@@ -1,19 +1,22 @@
-(Please fill out the following information when creating a new issue)
+<!--
+Please fill out the following information when creating a new issue.
+The more information you provide the easier it will be for someone (me) to assist.
+Also, include some links/information about what you're working on if you'd like - always curious.
+-->
 
----
-
-#### Type of Issue:
-- e.g. Bug / Enhancement / Suggestion / Development Trouble
-
-
-#### General Description:
-- Details.
+**Is this a request for a new *feature* or a *bug* report?**
 
 
-#### Steps Taken to Encounter the Bug (if applicable):
-1. Step one
-2. Step two  
+**General Description:**
 
 
-#### Any Additional Information:
-- Details.
+**Versions being Used (if applicable):**
+  - obs-websocket-js version:
+  - obs-websocket plugin version:
+  - obs-studio version:
+
+
+**Steps Taken to Encounter the Bug (if applicable):**
+
+
+**Any Additional Information / Code Samples / etc:**

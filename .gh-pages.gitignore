@@ -1,0 +1,12 @@
+node_modules
+.grunt
+.gitignore
+.jshintrc
+.travis.yml
+Gruntfile.js
+webpack.config.js
+samples
+
+logs
+*.log
+npm-debug.log*
