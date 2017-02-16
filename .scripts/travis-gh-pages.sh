@@ -14,16 +14,13 @@ SHA=`git rev-parse --verify HEAD`
 COMMIT_MESSAGE=`git log --oneline -1 | cut -d " " -f 2`
 COMMIT_TYPE=`echo $COMMIT_MESSAGE | cut -d ":" -f 1`
 
-git config --global user.name "travis-ci"
-git config --global user.email "travis@travis-ci.org"
-
 # Revise the .gitignore strategy for gh-pages. Includes build distributables.
 cp .gh-pages.gitignore .gitignore --force
 
 # Reset changes on top of existing gh-pages
-git init
-git remote add upstream "https://$GH_TOKEN@github.com/$SHORT_REPO"
-git fetch upstream
+# git init
+# git remote add upstream "https://$GH_TOKEN@github.com/$SHORT_REPO"
+# git fetch upstream
 git reset upstream/gh-pages
 
 # Check if a any changes impacted distributables or documentation.
@@ -36,7 +33,7 @@ fi
 git add -A .
 
 CURRENT_TAG=`node -pe "require('./package.json').version"`
-IS_PRERELEASE=`node -pe "require('semver').prerelease($CURRENT_TAG)"`
+IS_PRERELEASE=`node -pe "require('semver').prerelease('$CURRENT_TAG')"`
 
 git commit -m "gh-pages: ($SHA) v$CURRENT_TAG"
 
