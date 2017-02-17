@@ -1,0 +1,16 @@
+node_modules
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# IntelliJ
+.idea/
+*.ipr
+*.iws
+*.iml
+.idea_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*

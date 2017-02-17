@@ -1,6 +1,6 @@
 (function(){
 /*
- * OBS WebSocket Javascript API (obs-websocket-js) v0.3.0
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.3.3
  * Author: Brendan Hagan (haganbmj)
  * Repo: git+https://github.com/haganbmj/obs-websocket-js.git
  */
