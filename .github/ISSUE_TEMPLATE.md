@@ -1,7 +1,7 @@
 <!--
-Please fill out the following information when creating a new issue.
-The more information you provide the easier it will be for someone (me) to assist.
-Also, include some links/information about what you're working on if you'd like - always curious.
+  Please fill out the following information when creating a new issue.
+  The more information you provide the easier it will be for someone (me) to assist.
+  Also, include some links/information about what you're working on if you'd like - always curious.
 -->
 
 **Is this a request for a new *feature* or a *bug* report?**
@@ -10,7 +10,7 @@ Also, include some links/information about what you're working on if you'd like 
 **General Description:**
 
 
-**Versions being Used (if applicable):**
+**Versions Used (if applicable):**
   - obs-websocket-js version:
   - obs-websocket plugin version:
   - obs-studio version:
@@ -19,4 +19,4 @@ Also, include some links/information about what you're working on if you'd like 
 **Steps Taken to Encounter the Bug (if applicable):**
 
 
-**Any Additional Information / Code Samples / etc:**
+**Extra Information / Code Samples / etc:**

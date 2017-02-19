@@ -41,6 +41,8 @@ if [ "null" == "$IS_PRERELEASE" ]
 then
   git tag "v$CURRENT_TAG"
   npm publish
+else
+  npm publish --tag alpha
 fi
 
 git push -q upstream HEAD:gh-pages --tags

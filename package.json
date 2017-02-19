@@ -2,7 +2,7 @@
   "name": "obs-websocket-js",
   "version": "0.0.0-0",
   "description": "OBS Websocket API in Javascript",
-  "main": "index.js",
+  "main": "lib/OBSWebSocket.js",
   "repository": "haganbmj/obs-websocket-js",
   "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
   "scripts": {
@@ -19,9 +19,7 @@
     "node.js"
   ],
   "files": [
-    "README.md",
-    "index.js",
-    "dist/*"
+    "lib/"
   ],
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",

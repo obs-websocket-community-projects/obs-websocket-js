@@ -1,6 +1,8 @@
 module.exports = function(grunt) {
   'use strict';
 
+  var webpack = require('webpack');
+
   grunt.util.linefeed = '\n';
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -13,9 +15,10 @@ module.exports = function(grunt) {
     ' */\n\n',
 
     webpack: {
+      options: require('./webpack.config.js'),
       obswebsocket: {
         target: "web",
-        entry: './index.js',
+        entry: './lib/OBSWebSocket.js',
         output: {
           path: 'dist/',
           filename: 'obs-websocket.js',
@@ -24,11 +27,14 @@ module.exports = function(grunt) {
         externals: {
           'ws': 'WebSocket'
         },
-        failOnError: false
+        failOnError: false,
+        plugins: [
+          new webpack.optimize.UglifyJsPlugin()
+        ]
       },
       obswebsocket_watch: {
         target: "web",
-        entry: './index.js',
+        entry: './lib/OBSWebSocket.js',
         output: {
           path: 'dist/',
           filename: 'obs-websocket.js',
@@ -43,7 +49,7 @@ module.exports = function(grunt) {
     },
     jsdoc2md: {
       docs: {
-        src: ['src/OBSWebSocket.js', 'src/OBSScene.js', 'src/OBSSource.js', 'src/Core.js', 'src/Socket.js', 'src/Requests.js', 'src/Events.js'],
+        src: ['lib/OBSWebSocket.js', 'lib/OBSScene.js', 'lib/OBSSource.js', 'lib/Core.js', 'lib/Socket.js', 'lib/Requests.js', 'lib/Events.js'],
         dest: 'dist/DOCUMENTATION.md'
       }
     },

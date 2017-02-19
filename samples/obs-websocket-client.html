@@ -2,22 +2,22 @@
   <head>
     <script type='text/javascript' src='../dist/obs-websocket.js'></script>
     <script>
-      var ws = new OBSWebSocket();
+      var obs = new OBSWebSocket();
 
-      ws.log.withDebug(true);
+      obs.log.withDebug(true);
 
       // Bind some methods.
-      ws.onConnectionOpened = function() {
+      obs.onConnectionOpened = function() {
         console.log('Connection Opened');
 
         // Send some queries.
-        ws.getSceneList(function(err, data) {
+        obs.getSceneList(function(err, data) {
           document.getElementById('scene_name').textContent = data['current-scene'];
         });
       };
 
       // Open the connection and Authenticate if needed. URL defaults to localhost:4444
-      ws.connect('localhost', 'brendan'); // ws.connect('url', 'password');
+      obs.connect('localhost', 'brendan'); // ws.connect('url', 'password');
     </script>
   </head>
   <body>
