@@ -2,7 +2,7 @@
   "name": "obs-websocket-js",
   "version": "0.0.0-0",
   "description": "OBS Websocket API in Javascript",
-  "main": "lib/OBSWebSocket.js",
+  "main": "lib/index.js",
   "repository": "haganbmj/obs-websocket-js",
   "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
   "scripts": {

@@ -1,10 +1,10 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <script type='text/javascript' src='../dist/obs-websocket.js'></script>
     <script>
-      var obs = new OBSWebSocket();
-
-      obs.log.withDebug(true);
+      var obs = new OBSWebSocket('localhost');
 
       // Bind some methods.
       obs.onConnectionOpened = function() {
@@ -17,7 +17,7 @@
       };
 
       // Open the connection and Authenticate if needed. URL defaults to localhost:4444
-      obs.connect('localhost', 'brendan'); // ws.connect('url', 'password');
+      // obs.connect('localhost', 'brendan'); // ws.connect('url', 'password');
     </script>
   </head>
   <body>
