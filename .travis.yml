@@ -9,10 +9,10 @@ node_js:
 before_script:
   - npm prune
   - npm install json semver -g
-  - bash ./.scripts/pre-build.sh
+  # - bash ./.scripts/pre-build.sh
 script:
   - npm run build
-  - bash ./.scripts/travis-gh-pages.sh
+  # - bash ./.scripts/travis-gh-pages.sh
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
