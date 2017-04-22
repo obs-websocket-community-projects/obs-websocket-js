@@ -12,9 +12,13 @@
         console.log('Connection Opened');
 
         // Send some queries.
-        obs.getSceneList(function(err, data) {
+        obs.GetSceneList(null, function(err, data) {
           document.getElementById('scene_name').textContent = data['current-scene'];
         });
+      });
+
+      obs.onAuthenticationSuccess(function(err, data) {
+        console.log('Auth Success');
       });
 
       // Open the connection and Authenticate if needed. URL defaults to localhost:4444

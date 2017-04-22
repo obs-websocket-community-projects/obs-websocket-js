@@ -36,7 +36,7 @@ module.exports = function(grunt) {
         target: "web",
         entry: './lib/OBSWebSocket.js',
         output: {
-          path: 'dist/',
+          path: './dist',
           filename: 'obs-websocket.js',
           library: 'OBSWebSocket'
         },

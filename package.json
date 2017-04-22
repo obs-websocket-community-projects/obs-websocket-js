@@ -18,9 +18,6 @@
     "node",
     "node.js"
   ],
-  "files": [
-    "lib/"
-  ],
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
   "dependencies": {
