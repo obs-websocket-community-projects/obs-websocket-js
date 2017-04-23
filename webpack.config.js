@@ -1,7 +1,7 @@
 module.exports = {
   target: "web",
   entry: {
-    "obs-websocket": "./lib/OBSWebSocket.js"
+    "obs-websocket": "./index.js"
   },
   output: {
     "path": __dirname + "/dist",

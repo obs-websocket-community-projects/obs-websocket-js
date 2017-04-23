@@ -1,4 +1,4 @@
-var OBSWebSocket = require('../../lib/index.js');
+var OBSWebSocket = require('../../index.js');
 var ws = new OBSWebSocket();
 
 ws.logger.setLevel('info');
