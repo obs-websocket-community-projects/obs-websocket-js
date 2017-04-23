@@ -8,7 +8,7 @@ node_js:
   - stable
 before_script:
   - npm prune
-  - npm install json semver -g
+  # - npm install json semver -g
   # - bash ./.scripts/pre-build.sh
 script:
   - npm run build

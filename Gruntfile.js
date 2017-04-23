@@ -2,6 +2,7 @@ module.exports = function(grunt) {
   'use strict';
 
   var webpack = require('webpack');
+  const path = require('path');
 
   grunt.util.linefeed = '\n';
   grunt.initConfig({
@@ -20,7 +21,7 @@ module.exports = function(grunt) {
         target: "web",
         entry: './lib/OBSWebSocket.js',
         output: {
-          path: './dist',
+          path: path.resolve(__dirname, 'dist'),
           filename: 'obs-websocket.js',
           library: 'OBSWebSocket'
         },
@@ -36,7 +37,7 @@ module.exports = function(grunt) {
         target: "web",
         entry: './lib/OBSWebSocket.js',
         output: {
-          path: './dist',
+          path: path.resolve(__dirname, 'dist'),
           filename: 'obs-websocket.js',
           library: 'OBSWebSocket'
         },
@@ -72,5 +73,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['clean:dist', 'webpack:obswebsocket', 'concat']);
   grunt.registerTask('watch', ['webpack:obswebsocket_watch']);
-  grunt.registerTask('default', ['build', 'jsdoc2md']);
+  grunt.registerTask('default', ['build', /*'jsdoc2md'*/]);
 };
