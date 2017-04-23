@@ -1,0 +1,6 @@
+.github
+samples
+
+.gh-pages.gitignore
+.travis.yml
+bower.json
