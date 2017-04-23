@@ -8,7 +8,5 @@
   },
   "author": "Brendan Hagan (haganbmj)",
   "license": "ISC",
-  "dependencies": {
-    "loglevel": "^1.4.1"
-  }
+  "dependencies": {}
 }

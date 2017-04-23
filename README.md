@@ -17,54 +17,6 @@ TODOs include...
 
 If you can help with any of this please do.  
 
-## Usage
-
-#### Plain Javascript
-Include the distributable file in the header of your HTML.
-```html
-<script type='text/javascript' src='obs-websocket.js'></script>
-```
-
-Then make use of it.
-```html
-<script>
-  // Open the connection and Authenticate if needed. URL defaults to localhost:4444
-  var obs = new OBSWebSocket('localhost', 'password');
-
-  // Bind some listeners by passing a callback as a parameter.
-  obs.onConnectionOpened(function(msg) {
-    console.log('Connection Opened');
-
-    // Send some requests by calling existing functions and passing callbacks.
-    // All requests accept two parameters - arguments and a callback.
-    obs.getCurrentScene({}, function(err, data) {
-      console.log(err, data);
-    });
-
-    // Alternatively, all requests can also return a Promise.
-    obs.setCurrentScene({ name: 'Scene One' })
-      .then((data) => {
-        console.log('Horray!', data);
-      })
-      .catch(error) => {
-        console.log('Oh no!', error);
-      });
-  });
-</script>
-```
-
-
-#### NodeJS
-```sh
-npm install obs-websocket-js --save
-```
-
-Add the library to your application.
-```js
-var OBSWebSocket = require('obs-websocket-js');
-var obs = new OBSWebSocket();
-```
-
 ## Contributing
 - Install [node.js](http://nodejs.org).
 - Clone the repo.
@@ -75,7 +27,7 @@ npm install
 npm install --only=dev
 npm run build
 ```
-- Run grunt watch using the following. This will only update the distribution js file, not the markdown.
+- Run grunt watch using the following. Note that this will only update the distribution js file, not the markdown.
 ```sh
 npm run watch
 ```
