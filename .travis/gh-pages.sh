@@ -20,8 +20,9 @@ gem install github_changelog_generator
 github_changelog_generator -u haganbmj -p obs-websocket-js
 
 # Add all files & ./dist to the new commit.
-git add -A .
-git add -A ./dist -f
+git add -A
+git add CHANGELOG.md ./dist -f
+
 git commit -m "${TARGET_BRANCH}: (v${VERSION}) ${SHA}"
 git push -q upstream HEAD:$TARGET_BRANCH
 
