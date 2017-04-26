@@ -66,33 +66,42 @@ obs.on('AuthenticationSuccess', callback(err, data));
 obs.on('AuthenticationFailure', callback(err, data));
 ```
 
+#### Handling Errors
+By default, certain types of WebSocket errors will be thrown as uncaught exceptions.
+To ensure that you are handling every error, you must do the following:
+1. Add a `.catch()` handler to every returned Promise.
+2. Add a `error` event listener to the `OBSWebSocket` object.
+
 #### Example
 ```js
 const OBSWebSocket = require('obs-websocket-js');
 
 const obs = new OBSWebSocket();
-obs.connect('localhost:4444', '$up3rSecretP@ssw0rd');
-obs.onAuthenticationSuccess((err, data) => {
-  console.log("Success! We're Authenticated.");
-
-  obs.getSceneList({})
-    .then((data) => {
-      console.log(data.scenes.length + ' Available Scenes!');
-
-      data.scenes.forEach((scene) => {
-        if (scene.name != data.currentScene) {
-          console.log('Found a different scene! Switching to Scene:', scene.name);
-          obs.SetCurrentScene({ 'scene-name': scene.name });
-        }
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+obs.connect('localhost:4444', '$up3rSecretP@ssw0rd')
+  .then(() => {
+	  console.log('Success! We\'re connected & authenticated.');
+	  return obs.getSceneList({});
+  })
+  .then(data => {
+  	console.log(`${data.scenes.length} Available Scenes!`);
+    data.scenes.forEach(scene => {
+      if (scene.name !== data.currentScene) {
+        console.log('Found a different scene! Switching to Scene:', scene.name);
+        obs.setCurrentScene({'scene-name': scene.name});
+      }
     });
-});
+  })
+  .catch(err => { // Ensure that you add a catch handler to every Promise chain.
+    console.log(err);
+  });
 
 obs.onSwitchScenes((err, data) => {
   console.log('New Active Scene:', data.sceneName);
+});
+
+// You must add this handler to avoid uncaught exceptions.
+obs.on('error', err => {
+	console.error('socket error:', err);
 });
 ```
 
