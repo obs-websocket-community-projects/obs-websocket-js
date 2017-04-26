@@ -1,15 +1,17 @@
+const path = require('path');
+
 module.exports = {
-  target: "web",
+  target: 'web',
   entry: {
-    "obs-websocket": "./index.js"
+    'obs-websocket': './index.js'
   },
   output: {
-    "path": __dirname + "/dist",
-    "filename": "[name].js",
-    "library": "OBSWebSocket"
+    path: path.join(__dirname, '/dist'),
+    filename: '[name].js',
+    library: 'OBSWebSocket'
   },
   externals: {
-    "ws": "WebSocket"
+    ws: 'WebSocket'
   },
   devtool: false
 };
