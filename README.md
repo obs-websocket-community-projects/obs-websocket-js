@@ -20,7 +20,7 @@ The web distributable exposes a global named `OBSWebSocket`.
 In node.js, import the project using the following.  
 
 ```js
-var OBSWebSocket = require('obs-websocket-js');
+const OBSWebSocket = require('obs-websocket-js');
 ```
 
 Create a new WebSocket connection using the following.
@@ -28,19 +28,22 @@ Create a new WebSocket connection using the following.
 - Password is optional.  
 
 ```js
-var obs = new OBSWebSocket('address', 'password');
+const obs = new OBSWebSocket('address', 'password');
 ```
 
 #### Sending Requests
 All requests support the following two Syntax options where both `err` and `data` will contain the raw response from the WebSocket plugin.  
 _Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
 - RequestName must exactly match what is defined by the [obs-websocket][link-obswebsocket] plugin.  
+  - When calling a method directly (instead of via `.send`), you may also use the `lowerCamelCase` version of the request, i.e. `requestName` instead of `RequestName`. This may be preferred if you use a linter such as [ESlint](http://eslint.org/).
 - {args} are optional. Note that both `request-type` and `message-id` will be bound automatically.  
 - callback(err, data) is optional.  
 
 ```js
+// These three options are equivalent for every available request.
 obs.send('RequestName', {args}, callback(err, data)) returns Promise
 obs.RequestName({args}, callback(err, data)) returns Promise
+obs.requestName({args}, callback(err, data)) returns Promise
 
 // The following are additional supported requests.
 obs.connect({ address: 'address' }, callback(err, data)) returns Promise
@@ -65,24 +68,21 @@ obs.on('AuthenticationFailure', callback(err, data));
 
 #### Example
 ```js
-var OBSWebSocket = require('obs-websocket-js');
+const OBSWebSocket = require('obs-websocket-js');
 
-var obs = new OBSWebSocket('localhost:4444', '$up3rSecretP@ssw0rd');
+const obs = new OBSWebSocket('localhost:4444', '$up3rSecretP@ssw0rd');
 
-obs.onAuthenticationSuccess(function(err, data) {
+obs.onAuthenticationSuccess((err, data) => {
   console.log("Success! We're Authenticated.");
 
-  obs.GetSceneList({})
+  obs.getSceneList({})
     .then((data) => {
       console.log(data.scenes.length + ' Available Scenes!');
 
       data.scenes.forEach((scene) => {
         if (scene.name != data.currentScene) {
           console.log('Found a different scene! Switching to Scene:', scene.name);
-
           obs.SetCurrentScene({ 'scene-name': scene.name });
-
-          return;
         }
       });
     })

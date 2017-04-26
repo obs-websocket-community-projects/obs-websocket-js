@@ -22,6 +22,7 @@ before_script:
   - npm install
 
 script:
+  - npm test
   - npm run build
   - bash ./.travis/gh-pages.sh
 

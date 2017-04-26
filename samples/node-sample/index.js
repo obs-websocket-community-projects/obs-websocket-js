@@ -1,14 +1,14 @@
-var OBSWebSocket = require('../../index.js');
-var ws = new OBSWebSocket();
+const OBSWebSocket = require('../../index.js');
+const ws = new OBSWebSocket();
 
 ws.logger.setLevel('info');
 
 // Declare some events to listen for.
-ws.onConnectionOpened(function() {
+ws.onConnectionOpened(() => {
   console.log('Connection Opened');
 
   // Send some requests.
-  ws.GetSceneList(null, function(err, data) {
+  ws.getSceneList(null, (err, data) => {
     console.log(err, data);
   });
 
