@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.4.0...HEAD)
 
+**Implemented enhancements:**
+
+- \[Docs\] Update Readme and Code Samples [\#19](https://github.com/haganbmj/obs-websocket-js/issues/19)
+
 **Closed issues:**
 
 - \[CI\] Update Travis Scripts to Ensure updated Distributable [\#24](https://github.com/haganbmj/obs-websocket-js/issues/24)
