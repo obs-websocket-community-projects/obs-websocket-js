@@ -14,6 +14,7 @@
 
 **Merged pull requests:**
 
+- \[Docs\] Add agdq17-layouts to projects list [\#31](https://github.com/haganbmj/obs-websocket-js/pull/31) ([Lange](https://github.com/Lange))
 - \[CI\] Update Travis Scripts to Ensure updated Distributable [\#28](https://github.com/haganbmj/obs-websocket-js/pull/28) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.4.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.4.0) (2017-04-23)

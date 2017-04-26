@@ -102,7 +102,7 @@ obs.onSwitchScenes((err, data) => {
 
 ## Projects Using **obs-websocket-js**
 _To add your project to this list, submit a Pull Request._
-- none?  
+- [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
 
 ## [Contributing Guidelines][link-contributing]
 
