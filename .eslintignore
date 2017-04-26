@@ -3,3 +3,5 @@ bower_components
 .github
 .travis
 dist
+coverage
+.nyc_output
