@@ -15,4 +15,7 @@ CHANGELOG.md
 # Logs
 logs
 *.log
-npm-debug.log* 
+npm-debug.log*
+
+coverage
+.nyc_output

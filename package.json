@@ -6,7 +6,8 @@
   "repository": "haganbmj/obs-websocket-js",
   "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
   "scripts": {
-    "test": "npm run static",
+    "test": "npm run static && nyc ava",
+    "report": "nyc report --reporter=html",
     "grunt": "grunt",
     "build": "grunt",
     "watch": "grunt watch",
@@ -27,14 +28,17 @@
     "ws": "^1.1.1"
   },
   "devDependencies": {
+    "ava": "^0.19.1",
     "eslint": "^3.19.0",
     "eslint-config-xo-space": "^0.16.0",
+    "eslint-plugin-ava": "^4.2.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-jsdoc-to-markdown": "^2.0.0",
     "grunt-webpack": "^2.0.1",
     "load-grunt-tasks": "^3.5.2",
+    "nyc": "^10.2.0",
     "webpack": "^2.2.1"
   },
   "bugs": {
