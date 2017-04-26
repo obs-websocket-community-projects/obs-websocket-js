@@ -1,0 +1,26 @@
+{
+  "name": "obs-websocket-js",
+  "description": "OBS Websocket API in Javascript",
+  "main": "dist/obs-websocket.js",
+  "authors": [
+    "Brendan Hagan (haganbmj)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "obs",
+    "studio",
+    "obs",
+    "websocket"
+  ],
+  "homepage": "https://github.com/haganbmj/obs-websocket-js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "package.json",
+    "src",
+    "samples"
+  ]
+}

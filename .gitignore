@@ -1,4 +1,6 @@
 node_modules
+dist
+CHANGELOG.md
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -13,4 +15,4 @@ node_modules
 # Logs
 logs
 *.log
-npm-debug.log*
+npm-debug.log* 

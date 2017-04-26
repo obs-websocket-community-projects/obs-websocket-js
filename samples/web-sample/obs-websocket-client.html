@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type='text/javascript' src='../dist/obs-websocket.js'></script>
+    <script>
+      var obs = new OBSWebSocket('localhost');
+      // var obs = new OBSWebSocket('localhost:4444', 'password');
+
+      // Note that this defaults to localhost:4444. You can open a new connection later by doing the following.
+      // obs = new OBSWebSocket('localhost:4444', 'password'); // Overwrite the object.
+      // obs.connect({ address: 'localhost'}); // Call the connect method directly.
+
+      // If the password was not passed in the constructor, call the following.
+      // obs.authenticate({ password: 'password' });
+
+      obs.logger.enableAll();
+
+      // Bind some methods.
+      obs.onConnectionOpened(function() {
+        console.log('Connection Opened - No guaruntees that we are authenticated though!');
+      });
+
+      obs.onAuthenticationSuccess(function(err, data) {
+        console.log('Authentication Success - Free to make any request.');
+
+        // Send some queries.
+        obs.GetSceneList(null, function(err, data) {
+          document.getElementById('scene_name').textContent = data['current-scene'];
+        });
+
+        obs.GetSceneList()
+          .then((data) => {
+            console.log('GetSceneList Promise Resolve', data);
+          })
+          .catch((err) => {
+            console.log('GetSceneList Promise Reject', err);
+          });
+
+        obs.send('GetSceneList', {}, function(err, data) {
+          console.log(err, data);
+        })
+          .then((data) => {
+            console.log(data);
+          });
+      });
+
+      obs.onAuthenticationFailure(function(err, data) {
+        console.log('Authentication Failure.');
+      });
+
+      obs.on('SwitchScenes', function(err, data) {
+        console.log('obs.on(SwitchScenes)', err, data);
+      });
+
+      obs.onSwitchScenes(function(err, data) {
+        console.log('obs.onSwitchScenes', err, data);
+      });
+    </script>
+  </head>
+  <body>
+    <p id='scene_name'></p>
+  </body>
+</html>

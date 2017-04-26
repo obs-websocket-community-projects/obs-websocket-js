@@ -1,0 +1,30 @@
+language: ruby
+
+rvm:
+  - 2.2.2
+
+cache:
+  directories:
+    - node_modules
+
+notifications:
+  email: false
+
+env:
+  global:
+    - GH_REF="github.com/haganbmj/obs-websocket-js"
+
+before_script:
+  - nvm install node
+  - npm install json -g
+  - bash ./.travis/pre-build.sh
+  - npm prune
+  - npm install
+
+script:
+  - npm run build
+  - bash ./.travis/gh-pages.sh
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/

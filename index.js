@@ -1,1 +1,1 @@
-module.exports = require('./dist/obs-websocket.js');
+module.exports = exports = require('./lib/OBSWebSocket.js');

@@ -1,16 +1,15 @@
 {
   "name": "obs-websocket-js",
-  "version": "0.3.3",
+  "version": "0.4.1",
   "description": "OBS Websocket API in Javascript",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/haganbmj/obs-websocket-js.git"
-  },
+  "repository": "haganbmj/obs-websocket-js",
+  "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "grunt": "grunt",
-    "build": "grunt"
+    "build": "grunt",
+    "watch": "grunt watch"
   },
   "keywords": [
     "obs",
@@ -19,26 +18,26 @@
     "node",
     "node.js"
   ],
-  "files": [
-    "README.md",
-    "index.js",
-    "dist/*",
-    "obs-websocket.js",
-    "DOCUMENTATION.md"
-  ],
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
   "dependencies": {
+    "loglevel": "^1.4.1",
+    "sha.js": "^2.4.8",
     "ws": "^1.1.1"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
-    "grunt-anonymous": "^0.1.2",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0",
     "grunt-jsdoc-to-markdown": "^2.0.0",
-    "load-grunt-tasks": "^3.5.2"
-  }
+    "grunt-webpack": "^2.0.1",
+    "load-grunt-tasks": "^3.5.2",
+    "webpack": "^2.2.1"
+  },
+  "bugs": {
+    "url": "https://github.com/haganbmj/obs-websocket-js/issues"
+  },
+  "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
+  "sha": "cfbec89d0b48ca3e57d4cf53ad9c28101bceb944",
+  "timestamp": "2017-04-26 03:12:17+00:00"
 }

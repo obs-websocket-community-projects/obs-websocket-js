@@ -1,0 +1,8 @@
+.github
+.travis
+samples
+
+.editorconfig
+.jshintrc
+.travis.yml
+bower.json
