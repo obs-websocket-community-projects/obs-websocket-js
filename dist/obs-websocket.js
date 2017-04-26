@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.4.1
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build SHA: a73b5fe3134bdb667cea5d267211cdcdf70968c9
- * Build Timestamp: 2017-04-26 13:28:49+00:00
+ * Build SHA: 8dba891612ab2f8f2281596463555e63d80a3251
+ * Build Timestamp: 2017-04-26 14:14:15+00:00
  */
 
 var OBSWebSocket =
@@ -312,9 +312,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = exports = {
-  wrap: function(statusType) {
-    var resp = {
+module.exports = {
+  wrap(statusType) {
+    const resp = {
       code: statusType.code,
       status: statusType.status,
       description: statusType.description
@@ -360,9 +360,9 @@ module.exports = exports = {
 
 
 
-var base64 = __webpack_require__(11)
-var ieee754 = __webpack_require__(13)
-var isArray = __webpack_require__(15)
+var base64 = __webpack_require__(10)
+var ieee754 = __webpack_require__(12)
+var isArray = __webpack_require__(14)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -2173,28 +2173,83 @@ module.exports = g;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/**
- * TODO: This does nothing now. Move the logic from Core.js into this or expand this to have some purpose.
- */
+const Socket = __webpack_require__(8);
+const Status = __webpack_require__(1);
+const log = __webpack_require__(0);
 
-var Core = __webpack_require__(8);
+let requestCounter = 0;
 
-class OBSWebSocket extends Core {
+function generateMessageId() {
+  return String(requestCounter++);
+}
+
+class OBSWebSocket extends Socket {
   constructor(address, password) {
     super(address, password);
+
+    this.logger = log;
+
+    // Bind all event emissions from the socket such that they are marshaled an re-emit at the base OBSWebSocket scope.
+    this.on('obs:internal:event', this._handleEvent);
+  }
+
+  // Internal generic Socket request method. Returns a promise, handles callbacks.
+  // Generates a messageId internally and will override any passed in the args.
+  // Note that the requestType here is pre-marshaling and currently must match exactly what the websocket plugin is expecting.
+  send(requestType, args = {}, callback) {
+    args = args || {};
+
+    return new Promise((resolve, reject) => {
+      if (!requestType) {
+        log.error('[Core:send]', Status.REQUEST_TYPE_NOT_SPECIFIED.description);
+        this._doCallback(callback, Status.wrap(Status.REQUEST_TYPE_NOT_SPECIFIED), null);
+        reject(Status.wrap(Status.REQUEST_TYPE_NOT_SPECIFIED));
+        return;
+      }
+
+      // Assign the core message details.
+      args['request-type'] = requestType;
+      const messageId = args['message-id'] = generateMessageId(); // eslint-disable-line no-multi-assign
+
+      // Submit the request to the websocket.
+      log.debug('[Core:send]', messageId, requestType, args);
+      this._socket.send(JSON.stringify(args));
+
+      // Asign a temporary event listener for this particular messageId to uniquely identify the response.
+      this.once('obs:internal:message:id-' + messageId, message => {
+        // TODO: Do additional stuff with the msg to determine errors, marshaling, etc.
+        // message = API.marshalResponse(requestType, message);
+
+        if (message.status === 'error') {
+          log.error('[Core:send:Response:reject]', message);
+          this._doCallback(callback, message, null);
+          reject(message);
+        } else {
+          log.debug('[Core:send:Response:resolve]', message);
+          this._doCallback(callback, null, message);
+          resolve(message);
+        }
+      });
+    });
+  }
+
+  // TODO: Marshal to use the API defined eventType rather than the obs-websocket defined one.
+  // Perform some logic them re-emit the event to the public name.
+  _handleEvent(message) {
+    this.emit(message.updateType, message);
   }
 }
 
 __webpack_require__(9)(OBSWebSocket);
 
-module.exports = exports = OBSWebSocket;
+module.exports = OBSWebSocket;
 
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = exports = __webpack_require__(4);
+module.exports = __webpack_require__(4);
 
 
 /***/ }),
@@ -2203,7 +2258,7 @@ module.exports = exports = __webpack_require__(4);
 
 // Last Updated: April 22, 2017
 
-var API = {
+const API = {
   availableMethods: [
     'GetVersion', 'GetAuthRequired',
     'SetCurrentScene', 'GetCurrentScene', 'GetSceneList',
@@ -2230,182 +2285,56 @@ var API = {
   ]
 };
 
-module.exports = exports = API;
+module.exports = API;
 
 
 /***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var SHA256 = __webpack_require__(21);
+const SHA256 = __webpack_require__(20);
 
-var AuthHashing = function(salt, challenge) {
-  this.salt = salt || '';
-  this.challenge = challenge || '';
+class AuthHashing {
+  constructor(salt, challenge) {
+    this.salt = salt || '';
+    this.challenge = challenge || '';
 
-  this.hash = function(msg) {
+    this.hash = function (msg) {
+      const hash = new SHA256()
+        .update(msg)
+        .update(this.salt)
+        .digest('base64');
 
-    var hash = new SHA256()
-      .update(msg)
-      .update(this.salt)
-      .digest('base64');
+      const resp = new SHA256()
+        .update(hash)
+        .update(challenge)
+        .digest('base64');
 
-    var resp = new SHA256()
-      .update(hash)
-      .update(challenge)
-      .digest('base64');
+      return resp;
+    };
+  }
+}
 
-    return resp;
-  };
-};
-
-module.exports = exports = AuthHashing;
+module.exports = AuthHashing;
 
 
 /***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Socket = __webpack_require__(10);
-var Status = __webpack_require__(1);
-var log = __webpack_require__(0);
-
-var requestCounter = 0;
-
-function generateMessageId() {
-  return '' + requestCounter++;
-}
-
-class Core extends Socket {
-  constructor(address, password) {
-    super(address, password);
-
-    this.logger = log;
-
-    // Bind all event emissions from the socket such that they are marshaled an re-emit at the base OBSWebSocket scope.
-    this.on('obs:internal:event', this._handleEvent);
-  }
-
-  // Internal generic Socket request method. Returns a promise, handles callbacks.
-  // Generates a messageId internally and will override any passed in the args.
-  // Note that the requestType here is pre-marshaling and currently must match exactly what the websocket plugin is expecting.
-  send(requestType, args = {}, callback) {
-    args = args || {};
-
-    return new Promise((resolve, reject) => {
-      if (!requestType) {
-        log.error('[Core:send]', Status.REQUEST_TYPE_NOT_SPECIFIED.description);
-        this._doCallback(callback, Status.wrap(Status.REQUEST_TYPE_NOT_SPECIFIED), null);
-        reject(Status.wrap(Status.REQUEST_TYPE_NOT_SPECIFIED));
-        return;
-      }
-
-      // Assign the core message details.
-      args['request-type'] = requestType;
-      var messageId = args['message-id'] = generateMessageId();
-
-      // Submit the request to the websocket.
-      log.debug('[Core:send]', messageId, requestType, args);
-      this._socket.send(JSON.stringify(args));
-
-      // Asign a temporary event listener for this particular messageId to uniquely identify the response.
-      this.once('obs:internal:message:id-' + messageId, (message) => {
-        // TODO: Do additional stuff with the msg to determine errors, marshaling, etc.
-        // message = API.marshalResponse(requestType, message);
-
-        if (message.status === 'error') {
-          log.error('[Core:send:Response:reject]', message);
-          this._doCallback(callback, message, null);
-          reject(message);
-        } else {
-          log.debug('[Core:send:Response:resolve]', message);
-          this._doCallback(callback, null, message);
-          resolve(message);
-        }
-      });
-    });
-  }
-
-  // TODO: Marshal to use the API defined eventType rather than the obs-websocket defined one.
-  // Perform some logic them re-emit the event to the public name.
-  _handleEvent(message) {
-    this.emit(message.updateType, message);
-  }
-}
-
-module.exports = exports = Core;
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var API = __webpack_require__(6);
-var log = __webpack_require__(0);
-
-var eventCallbacks = {};
-
-function iterateEventCallbacks(callbacks, err, data) {
-  for (var callback in callbacks) {
-    if (typeof callbacks[callback] === 'function') {
-      if (err) { log.error(err); }
-      callbacks[callback](err, data);
-    }
-  }
-}
-
-var MethodBinding = function(OBSWebSocket) {
-
-  // Bind each request command to a function of the same name.
-  API.availableMethods.forEach(method => {
-    OBSWebSocket.prototype[method] = function(args, callback) {
-      return this.send(method, args, callback);
-    };
-  });
-
-  API.availableEvents.forEach(event => {
-    OBSWebSocket.prototype['on' + event] = function(callback) {
-      if (typeof callback !== 'function') {
-        return;
-      }
-
-      if (!eventCallbacks[event]) {
-        eventCallbacks[event] = [];
-      }
-
-      eventCallbacks[event].push(callback);
-
-      // TODO: Determine if having err in the callback is even possible/necessary.
-      this.on(event, (msg) => {
-        var err = msg.error ? msg : null;
-        var data = msg.error ? null : msg;
-
-        iterateEventCallbacks(eventCallbacks[event], err, data);
-      });
-    };
-  });
-};
-
-module.exports = exports = MethodBinding;
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var WebSocket = __webpack_require__(25);
-var EventEmitter = __webpack_require__(12);
-var AuthHashing = __webpack_require__(7);
-var Status = __webpack_require__(1);
-var url = __webpack_require__(22);
-var log = __webpack_require__(0);
+const WebSocket = __webpack_require__(24);
+const EventEmitter = __webpack_require__(11);
+const AuthHashing = __webpack_require__(7);
+const Status = __webpack_require__(1);
+const url = __webpack_require__(21);
+const log = __webpack_require__(0);
 log.setLevel('info');
 
-var NOP = function() {};
+const NOP = function () {};
 
-var DEFAULT_PORT = 4444;
+const DEFAULT_PORT = 4444;
 
-var AUTH = {
+let AUTH = {
   required: true,
   salt: undefined,
   challenge: undefined
@@ -2413,11 +2342,15 @@ var AUTH = {
 
 function camelCaseKeys(obj) {
   obj = obj || {};
-  for (var key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      var camelCasedKey = key.replace( /-([a-z])/gi, function ( $0, $1 ) { return $1.toUpperCase(); } );
-      obj[camelCasedKey] = obj[key];
+  for (const key in obj) {
+    if (!{}.hasOwnProperty.call(obj, key)) {
+      continue;
     }
+
+    const camelCasedKey = key.replace(/-([a-z])/gi, ($0, $1) => {
+      return $1.toUpperCase();
+    });
+    obj[camelCasedKey] = obj[key];
   }
 
   return obj;
@@ -2429,15 +2362,19 @@ class Socket extends EventEmitter {
     this._connected = false;
     this._socket = undefined;
 
-    var originalEmit = this.emit;
-    this.emit = function() {
+    const originalEmit = this.emit;
+    this.emit = function () {
       log.debug('[Socket:emit]', arguments[0], arguments[1]);
       originalEmit.apply(this, arguments);
-    }
+    };
 
-    this.connect({ address: address })
-      .then(() => { this.authenticate({ 'password': password }); })
-      .catch((err) => { log.error('Connection or Authentication failed.', err); });
+    this.connect({address})
+      .then(() => {
+        this.authenticate({password});
+      })
+      .catch(err => {
+        log.error('Connection or Authentication failed.', err);
+      });
   }
 
   _doCallback(callback, err, data) {
@@ -2454,7 +2391,7 @@ class Socket extends EventEmitter {
   // TODO: Clean up callbacks.
   connect(args = {}, callback) {
     args = args || {};
-    var address = args.address || 'localhost';
+    let address = args.address || 'localhost';
 
     if (!url.parse(address).port) {
       address += ':' + DEFAULT_PORT;
@@ -2472,7 +2409,7 @@ class Socket extends EventEmitter {
       this._socket.onopen = () => {
         this._connected = true;
         log.info('Connection opened:', address);
-        this.emit('obs:internal:event', { updateType: 'ConnectionOpened' });
+        this.emit('obs:internal:event', {updateType: 'ConnectionOpened'});
         this._doCallback(callback, null, true);
         resolve();
       };
@@ -2480,20 +2417,20 @@ class Socket extends EventEmitter {
       this._socket.onclose = () => {
         this._connected = false;
         log.info('Connection closed:', address);
-        this.emit('obs:internal:event', { updateType: 'ConnectionClosed' });
+        this.emit('obs:internal:event', {updateType: 'ConnectionClosed'});
       };
 
-      this._socket.onerror = (evt) => {
+      this._socket.onerror = evt => {
         this._connected = false;
         log.error('Connected failed.', evt.code);
         this._doCallback(callback, true, null);
         reject(evt);
       };
 
-      this._socket.onmessage = (msg) => {
+      this._socket.onmessage = msg => {
         log.debug('[Socket:OnMessage]', msg);
 
-        var data = camelCaseKeys(JSON.parse(msg.data));
+        const data = camelCaseKeys(JSON.parse(msg.data));
 
         // Emit the message with ID if available, otherwise default to a non-messageId driven event.
         if (data.messageId) {
@@ -2514,8 +2451,8 @@ class Socket extends EventEmitter {
       return Promise.reject(Status.wrap(Status.NOT_CONNECTED));
     }
 
-    return this.GetAuthRequired()
-      .then((data) => {
+    return this.getAuthRequired()
+      .then(data => {
         AUTH = {
           required: data.authRequired,
           salt: data.salt,
@@ -2524,23 +2461,23 @@ class Socket extends EventEmitter {
 
         // Return early if authentication is not necessary.
         if (!AUTH.required) {
-          this.emit('obs:internal:event', { updateType: 'AuthenticationSuccess' });
+          this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
           this._doCallback(callback, null, Status.wrap(Status.AUTH_NOT_REQUIRED));
           return Promise.resolve(Status.wrap(Status.AUTH_NOT_REQUIRED));
         }
 
-        var params = {
-          'auth': new AuthHashing(AUTH.salt, AUTH.challenge).hash(args.password)
+        const params = {
+          auth: new AuthHashing(AUTH.salt, AUTH.challenge).hash(args.password)
         };
 
         return this.send('Authenticate', params, callback)
           .then(() => {
             log.debug('Authentification Success.');
-            this.emit('obs:internal:event', { updateType: 'AuthenticationSuccess' });
+            this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
           })
           .catch(() => {
             log.error('Authentication Failure.');
-            this.emit('obs:internal:event', { updateType: 'AuthenticationFailure' });
+            this.emit('obs:internal:event', {updateType: 'AuthenticationFailure'});
           });
       });
   }
@@ -2561,7 +2498,65 @@ module.exports = Socket;
 
 
 /***/ }),
-/* 11 */
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const API = __webpack_require__(6);
+const log = __webpack_require__(0);
+
+const eventCallbacks = {};
+
+function iterateEventCallbacks(callbacks, err, data) {
+  for (const callback in callbacks) {
+    if (typeof callbacks[callback] === 'function') {
+      if (err) {
+        log.error(err);
+      }
+      callbacks[callback](err, data);
+    }
+  }
+}
+
+function methodBinding(OBSWebSocket) {
+  // Bind each request command to a function of the same name.
+  API.availableMethods.forEach(method => {
+    const handler = function (args, callback) {
+      return this.send(method, args, callback);
+    };
+
+    // Bind to both UpperCamelCase and lowerCamelCase versions of the method name.
+    OBSWebSocket.prototype[method] = handler;
+    OBSWebSocket.prototype[method.charAt(0).toLowerCase() + method.slice(1)] = handler;
+  });
+
+  API.availableEvents.forEach(event => {
+    OBSWebSocket.prototype['on' + event] = function (callback) {
+      if (typeof callback !== 'function') {
+        return;
+      }
+
+      if (!eventCallbacks[event]) {
+        eventCallbacks[event] = [];
+      }
+
+      eventCallbacks[event].push(callback);
+
+      // TODO: Determine if having err in the callback is even possible/necessary.
+      this.on(event, msg => {
+        const err = msg.error ? msg : null;
+        const data = msg.error ? null : msg;
+
+        iterateEventCallbacks(eventCallbacks[event], err, data);
+      });
+    };
+  });
+}
+
+module.exports = methodBinding;
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2682,7 +2677,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -2990,7 +2985,7 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -3080,7 +3075,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -3109,7 +3104,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -3120,7 +3115,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -3656,10 +3651,10 @@ module.exports = Array.isArray || function (arr) {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)(module), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module), __webpack_require__(3)))
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3750,7 +3745,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3842,18 +3837,18 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(17);
-exports.encode = exports.stringify = __webpack_require__(18);
+exports.decode = exports.parse = __webpack_require__(16);
+exports.encode = exports.stringify = __webpack_require__(17);
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// prototype class for hash functions
@@ -3929,7 +3924,7 @@ module.exports = Hash
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer))
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {/**
@@ -3940,8 +3935,8 @@ module.exports = Hash
  *
  */
 
-var inherits = __webpack_require__(14)
-var Hash = __webpack_require__(20)
+var inherits = __webpack_require__(13)
+var Hash = __webpack_require__(19)
 
 var K = [
   0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
@@ -4070,7 +4065,7 @@ module.exports = Sha256
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer))
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4097,8 +4092,8 @@ module.exports = Sha256
 
 
 
-var punycode = __webpack_require__(16);
-var util = __webpack_require__(23);
+var punycode = __webpack_require__(15);
+var util = __webpack_require__(22);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -4173,7 +4168,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(19);
+    querystring = __webpack_require__(18);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -4809,7 +4804,7 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4832,7 +4827,7 @@ module.exports = {
 
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -4860,7 +4855,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports) {
 
 module.exports = WebSocket;

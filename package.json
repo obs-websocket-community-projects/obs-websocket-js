@@ -6,10 +6,11 @@
   "repository": "haganbmj/obs-websocket-js",
   "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run static",
     "grunt": "grunt",
     "build": "grunt",
-    "watch": "grunt watch"
+    "watch": "grunt watch",
+    "static": "eslint ."
   },
   "keywords": [
     "obs",
@@ -26,6 +27,8 @@
     "ws": "^1.1.1"
   },
   "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-xo-space": "^0.16.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
@@ -38,6 +41,9 @@
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "a73b5fe3134bdb667cea5d267211cdcdf70968c9",
-  "timestamp": "2017-04-26 13:28:49+00:00"
+  "sha": "8dba891612ab2f8f2281596463555e63d80a3251",
+  "timestamp": "2017-04-26 14:14:15+00:00",
+  "eslintConfig": {
+    "extends": "xo-space/esnext"
+  }
 }

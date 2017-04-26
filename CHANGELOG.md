@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- \[Style\] Consider using ESlint instead of jshint [\#27](https://github.com/haganbmj/obs-websocket-js/issues/27)
 - \[Docs\] Update Readme and Code Samples [\#19](https://github.com/haganbmj/obs-websocket-js/issues/19)
 
 **Closed issues:**
@@ -15,6 +16,7 @@
 **Merged pull requests:**
 
 - \[Docs\] Add agdq17-layouts to projects list [\#31](https://github.com/haganbmj/obs-websocket-js/pull/31) ([Lange](https://github.com/Lange))
+- \[Style\] Adopt eslint-config-xo-space/esnext [\#30](https://github.com/haganbmj/obs-websocket-js/pull/30) ([Lange](https://github.com/Lange))
 - \[CI\] Update Travis Scripts to Ensure updated Distributable [\#28](https://github.com/haganbmj/obs-websocket-js/pull/28) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.4.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.4.0) (2017-04-23)
