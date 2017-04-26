@@ -66,35 +66,64 @@ obs.on('AuthenticationSuccess', callback(err, data));
 obs.on('AuthenticationFailure', callback(err, data));
 ```
 
+#### Handling Errors
+By default, certain types of WebSocket errors will be thrown as uncaught exceptions.
+To ensure that you are handling every error, you must do the following:
+1. Add a `.catch()` handler to every returned Promise.
+2. Add a `error` event listener to the `OBSWebSocket` object.
+
 #### Example
 ```js
 const OBSWebSocket = require('obs-websocket-js');
 
-const obs = new OBSWebSocket('localhost:4444', '$up3rSecretP@ssw0rd');
-
-obs.onAuthenticationSuccess((err, data) => {
-  console.log("Success! We're Authenticated.");
-
-  obs.getSceneList({})
-    .then((data) => {
-      console.log(data.scenes.length + ' Available Scenes!');
-
-      data.scenes.forEach((scene) => {
-        if (scene.name != data.currentScene) {
-          console.log('Found a different scene! Switching to Scene:', scene.name);
-          obs.SetCurrentScene({ 'scene-name': scene.name });
-        }
-      });
-    })
-    .catch((err) => {
-      console.log(err);
+const obs = new OBSWebSocket();
+obs.connect('localhost:4444', '$up3rSecretP@ssw0rd')
+  .then(() => {
+	  console.log('Success! We\'re connected & authenticated.');
+	  return obs.getSceneList({});
+  })
+  .then(data => {
+  	console.log(`${data.scenes.length} Available Scenes!`);
+    data.scenes.forEach(scene => {
+      if (scene.name !== data.currentScene) {
+        console.log('Found a different scene! Switching to Scene:', scene.name);
+        obs.setCurrentScene({'scene-name': scene.name});
+      }
     });
-});
+  })
+  .catch(err => { // Ensure that you add a catch handler to every Promise chain.
+    console.log(err);
+  });
 
 obs.onSwitchScenes((err, data) => {
-  console.log('New Active Scene: ', data.sceneName);
+  console.log('New Active Scene:', data.sceneName);
+});
+
+// You must add this handler to avoid uncaught exceptions.
+obs.on('error', err => {
+	console.error('socket error:', err);
 });
 ```
+
+#### Debugging
+To enable debug logging, set the `DEBUG` environment variable:
+```bash
+# Enables debug logging for all modules of osb-websocket-js
+DEBUG=obs-websocket-js:*
+
+# on Windows
+set DEBUG=obs-websocket-js:*
+```
+
+If you have multiple libraries or application which use the `DEBUG` environment variable, they can be joined with commas:
+```bash
+DEBUG=foo,bar:*,obs-websocket-js:*
+
+# on Windows
+set DEBUG=foo,bar:*,obs-websocket-js:*
+```
+
+For more information, see the [`debug`][link-debug] documentation.
 
 ## TODOs
 - Unit testing / Socket mocking.
@@ -121,3 +150,4 @@ _To add your project to this list, submit a Pull Request._
   [link-samples]: https://github.com/haganbmj/obs-websocket-js/tree/master/samples "Samples"
   [link-changelog]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/CHANGELOG.md "Changelog"
   [link-contributing]: .github/CONTRIBUTING.md "Contributing"
+  [link-debug]: https://github.com/visionmedia/debug "Debug Documentation"

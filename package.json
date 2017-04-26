@@ -22,7 +22,7 @@
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
   "dependencies": {
-    "loglevel": "^1.4.1",
+    "debug": "^2.6.4",
     "sha.js": "^2.4.8",
     "ws": "^1.1.1"
   },
@@ -41,8 +41,8 @@
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "8dba891612ab2f8f2281596463555e63d80a3251",
-  "timestamp": "2017-04-26 14:14:15+00:00",
+  "sha": "bc172039b656099e8dcba9bab04e48b84d9dc9b3",
+  "timestamp": "2017-04-26 19:51:41+00:00",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   }

@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.4.1
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build SHA: 8dba891612ab2f8f2281596463555e63d80a3251
- * Build Timestamp: 2017-04-26 14:14:15+00:00
+ * Build SHA: bc172039b656099e8dcba9bab04e48b84d9dc9b3
+ * Build Timestamp: 2017-04-26 19:51:41+00:00
  */
 
 var OBSWebSocket =
@@ -72,241 +72,200 @@ var OBSWebSocket =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
-* loglevel - https://github.com/pimterry/loglevel
-*
-* Copyright (c) 2013 Tim Perry
-* Licensed under the MIT license.
-*/
-(function (root, definition) {
-    "use strict";
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_FACTORY__ = (definition),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else if (typeof module === 'object' && module.exports) {
-        module.exports = definition();
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = __webpack_require__(12);
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window && typeof window.process !== 'undefined' && window.process.type === 'renderer') {
+    return true;
+  }
+
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && document && 'WebkitAppearance' in document.documentElement.style) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (typeof window !== 'undefined' && window && window.console && (console.firebug || (console.exception && console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+    // double check webkit in userAgent just in case we are in a worker
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return;
+
+  var c = 'color: ' + this.color;
+  args.splice(1, 0, c, 'color: inherit')
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
     } else {
-        root.log = definition();
+      exports.storage.debug = namespaces;
     }
-}(this, function () {
-    "use strict";
-    var noop = function() {};
-    var undefinedType = "undefined";
+  } catch(e) {}
+}
 
-    function realMethod(methodName) {
-        if (typeof console === undefinedType) {
-            return false; // We can't build a real method without a console to log to
-        } else if (console[methodName] !== undefined) {
-            return bindMethod(console, methodName);
-        } else if (console.log !== undefined) {
-            return bindMethod(console, 'log');
-        } else {
-            return noop;
-        }
-    }
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
 
-    function bindMethod(obj, methodName) {
-        var method = obj[methodName];
-        if (typeof method.bind === 'function') {
-            return method.bind(obj);
-        } else {
-            try {
-                return Function.prototype.bind.call(method, obj);
-            } catch (e) {
-                // Missing bind shim or IE8 + Modernizr, fallback to wrapping
-                return function() {
-                    return Function.prototype.apply.apply(method, [obj, arguments]);
-                };
-            }
-        }
-    }
+function load() {
+  var r;
+  try {
+    r = exports.storage.debug;
+  } catch(e) {}
 
-    // these private functions always need `this` to be set properly
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
+  }
 
-    function enableLoggingWhenConsoleArrives(methodName, level, loggerName) {
-        return function () {
-            if (typeof console !== undefinedType) {
-                replaceLoggingMethods.call(this, level, loggerName);
-                this[methodName].apply(this, arguments);
-            }
-        };
-    }
+  return r;
+}
 
-    function replaceLoggingMethods(level, loggerName) {
-        /*jshint validthis:true */
-        for (var i = 0; i < logMethods.length; i++) {
-            var methodName = logMethods[i];
-            this[methodName] = (i < level) ?
-                noop :
-                this.methodFactory(methodName, level, loggerName);
-        }
-    }
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
 
-    function defaultMethodFactory(methodName, level, loggerName) {
-        /*jshint validthis:true */
-        return realMethod(methodName) ||
-               enableLoggingWhenConsoleArrives.apply(this, arguments);
-    }
+exports.enable(load());
 
-    var logMethods = [
-        "trace",
-        "debug",
-        "info",
-        "warn",
-        "error"
-    ];
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
 
-    function Logger(name, defaultLevel, factory) {
-      var self = this;
-      var currentLevel;
-      var storageKey = "loglevel";
-      if (name) {
-        storageKey += ":" + name;
-      }
+function localstorage() {
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
 
-      function persistLevelIfPossible(levelNum) {
-          var levelName = (logMethods[levelNum] || 'silent').toUpperCase();
-
-          // Use localStorage if available
-          try {
-              window.localStorage[storageKey] = levelName;
-              return;
-          } catch (ignore) {}
-
-          // Use session cookie as fallback
-          try {
-              window.document.cookie =
-                encodeURIComponent(storageKey) + "=" + levelName + ";";
-          } catch (ignore) {}
-      }
-
-      function getPersistedLevel() {
-          var storedLevel;
-
-          try {
-              storedLevel = window.localStorage[storageKey];
-          } catch (ignore) {}
-
-          if (typeof storedLevel === undefinedType) {
-              try {
-                  var cookie = window.document.cookie;
-                  var location = cookie.indexOf(
-                      encodeURIComponent(storageKey) + "=");
-                  if (location) {
-                      storedLevel = /^([^;]+)/.exec(cookie.slice(location))[1];
-                  }
-              } catch (ignore) {}
-          }
-
-          // If the stored level is not valid, treat it as if nothing was stored.
-          if (self.levels[storedLevel] === undefined) {
-              storedLevel = undefined;
-          }
-
-          return storedLevel;
-      }
-
-      /*
-       *
-       * Public API
-       *
-       */
-
-      self.levels = { "TRACE": 0, "DEBUG": 1, "INFO": 2, "WARN": 3,
-          "ERROR": 4, "SILENT": 5};
-
-      self.methodFactory = factory || defaultMethodFactory;
-
-      self.getLevel = function () {
-          return currentLevel;
-      };
-
-      self.setLevel = function (level, persist) {
-          if (typeof level === "string" && self.levels[level.toUpperCase()] !== undefined) {
-              level = self.levels[level.toUpperCase()];
-          }
-          if (typeof level === "number" && level >= 0 && level <= self.levels.SILENT) {
-              currentLevel = level;
-              if (persist !== false) {  // defaults to true
-                  persistLevelIfPossible(level);
-              }
-              replaceLoggingMethods.call(self, level, name);
-              if (typeof console === undefinedType && level < self.levels.SILENT) {
-                  return "No console available for logging";
-              }
-          } else {
-              throw "log.setLevel() called with invalid level: " + level;
-          }
-      };
-
-      self.setDefaultLevel = function (level) {
-          if (!getPersistedLevel()) {
-              self.setLevel(level, false);
-          }
-      };
-
-      self.enableAll = function(persist) {
-          self.setLevel(self.levels.TRACE, persist);
-      };
-
-      self.disableAll = function(persist) {
-          self.setLevel(self.levels.SILENT, persist);
-      };
-
-      // Initialize with the right level
-      var initialLevel = getPersistedLevel();
-      if (initialLevel == null) {
-          initialLevel = defaultLevel == null ? "WARN" : defaultLevel;
-      }
-      self.setLevel(initialLevel, false);
-    }
-
-    /*
-     *
-     * Package-level API
-     *
-     */
-
-    var defaultLogger = new Logger();
-
-    var _loggersByName = {};
-    defaultLogger.getLogger = function getLogger(name) {
-        if (typeof name !== "string" || name === "") {
-          throw new TypeError("You must supply a name when creating a logger.");
-        }
-
-        var logger = _loggersByName[name];
-        if (!logger) {
-          logger = _loggersByName[name] = new Logger(
-            name, defaultLogger.getLevel(), defaultLogger.methodFactory);
-        }
-        return logger;
-    };
-
-    // Grab the current global log variable in case of overwrite
-    var _log = (typeof window !== undefinedType) ? window.log : undefined;
-    defaultLogger.noConflict = function() {
-        if (typeof window !== undefinedType &&
-               window.log === defaultLogger) {
-            window.log = _log;
-        }
-
-        return defaultLogger;
-    };
-
-    return defaultLogger;
-}));
-
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ }),
 /* 1 */
@@ -347,6 +306,29 @@ module.exports = {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+/**
+ * Disambiguates an "error" and formats it nicely for `debug` output.
+ * Particularly useful when dealing with error response objects from obs-websocket,
+ * which are not actual Error-type errors, but simply Objects.
+ * @param debug - A `debug` instance.
+ * @param prefix - A string to print in front of the formatted error.
+ * @param error - An error of ambiguous type that you wish to log to `debug`. Can be an Error, Object, or String.
+ */
+module.exports = function (debug, prefix, error) {
+  if (error && error.stack) {
+    debug(`${prefix}\n %O`, error.stack);
+  } else if (typeof error === 'object') {
+    debug(`${prefix} %o`, error);
+  } else {
+    debug(`${prefix} %s`, error);
+  }
+};
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -360,9 +342,9 @@ module.exports = {
 
 
 
-var base64 = __webpack_require__(10)
-var ieee754 = __webpack_require__(12)
-var isArray = __webpack_require__(14)
+var base64 = __webpack_require__(11)
+var ieee754 = __webpack_require__(14)
+var isArray = __webpack_require__(16)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -2140,10 +2122,10 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 var g;
@@ -2170,12 +2152,12 @@ module.exports = g;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Socket = __webpack_require__(8);
+const Socket = __webpack_require__(9);
 const Status = __webpack_require__(1);
-const log = __webpack_require__(0);
+const debug = __webpack_require__(0)('obs-websocket-js:Core');
 
 let requestCounter = 0;
 
@@ -2184,10 +2166,8 @@ function generateMessageId() {
 }
 
 class OBSWebSocket extends Socket {
-  constructor(address, password) {
-    super(address, password);
-
-    this.logger = log;
+  constructor() {
+    super();
 
     // Bind all event emissions from the socket such that they are marshaled an re-emit at the base OBSWebSocket scope.
     this.on('obs:internal:event', this._handleEvent);
@@ -2200,8 +2180,15 @@ class OBSWebSocket extends Socket {
     args = args || {};
 
     return new Promise((resolve, reject) => {
+      if (!this._connected) {
+        debug('[send] %s', Status.NOT_CONNECTED.description);
+        this._doCallback(callback, Status.wrap(Status.NOT_CONNECTED), null);
+        reject(Status.wrap(Status.NOT_CONNECTED));
+        return;
+      }
+
       if (!requestType) {
-        log.error('[Core:send]', Status.REQUEST_TYPE_NOT_SPECIFIED.description);
+        debug('[send] %s', Status.REQUEST_TYPE_NOT_SPECIFIED.description);
         this._doCallback(callback, Status.wrap(Status.REQUEST_TYPE_NOT_SPECIFIED), null);
         reject(Status.wrap(Status.REQUEST_TYPE_NOT_SPECIFIED));
         return;
@@ -2212,20 +2199,24 @@ class OBSWebSocket extends Socket {
       const messageId = args['message-id'] = generateMessageId(); // eslint-disable-line no-multi-assign
 
       // Submit the request to the websocket.
-      log.debug('[Core:send]', messageId, requestType, args);
-      this._socket.send(JSON.stringify(args));
+      debug('[send] %s %s %o', messageId, requestType, args);
+      try {
+        this._socket.send(JSON.stringify(args));
+      } catch (e) {
+        reject(e);
+      }
 
-      // Asign a temporary event listener for this particular messageId to uniquely identify the response.
+      // Assign a temporary event listener for this particular messageId to uniquely identify the response.
       this.once('obs:internal:message:id-' + messageId, message => {
         // TODO: Do additional stuff with the msg to determine errors, marshaling, etc.
         // message = API.marshalResponse(requestType, message);
 
         if (message.status === 'error') {
-          log.error('[Core:send:Response:reject]', message);
+          debug('[send:Response:reject] %o', message);
           this._doCallback(callback, message, null);
           reject(message);
         } else {
-          log.debug('[Core:send:Response:resolve]', message);
+          debug('[send:Response:resolve] %o', message);
           this._doCallback(callback, null, message);
           resolve(message);
         }
@@ -2240,20 +2231,20 @@ class OBSWebSocket extends Socket {
   }
 }
 
-__webpack_require__(9)(OBSWebSocket);
+__webpack_require__(10)(OBSWebSocket);
 
 module.exports = OBSWebSocket;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(5);
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // Last Updated: April 22, 2017
@@ -2289,10 +2280,10 @@ module.exports = API;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const SHA256 = __webpack_require__(20);
+const SHA256 = __webpack_require__(24);
 
 class AuthHashing {
   constructor(salt, challenge) {
@@ -2319,16 +2310,16 @@ module.exports = AuthHashing;
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const WebSocket = __webpack_require__(24);
-const EventEmitter = __webpack_require__(11);
-const AuthHashing = __webpack_require__(7);
+const WebSocket = __webpack_require__(28);
+const EventEmitter = __webpack_require__(13);
+const AuthHashing = __webpack_require__(8);
 const Status = __webpack_require__(1);
-const url = __webpack_require__(21);
-const log = __webpack_require__(0);
-log.setLevel('info');
+const url = __webpack_require__(25);
+const debug = __webpack_require__(0)('obs-websocket-js:Socket');
+const logAmbiguousError = __webpack_require__(2);
 
 const NOP = function () {};
 
@@ -2357,24 +2348,16 @@ function camelCaseKeys(obj) {
 }
 
 class Socket extends EventEmitter {
-  constructor(address = 'localhost', password = '') {
+  constructor() {
     super();
     this._connected = false;
     this._socket = undefined;
 
     const originalEmit = this.emit;
     this.emit = function () {
-      log.debug('[Socket:emit]', arguments[0], arguments[1]);
+      debug('[emit] %s %o', arguments[0], arguments[1]);
       originalEmit.apply(this, arguments);
     };
-
-    this.connect({address})
-      .then(() => {
-        this.authenticate({password});
-      })
-      .catch(err => {
-        log.error('Connection or Authentication failed.', err);
-      });
   }
 
   _doCallback(callback, err, data) {
@@ -2383,54 +2366,32 @@ class Socket extends EventEmitter {
     try {
       callback(err, data);
     } catch (e) {
-      log.error('Unable to resolve callback.', e);
+      logAmbiguousError(debug, 'Unable to resolve callback:', e);
+      this.emit('error', e); // Forward the error so that we're not completely swallowing it.
     }
   }
 
-  // TODO: Break this up a bit.
-  // TODO: Clean up callbacks.
-  connect(args = {}, callback) {
-    args = args || {};
-    let address = args.address || 'localhost';
+  async connect(args = {}, callback) {
+    try {
+      args = args || {};
+      let address = args.address || 'localhost';
 
-    if (!url.parse(address).port) {
-      address += ':' + DEFAULT_PORT;
-    }
+      if (!url.parse(address).port) {
+        address += ':' + DEFAULT_PORT;
+      }
 
-    if (this._connected) {
-      this._socket.close();
-      this._connected = false;
-    }
-
-    return new Promise((resolve, reject) => {
-      log.info('Attempting to connect to:', address);
-      this._socket = new WebSocket('ws://' + address);
-
-      this._socket.onopen = () => {
-        this._connected = true;
-        log.info('Connection opened:', address);
-        this.emit('obs:internal:event', {updateType: 'ConnectionOpened'});
-        this._doCallback(callback, null, true);
-        resolve();
-      };
-
-      this._socket.onclose = () => {
+      if (this._connected) {
+        this._socket.close();
         this._connected = false;
-        log.info('Connection closed:', address);
-        this.emit('obs:internal:event', {updateType: 'ConnectionClosed'});
-      };
+      }
 
-      this._socket.onerror = evt => {
-        this._connected = false;
-        log.error('Connected failed.', evt.code);
-        this._doCallback(callback, true, null);
-        reject(evt);
-      };
+      await this._connect(address);
+      this._connected = true;
 
-      this._socket.onmessage = msg => {
-        log.debug('[Socket:OnMessage]', msg);
-
-        const data = camelCaseKeys(JSON.parse(msg.data));
+      // This handler must be present before we can call _authenticate.
+      this._socket.on('message', data => {
+        debug('[OnMessage]: %o', data);
+        data = camelCaseKeys(JSON.parse(data));
 
         // Emit the message with ID if available, otherwise default to a non-messageId driven event.
         if (data.messageId) {
@@ -2438,16 +2399,71 @@ class Socket extends EventEmitter {
         } else {
           this.emit('obs:internal:event', data);
         }
-      };
+      });
+
+      await this._authenticate(args.password);
+
+      this._socket.once('close', () => {
+        this._connected = false;
+        debug('Connection closed: %s', address);
+        this.emit('obs:internal:event', {updateType: 'ConnectionClosed'});
+      });
+
+      debug('Connection opened: %s', address);
+      this.emit('obs:internal:event', {updateType: 'ConnectionOpened'});
+      this._doCallback(callback);
+    } catch (err) {
+      this._connected = false;
+      logAmbiguousError(debug, 'Connection failed:', err);
+      this._socket.close();
+      this._doCallback(callback, err);
+      return Promise.reject(err);
+    }
+  }
+
+  /**
+   * Opens a WebSocket connection to an obs-websocket server, but does not attempt any authentication.
+   * @param address {String}
+   * @returns {Promise}
+   * @private
+   */
+  _connect(address) {
+    return new Promise((resolve, reject) => {
+      let settled = false;
+
+      debug('Attempting to connect to: %s', address);
+      this._socket = new WebSocket('ws://' + address);
+
+      // We only handle initial connection errors.
+      // Beyond that, the consumer is responsible for adding their own `error` event listener.
+      this._socket.once('error', error => {
+        if (settled) {
+          return;
+        }
+
+        settled = true;
+        reject(error);
+      });
+
+      this._socket.once('open', () => {
+        if (settled) {
+          return;
+        }
+
+        settled = true;
+        resolve();
+      });
     });
   }
 
-  authenticate(args = {}, callback) {
-    args = args || {};
-    args.password = args.password || '';
-
+  /**
+   * Authenticates to an obs-websocket server. Must already have an active connection before calling this method.
+   * @param [password=''] {String}
+   * @returns {Promise}
+   * @private
+   */
+  _authenticate(password = '') {
     if (!this._connected) {
-      this._doCallback(callback, Status.wrap(Status.NOT_CONNECTED), null);
       return Promise.reject(Status.wrap(Status.NOT_CONNECTED));
     }
 
@@ -2462,23 +2478,15 @@ class Socket extends EventEmitter {
         // Return early if authentication is not necessary.
         if (!AUTH.required) {
           this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
-          this._doCallback(callback, null, Status.wrap(Status.AUTH_NOT_REQUIRED));
           return Promise.resolve(Status.wrap(Status.AUTH_NOT_REQUIRED));
         }
 
-        const params = {
-          auth: new AuthHashing(AUTH.salt, AUTH.challenge).hash(args.password)
-        };
-
-        return this.send('Authenticate', params, callback)
-          .then(() => {
-            log.debug('Authentification Success.');
-            this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
-          })
-          .catch(() => {
-            log.error('Authentication Failure.');
-            this.emit('obs:internal:event', {updateType: 'AuthenticationFailure'});
-          });
+        return this.send('Authenticate', {
+          auth: new AuthHashing(AUTH.salt, AUTH.challenge).hash(password)
+        }).then(() => {
+          debug('Authentification Success.');
+          this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
+        });
       });
   }
 
@@ -2489,7 +2497,7 @@ class Socket extends EventEmitter {
    * @category request
    */
   disconnect() {
-    log.debug('Disconnect requested.');
+    debug('Disconnect requested.');
     this._socket.close();
   }
 }
@@ -2498,11 +2506,12 @@ module.exports = Socket;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const API = __webpack_require__(6);
-const log = __webpack_require__(0);
+const API = __webpack_require__(7);
+const debug = __webpack_require__(0)('obs-websocket-js:api');
+const logAmbiguousError = __webpack_require__(2);
 
 const eventCallbacks = {};
 
@@ -2510,7 +2519,7 @@ function iterateEventCallbacks(callbacks, err, data) {
   for (const callback in callbacks) {
     if (typeof callbacks[callback] === 'function') {
       if (err) {
-        log.error(err);
+        logAmbiguousError(debug, 'Callback error:', err);
       }
       callbacks[callback](err, data);
     }
@@ -2556,7 +2565,7 @@ module.exports = methodBinding;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2677,7 +2686,215 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
+exports.coerce = coerce;
+exports.disable = disable;
+exports.enable = enable;
+exports.enabled = enabled;
+exports.humanize = __webpack_require__(17);
+
+/**
+ * The currently active debug mode names, and names to skip.
+ */
+
+exports.names = [];
+exports.skips = [];
+
+/**
+ * Map of special "%n" handling functions, for the debug "format" argument.
+ *
+ * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+ */
+
+exports.formatters = {};
+
+/**
+ * Previous log timestamp.
+ */
+
+var prevTime;
+
+/**
+ * Select a color.
+ * @param {String} namespace
+ * @return {Number}
+ * @api private
+ */
+
+function selectColor(namespace) {
+  var hash = 0, i;
+
+  for (i in namespace) {
+    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+
+  return exports.colors[Math.abs(hash) % exports.colors.length];
+}
+
+/**
+ * Create a debugger with the given `namespace`.
+ *
+ * @param {String} namespace
+ * @return {Function}
+ * @api public
+ */
+
+function createDebug(namespace) {
+
+  function debug() {
+    // disabled?
+    if (!debug.enabled) return;
+
+    var self = debug;
+
+    // set `diff` timestamp
+    var curr = +new Date();
+    var ms = curr - (prevTime || curr);
+    self.diff = ms;
+    self.prev = prevTime;
+    self.curr = curr;
+    prevTime = curr;
+
+    // turn the `arguments` into a proper Array
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+
+    args[0] = exports.coerce(args[0]);
+
+    if ('string' !== typeof args[0]) {
+      // anything else let's inspect with %O
+      args.unshift('%O');
+    }
+
+    // apply any `formatters` transformations
+    var index = 0;
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
+      // if we encounter an escaped % then don't increase the array index
+      if (match === '%%') return match;
+      index++;
+      var formatter = exports.formatters[format];
+      if ('function' === typeof formatter) {
+        var val = args[index];
+        match = formatter.call(self, val);
+
+        // now we need to remove `args[index]` since it's inlined in the `format`
+        args.splice(index, 1);
+        index--;
+      }
+      return match;
+    });
+
+    // apply env-specific formatting (colors, etc.)
+    exports.formatArgs.call(self, args);
+
+    var logFn = debug.log || exports.log || console.log.bind(console);
+    logFn.apply(self, args);
+  }
+
+  debug.namespace = namespace;
+  debug.enabled = exports.enabled(namespace);
+  debug.useColors = exports.useColors();
+  debug.color = selectColor(namespace);
+
+  // env-specific initialization logic for debug instances
+  if ('function' === typeof exports.init) {
+    exports.init(debug);
+  }
+
+  return debug;
+}
+
+/**
+ * Enables a debug mode by namespaces. This can include modes
+ * separated by a colon and wildcards.
+ *
+ * @param {String} namespaces
+ * @api public
+ */
+
+function enable(namespaces) {
+  exports.save(namespaces);
+
+  exports.names = [];
+  exports.skips = [];
+
+  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+  var len = split.length;
+
+  for (var i = 0; i < len; i++) {
+    if (!split[i]) continue; // ignore empty strings
+    namespaces = split[i].replace(/\*/g, '.*?');
+    if (namespaces[0] === '-') {
+      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+    } else {
+      exports.names.push(new RegExp('^' + namespaces + '$'));
+    }
+  }
+}
+
+/**
+ * Disable debug output.
+ *
+ * @api public
+ */
+
+function disable() {
+  exports.enable('');
+}
+
+/**
+ * Returns true if the given mode name is enabled, false otherwise.
+ *
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
+
+function enabled(name) {
+  var i, len;
+  for (i = 0, len = exports.skips.length; i < len; i++) {
+    if (exports.skips[i].test(name)) {
+      return false;
+    }
+  }
+  for (i = 0, len = exports.names.length; i < len; i++) {
+    if (exports.names[i].test(name)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Coerce `val`.
+ *
+ * @param {Mixed} val
+ * @return {Mixed}
+ * @api private
+ */
+
+function coerce(val) {
+  if (val instanceof Error) return val.stack || val.message;
+  return val;
+}
+
+
+/***/ }),
+/* 13 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -2985,7 +3202,7 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -3075,7 +3292,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -3104,7 +3321,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -3115,7 +3332,348 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 15 */
+/* 17 */
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000
+var m = s * 60
+var h = m * 60
+var d = h * 24
+var y = d * 365.25
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {}
+  var type = typeof val
+  if (type === 'string' && val.length > 0) {
+    return parse(val)
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ?
+			fmtLong(val) :
+			fmtShort(val)
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+}
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str)
+  if (str.length > 10000) {
+    return
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+  if (!match) {
+    return
+  }
+  var n = parseFloat(match[1])
+  var type = (match[2] || 'ms').toLowerCase()
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n
+    default:
+      return undefined
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd'
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h'
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm'
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's'
+  }
+  return ms + 'ms'
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms'
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's'
+}
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/punycode v1.4.1 by @mathias */
@@ -3651,10 +4209,10 @@ module.exports = Array.isArray || function (arr) {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)(module), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)(module), __webpack_require__(4)))
 
 /***/ }),
-/* 16 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3745,7 +4303,7 @@ var isArray = Array.isArray || function (xs) {
 
 
 /***/ }),
-/* 17 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3837,18 +4395,18 @@ var objectKeys = Object.keys || function (obj) {
 
 
 /***/ }),
-/* 18 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.decode = exports.parse = __webpack_require__(16);
-exports.encode = exports.stringify = __webpack_require__(17);
+exports.decode = exports.parse = __webpack_require__(20);
+exports.encode = exports.stringify = __webpack_require__(21);
 
 
 /***/ }),
-/* 19 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// prototype class for hash functions
@@ -3921,10 +4479,10 @@ Hash.prototype._update = function () {
 
 module.exports = Hash
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3).Buffer))
 
 /***/ }),
-/* 20 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {/**
@@ -3935,8 +4493,8 @@ module.exports = Hash
  *
  */
 
-var inherits = __webpack_require__(13)
-var Hash = __webpack_require__(19)
+var inherits = __webpack_require__(15)
+var Hash = __webpack_require__(23)
 
 var K = [
   0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
@@ -4062,10 +4620,10 @@ Sha256.prototype._hash = function () {
 
 module.exports = Sha256
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3).Buffer))
 
 /***/ }),
-/* 21 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4092,8 +4650,8 @@ module.exports = Sha256
 
 
 
-var punycode = __webpack_require__(15);
-var util = __webpack_require__(22);
+var punycode = __webpack_require__(19);
+var util = __webpack_require__(26);
 
 exports.parse = urlParse;
 exports.resolve = urlResolve;
@@ -4168,7 +4726,7 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i,
       'gopher:': true,
       'file:': true
     },
-    querystring = __webpack_require__(18);
+    querystring = __webpack_require__(22);
 
 function urlParse(url, parseQueryString, slashesDenoteHost) {
   if (url && util.isObject(url) && url instanceof Url) return url;
@@ -4804,7 +5362,7 @@ Url.prototype.parseHost = function() {
 
 
 /***/ }),
-/* 22 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4827,7 +5385,7 @@ module.exports = {
 
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -4855,7 +5413,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 24 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = WebSocket;

@@ -11,10 +11,12 @@
 
 **Closed issues:**
 
+- \[Log\] Silence logging by default [\#32](https://github.com/haganbmj/obs-websocket-js/issues/32)
 - \[CI\] Update Travis Scripts to Ensure updated Distributable [\#24](https://github.com/haganbmj/obs-websocket-js/issues/24)
 
 **Merged pull requests:**
 
+- Several fixes and refactors [\#33](https://github.com/haganbmj/obs-websocket-js/pull/33) ([Lange](https://github.com/Lange))
 - \[Docs\] Add agdq17-layouts to projects list [\#31](https://github.com/haganbmj/obs-websocket-js/pull/31) ([Lange](https://github.com/Lange))
 - \[Style\] Adopt eslint-config-xo-space/esnext [\#30](https://github.com/haganbmj/obs-websocket-js/pull/30) ([Lange](https://github.com/Lange))
 - \[CI\] Update Travis Scripts to Ensure updated Distributable [\#28](https://github.com/haganbmj/obs-websocket-js/pull/28) ([haganbmj](https://github.com/haganbmj))
