@@ -1,6 +1,6 @@
 {
   "name": "obs-websocket-js",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "OBS Websocket API in Javascript",
   "main": "index.js",
   "repository": "haganbmj/obs-websocket-js",
@@ -38,6 +38,6 @@
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "local build",
-  "timestamp": "local build"
+  "sha": "Local Build",
+  "timestamp": "Local Build"
 }
