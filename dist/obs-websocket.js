@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.4.1
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build SHA: f200fd9ab62558d27129dacc3d76c8eb7054af9e
- * Build Timestamp: 2017-04-26 21:41:35+00:00
+ * Build SHA: 0bddbe5ef582669f6a62795f1c602f59ce57e709
+ * Build Timestamp: 2017-04-26 23:03:17+00:00
  */
 
 var OBSWebSocket =
@@ -2471,7 +2471,9 @@ class Socket extends EventEmitter {
    */
   disconnect() {
     debug('Disconnect requested.');
-    this._socket.close();
+    if (this._socket) {
+      this._socket.close();
+    }
   }
 }
 

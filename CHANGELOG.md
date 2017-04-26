@@ -10,6 +10,10 @@
 - \[Test\] Basic Unit Testing [\#22](https://github.com/haganbmj/obs-websocket-js/issues/22)
 - \[Docs\] Update Readme and Code Samples [\#19](https://github.com/haganbmj/obs-websocket-js/issues/19)
 
+**Fixed bugs:**
+
+- \[API\] Fix errors caused when .disconnect is called at the wrong time [\#37](https://github.com/haganbmj/obs-websocket-js/pull/37) ([Lange](https://github.com/Lange))
+
 **Closed issues:**
 
 - \[Log\] Silence logging by default [\#32](https://github.com/haganbmj/obs-websocket-js/issues/32)
