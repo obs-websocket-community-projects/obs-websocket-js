@@ -1,6 +1,8 @@
 .github
+.travis
 samples
 
-.gh-pages.gitignore
+.editorconfig
+.jshintrc
 .travis.yml
 bower.json

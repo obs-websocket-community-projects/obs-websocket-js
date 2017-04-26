@@ -10,9 +10,9 @@ module.exports = function(grunt) {
     banner: '/*\n' +
     ' * OBS WebSocket Javascript API (<%= pkg.name %>) v<%= pkg.version %>\n' +
     ' * Author: <%= pkg.author %>\n' +
-    ' * Repo: <%= pkg.repoUrl %>\n' +
-    ' * SHA: <%= pkg.sha %>\n' +
-    ' * Timestamp: <%= pkg.timestamp %>\n' +
+    ' * Repository: <%= pkg.repoUrl %>\n' +
+    ' * Build SHA: <%= pkg.sha %>\n' +
+    ' * Build Timestamp: <%= pkg.timestamp %>\n' +
     ' */\n\n',
 
     webpack: {
