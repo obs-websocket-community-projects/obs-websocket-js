@@ -2,31 +2,35 @@
 
 *OBSWebSocket.JS allows Javascript-based connections to [obs-websocket](https://github.com/Palakis/obs-websocket).*
 
-[![Build Status][badge-build-status]][Travis-CI] [![Latest release][badge-release]][Releases] [![Latest Tag][badge-tag]][Tags]
+[![Build Status][badge-build-status]][link-Travis-CI] [![Latest release][badge-release]][link-releases] [![Latest Tag][badge-tag]][link-tags]
 
-###### [Download][Download] | ~~[Documentation](https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/dist/DOCUMENTATION.md)~~ | ~~[Examples](https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/samples)~~
+##### [Download][link-download] | ~~[Documentation][link-documentation]~~ | ~~[Examples][link-examples]~~
+
+## [Changelog][link-changelog]
 
 ## Installation
 ```
 npm install obs-websocket-js --save
+
+<script type='text/javascript' src='./dist/obs-websocket.js'></script>
 ```
 
 ## TODOs
-- Travis auto deployments of pre-release and release versions, generation of documentation to gh-pages.
 - Unit testing / Socket mocking.
 
-## [Changelog][Changelog]
-
-## [Contributing][Contributing]
+## [Contributing Guidelines][link-contributing]
 
 
 
-  [Releases]:  https://github.com/haganbmj/obs-websocket-js/releases "obs-websocket-js Releases"
-  [Tags]: https://github.com/haganbmj/obs-websocket-js/tags "obs-websocket-js Tags"
-  [Travis-CI]: https://travis-ci.org/haganbmj/obs-websocket-js "Travis CI"
+  [link-Travis-CI]: https://travis-ci.org/haganbmj/obs-websocket-js "Travis CI"
   [badge-build-status]: https://img.shields.io/travis/haganbmj/obs-websocket-js/master.svg?style=flat "Travis Status"
   [badge-tag]: https://img.shields.io/github/tag/haganbmj/obs-websocket-js.svg?style=flat "Latest Tag"
   [badge-release]: https://img.shields.io/github/release/haganbmj/obs-websocket-js.svg?style=flat "Latest Release"
-  [Download]: https://haganbmj.github.io/obs-websocket-js/dist/obs-websocket.js "Download"
-  [Contributing]: .github/CONTRIBUTING.md "Contributing"
-  [Changelog]: .github/CHANGELOG.md "Changelog"
+
+  [link-releases]:  https://github.com/haganbmj/obs-websocket-js/releases "obs-websocket-js Releases"
+  [link-tags]: https://github.com/haganbmj/obs-websocket-js/tags "obs-websocket-js Tags"
+  [link-download]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/dist/obs-websocket.js "Download"
+  [link-documentation]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/DOCUMENTATION.md "Documentation"
+  [link-examples]: https://github.com/haganbmj/obs-websocket-js/tree/master/samples "Examples"
+  [link-changelog]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/CHANGELOG.md "Changelog"
+  [link-contributing]: .github/CONTRIBUTING.md "Contributing"
