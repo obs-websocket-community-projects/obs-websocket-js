@@ -70,8 +70,8 @@ obs.on('AuthenticationFailure', callback(err, data));
 ```js
 const OBSWebSocket = require('obs-websocket-js');
 
-const obs = new OBSWebSocket('localhost:4444', '$up3rSecretP@ssw0rd');
-
+const obs = new OBSWebSocket();
+obs.connect('localhost:4444', '$up3rSecretP@ssw0rd');
 obs.onAuthenticationSuccess((err, data) => {
   console.log("Success! We're Authenticated.");
 
