@@ -11,9 +11,15 @@ VERSION=`json -f package.json version`
 SHA=`json -f package.json sha`
 
 # Apply all changes on top of the latest gh-pages commit.
+git remote add upstream "https://$GH_TOKEN@$GH_REF"
+git fetch upstream
 git reset upstream/$TARGET_BRANCH
 
-# Add /dist to the new commit.
+# Generate a Changelog.
+gem install github_changelog_generator
+github_changelog_generator -u haganbmj -p obs-websocket-js
+
+# Add all files & ./dist to the new commit.
 git add -A .
 git add -A ./dist -f
 git commit -m "${TARGET_BRANCH}: (v${VERSION}) ${SHA}"

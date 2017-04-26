@@ -18,8 +18,6 @@ before_script:
   - nvm install node
   - npm install json -g
   - bash ./.travis/pre-build.sh
-  - gem install github_changelog_generator
-  - github_changelog_generator -u haganbmj -p obs-websocket-js
   - npm prune
   - npm install
 

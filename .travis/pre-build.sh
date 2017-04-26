@@ -8,8 +8,5 @@ TIMESTAMP=`date --rfc-3339=seconds`
 echo "SHA: $sHA"
 echo "TIMESTAMP: $TIMESTAMP"
 
-git init
-git remote add upstream "https://$GH_TOKEN@$GH_REF"
-git fetch upstream
-
+# Apply the SHA and Timestamp to package.json
 json -I -f package.json -e "this.sha='$SHA'; this.timestamp='$TIMESTAMP'"
