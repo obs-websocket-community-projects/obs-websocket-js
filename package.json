@@ -22,7 +22,7 @@
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
   "dependencies": {
-    "loglevel": "^1.4.1",
+    "debug": "^2.6.4",
     "sha.js": "^2.4.8",
     "ws": "^1.1.1"
   },

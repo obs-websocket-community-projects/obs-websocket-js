@@ -92,9 +92,29 @@ obs.onAuthenticationSuccess((err, data) => {
 });
 
 obs.onSwitchScenes((err, data) => {
-  console.log('New Active Scene: ', data.sceneName);
+  console.log('New Active Scene:', data.sceneName);
 });
 ```
+
+#### Debugging
+To enable debug logging, set the `DEBUG` environment variable:
+```bash
+# Enables debug logging for all modules of osb-websocket-js
+DEBUG=obs-websocket-js:*
+
+# on Windows
+set DEBUG=obs-websocket-js:*
+```
+
+If you have multiple libraries or application which use the `DEBUG` environment variable, they can be joined with commas:
+```bash
+DEBUG=foo,bar:*,obs-websocket-js:*
+
+# on Windows
+set DEBUG=foo,bar:*,obs-websocket-js:*
+```
+
+For more information, see the [`debug`][link-debug] documentation.
 
 ## TODOs
 - Unit testing / Socket mocking.
@@ -121,3 +141,4 @@ _To add your project to this list, submit a Pull Request._
   [link-samples]: https://github.com/haganbmj/obs-websocket-js/tree/master/samples "Samples"
   [link-changelog]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/CHANGELOG.md "Changelog"
   [link-contributing]: .github/CONTRIBUTING.md "Contributing"
+  [link-debug]: https://github.com/visionmedia/debug "Debug Documentation"
