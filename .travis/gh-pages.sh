@@ -14,6 +14,7 @@ SHA=`json -f package.json sha`
 git reset upstream/$TARGET_BRANCH
 
 # Add /dist to the new commit.
+git add -A .
 git add -A ./dist -f
 git commit -m "${TARGET_BRANCH}: (v${VERSION}) ${SHA}"
 git push -q upstream HEAD:$TARGET_BRANCH
