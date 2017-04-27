@@ -12,6 +12,7 @@
 
 **Fixed bugs:**
 
+- Fix webpack distributable [\#38](https://github.com/haganbmj/obs-websocket-js/pull/38) ([haganbmj](https://github.com/haganbmj))
 - \[API\] Fix errors caused when .disconnect is called at the wrong time [\#37](https://github.com/haganbmj/obs-websocket-js/pull/37) ([Lange](https://github.com/Lange))
 
 **Closed issues:**

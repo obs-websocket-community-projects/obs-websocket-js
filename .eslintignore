@@ -5,3 +5,4 @@ bower_components
 dist
 coverage
 .nyc_output
+samples

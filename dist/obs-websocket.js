@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.4.1
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build SHA: 0bddbe5ef582669f6a62795f1c602f59ce57e709
- * Build Timestamp: 2017-04-26 23:03:17+00:00
+ * Build SHA: 935b9cfb4f0b351c2e99b9d6a11def0d307f71dd
+ * Build Timestamp: 2017-04-27 03:07:21+00:00
  */
 
 var OBSWebSocket =
@@ -272,24 +272,11 @@ function localstorage() {
 /***/ (function(module, exports) {
 
 module.exports = {
-  wrap(statusType) {
-    const resp = {
-      code: statusType.code,
-      status: statusType.status,
-      description: statusType.description
-    };
-
-    if (statusType.status === 'error') {
-      resp.error = statusType.description;
-    }
-
-    return resp;
-  },
-
   NOT_CONNECTED: {
     code: 'Not Connected',
     status: 'error',
-    description: 'There is no Socket connection available.'
+    description: 'There is no Socket connection available.',
+    error: this.description
   },
   AUTH_NOT_REQUIRED: {
     code: 'Auth Not Required',
@@ -299,7 +286,8 @@ module.exports = {
   REQUEST_TYPE_NOT_SPECIFIED: {
     code: 'Request Type Not Spcecified',
     status: 'error',
-    description: 'A Request Type was not specified.'
+    description: 'A Request Type was not specified.',
+    error: this.description
   }
 };
 
@@ -2155,15 +2143,15 @@ class OBSWebSocket extends Socket {
     return new Promise((resolve, reject) => {
       if (!this._connected) {
         debug('[send] %s', Status.NOT_CONNECTED.description);
-        this._doCallback(callback, Status.wrap(Status.NOT_CONNECTED), null);
-        reject(Status.wrap(Status.NOT_CONNECTED));
+        this._doCallback(callback, Status.NOT_CONNECTED, null);
+        reject(Status.NOT_CONNECTED);
         return;
       }
 
       if (!requestType) {
         debug('[send] %s', Status.REQUEST_TYPE_NOT_SPECIFIED.description);
-        this._doCallback(callback, Status.wrap(Status.REQUEST_TYPE_NOT_SPECIFIED), null);
-        reject(Status.wrap(Status.REQUEST_TYPE_NOT_SPECIFIED));
+        this._doCallback(callback, Status.REQUEST_TYPE_NOT_SPECIFIED, null);
+        reject(Status.REQUEST_TYPE_NOT_SPECIFIED);
         return;
       }
 
@@ -2185,11 +2173,11 @@ class OBSWebSocket extends Socket {
         // message = API.marshalResponse(requestType, message);
 
         if (message.status === 'error') {
-          debug('[send:Response:reject] %o', message);
+          debug('[send:reject] %o', message);
           this._doCallback(callback, message, null);
           reject(message);
         } else {
-          debug('[send:Response:resolve] %o', message);
+          debug('[send:resolve] %o', message);
           this._doCallback(callback, null, message);
           resolve(message);
         }
@@ -2362,9 +2350,9 @@ class Socket extends EventEmitter {
       this._connected = true;
 
       // This handler must be present before we can call _authenticate.
-      this._socket.on('message', data => {
-        debug('[OnMessage]: %o', data);
-        data = camelCaseKeys(JSON.parse(data));
+      this._socket.onmessage = msg => {
+        debug('[OnMessage]: %o', msg);
+        const data = camelCaseKeys(JSON.parse(msg.data));
 
         // Emit the message with ID if available, otherwise default to a non-messageId driven event.
         if (data.messageId) {
@@ -2372,15 +2360,15 @@ class Socket extends EventEmitter {
         } else {
           this.emit('obs:internal:event', data);
         }
-      });
+      };
 
       await this._authenticate(args.password);
 
-      this._socket.once('close', () => {
+      this._socket.onclose = () => {
         this._connected = false;
         debug('Connection closed: %s', address);
         this.emit('obs:internal:event', {updateType: 'ConnectionClosed'});
-      });
+      };
 
       debug('Connection opened: %s', address);
       this.emit('obs:internal:event', {updateType: 'ConnectionOpened'});
@@ -2409,23 +2397,23 @@ class Socket extends EventEmitter {
 
       // We only handle initial connection errors.
       // Beyond that, the consumer is responsible for adding their own `error` event listener.
-      this._socket.once('error', error => {
+      this._socket.onerror = error => {
         if (settled) {
           return;
         }
 
         settled = true;
         reject(error);
-      });
+      };
 
-      this._socket.once('open', () => {
+      this._socket.onopen = () => {
         if (settled) {
           return;
         }
 
         settled = true;
         resolve();
-      });
+      };
     });
   }
 
@@ -2437,7 +2425,7 @@ class Socket extends EventEmitter {
    */
   _authenticate(password = '') {
     if (!this._connected) {
-      return Promise.reject(Status.wrap(Status.NOT_CONNECTED));
+      return Promise.reject(Status.NOT_CONNECTED);
     }
 
     return this.getAuthRequired()
@@ -2451,7 +2439,7 @@ class Socket extends EventEmitter {
         // Return early if authentication is not necessary.
         if (!AUTH.required) {
           this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
-          return Promise.resolve(Status.wrap(Status.AUTH_NOT_REQUIRED));
+          return Promise.resolve(Status.AUTH_NOT_REQUIRED);
         }
 
         return this.send('Authenticate', {

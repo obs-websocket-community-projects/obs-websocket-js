@@ -15,12 +15,9 @@ module.exports = function (grunt) {
     webpack: {
       options: require('./webpack.config.js'),
       obswebsocket: {
-        failOnError: false/* ,
-        plugins: [
-          new webpack.optimize.UglifyJsPlugin()
-        ] */
+        failOnError: false
       },
-      obswebsocket_watch: { // eslint-disable-line camelcase
+      obswebsocketWatch: {
         failOnError: false,
         watch: true
       }
@@ -49,6 +46,6 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 
   grunt.registerTask('build', ['clean:dist', 'webpack:obswebsocket', 'concat']);
-  grunt.registerTask('watch', ['webpack:obswebsocket_watch']);
+  grunt.registerTask('watch', ['webpack:obswebsocketWatch']);
   grunt.registerTask('default', ['build']);
 };
