@@ -7,7 +7,6 @@ ws.onConnectionOpened(() => {
 
   // Send some requests.
   ws.getSceneList(null, (err, data) => {
-    throw "this";
     console.log(err, data);
   });
 
