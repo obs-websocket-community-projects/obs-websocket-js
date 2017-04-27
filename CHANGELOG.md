@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- \[API\] Refactor \#connect\(\) to accept both an address and password [\#29](https://github.com/haganbmj/obs-websocket-js/issues/29)
 - \[Style\] Consider using ESlint instead of jshint [\#27](https://github.com/haganbmj/obs-websocket-js/issues/27)
 - \[Test\] Basic Unit Testing [\#22](https://github.com/haganbmj/obs-websocket-js/issues/22)
 - \[Docs\] Update Readme and Code Samples [\#19](https://github.com/haganbmj/obs-websocket-js/issues/19)
@@ -22,6 +23,7 @@
 
 **Merged pull requests:**
 
+- Small README fixes [\#39](https://github.com/haganbmj/obs-websocket-js/pull/39) ([Lange](https://github.com/Lange))
 - \[Tests\] Add basic connection & authentication tests [\#36](https://github.com/haganbmj/obs-websocket-js/pull/36) ([Lange](https://github.com/Lange))
 - Several fixes and refactors [\#33](https://github.com/haganbmj/obs-websocket-js/pull/33) ([Lange](https://github.com/Lange))
 - \[Docs\] Add agdq17-layouts to projects list [\#31](https://github.com/haganbmj/obs-websocket-js/pull/31) ([Lange](https://github.com/Lange))
