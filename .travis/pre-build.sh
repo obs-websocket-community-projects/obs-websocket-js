@@ -5,7 +5,7 @@ git config --global user.email "travis@travis-ci.org"
 SHA=`git rev-parse --verify HEAD`
 TIMESTAMP=`date --rfc-3339=seconds`
 
-echo "SHA: $sHA"
+echo "SHA: $SHA"
 echo "TIMESTAMP: $TIMESTAMP"
 
 # Apply the SHA and Timestamp to package.json
