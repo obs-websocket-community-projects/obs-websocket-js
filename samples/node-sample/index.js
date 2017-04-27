@@ -1,8 +1,6 @@
 const OBSWebSocket = require('../../index.js');
 const ws = new OBSWebSocket();
 
-ws.logger.setLevel('info');
-
 // Declare some events to listen for.
 ws.onConnectionOpened(() => {
   console.log('Connection Opened');
@@ -17,8 +15,4 @@ ws.onConnectionOpened(() => {
   });
 });
 
-// Open the connection and Authenticate if needed. URL defaults to localhost:4444
-// ws = new OBSWebSocket('address', 'password');
-//
-// ws.connect(); // ws.connect('localhost');
-// ws.authenticate('password');
+ws.connect();
