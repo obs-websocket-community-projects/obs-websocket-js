@@ -28,7 +28,8 @@ Create a new WebSocket connection using the following.
 - Password is optional.  
 
 ```js
-const obs = new OBSWebSocket('address', 'password');
+const obs = new OBSWebSocket();
+obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' });
 ```
 
 #### Sending Requests
@@ -46,8 +47,7 @@ obs.RequestName({args}, callback(err, data)) returns Promise
 obs.requestName({args}, callback(err, data)) returns Promise
 
 // The following are additional supported requests.
-obs.connect({ address: 'address' }, callback(err, data)) returns Promise
-obs.authenticate({ password: 'password' }, callback(err, data)) returns Promise
+obs.connect({ address: 'address', password: 'password' }, callback(err, data)) returns Promise
 ```
 
 #### Receiving Events
