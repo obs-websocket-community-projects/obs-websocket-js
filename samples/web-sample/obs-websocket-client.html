@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <script type='text/javascript' src='../../dist/obs-websocket.js'></script>
     <script>
-      var obs = new OBSWebSocket('localhost');
+      localStorage.debug = 'obs-websocket-js:*';
+
+      var obs = new OBSWebSocket();
       // var obs = new OBSWebSocket('localhost:4444', 'password');
 
       // Note that this defaults to localhost:4444. You can open a new connection later by doing the following.
@@ -13,8 +15,7 @@
 
       // If the password was not passed in the constructor, call the following.
       // obs.authenticate({ password: 'password' });
-
-      obs.logger.enableAll();
+      obs.connect('localhost');
 
       // Bind some methods.
       obs.onConnectionOpened(function() {
