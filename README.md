@@ -77,7 +77,7 @@ To ensure that you are handling every error, you must do the following:
 const OBSWebSocket = require('obs-websocket-js');
 
 const obs = new OBSWebSocket();
-obs.connect('localhost:4444', '$up3rSecretP@ssw0rd')
+obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' })
   .then(() => {
 	  console.log('Success! We\'re connected & authenticated.');
 	  return obs.getSceneList({});
@@ -121,6 +121,13 @@ DEBUG=foo,bar:*,obs-websocket-js:*
 
 # on Windows
 set DEBUG=foo,bar:*,obs-websocket-js:*
+```
+
+Browser debugging uses `localStorage`
+```
+localStorage.debug = 'obs-websocket-js:*';
+
+localStorage.debug = 'foo,bar:*,obs-websocket-js:*';
 ```
 
 For more information, see the [`debug`][link-debug] documentation.
