@@ -9,6 +9,15 @@ fi
 
 VERSION=`json -f package.json version`
 SHA=`json -f package.json sha`
+COMMIT_MESSAGE=`git log --oneline -1 | cut -d " " -f 2`
+
+# Use the commit message to determine if the changelog should use the current version.
+case `echo $COMMIT_MESSAGE | tr "[A-Z]" "[a-z]"` in
+  '[release]')
+    RELEASE="--future-release=v$VERSION";;
+  *)
+    RELEASE="";;
+esac
 
 # Apply all changes on top of the latest gh-pages commit.
 git remote add upstream "https://$GH_TOKEN@$GH_REF"
@@ -17,7 +26,7 @@ git reset upstream/$TARGET_BRANCH
 
 # Generate a Changelog.
 gem install github_changelog_generator
-github_changelog_generator -u haganbmj -p obs-websocket-js
+github_changelog_generator -u haganbmj -p obs-websocket-js $RELEASE
 
 # Add all files & ./dist to the new commit.
 git add -A

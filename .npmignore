@@ -1,8 +1,9 @@
 .github
 .travis
 samples
+test
 
 .editorconfig
-.jshintrc
+.eslintignore
 .travis.yml
 bower.json
