@@ -1,9 +1,9 @@
 /*
- * OBS WebSocket Javascript API (obs-websocket-js) v0.5.0
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.5.1
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build SHA: 5380d20831fa2d05c3044e939a2fcb729777ce87
- * Build Timestamp: 2017-04-27 06:21:54+00:00
+ * Build SHA: 7fb1d9744fb8b59cae59d8f077bc11ca6e9af6f9
+ * Build Timestamp: 2017-04-28 19:31:36+00:00
  */
 
 var OBSWebSocket =
@@ -273,23 +273,38 @@ function localstorage() {
 
 module.exports = {
   NOT_CONNECTED: {
-    code: 'Not Connected',
     status: 'error',
-    description: 'There is no Socket connection available.',
-    error: this.description
+    description: 'There is no Socket connection available.'
+  },
+  SOCKET_EXCEPTION: {
+    status: 'error',
+    description: 'An exception occurred from the underlying WebSocket.'
   },
   AUTH_NOT_REQUIRED: {
-    code: 'Auth Not Required',
     status: 'ok',
     description: 'Authentication is not required.'
   },
   REQUEST_TYPE_NOT_SPECIFIED: {
-    code: 'Request Type Not Spcecified',
     status: 'error',
-    description: 'A Request Type was not specified.',
-    error: this.description
+    description: 'A Request Type was not specified.'
+  },
+
+  init() {
+    for (const key in this) {
+      if ({}.hasOwnProperty.call(this, key)) {
+        // Assign a value to 'code' identified by the status' key.
+        this[key].code = key;
+
+        // Assign a value to 'error' if one is not already defined.
+        if (this[key].status === 'error' && !this[key].error) {
+          this[key].error = this[key].description;
+        }
+      }
+    }
+    delete this.init;
+    return this;
   }
-};
+}.init();
 
 
 /***/ }),
@@ -2138,43 +2153,26 @@ class OBSWebSocket extends Socket {
   // Generates a messageId internally and will override any passed in the args.
   // Note that the requestType here is pre-marshaling and currently must match exactly what the websocket plugin is expecting.
   send(requestType, args = {}, callback) {
+    // TODO: Improve this to ensure args is an object, not a function or primitive or something.
     args = args || {};
 
     return new Promise((resolve, reject) => {
-      if (!this._connected) {
-        debug('[send] %s', Status.NOT_CONNECTED.description);
-        this._doCallback(callback, Status.NOT_CONNECTED, null);
-        reject(Status.NOT_CONNECTED);
-        return;
-      }
+      const messageId = generateMessageId();
+      let rejectReason;
 
       if (!requestType) {
-        debug('[send] %s', Status.REQUEST_TYPE_NOT_SPECIFIED.description);
-        this._doCallback(callback, Status.REQUEST_TYPE_NOT_SPECIFIED, null);
-        reject(Status.REQUEST_TYPE_NOT_SPECIFIED);
-        return;
+        rejectReason = Status.REQUEST_TYPE_NOT_SPECIFIED;
       }
 
-      // Assign the core message details.
-      args['request-type'] = requestType;
-      const messageId = args['message-id'] = generateMessageId(); // eslint-disable-line no-multi-assign
-
-      // Submit the request to the websocket.
-      debug('[send] %s %s %o', messageId, requestType, args);
-      try {
-        this._socket.send(JSON.stringify(args));
-      } catch (e) {
-        reject(e);
+      if (!this._connected) {
+        rejectReason = Status.NOT_CONNECTED;
       }
 
       // Assign a temporary event listener for this particular messageId to uniquely identify the response.
       this.once('obs:internal:message:id-' + messageId, message => {
-        // TODO: Do additional stuff with the msg to determine errors, marshaling, etc.
-        // message = API.marshalResponse(requestType, message);
-
         if (message.status === 'error') {
           debug('[send:reject] %o', message);
-          this._doCallback(callback, message, null);
+          this._doCallback(callback, message);
           reject(message);
         } else {
           debug('[send:resolve] %o', message);
@@ -2182,6 +2180,24 @@ class OBSWebSocket extends Socket {
           resolve(message);
         }
       });
+
+      if (!rejectReason) {
+        args['request-type'] = requestType;
+        args['message-id'] = messageId;
+
+        // Submit the request to the websocket.
+        debug('[send] %s %s %o', messageId, requestType, args);
+        try {
+          this._socket.send(JSON.stringify(args));
+        } catch (e) {
+          // TODO: Consider inspecting the exception thrown to gleam some relevant info and pass that on.
+          rejectReason = Status.SOCKET_EXCEPTION;
+        }
+      }
+
+      if (rejectReason) {
+        this.emit('obs:internal:message:id-' + messageId, rejectReason);
+      }
     });
   }
 
@@ -2285,12 +2301,6 @@ const NOP = function () {};
 
 const DEFAULT_PORT = 4444;
 
-let AUTH = {
-  required: true,
-  salt: undefined,
-  challenge: undefined
-};
-
 function camelCaseKeys(obj) {
   obj = obj || {};
   for (const key in obj) {
@@ -2315,6 +2325,7 @@ class Socket extends EventEmitter {
 
     const originalEmit = this.emit;
     this.emit = function () {
+      // Log every emit to debug. Could be a bit noisy.
       debug('[emit] %s %o', arguments[0], arguments[1]);
       originalEmit.apply(this, arguments);
     };
@@ -2351,7 +2362,8 @@ class Socket extends EventEmitter {
 
       // This handler must be present before we can call _authenticate.
       this._socket.onmessage = msg => {
-        debug('[OnMessage]: %o', msg);
+        // eslint-disable-next-line capitalized-comments
+        // debug('[OnMessage]: %o', msg);
         const data = camelCaseKeys(JSON.parse(msg.data));
 
         // Emit the message with ID if available, otherwise default to a non-messageId driven event.
@@ -2372,7 +2384,7 @@ class Socket extends EventEmitter {
 
       debug('Connection opened: %s', address);
       this.emit('obs:internal:event', {updateType: 'ConnectionOpened'});
-      this._doCallback(callback);
+      this._doCallback(callback, null);
     } catch (err) {
       this._connected = false;
       logAmbiguousError(debug, 'Connection failed:', err);
@@ -2430,20 +2442,14 @@ class Socket extends EventEmitter {
 
     return this.getAuthRequired()
       .then(data => {
-        AUTH = {
-          required: data.authRequired,
-          salt: data.salt,
-          challenge: data.challenge
-        };
-
         // Return early if authentication is not necessary.
-        if (!AUTH.required) {
+        if (!data.authRequired) {
           this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
           return Promise.resolve(Status.AUTH_NOT_REQUIRED);
         }
 
         return this.send('Authenticate', {
-          auth: new AuthHashing(AUTH.salt, AUTH.challenge).hash(password)
+          auth: new AuthHashing(data.salt, data.challenge).hash(password)
         }).then(() => {
           debug('Authentication Success.');
           this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});

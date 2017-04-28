@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.0...HEAD)
+
+**Implemented enhancements:**
+
+- \[API\] Revise send method [\#41](https://github.com/haganbmj/obs-websocket-js/pull/41) ([haganbmj](https://github.com/haganbmj))
+
 ## [v0.5.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.5.0) (2017-04-27)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.4.0...v0.5.0)
 
