@@ -7,6 +7,7 @@
 - Install dependencies with `npm install`
 - Generate the browser distributable Javascript file with `npm run build`  
   - Or `npm run watch` to automatically build when files are modified.
+- This project makes use of eslint, run `npm test` for linting and basic unit testing.
 
 ## Contributing Guidelines
 - Please use descriptive commit messages.
