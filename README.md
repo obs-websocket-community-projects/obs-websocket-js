@@ -152,7 +152,7 @@ _To add your project to this list, submit a Pull Request._
 
   [link-releases]:  https://github.com/haganbmj/obs-websocket-js/releases "obs-websocket-js Releases"
   [link-tags]: https://github.com/haganbmj/obs-websocket-js/tags "obs-websocket-js Tags"
-  [link-download]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/dist/obs-websocket.js "Download"
+  [link-download]: https://raw.githubusercontent.com/haganbmj/obs-websocket-js/gh-pages/dist/obs-websocket.js "Download"
   [link-documentation]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/DOCUMENTATION.md "Documentation"
   [link-samples]: https://github.com/haganbmj/obs-websocket-js/tree/master/samples "Samples"
   [link-changelog]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/CHANGELOG.md "Changelog"
