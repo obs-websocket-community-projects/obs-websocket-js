@@ -3,7 +3,24 @@
 samples
 test
 
+.grunt
+
+# IntelliJ
+.idea/
+*.ipr
+*.iws
+*.iml
+.idea_modules
+
 .editorconfig
 .eslintignore
 .travis.yml
 bower.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+coverage
+.nyc_output
