@@ -9,6 +9,8 @@
 ## Installation
 ```sh
 npm install obs-websocket-js --save
+
+bower install obs-websocket-js --save
 ```
 ```html
 <script type='text/javascript' src='./dist/obs-websocket.js'></script>
