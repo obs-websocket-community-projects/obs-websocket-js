@@ -9,18 +9,19 @@
   "keywords": [
     "obs",
     "studio",
-    "obs",
-    "websocket"
+    "websocket",
+    "obs-websocket",
+    "obs-remote",
+    "Open Broadcaster Software",
+    "streaming",
+    "stream",
+    "twitch",
+    "twitch.tv"
   ],
   "homepage": "https://github.com/haganbmj/obs-websocket-js",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests",
-    "package.json",
-    "src",
-    "samples"
-  ]
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/haganbmj/obs-websocket-js.git"
+  },
+  "ignore": ["./!(dist/obs-websocket.js)"]
 }
