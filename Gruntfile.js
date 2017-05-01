@@ -22,12 +22,6 @@ module.exports = function (grunt) {
         watch: true
       }
     },
-    // Jsdoc2md: {
-    //   docs: {
-    //     src: ['lib/OBSWebSocket.js', 'lib/OBSScene.js', 'lib/OBSSource.js', 'lib/Core.js', 'lib/Socket.js', 'lib/Requests.js', 'lib/Events.js'],
-    //     dest: 'dist/DOCUMENTATION.md'
-    //   }
-    // },
     clean: {
       dist: 'dist'
     },
