@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.1...HEAD)
+
+**Merged pull requests:**
+
+- \[CI\] Set up Coveralls [\#45](https://github.com/haganbmj/obs-websocket-js/pull/45) ([haganbmj](https://github.com/haganbmj))
+
 ## [v0.5.1](https://github.com/haganbmj/obs-websocket-js/tree/v0.5.1) (2017-04-29)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.0...v0.5.1)
 
