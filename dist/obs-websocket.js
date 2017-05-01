@@ -1,9 +1,9 @@
 /*
- * OBS WebSocket Javascript API (obs-websocket-js) v0.5.1
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.5.2
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Commit SHA: 34de2b5a6552c10d13838ed1af837d3f46aa4fa2
- * Build Timestamp: 2017-05-01 02:28:49+00:00
+ * Commit SHA: 7a5d86755a3e1b669444b984bed309776009cc7a
+ * Build Timestamp: 2017-05-01 05:09:34+00:00
  */
 
 var OBSWebSocket =

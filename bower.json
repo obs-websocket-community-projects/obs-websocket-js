@@ -23,5 +23,5 @@
     "type": "git",
     "url": "git://github.com/haganbmj/obs-websocket-js.git"
   },
-  "ignore": ["./!(dist/obs-websocket.js)"]
+  "ignore": ["*", "!./dist/obs-websocket.js"]
 }
