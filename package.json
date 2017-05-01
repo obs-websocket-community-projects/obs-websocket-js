@@ -6,11 +6,12 @@
   "repository": "haganbmj/obs-websocket-js",
   "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
   "scripts": {
-    "test": "npm run static && nyc ava",
-    "report": "nyc report --reporter=html",
     "grunt": "grunt",
     "build": "grunt",
     "watch": "grunt watch",
+    "test": "npm run static && nyc ava",
+    "report": "nyc report --reporter=text-lcov",
+    "coveralls": "npm run report | ./node_modules/coveralls/bin/coveralls.js",
     "static": "eslint ."
   },
   "keywords": [
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "ava": "^0.19.1",
+    "coveralls": "^2.13.1",
     "eslint": "^3.19.0",
     "eslint-config-xo-space": "^0.16.0",
     "eslint-plugin-ava": "^4.2.0",

@@ -2,7 +2,10 @@
 
 *OBSWebSocket.JS allows Javascript-based connections to [obs-websocket][link-obswebsocket].*
 
-[![Build Status][badge-build-status]][link-Travis-CI] [![Latest release][badge-release]][link-releases] [![Latest Tag][badge-tag]][link-tags]
+[![Build Status][badge-build-status]][link-Travis-CI]
+[![Coverage Status][badge-coveralls]][link-Coveralls]
+[![Latest release][badge-release]][link-releases]
+[![Latest Tag][badge-tag]][link-tags]
 
 ##### [Download][link-download] | [Samples][link-samples] | [Changelog][link-changelog]
 
@@ -109,7 +112,7 @@ obs.on('error', err => {
 
 #### Debugging
 To enable debug logging, set the `DEBUG` environment variable:
-```bash
+```sh
 # Enables debug logging for all modules of osb-websocket-js
 DEBUG=obs-websocket-js:*
 
@@ -118,7 +121,7 @@ set DEBUG=obs-websocket-js:*
 ```
 
 If you have multiple libraries or application which use the `DEBUG` environment variable, they can be joined with commas:
-```bash
+```sh
 DEBUG=foo,bar:*,obs-websocket-js:*
 
 # on Windows
@@ -126,7 +129,7 @@ set DEBUG=foo,bar:*,obs-websocket-js:*
 ```
 
 Browser debugging uses `localStorage`
-```
+```js
 localStorage.debug = 'obs-websocket-js:*';
 
 localStorage.debug = 'foo,bar:*,obs-websocket-js:*';
@@ -148,9 +151,11 @@ _To add your project to this list, submit a Pull Request._
 
   [link-obswebsocket]: https://github.com/Palakis/obs-websocket "OBS WebSocket Plugin"
   [link-Travis-CI]: https://travis-ci.org/haganbmj/obs-websocket-js "Travis CI"
+  [link-Coveralls]: ]https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master "Coveralls"
   [badge-build-status]: https://img.shields.io/travis/haganbmj/obs-websocket-js/master.svg?style=flat "Travis Status"
   [badge-tag]: https://img.shields.io/github/tag/haganbmj/obs-websocket-js.svg?style=flat "Latest Tag"
   [badge-release]: https://img.shields.io/github/release/haganbmj/obs-websocket-js.svg?style=flat "Latest Release"
+  [badge-coveralls]: https://coveralls.io/repos/github/haganbmj/obs-websocket-js/badge.svg?branch=master "Coveralls Status"
 
   [link-releases]:  https://github.com/haganbmj/obs-websocket-js/releases "obs-websocket-js Releases"
   [link-tags]: https://github.com/haganbmj/obs-websocket-js/tags "obs-websocket-js Tags"
