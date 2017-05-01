@@ -11,7 +11,7 @@
     "watch": "grunt watch",
     "test": "npm run static && nyc ava",
     "report": "nyc report --reporter=text-lcov",
-    "coveralls": "npm run report | ./node_modules/coveralls/bin/coveralls.js",
+    "node-coveralls": "npm run report | coveralls",
     "static": "eslint ."
   },
   "keywords": [

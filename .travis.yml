@@ -27,7 +27,7 @@ script:
   - bash ./.travis/gh-pages.sh
 
 after_success:
-  - npm run coveralls
+  - npm run node-coveralls
 
 branches:
   except:
