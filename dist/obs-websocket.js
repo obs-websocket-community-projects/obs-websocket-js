@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.5.2
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Commit SHA: 1b916107f2a623394a3fbcd1ffd3c2f9afb62869
- * Build Timestamp: 2017-05-03 01:34:33+00:00
+ * Commit SHA: 467bc38a1ee5a87fc4bdc9d2b0a17753bbefeac2
+ * Build Timestamp: 2017-05-03 01:54:30+00:00
  */
 
 var OBSWebSocket =
@@ -2108,7 +2108,7 @@ function localstorage() {
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Socket = __webpack_require__(7);
+const Socket = __webpack_require__(6);
 const Status = __webpack_require__(0);
 const debug = __webpack_require__(2)('obs-websocket-js:Core');
 
@@ -2185,7 +2185,7 @@ class OBSWebSocket extends Socket {
   }
 }
 
-__webpack_require__(8)(OBSWebSocket);
+__webpack_require__(7)(OBSWebSocket);
 
 module.exports = OBSWebSocket;
 
@@ -2237,39 +2237,9 @@ module.exports = API;
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const SHA256 = __webpack_require__(19);
-
-class AuthHashing {
-  constructor(salt, challenge) {
-    this.salt = salt || '';
-    this.challenge = challenge || '';
-
-    this.hash = function (msg) {
-      const hash = new SHA256()
-        .update(msg)
-        .update(this.salt)
-        .digest('base64');
-
-      const resp = new SHA256()
-        .update(hash)
-        .update(challenge)
-        .digest('base64');
-
-      return resp;
-    };
-  }
-}
-
-module.exports = AuthHashing;
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
 const WebSocket = __webpack_require__(21);
 const EventEmitter = __webpack_require__(12);
-const AuthHashing = __webpack_require__(6);
+const hash = __webpack_require__(8);
 const Status = __webpack_require__(0);
 const debug = __webpack_require__(2)('obs-websocket-js:Socket');
 const logAmbiguousError = __webpack_require__(9);
@@ -2437,7 +2407,7 @@ class Socket extends EventEmitter {
         }
 
         return this.send('Authenticate', {
-          auth: new AuthHashing(data.salt, data.challenge).hash(password)
+          auth: hash(data.salt, data.challenge, password)
         }).then(() => {
           debug('Authentication Success.');
           this.emit('AuthenticationSuccess');
@@ -2463,7 +2433,7 @@ module.exports = Socket;
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const API = __webpack_require__(5);
@@ -2494,6 +2464,34 @@ function methodBinding(OBSWebSocket) {
 }
 
 module.exports = methodBinding;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const SHA256 = __webpack_require__(19);
+
+/**
+ * SHA256 Hashing.
+ * @param  {String} [salt='']
+ * @param  {String} [challenge='']
+ * @param  {String} msg
+ * @return {String}
+ */
+module.exports = function (salt = '', challenge = '', msg) {
+  const hash = new SHA256()
+    .update(msg)
+    .update(salt)
+    .digest('base64');
+
+  const resp = new SHA256()
+    .update(hash)
+    .update(challenge)
+    .digest('base64');
+
+  return resp;
+};
 
 
 /***/ }),

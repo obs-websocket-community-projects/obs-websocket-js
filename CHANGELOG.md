@@ -6,7 +6,8 @@
 
 **Implemented enhancements:**
 
-- \[API\] Use .once instead of manually handling parameter callbacks [\#40](https://github.com/haganbmj/obs-websocket-js/issues/40)
+- \[API\] Convert AuthHashing from a Class to a Function [\#44](https://github.com/haganbmj/obs-websocket-js/issues/44)
+- \[API\] Standardize internal emits [\#42](https://github.com/haganbmj/obs-websocket-js/issues/42)
 
 **Fixed bugs:**
 
