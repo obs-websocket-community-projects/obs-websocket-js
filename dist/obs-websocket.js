@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.5.2
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Commit SHA: 7a5d86755a3e1b669444b984bed309776009cc7a
- * Build Timestamp: 2017-05-01 05:09:34+00:00
+ * Commit SHA: 1b916107f2a623394a3fbcd1ffd3c2f9afb62869
+ * Build Timestamp: 2017-05-03 01:34:33+00:00
  */
 
 var OBSWebSocket =
@@ -72,203 +72,11 @@ var OBSWebSocket =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * This is the web browser implementation of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = __webpack_require__(11);
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome
-               && 'undefined' != typeof chrome.storage
-                  ? chrome.storage.local
-                  : localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
-];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-function useColors() {
-  // NB: In an Electron preload script, document will be defined but not fully
-  // initialized. Since we know we're in Chrome, we'll just detect this case
-  // explicitly
-  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
-    return true;
-  }
-
-  // is webkit? http://stackoverflow.com/a/16459606/376773
-  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && document && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    (typeof window !== 'undefined' && window && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
-    // is firefox >= v31?
-    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
-    // double check webkit in userAgent just in case we are in a worker
-    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
-}
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-exports.formatters.j = function(v) {
-  try {
-    return JSON.stringify(v);
-  } catch (err) {
-    return '[UnexpectedJSONParseError]: ' + err.message;
-  }
-};
-
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs(args) {
-  var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '')
-    + this.namespace
-    + (useColors ? ' %c' : ' ')
-    + args[0]
-    + (useColors ? '%c ' : ' ')
-    + '+' + exports.humanize(this.diff);
-
-  if (!useColors) return;
-
-  var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit')
-
-  // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-zA-Z%]/g, function(match) {
-    if ('%%' === match) return;
-    index++;
-    if ('%c' === match) {
-      // we only are interested in the *last* %c
-      // (the user may have provided their own)
-      lastC = index;
-    }
-  });
-
-  args.splice(lastC, 0, c);
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-
-function log() {
-  // this hackery is required for IE8/9, where
-  // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-
-function save(namespaces) {
-  try {
-    if (null == namespaces) {
-      exports.storage.removeItem('debug');
-    } else {
-      exports.storage.debug = namespaces;
-    }
-  } catch(e) {}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-  var r;
-  try {
-    r = exports.storage.debug;
-  } catch(e) {}
-
-  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (!r && typeof process !== 'undefined' && 'env' in process) {
-    r = process.env.DEBUG;
-  }
-
-  return r;
-}
-
-/**
- * Enable namespaces listed in `localStorage.debug` initially.
- */
-
-exports.enable(load());
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage() {
-  try {
-    return window.localStorage;
-  } catch (e) {}
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports) {
 
 module.exports = {
@@ -308,30 +116,7 @@ module.exports = {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-/**
- * Disambiguates an "error" and formats it nicely for `debug` output.
- * Particularly useful when dealing with error response objects from obs-websocket,
- * which are not actual Error-type errors, but simply Objects.
- * @param debug - A `debug` instance.
- * @param prefix - A string to print in front of the formatted error.
- * @param error - An error of ambiguous type that you wish to log to `debug`. Can be an Error, Object, or String.
- */
-module.exports = function (debug, prefix, error) {
-  if (error && error.stack) {
-    debug(`${prefix}\n %O`, error.stack);
-  } else if (typeof error === 'object') {
-    debug(`${prefix} %o`, error);
-  } else {
-    debug(`${prefix} %s`, error);
-  }
-};
-
-
-/***/ }),
-/* 3 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2128,12 +1913,204 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ }),
-/* 4 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Socket = __webpack_require__(8);
-const Status = __webpack_require__(1);
-const debug = __webpack_require__(0)('obs-websocket-js:Core');
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = __webpack_require__(11);
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
+    return true;
+  }
+
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && document && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (typeof window !== 'undefined' && window && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+    // double check webkit in userAgent just in case we are in a worker
+    (typeof navigator !== 'undefined' && navigator && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs(args) {
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return;
+
+  var c = 'color: ' + this.color;
+  args.splice(1, 0, c, 'color: inherit')
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-zA-Z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch(e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    r = exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
+  }
+
+  return r;
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage() {
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Socket = __webpack_require__(7);
+const Status = __webpack_require__(0);
+const debug = __webpack_require__(2)('obs-websocket-js:Core');
 
 let requestCounter = 0;
 
@@ -2169,15 +2146,15 @@ class OBSWebSocket extends Socket {
       }
 
       // Assign a temporary event listener for this particular messageId to uniquely identify the response.
-      this.once('obs:internal:message:id-' + messageId, message => {
-        if (message.status === 'error') {
-          debug('[send:reject] %o', message);
-          this._doCallback(callback, message);
-          reject(message);
+      this.once('obs:internal:message:id-' + messageId, (err, data) => {
+        this._doCallback(callback, err, data);
+
+        if (err) {
+          debug('[send:reject] %o', err);
+          reject(err);
         } else {
-          debug('[send:resolve] %o', message);
-          this._doCallback(callback, null, message);
-          resolve(message);
+          debug('[send:resolve] %o', data);
+          resolve(data);
         }
       });
 
@@ -2208,20 +2185,20 @@ class OBSWebSocket extends Socket {
   }
 }
 
-__webpack_require__(9)(OBSWebSocket);
+__webpack_require__(8)(OBSWebSocket);
 
 module.exports = OBSWebSocket;
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(3);
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // Last Updated: April 22, 2017
@@ -2257,7 +2234,7 @@ module.exports = API;
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const SHA256 = __webpack_require__(19);
@@ -2287,15 +2264,15 @@ module.exports = AuthHashing;
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const WebSocket = __webpack_require__(21);
 const EventEmitter = __webpack_require__(12);
-const AuthHashing = __webpack_require__(7);
-const Status = __webpack_require__(1);
-const debug = __webpack_require__(0)('obs-websocket-js:Socket');
-const logAmbiguousError = __webpack_require__(2);
+const AuthHashing = __webpack_require__(6);
+const Status = __webpack_require__(0);
+const debug = __webpack_require__(2)('obs-websocket-js:Socket');
+const logAmbiguousError = __webpack_require__(9);
 
 const NOP = function () {};
 
@@ -2326,7 +2303,7 @@ class Socket extends EventEmitter {
     const originalEmit = this.emit;
     this.emit = function () {
       // Log every emit to debug. Could be a bit noisy.
-      debug('[emit] %s %o', arguments[0], arguments[1]);
+      debug('[emit] %s err: %o data: %o', arguments[0], arguments[1], arguments[2]);
       originalEmit.apply(this, arguments);
     };
   }
@@ -2364,13 +2341,23 @@ class Socket extends EventEmitter {
       this._socket.onmessage = msg => {
         // eslint-disable-next-line capitalized-comments
         // debug('[OnMessage]: %o', msg);
-        const data = camelCaseKeys(JSON.parse(msg.data));
+        const message = camelCaseKeys(JSON.parse(msg.data));
+        let err;
+        let data;
 
-        // Emit the message with ID if available, otherwise default to a non-messageId driven event.
-        if (data.messageId) {
-          this.emit('obs:internal:message:id-' + data.messageId, data);
+        if (message.status === 'error') {
+          err = message;
         } else {
-          this.emit('obs:internal:event', data);
+          data = message;
+        }
+
+        // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
+        if (message.messageId) {
+          this.emit('obs:internal:message:id-' + message.messageId, err, data);
+        } else if (message.updateType) {
+          this.emit(message.updateType, err, data);
+        } else {
+          logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
         }
       };
 
@@ -2379,12 +2366,12 @@ class Socket extends EventEmitter {
       this._socket.onclose = () => {
         this._connected = false;
         debug('Connection closed: %s', address);
-        this.emit('obs:internal:event', {updateType: 'ConnectionClosed'});
+        this.emit('ConnectionClosed');
       };
 
       debug('Connection opened: %s', address);
-      this.emit('obs:internal:event', {updateType: 'ConnectionOpened'});
-      this._doCallback(callback, null);
+      this.emit('ConnectionOpened');
+      this._doCallback(callback);
     } catch (err) {
       this._connected = false;
       logAmbiguousError(debug, 'Connection failed:', err);
@@ -2444,7 +2431,8 @@ class Socket extends EventEmitter {
       .then(data => {
         // Return early if authentication is not necessary.
         if (!data.authRequired) {
-          this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
+          debug('Authentication not Required');
+          this.emit('AuthenticationSuccess');
           return Promise.resolve(Status.AUTH_NOT_REQUIRED);
         }
 
@@ -2452,7 +2440,7 @@ class Socket extends EventEmitter {
           auth: new AuthHashing(data.salt, data.challenge).hash(password)
         }).then(() => {
           debug('Authentication Success.');
-          this.emit('obs:internal:event', {updateType: 'AuthenticationSuccess'});
+          this.emit('AuthenticationSuccess');
         });
       });
   }
@@ -2475,25 +2463,10 @@ module.exports = Socket;
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const API = __webpack_require__(6);
-const debug = __webpack_require__(0)('obs-websocket-js:api');
-const logAmbiguousError = __webpack_require__(2);
-
-const eventCallbacks = {};
-
-function iterateEventCallbacks(callbacks, err, data) {
-  for (const callback in callbacks) {
-    if (typeof callbacks[callback] === 'function') {
-      if (err) {
-        logAmbiguousError(debug, 'Callback error:', err);
-      }
-      callbacks[callback](err, data);
-    }
-  }
-}
+const API = __webpack_require__(5);
 
 function methodBinding(OBSWebSocket) {
   // Bind each request command to a function of the same name.
@@ -2513,24 +2486,37 @@ function methodBinding(OBSWebSocket) {
         return;
       }
 
-      if (!eventCallbacks[event]) {
-        eventCallbacks[event] = [];
-      }
-
-      eventCallbacks[event].push(callback);
-
-      // TODO: Determine if having err in the callback is even possible/necessary.
-      this.on(event, msg => {
-        const err = msg.error ? msg : null;
-        const data = msg.error ? null : msg;
-
-        iterateEventCallbacks(eventCallbacks[event], err, data);
+      this.on(event, (err, data) => {
+        this._doCallback(callback, err, data);
       });
     };
   });
 }
 
 module.exports = methodBinding;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+/**
+ * Disambiguates an "error" and formats it nicely for `debug` output.
+ * Particularly useful when dealing with error response objects from obs-websocket,
+ * which are not actual Error-type errors, but simply Objects.
+ * @param debug - A `debug` instance.
+ * @param prefix - A string to print in front of the formatted error.
+ * @param error - An error of ambiguous type that you wish to log to `debug`. Can be an Error, Object, or String.
+ */
+module.exports = function (debug, prefix, error) {
+  if (error && error.stack) {
+    debug(`${prefix}\n %O`, error.stack);
+  } else if (typeof error === 'object') {
+    debug(`${prefix} %o`, error);
+  } else {
+    debug(`${prefix} %s`, error);
+  }
+};
 
 
 /***/ }),
@@ -3715,7 +3701,7 @@ Hash.prototype._update = function () {
 
 module.exports = Hash
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
 /* 19 */
@@ -3856,7 +3842,7 @@ Sha256.prototype._hash = function () {
 
 module.exports = Sha256
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
 /* 20 */

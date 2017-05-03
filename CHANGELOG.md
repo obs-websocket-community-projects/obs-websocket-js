@@ -4,6 +4,14 @@
 
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.1...HEAD)
 
+**Implemented enhancements:**
+
+- \[API\] Use .once instead of manually handling parameter callbacks [\#40](https://github.com/haganbmj/obs-websocket-js/issues/40)
+
+**Fixed bugs:**
+
+- \[API\] Binding multiple events results in duplicate callbacks [\#46](https://github.com/haganbmj/obs-websocket-js/issues/46)
+
 **Merged pull requests:**
 
 - \[CI\] Set up Coveralls [\#45](https://github.com/haganbmj/obs-websocket-js/pull/45) ([haganbmj](https://github.com/haganbmj))
