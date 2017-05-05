@@ -1,6 +1,6 @@
 {
   "name": "obs-websocket-js",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "OBS Websocket API in Javascript, consume @Palakis/obs-websocket",
   "main": "index.js",
   "repository": "haganbmj/obs-websocket-js",
@@ -46,8 +46,8 @@
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "69b167e90dcea1d7b451f7f4144a0785e6c23730",
-  "timestamp": "2017-05-03 01:57:14+00:00",
+  "sha": "bfe96fde050c23596f1ced9822cf60d7fc904855",
+  "timestamp": "2017-05-05 21:07:07+00:00",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   }

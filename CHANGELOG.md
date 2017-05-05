@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.5.3](https://github.com/haganbmj/obs-websocket-js/tree/v0.5.3) (2017-05-05)
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.2...v0.5.3)
+
+**Closed issues:**
+
+- Implement GetCurrentRTMPSettings [\#48](https://github.com/haganbmj/obs-websocket-js/issues/48)
+
 ## [v0.5.2](https://github.com/haganbmj/obs-websocket-js/tree/v0.5.2) (2017-05-03)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.1...v0.5.2)
 

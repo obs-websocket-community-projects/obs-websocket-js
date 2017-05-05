@@ -1,9 +1,9 @@
 /*
- * OBS WebSocket Javascript API (obs-websocket-js) v0.5.2
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.5.3
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Commit SHA: 69b167e90dcea1d7b451f7f4144a0785e6c23730
- * Build Timestamp: 2017-05-03 01:57:14+00:00
+ * Commit SHA: bfe96fde050c23596f1ced9822cf60d7fc904855
+ * Build Timestamp: 2017-05-05 21:07:07+00:00
  */
 
 var OBSWebSocket =
@@ -2201,7 +2201,7 @@ module.exports = __webpack_require__(3);
 /* 5 */
 /***/ (function(module, exports) {
 
-// Last Updated: April 22, 2017
+// Last Updated: May 05, 2017
 
 const API = {
   availableMethods: [
@@ -2213,7 +2213,8 @@ const API = {
     'SetVolume', 'GetVolume', 'ToggleMute', 'GetMute', 'SetMute', 'GetSpecialSources',
     'SetCurrentSceneCollection', 'GetCurrentSceneCollection', 'ListSceneCollections',
     'SetCurrentProfile', 'GetCurrentProfile', 'ListProfiles',
-    'GetStudioModeStatus', 'GetPreviewScene', 'SetPreviewScene', 'TransitionToProgram', 'EnableStudioMode', 'DisableStudioMode', 'ToggleStudioMode'
+    'GetStudioModeStatus', 'GetPreviewScene', 'SetPreviewScene', 'TransitionToProgram', 'EnableStudioMode', 'DisableStudioMode', 'ToggleStudioMode',
+    'GetCurrentRTMPSettings'
   ],
   availableEvents: [
     'ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure',
