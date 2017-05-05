@@ -23,5 +23,15 @@
     "type": "git",
     "url": "git://github.com/haganbmj/obs-websocket-js.git"
   },
-  "ignore": ["*", "!./dist/obs-websocket.js"]
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "samples",
+    "test",
+    "_config.yml",
+    "Gruntfile.js",
+    "webpack.config.js"
+  ]
 }
