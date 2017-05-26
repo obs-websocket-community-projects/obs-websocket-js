@@ -22,7 +22,7 @@
         console.log('Connection Opened - No guaruntees that we are authenticated though!');
       });
 
-      obs.onAuthenticationSuccess(function(err, data) {
+      obs.onAuthenticationSuccess(function(data) {
         console.log('Authentication Success - Free to make any request.');
 
         // Send some queries.
@@ -46,16 +46,16 @@
           });
       });
 
-      obs.onAuthenticationFailure(function(err, data) {
+      obs.onAuthenticationFailure(function(data) {
         console.log('Authentication Failure.');
       });
 
-      obs.on('SwitchScenes', function(err, data) {
-        console.log('obs.on(SwitchScenes)', err, data);
+      obs.on('SwitchScenes', function(data) {
+        console.log('obs.on(SwitchScenes)', data);
       });
 
-      obs.onSwitchScenes(function(err, data) {
-        console.log('obs.onSwitchScenes', err, data);
+      obs.onSwitchScenes(function(data) {
+        console.log('obs.onSwitchScenes', data);
       });
     </script>
   </head>

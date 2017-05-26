@@ -10,8 +10,8 @@ ws.onConnectionOpened(() => {
     console.log(err, data);
   });
 
-  ws.onSwitchScenes((err, data) => {
-    console.log(err, data);
+  ws.onSwitchScenes(data => {
+    console.log(data);
   });
 });
 

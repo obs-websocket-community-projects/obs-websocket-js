@@ -1,9 +1,9 @@
 /*
- * OBS WebSocket Javascript API (obs-websocket-js) v0.5.3
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.6.0
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Commit SHA: b8631f03ce53a60bf7dadbc12528143cdcada50e
- * Build Timestamp: 2017-05-05 21:16:49+00:00
+ * Commit SHA: 4aac2c5418ad4b0f552c43c006afcc4c24677852
+ * Build Timestamp: 2017-05-26 23:42:17+00:00
  */
 
 var OBSWebSocket =
@@ -109,6 +109,7 @@ module.exports = {
         }
       }
     }
+
     delete this.init;
     return this;
   }
@@ -2119,18 +2120,16 @@ function generateMessageId() {
 }
 
 class OBSWebSocket extends Socket {
-  constructor() {
-    super();
-
-    // Bind all event emissions from the socket such that they are marshaled an re-emit at the base OBSWebSocket scope.
-    this.on('obs:internal:event', this._handleEvent);
-  }
-
-  // Internal generic Socket request method. Returns a promise, handles callbacks.
-  // Generates a messageId internally and will override any passed in the args.
-  // Note that the requestType here is pre-marshaling and currently must match exactly what the websocket plugin is expecting.
+  /**
+   * Internal generic Socket request method. Returns a promise, handles callbacks.
+   * Generates a messageId internally and will override any passed in the args.
+   * Note that the requestType here is pre-marshaling and currently must match exactly what the websocket plugin is expecting.
+   * @param  {String}   requestType obs-websocket plugin expected request type.
+   * @param  {Object}   [args={}]   request arguments.
+   * @param  {Function} callback    Optional. callback(err, data)
+   * @return {Promise}              Promise, passes the plugin response object.
+   */
   send(requestType, args = {}, callback) {
-    // TODO: Improve this to ensure args is an object, not a function or primitive or something.
     args = args || {};
 
     return new Promise((resolve, reject) => {
@@ -2158,6 +2157,7 @@ class OBSWebSocket extends Socket {
         }
       });
 
+      // If we don't have a reason to fail fast, send the request to the socket.
       if (!rejectReason) {
         args['request-type'] = requestType;
         args['message-id'] = messageId;
@@ -2172,16 +2172,11 @@ class OBSWebSocket extends Socket {
         }
       }
 
+      // If the socket call was unsuccessful or bypassed, simulate its resolution.
       if (rejectReason) {
         this.emit('obs:internal:message:id-' + messageId, rejectReason);
       }
     });
-  }
-
-  // TODO: Marshal to use the API defined eventType rather than the obs-websocket defined one.
-  // Perform some logic them re-emit the event to the public name.
-  _handleEvent(message) {
-    this.emit(message.updateType, message);
   }
 }
 
@@ -2326,7 +2321,7 @@ class Socket extends EventEmitter {
         if (message.messageId) {
           this.emit('obs:internal:message:id-' + message.messageId, err, data);
         } else if (message.updateType) {
-          this.emit(message.updateType, err, data);
+          this.emit(message.updateType, data);
         } else {
           logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
         }
@@ -2457,8 +2452,8 @@ function methodBinding(OBSWebSocket) {
         return;
       }
 
-      this.on(event, (err, data) => {
-        this._doCallback(callback, err, data);
+      this.on(event, data => {
+        this._doCallback(callback, data);
       });
     };
   });

@@ -60,19 +60,19 @@ obs.connect({ address: 'address', password: 'password' }, callback(err, data)) r
 ```
 
 #### Receiving Events
-All events support the following two Syntax options where both `err` and `data` will contain the raw response from the WebSocket plugin.  
+All events support the following two Syntax options where `data` will contain the raw response from the WebSocket plugin.  
 _Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
 - EventName must exactly match what is defined by the [obs-websocket][link-obswebsocket] plugin.
 
 ```js
-obs.on('EventName', callback(err, data));
-obs.onEventName(callback(err, data));
+obs.on('EventName', callback(data));
+obs.onEventName(callback(data));
 
 // The following are additional supported requests.
-obs.on('ConnectionOpened', callback(err, data));
-obs.on('ConnectionClosed', callback(err, data));
-obs.on('AuthenticationSuccess', callback(err, data));
-obs.on('AuthenticationFailure', callback(err, data));
+obs.on('ConnectionOpened', callback(data));
+obs.on('ConnectionClosed', callback(data));
+obs.on('AuthenticationSuccess', callback(data));
+obs.on('AuthenticationFailure', callback(data));
 ```
 
 #### Handling Errors
@@ -104,7 +104,7 @@ obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' })
     console.log(err);
   });
 
-obs.onSwitchScenes((err, data) => {
+obs.onSwitchScenes(data => {
   console.log('New Active Scene:', data.sceneName);
 });
 
