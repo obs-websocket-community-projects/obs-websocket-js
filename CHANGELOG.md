@@ -9,6 +9,10 @@
 - \[API\] Expose addEvent and addRequest methods [\#47](https://github.com/haganbmj/obs-websocket-js/issues/47)
 - \[API\] Strengthen Address Parsing [\#21](https://github.com/haganbmj/obs-websocket-js/issues/21)
 
+**Closed issues:**
+
+- \[Docs\] Determine if Generated Docs are Still Relevant [\#20](https://github.com/haganbmj/obs-websocket-js/issues/20)
+
 ## [v0.6.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.6.0) (2017-05-26)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.3...v0.6.0)
 
