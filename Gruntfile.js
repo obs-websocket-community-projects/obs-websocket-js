@@ -8,7 +8,7 @@ module.exports = function (grunt) {
     ' * OBS WebSocket Javascript API (<%= pkg.name %>) v<%= pkg.version %>\n' +
     ' * Author: <%= pkg.author %>\n' +
     ' * Repository: <%= pkg.repoUrl %>\n' +
-    ' * Commit SHA: <%= pkg.sha %>\n' +
+    ' * Built from Commit SHA: <%= pkg.sha %>\n' +
     ' * Build Timestamp: <%= pkg.timestamp %>\n' +
     ' */\n\n',
 

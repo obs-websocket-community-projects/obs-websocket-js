@@ -1,5 +1,17 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.6.0...HEAD)
+
+**Implemented enhancements:**
+
+- \[API\] Expose addEvent and addRequest methods [\#47](https://github.com/haganbmj/obs-websocket-js/issues/47)
+- \[API\] Strengthen Address Parsing [\#21](https://github.com/haganbmj/obs-websocket-js/issues/21)
+
+## [v0.6.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.6.0) (2017-05-26)
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.3...v0.6.0)
+
 ## [v0.5.3](https://github.com/haganbmj/obs-websocket-js/tree/v0.5.3) (2017-05-05)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.2...v0.5.3)
 

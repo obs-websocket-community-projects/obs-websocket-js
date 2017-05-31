@@ -1,9 +1,9 @@
 /*
- * OBS WebSocket Javascript API (obs-websocket-js) v0.6.0
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.6.1
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Commit SHA: 4aac2c5418ad4b0f552c43c006afcc4c24677852
- * Build Timestamp: 2017-05-26 23:42:17+00:00
+ * Built from Commit SHA: 526f50cf107fce00d24f7e3b0dd1868e1371aeac
+ * Build Timestamp: 2017-05-31 04:35:24+00:00
  */
 
 var OBSWebSocket =
@@ -131,9 +131,9 @@ module.exports = {
 
 
 
-var base64 = __webpack_require__(10)
-var ieee754 = __webpack_require__(13)
-var isArray = __webpack_require__(15)
+var base64 = __webpack_require__(9)
+var ieee754 = __webpack_require__(12)
+var isArray = __webpack_require__(14)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -1911,7 +1911,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ }),
 /* 2 */
@@ -1923,7 +1923,7 @@ function isnan (val) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(11);
+exports = module.exports = __webpack_require__(10);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -2103,7 +2103,7 @@ function localstorage() {
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
 
 /***/ }),
 /* 3 */
@@ -2112,6 +2112,7 @@ function localstorage() {
 const Socket = __webpack_require__(6);
 const Status = __webpack_require__(0);
 const debug = __webpack_require__(2)('obs-websocket-js:Core');
+const API = __webpack_require__(5);
 
 let requestCounter = 0;
 
@@ -2120,10 +2121,18 @@ function generateMessageId() {
 }
 
 class OBSWebSocket extends Socket {
+  constructor() {
+    super();
+
+    this.registerRequest(API.availableMethods);
+    this.registerEvent(API.availableEvents);
+  }
+
   /**
    * Internal generic Socket request method. Returns a promise, handles callbacks.
    * Generates a messageId internally and will override any passed in the args.
    * Note that the requestType here is pre-marshaling and currently must match exactly what the websocket plugin is expecting.
+   *
    * @param  {String}   requestType obs-websocket plugin expected request type.
    * @param  {Object}   [args={}]   request arguments.
    * @param  {Function} callback    Optional. callback(err, data)
@@ -2178,9 +2187,55 @@ class OBSWebSocket extends Socket {
       }
     });
   }
-}
 
-__webpack_require__(7)(OBSWebSocket);
+  /**
+   * Add a new recognized request.
+   * Enables usage with the following syntaxes.
+   * `obs.requestName({args}, callback(err, data)) returns Promise`
+   * `obs.RequestName({args}, callback(err, data)) returns Promise`
+   *
+   * @param  {Array}  [requestNames=[]] String or Array of String request names as defined by the obs-websocket plugin.
+   */
+  registerRequest(requestNames = []) {
+    if (!Array.isArray(requestNames)) {
+      requestNames = [requestNames];
+    }
+
+    requestNames.forEach(requestName => {
+      const handler = function (args, callback) {
+        return this.send(requestName, args, callback);
+      };
+
+      this[requestName] = handler;
+      this[requestName.charAt(0).toLowerCase() + requestName.slice(1)] = handler;
+    });
+  }
+
+  /**
+   * Add a new recognized event.
+   * Enables usage with the following syntax.
+   * `obs.onEventName(callback(data))`
+   *
+   * @param  {Array}  [eventNames=[]] String or Array of String event names as defined by the obs-websocket plugin.
+   */
+  registerEvent(eventNames = []) {
+    if (!Array.isArray(eventNames)) {
+      eventNames = [eventNames];
+    }
+
+    eventNames.forEach(eventName => {
+      this['on' + eventName] = function (callback) {
+        if (typeof callback !== 'function') {
+          return;
+        }
+
+        this.on(eventName, data => {
+          this._doCallback(callback, data);
+        });
+      };
+    });
+  }
+}
 
 module.exports = OBSWebSocket;
 
@@ -2233,16 +2288,14 @@ module.exports = API;
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const WebSocket = __webpack_require__(21);
-const EventEmitter = __webpack_require__(12);
-const hash = __webpack_require__(8);
+const WebSocket = __webpack_require__(20);
+const EventEmitter = __webpack_require__(11);
+const hash = __webpack_require__(7);
 const Status = __webpack_require__(0);
 const debug = __webpack_require__(2)('obs-websocket-js:Socket');
-const logAmbiguousError = __webpack_require__(9);
+const logAmbiguousError = __webpack_require__(8);
 
 const NOP = function () {};
-
-const DEFAULT_PORT = 4444;
 
 function camelCaseKeys(obj) {
   obj = obj || {};
@@ -2288,12 +2341,7 @@ class Socket extends EventEmitter {
   async connect(args = {}, callback) {
     try {
       args = args || {};
-      let address = args.address || 'localhost';
-
-      // If no port was provided, add the default port.
-      if (!/(?::\d{2,4})/.test(address)) {
-        address += ':' + DEFAULT_PORT;
-      }
+      const address = args.address || 'localhost:4444';
 
       if (this._connected) {
         this._socket.close();
@@ -2432,41 +2480,7 @@ module.exports = Socket;
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const API = __webpack_require__(5);
-
-function methodBinding(OBSWebSocket) {
-  // Bind each request command to a function of the same name.
-  API.availableMethods.forEach(method => {
-    const handler = function (args, callback) {
-      return this.send(method, args, callback);
-    };
-
-    // Bind to both UpperCamelCase and lowerCamelCase versions of the method name.
-    OBSWebSocket.prototype[method] = handler;
-    OBSWebSocket.prototype[method.charAt(0).toLowerCase() + method.slice(1)] = handler;
-  });
-
-  API.availableEvents.forEach(event => {
-    OBSWebSocket.prototype['on' + event] = function (callback) {
-      if (typeof callback !== 'function') {
-        return;
-      }
-
-      this.on(event, data => {
-        this._doCallback(callback, data);
-      });
-    };
-  });
-}
-
-module.exports = methodBinding;
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const SHA256 = __webpack_require__(19);
+const SHA256 = __webpack_require__(18);
 
 /**
  * SHA256 Hashing.
@@ -2491,7 +2505,7 @@ module.exports = function (salt = '', challenge = '', msg) {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports) {
 
 /**
@@ -2514,7 +2528,7 @@ module.exports = function (debug, prefix, error) {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2635,7 +2649,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2651,7 +2665,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(16);
+exports.humanize = __webpack_require__(15);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -2843,7 +2857,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -3151,7 +3165,7 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -3241,7 +3255,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -3270,7 +3284,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -3281,7 +3295,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports) {
 
 /**
@@ -3436,7 +3450,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -3622,7 +3636,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// prototype class for hash functions
@@ -3698,7 +3712,7 @@ module.exports = Hash
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {/**
@@ -3709,8 +3723,8 @@ module.exports = Hash
  *
  */
 
-var inherits = __webpack_require__(14)
-var Hash = __webpack_require__(18)
+var inherits = __webpack_require__(13)
+var Hash = __webpack_require__(17)
 
 var K = [
   0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
@@ -3839,7 +3853,7 @@ module.exports = Sha256
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports) {
 
 var g;
@@ -3866,7 +3880,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = WebSocket;
