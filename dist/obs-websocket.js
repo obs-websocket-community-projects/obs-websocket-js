@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.6.1
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Built from Commit SHA: 526f50cf107fce00d24f7e3b0dd1868e1371aeac
- * Build Timestamp: 2017-05-31 04:35:24+00:00
+ * Built from Commit SHA: 4b304fbbb79c98fd301205c1b247c5a5f9b09c0f
+ * Build Timestamp: 2017-05-31 05:04:59+00:00
  */
 
 var OBSWebSocket =
@@ -3623,6 +3623,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
