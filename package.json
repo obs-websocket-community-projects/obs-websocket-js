@@ -10,6 +10,7 @@
     "build": "grunt",
     "watch": "grunt watch",
     "test": "npm run static && nyc ava",
+    "ava": "nyc ava",
     "report": "nyc report --reporter=text-lcov",
     "node-coveralls": "npm run report | coveralls",
     "static": "eslint ."
@@ -50,5 +51,11 @@
   "timestamp": "Local Build",
   "eslintConfig": {
     "extends": "xo-space/esnext"
+  },
+  "ava": {
+    "files": [
+      "test/*.spec.js",
+      "!setup/environment.js"
+    ]
   }
 }

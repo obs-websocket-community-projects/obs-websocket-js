@@ -15,6 +15,7 @@ test
 .editorconfig
 .eslintignore
 .travis.yml
+_config.yml
 bower.json
 
 # Logs

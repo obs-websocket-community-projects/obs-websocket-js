@@ -1,102 +1,71 @@
 const test = require('ava');
-const WebSocket = require('ws');
+const env = require('./setup/environment');
 const OBSWebSocket = require('../index');
 const SHA256 = require('sha.js/sha256');
 
-function makeServer(port) {
-  return new Promise((resolve, reject) => {
-    const server = new WebSocket.Server({port}, err => {
-      if (err) {
-        return reject(err);
-      }
+let unauthServer;
+let authServer;
 
-      resolve(server);
-    });
-  });
-}
+const password = 'supersecretpassword';
 
 test.before(async () => {
-  const server = await makeServer(4444);
-  const passwordedServer = await makeServer(5555);
+  unauthServer = await env.makeServer(4444);
+  authServer = await env.makeServer(4443);
 
-  server.on('connection', socket => {
-    socket.on('message', message => {
-      const data = JSON.parse(message);
-      let reply = {
-        'message-id': data['message-id']
-      };
-
-      switch (data['request-type']) {
-        case 'GetAuthRequired':
-          reply = Object.assign(reply, {authRequired: false});
-          break;
-        default:
-        // Do nothing.
-      }
-
-      socket.send(JSON.stringify(reply));
-    });
-  });
-
-  const password = 'supersecretpassword';
   const salt = 'PZVbYpvAnZut2SS6JNJytDm9';
   const challenge = 'ztTBnnuqrqaKDzRM3xcVdbYm';
   const secret = new SHA256().update(password).update(salt).digest('base64');
   const expectedAuthResponse = new SHA256().update(secret).update(challenge).digest('base64');
 
-  passwordedServer.on('connection', socket => {
-    socket.on('message', message => {
-      const data = JSON.parse(message);
-      let reply = {
-        'message-id': data['message-id']
-      };
+  authServer.storedResponses.GetAuthRequired = () => {
+    return {
+      authRequired: true,
+      salt,
+      challenge
+    };
+  };
 
-      switch (data['request-type']) {
-        case 'GetAuthRequired':
-          reply = Object.assign(reply, {
-            authRequired: true,
-            salt,
-            challenge
-          });
-          break;
-        case 'Authenticate':
-          if (data.auth === expectedAuthResponse) {
-            reply = Object.assign(reply, {
-              status: 'ok'
-            });
-          } else {
-            reply = Object.assign(reply, {
-              status: 'error',
-              error: 'Authentication Failed.'
-            });
-          }
-          break;
-        default:
-          // Do nothing.
-      }
+  authServer.storedResponses.Authenticate = data => {
+    return data.auth === expectedAuthResponse ? {} : {status: 'error', error: 'authentication failed'};
+  };
+});
 
-      socket.send(JSON.stringify(reply));
-    });
-  });
+test.after.always('cleanup', () => {
+  authServer.close();
+  unauthServer.close();
 });
 
 test('connects when auth is not required', async t => {
   const obs = new OBSWebSocket();
-  await t.notThrows(obs.connect());
+  await t.notThrows(obs.connect({
+    address: 'localhost:4444'
+  }));
 });
 
 test('connects when auth is required', async t => {
   const obs = new OBSWebSocket();
   await t.notThrows(obs.connect({
-    address: 'localhost:5555',
-    password: 'supersecretpassword'
+    address: 'localhost:4443',
+    password
   }));
+});
+
+// FIXME: Not sure I like this behavior, it returns the raw socket response when you provide an incorrect url.
+test('fails to connect when an incorrect url is provided', async t => {
+  const obs = new OBSWebSocket();
+  const resp = await t.throws(obs.connect({
+    address: 'localhost:4442'
+  }));
+
+  t.deepEqual(resp.message, 'connect ECONNREFUSED 127.0.0.1:4442');
 });
 
 test('fails to connect when the wrong password is provided', async t => {
   const obs = new OBSWebSocket();
-  await t.throws(obs.connect({
-    address: 'localhost:5555',
+  const resp = await t.throws(obs.connect({
+    address: 'localhost:4443',
     password: 'wrong_password'
   }));
+
+  t.deepEqual(resp.error, 'authentication failed');
 });
