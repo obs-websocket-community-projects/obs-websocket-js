@@ -1,14 +1,14 @@
 # obs-websocket-js
 
-*OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plugin [`obs-websocket`][link-obswebsocket].*
+<p align="center">*OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plugin [`obs-websocket`][link-obswebsocket].*</p>
 
-[![Build Status][badge-build-status]][link-Travis-CI]
+<p align="center">[![Build Status][badge-build-status]][link-Travis-CI]
 [![Coverage Status][badge-coveralls]][link-Coveralls]
 [![Latest Tag][badge-tag]][link-tags]
 [![Latest release][badge-release]][link-releases]
-![Downloads][badge-npm-downloads]
+![Downloads][badge-npm-downloads]</p>
 
-##### [Download][link-download] | [Samples][link-samples] | [Changelog][link-changelog]
+<p align="center">**[Download][link-download] | [Samples][link-samples] | [Changelog][link-changelog]**</p>
 
 ## Installation
 

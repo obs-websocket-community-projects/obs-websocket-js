@@ -10,6 +10,7 @@
     "build": "grunt",
     "watch": "grunt watch",
     "test": "npm run static && nyc ava",
+    "ava": "nyc ava",
     "report": "nyc report --reporter=text-lcov",
     "node-coveralls": "npm run report | coveralls",
     "static": "eslint ."
@@ -46,10 +47,15 @@
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "a0a231ab2c9e1943c496f9e2300e2b6b2e8df1f7",
-  "timestamp": "2017-05-31 05:19:49+00:00",
+  "sha": "0e8056ec6cc71a8cf434c7e71046b02565e3d779",
+  "timestamp": "2017-06-02 04:48:39+00:00",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   },
-  "false": {}
+  "ava": {
+    "files": [
+      "test/*.spec.js",
+      "!setup/environment.js"
+    ]
+  }
 }
