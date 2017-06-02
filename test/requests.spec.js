@@ -38,8 +38,27 @@ test('allows using uppercase request methods', async t => {
   t.deepEqual(resp.status, 'ok');
 });
 
+test('permits null args', async t => {
+  await t.notThrows(obs.send('ValidMethodName', null));
+});
+
 test('assigns default methods based on API.js', async t => {
   const resp = await obs.getAuthRequired();
   t.deepEqual(resp.status, 'ok');
   t.false(resp.authRequired);
+});
+
+test('rejects when no open connection exists', async t => {
+  const obs2 = new OBSWebSocket();
+  const resp = await t.throws(obs2.send('ValidMethodName'));
+
+  t.deepEqual(resp.status, 'error');
+  t.deepEqual(resp.code, 'NOT_CONNECTED');
+});
+
+test('rejects when no request type is specified', async t => {
+  const resp = await t.throws(obs.send());
+
+  t.deepEqual(resp.status, 'error');
+  t.deepEqual(resp.code, 'REQUEST_TYPE_NOT_SPECIFIED');
 });
