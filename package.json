@@ -47,8 +47,8 @@
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "260ace8a566ceaf151c71c7d04649af9d5510db1",
-  "timestamp": "2017-06-02 05:14:55+00:00",
+  "sha": "dd5630b5bf091b20dbad98b8886b50742ba40eed",
+  "timestamp": "2017-06-03 18:07:50+00:00",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   },

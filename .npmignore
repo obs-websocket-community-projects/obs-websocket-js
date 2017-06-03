@@ -17,6 +17,7 @@ test
 .travis.yml
 _config.yml
 bower.json
+package-lock.json # Not entirely sure that it's correct to exclude this.
 
 # Logs
 logs

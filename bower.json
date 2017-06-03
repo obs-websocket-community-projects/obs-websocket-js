@@ -32,6 +32,7 @@
     "test",
     "_config.yml",
     "Gruntfile.js",
-    "webpack.config.js"
+    "webpack.config.js",
+    "package-lock.json"
   ]
 }
