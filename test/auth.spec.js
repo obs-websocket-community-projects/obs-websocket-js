@@ -1,5 +1,6 @@
 const test = require('ava');
 const env = require('./setup/environment');
+const util = require('./setup/util');
 const OBSWebSocket = require('../index');
 const SHA256 = require('sha.js/sha256');
 
@@ -68,4 +69,61 @@ test('fails to connect when the wrong password is provided', async t => {
   }));
 
   t.deepEqual(resp.error, 'authentication failed');
+});
+
+test.cb('emits ConnectionOpened', t => {
+  util.avaTimeout(t, 250);
+
+  const obs2 = new OBSWebSocket();
+  obs2.on('ConnectionOpened', () => {
+    t.end();
+  });
+
+  obs2.connect({
+    address: 'localhost:4444'
+  });
+});
+
+test.cb('emits ConnectionClosed', t => {
+  util.avaTimeout(t, 250);
+
+  const obs2 = new OBSWebSocket();
+  obs2.on('ConnectionClosed', () => {
+    t.end();
+  });
+
+  obs2.connect({
+    address: 'localhost:4444'
+  }).then(() => {
+    obs2.disconnect();
+  });
+});
+
+test.cb('emits AuthenticationSuccess', t => {
+  util.avaTimeout(t, 250);
+
+  const obs2 = new OBSWebSocket();
+  obs2.on('AuthenticationSuccess', () => {
+    t.end();
+  });
+
+  obs2.connect({
+    address: 'localhost:4443',
+    password: 'supersecretpassword'
+  });
+});
+
+// Apparently we're catching the authentication failure and throwing it as a general connection failure.
+test.failing.cb('emits AuthenticationFailure', t => {
+  util.avaTimeout(t, 250);
+
+  const obs2 = new OBSWebSocket();
+  obs2.on('AuthenticationFailure', () => {
+    t.end();
+  });
+
+  obs2.connect({
+    address: 'localhost:4443',
+    password: 'wrong_password'
+  }).catch(() => {});
 });
