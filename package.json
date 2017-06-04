@@ -27,7 +27,7 @@
   "dependencies": {
     "debug": "^2.6.6",
     "sha.js": "^2.4.8",
-    "ws": "^2.3.1"
+    "ws": "^3.0.0"
   },
   "devDependencies": {
     "ava": "^0.19.1",
@@ -38,9 +38,9 @@
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-webpack": "^2.0.1",
+    "grunt-webpack": "^3.0.0",
     "load-grunt-tasks": "^3.5.2",
-    "nyc": "^10.3.0",
+    "nyc": "^11.0.2",
     "webpack": "^2.2.1"
   },
   "bugs": {
