@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -o errexit -o nounset
 TARGET_BRANCH="gh-pages"
 
@@ -7,12 +8,12 @@ then
   exit 0
 fi
 
-VERSION=`json -f package.json version`
-SHA=`json -f package.json sha`
-COMMIT_MESSAGE=`git log --oneline -1 | cut -d " " -f 2`
+VERSION=$(json -f package.json version)
+SHA=$(json -f package.json sha)
+COMMIT_MESSAGE=$(git log --oneline -1 | cut -d " " -f 2)
 
 # Use the commit message to determine if the changelog should use the current version.
-case `echo $COMMIT_MESSAGE | tr "[A-Z]" "[a-z]"` in
+case $(echo $COMMIT_MESSAGE | tr "[A-Z]" "[a-z]") in
   '[release]')
     RELEASE="--future-release=v$VERSION";;
   *)
