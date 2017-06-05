@@ -1,11 +1,19 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.6.1...HEAD)
+
+**Merged pull requests:**
+
+- Update dependencies to enable Greenkeeper 🌴 [\#50](https://github.com/haganbmj/obs-websocket-js/pull/50) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v0.6.1](https://github.com/haganbmj/obs-websocket-js/tree/v0.6.1) (2017-06-04)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.6.0...v0.6.1)
 
 **Implemented enhancements:**
 
-- \[API\] Expose addEvent and addRequest methods [\#47](https://github.com/haganbmj/obs-websocket-js/issues/47)
+- \[API\] Expose registerEvent and registerRequest methods [\#47](https://github.com/haganbmj/obs-websocket-js/issues/47)
 - \[API\] Strengthen Address Parsing [\#21](https://github.com/haganbmj/obs-websocket-js/issues/21)
 
 **Closed issues:**

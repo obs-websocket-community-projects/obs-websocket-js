@@ -25,9 +25,9 @@
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
   "dependencies": {
-    "debug": "^2.6.6",
+    "debug": "^2.6.8",
     "sha.js": "^2.4.8",
-    "ws": "^2.3.1"
+    "ws": "^3.0.0"
   },
   "devDependencies": {
     "ava": "^0.19.1",
@@ -38,17 +38,17 @@
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-webpack": "^2.0.1",
+    "grunt-webpack": "^3.0.0",
     "load-grunt-tasks": "^3.5.2",
-    "nyc": "^10.3.0",
+    "nyc": "^11.0.2",
     "webpack": "^2.2.1"
   },
   "bugs": {
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "dfccd1ebb5ed9f35c56e2d11602209997af0da9a",
-  "timestamp": "2017-06-04 02:15:14+00:00",
+  "sha": "953d231ae95555825248658ffa0e485bafed9ea6",
+  "timestamp": "2017-06-05 01:39:41+00:00",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   },
