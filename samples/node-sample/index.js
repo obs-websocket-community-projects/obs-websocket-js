@@ -1,18 +1,22 @@
-const OBSWebSocket = require('../../index.js');
-const ws = new OBSWebSocket();
+const OBSWebSocket = require('obs-websocket-js');
+const obs = new OBSWebSocket();
 
 // Declare some events to listen for.
-ws.onConnectionOpened(() => {
+obs.onConnectionOpened(() => {
   console.log('Connection Opened');
 
   // Send some requests.
-  ws.getSceneList(null, (err, data) => {
-    console.log(err, data);
+  obs.getSceneList({}, (err, data) => {
+    console.log("Using callbacks:", err, data);
   });
 
-  ws.onSwitchScenes(data => {
-    console.log(data);
+  obs.getSceneList().then(data => {
+    console.log("Using promises:", data);
   });
 });
 
-ws.connect();
+obs.onSwitchScenes(data => {
+  console.log(data);
+});
+
+obs.connect();

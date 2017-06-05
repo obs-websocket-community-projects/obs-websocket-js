@@ -1,65 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <script type='text/javascript' src='../../dist/obs-websocket.js'></script>
-    <script>
-      localStorage.debug = 'obs-websocket-js:*';
-
-      var obs = new OBSWebSocket();
-      // var obs = new OBSWebSocket('localhost:4444', 'password');
-
-      // Note that this defaults to localhost:4444. You can open a new connection later by doing the following.
-      // obs = new OBSWebSocket('localhost:4444', 'password'); // Overwrite the object.
-      // obs.connect({ address: 'localhost'}); // Call the connect method directly.
-
-      // If the password was not passed in the constructor, call the following.
-      // obs.authenticate({ password: 'password' });
-      obs.connect('localhost');
-
-      // Bind some methods.
-      obs.onConnectionOpened(function() {
-        console.log('Connection Opened - No guaruntees that we are authenticated though!');
-      });
-
-      obs.onAuthenticationSuccess(function(data) {
-        console.log('Authentication Success - Free to make any request.');
-
-        // Send some queries.
-        obs.GetSceneList(null, function(err, data) {
-          document.getElementById('scene_name').textContent = data['current-scene'];
-        });
-
-        obs.GetSceneList()
-          .then((data) => {
-            console.log('GetSceneList Promise Resolve', data);
-          })
-          .catch((err) => {
-            console.log('GetSceneList Promise Reject', err);
-          });
-
-        obs.send('GetSceneList', {}, function(err, data) {
-          console.log(err, data);
-        })
-          .then((data) => {
-            console.log(data);
-          });
-      });
-
-      obs.onAuthenticationFailure(function(data) {
-        console.log('Authentication Failure.');
-      });
-
-      obs.on('SwitchScenes', function(data) {
-        console.log('obs.on(SwitchScenes)', data);
-      });
-
-      obs.onSwitchScenes(function(data) {
-        console.log('obs.onSwitchScenes', data);
-      });
-    </script>
+    <script type="text/javascript" src="node_modules/obs-websocket-js/dist/obs-websocket.js"></script>
   </head>
   <body>
-    <p id='scene_name'></p>
+    <h1>Connect</h1>
+    <input id="address" placeholder="Address"><button id="address_button">Connect</button>
+
+    <h1>Scene List</h1>
+    <div id="scene_list"></div>
+
+    <script>
+      const obs = new OBSWebSocket();
+
+      document.getElementById('address_button').addEventListener('click', e => {
+        const address = document.getElementById('address').value;
+
+        obs.connect({
+          address: address
+        });
+      });
+
+      obs.onConnectionOpened(() => {
+        obs.getSceneList().then(data => {
+          const sceneListDiv = document.getElementById('scene_list');
+
+          data.scenes.forEach(scene => {
+            const sceneElement = document.createElement('button');
+            sceneElement.textContent = scene.name;
+            sceneElement.onclick = function() {
+              obs.setCurrentScene({
+                'scene-name': scene.name
+              });
+            };
+
+            sceneListDiv.appendChild(sceneElement);
+          });
+        })
+      });
+    </script>
   </body>
 </html>
