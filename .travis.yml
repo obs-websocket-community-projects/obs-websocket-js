@@ -18,12 +18,9 @@ before_script:
   - nvm install node
   - npm install npm@4.6.1 -g
   - npm install json -g
-  # - npm install json greenkeeper-lockfile@1 -g
   - bash ./.travis/pre-build.sh
   - npm prune
   - npm install
-  # - npm install --dev # This is the only way I can seem to get both dev and non-dev dependencies locally with a lockfile.
-  # - greenkeeper-lockfile-update
 
 script:
   - npm test
@@ -32,7 +29,6 @@ script:
 
 after_success:
   - npm run node-coveralls
-  # - greenkeeper-lockfile-upload
 
 branches:
   except:
