@@ -16,7 +16,7 @@ env:
 
 before_script:
   - nvm install node
-  - npm install npm -g
+  - npm install npm@4.6.1 -g
   - npm install json -g
   # - npm install json greenkeeper-lockfile@1 -g
   - bash ./.travis/pre-build.sh
