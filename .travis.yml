@@ -17,11 +17,12 @@ env:
 before_script:
   - nvm install node
   - npm install npm -g
-  - npm install json greenkeeper-lockfile@1 -g
+  - npm install json -g
+  # - npm install json greenkeeper-lockfile@1 -g
   - bash ./.travis/pre-build.sh
   - npm prune
   - npm install
-  - greenkeeper-lockfile-update
+  # - greenkeeper-lockfile-update
 
 script:
   - npm test
@@ -30,7 +31,7 @@ script:
 
 after_success:
   - npm run node-coveralls
-  - greenkeeper-lockfile-upload
+  # - greenkeeper-lockfile-upload
 
 branches:
   except:
