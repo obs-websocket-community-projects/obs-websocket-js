@@ -9,7 +9,8 @@ OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plug
   <a href="https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master"><img src="https://coveralls.io/repos/github/haganbmj/obs-websocket-js/badge.svg?branch=master"></a>
   <a href="https://github.com/haganbmj/obs-websocket-js/tags"><img src="https://img.shields.io/github/tag/haganbmj/obs-websocket-js.svg?style=flat"></a>
   <a href="https://github.com/haganbmj/obs-websocket-js/releases"><img src="https://img.shields.io/github/release/haganbmj/obs-websocket-js.svg?style=flat"></a>
-  <img src="https://img.shields.io/badge/license-MIT-blue.svg">
+  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/haganbmj/obs-websocket-js.svg"></a>
+  <img src="https://img.shields.io/npm/l/obs-websocket-js.svg">
   <img src="https://img.shields.io/npm/dt/obs-websocket-js.svg">
 </p>
 

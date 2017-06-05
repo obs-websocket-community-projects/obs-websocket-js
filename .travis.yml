@@ -16,6 +16,7 @@ env:
 
 before_script:
   - nvm install node
+  - npm install npm@4.6.1 -g
   - npm install json -g
   - bash ./.travis/pre-build.sh
   - npm prune

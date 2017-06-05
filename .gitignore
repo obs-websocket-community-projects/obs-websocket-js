@@ -19,3 +19,6 @@ npm-debug.log*
 
 coverage
 .nyc_output
+
+# Until npm5 package-locks are more reliable.
+package-lock.json
