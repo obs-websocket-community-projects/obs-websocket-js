@@ -6,7 +6,6 @@ const onMessage = function (server, message) {
 
   if (data.emitMessage) {
     reply = data.emitMessage;
-    console.log(reply);
   } else {
     reply = {
       'message-id': data['message-id'],

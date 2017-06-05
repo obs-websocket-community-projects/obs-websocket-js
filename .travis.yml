@@ -22,6 +22,7 @@ before_script:
   - bash ./.travis/pre-build.sh
   - npm prune
   - npm install
+  # - npm install --dev # This is the only way I can seem to get both dev and non-dev dependencies locally with a lockfile.
   # - greenkeeper-lockfile-update
 
 script:
