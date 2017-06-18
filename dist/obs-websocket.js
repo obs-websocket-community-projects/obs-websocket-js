@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.6.1
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Built from Commit SHA: 0b5f7eddf64fced0f0c77d5647abc4b0a5c999fe
- * Build Timestamp: 2017-06-05 22:39:51+00:00
+ * Built from Commit SHA: 6d76e55f84e1c205dac4a2bbafd403cc47f558ee
+ * Build Timestamp: 2017-06-18 21:22:18+00:00
  */
 
 var OBSWebSocket =
@@ -2264,7 +2264,7 @@ const API = {
     'SetCurrentSceneCollection', 'GetCurrentSceneCollection', 'ListSceneCollections',
     'SetCurrentProfile', 'GetCurrentProfile', 'ListProfiles',
     'GetStudioModeStatus', 'GetPreviewScene', 'SetPreviewScene', 'TransitionToProgram', 'EnableStudioMode', 'DisableStudioMode', 'ToggleStudioMode',
-    'GetCurrentRTMPSettings'
+    'GetCurrentRTMPSettings', 'GetRecordingFolder', 'SetRecordingFolder'
   ],
   availableEvents: [
     'ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure',

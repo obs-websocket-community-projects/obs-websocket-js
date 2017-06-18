@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.6.1...HEAD)
 
+**Closed issues:**
+
+- \[API\] add Get/SetRecordingFolder [\#52](https://github.com/haganbmj/obs-websocket-js/issues/52)
+
 **Merged pull requests:**
 
 - Update dependencies to enable Greenkeeper 🌴 [\#50](https://github.com/haganbmj/obs-websocket-js/pull/50) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
