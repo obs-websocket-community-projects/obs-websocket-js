@@ -32,7 +32,7 @@
   "devDependencies": {
     "ava": "^0.19.1",
     "coveralls": "^2.13.1",
-    "eslint": "^3.19.0",
+    "eslint": "^4.1.0",
     "eslint-config-xo-space": "^0.16.0",
     "eslint-plugin-ava": "^4.2.0",
     "grunt": "^1.0.1",
@@ -47,8 +47,8 @@
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "6d76e55f84e1c205dac4a2bbafd403cc47f558ee",
-  "timestamp": "2017-06-18 21:22:18+00:00",
+  "sha": "f2cad50ad5b496a1e6cffdf57da17c51b41bf76b",
+  "timestamp": "2017-06-24 19:05:12+00:00",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   },

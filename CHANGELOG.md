@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- Update eslint to the latest version 🚀 [\#57](https://github.com/haganbmj/obs-websocket-js/pull/57) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update dependencies to enable Greenkeeper 🌴 [\#50](https://github.com/haganbmj/obs-websocket-js/pull/50) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v0.6.1](https://github.com/haganbmj/obs-websocket-js/tree/v0.6.1) (2017-06-04)
