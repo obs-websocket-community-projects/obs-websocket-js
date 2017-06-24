@@ -19,7 +19,6 @@ before_script:
   - npm install npm@4.6.1 -g
   - npm install json -g
   - bash ./.travis/pre-build.sh
-  - npm prune
   - npm install
 
 script:
