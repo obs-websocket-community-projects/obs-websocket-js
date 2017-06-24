@@ -1,11 +1,10 @@
-/*
- * OBS WebSocket Javascript API (obs-websocket-js) v0.6.1
+/*!
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.6.2
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Built from Commit SHA: f2cad50ad5b496a1e6cffdf57da17c51b41bf76b
- * Build Timestamp: 2017-06-24 19:05:12+00:00
+ * Built from Commit SHA: 318b44cc780e61f45d7d8351637f2962d84ddc86
+ * Build Timestamp: 2017-06-24 20:06:47+00:00
  */
-
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -2251,7 +2250,7 @@ module.exports = __webpack_require__(3);
 /* 5 */
 /***/ (function(module, exports) {
 
-// Last Updated: May 05, 2017
+// Last Updated: June 18, 2017
 
 const API = {
   availableMethods: [
@@ -2377,6 +2376,8 @@ class Socket extends EventEmitter {
 
       await this._authenticate(args.password);
 
+      // Looks like this should be bound. We don't technically cancel the connection when the authentication fails.
+      // This whole method really needs a rewrite.
       this._socket.onclose = () => {
         this._connected = false;
         debug('Connection closed: %s', address);
@@ -3894,3 +3895,4 @@ module.exports = WebSocket;
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=obs-websocket.js.map

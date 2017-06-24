@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- \[Build\] Remove Grunt, update Webpack config [\#54](https://github.com/haganbmj/obs-websocket-js/issues/54)
 - \[API\] add Get/SetRecordingFolder [\#52](https://github.com/haganbmj/obs-websocket-js/issues/52)
 
 **Merged pull requests:**

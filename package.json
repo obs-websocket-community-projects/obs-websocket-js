@@ -1,14 +1,13 @@
 {
   "name": "obs-websocket-js",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "OBS Websocket API in Javascript, consume @Palakis/obs-websocket",
   "main": "index.js",
   "repository": "haganbmj/obs-websocket-js",
   "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
   "scripts": {
-    "grunt": "grunt",
-    "build": "grunt",
-    "watch": "grunt watch",
+    "build": "webpack",
+    "watch": "webpack --watch",
     "test": "npm run static && nyc ava",
     "ava": "nyc ava",
     "report": "nyc report --reporter=text-lcov",
@@ -31,15 +30,11 @@
   },
   "devDependencies": {
     "ava": "^0.19.1",
+    "babili-webpack-plugin": "^0.1.1",
     "coveralls": "^2.13.1",
     "eslint": "^4.1.0",
     "eslint-config-xo-space": "^0.16.0",
     "eslint-plugin-ava": "^4.2.0",
-    "grunt": "^1.0.1",
-    "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-webpack": "^3.0.0",
-    "load-grunt-tasks": "^3.5.2",
     "nyc": "^11.0.2",
     "webpack": "^2.2.1"
   },
@@ -47,8 +42,8 @@
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "f2cad50ad5b496a1e6cffdf57da17c51b41bf76b",
-  "timestamp": "2017-06-24 19:05:12+00:00",
+  "sha": "318b44cc780e61f45d7d8351637f2962d84ddc86",
+  "timestamp": "2017-06-24 20:06:47+00:00",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   },
