@@ -2,8 +2,8 @@
  * OBS WebSocket Javascript API (obs-websocket-js) v0.6.2
  * Author: Brendan Hagan (haganbmj)
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Built from Commit SHA: 318b44cc780e61f45d7d8351637f2962d84ddc86
- * Build Timestamp: 2017-06-24 20:06:47+00:00
+ * Built from Commit SHA: 20663747f04f101ac717398c68fed3b5278daed0
+ * Build Timestamp: 2017-06-24 20:17:31+00:00
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -41,9 +41,6 @@ var OBSWebSocket =
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/ 	// identity function for calling harmony imports with the correct context
-/******/ 	__webpack_require__.i = function(value) { return value; };
-/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -71,52 +68,11 @@ var OBSWebSocket =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
-
-module.exports = {
-  NOT_CONNECTED: {
-    status: 'error',
-    description: 'There is no Socket connection available.'
-  },
-  SOCKET_EXCEPTION: {
-    status: 'error',
-    description: 'An exception occurred from the underlying WebSocket.'
-  },
-  AUTH_NOT_REQUIRED: {
-    status: 'ok',
-    description: 'Authentication is not required.'
-  },
-  REQUEST_TYPE_NOT_SPECIFIED: {
-    status: 'error',
-    description: 'A Request Type was not specified.'
-  },
-
-  init() {
-    for (const key in this) {
-      if ({}.hasOwnProperty.call(this, key)) {
-        // Assign a value to 'code' identified by the status' key.
-        this[key].code = key;
-
-        // Assign a value to 'error' if one is not already defined.
-        if (this[key].status === 'error' && !this[key].error) {
-          this[key].error = this[key].description;
-        }
-      }
-    }
-
-    delete this.init;
-    return this;
-  }
-}.init();
-
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -130,9 +86,9 @@ module.exports = {
 
 
 
-var base64 = __webpack_require__(9)
+var base64 = __webpack_require__(11)
 var ieee754 = __webpack_require__(12)
-var isArray = __webpack_require__(14)
+var isArray = __webpack_require__(13)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -1910,7 +1866,48 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+module.exports = {
+  NOT_CONNECTED: {
+    status: 'error',
+    description: 'There is no Socket connection available.'
+  },
+  SOCKET_EXCEPTION: {
+    status: 'error',
+    description: 'An exception occurred from the underlying WebSocket.'
+  },
+  AUTH_NOT_REQUIRED: {
+    status: 'ok',
+    description: 'Authentication is not required.'
+  },
+  REQUEST_TYPE_NOT_SPECIFIED: {
+    status: 'error',
+    description: 'A Request Type was not specified.'
+  },
+
+  init() {
+    for (const key in this) {
+      if ({}.hasOwnProperty.call(this, key)) {
+        // Assign a value to 'code' identified by the status' key.
+        this[key].code = key;
+
+        // Assign a value to 'error' if one is not already defined.
+        if (this[key].status === 'error' && !this[key].error) {
+          this[key].error = this[key].description;
+        }
+      }
+    }
+
+    delete this.init;
+    return this;
+  }
+}.init();
+
 
 /***/ }),
 /* 2 */
@@ -1922,7 +1919,7 @@ function isnan (val) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(10);
+exports = module.exports = __webpack_require__(17);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -2108,10 +2105,17 @@ function localstorage() {
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Socket = __webpack_require__(6);
-const Status = __webpack_require__(0);
+module.exports = __webpack_require__(4);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Socket = __webpack_require__(5);
+const Status = __webpack_require__(1);
 const debug = __webpack_require__(2)('obs-websocket-js:Core');
-const API = __webpack_require__(5);
+const API = __webpack_require__(20);
 
 let requestCounter = 0;
 
@@ -2240,59 +2244,15 @@ module.exports = OBSWebSocket;
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(3);
-
-
-/***/ }),
 /* 5 */
-/***/ (function(module, exports) {
-
-// Last Updated: June 18, 2017
-
-const API = {
-  availableMethods: [
-    'GetVersion', 'GetAuthRequired',
-    'SetCurrentScene', 'GetCurrentScene', 'GetSceneList',
-    'SetSourceRender', 'SetSceneItemRender', 'SetSceneItemPosition', 'SetSceneItemTransform', 'SetSceneItemCrop',
-    'GetStreamingStatus', 'StartStopStreaming', 'StartStopRecording', 'StartStreaming', 'StopStreaming', 'StartRecording', 'StopRecording',
-    'GetTransitionList', 'GetCurrentTransition', 'SetCurrentTransition', 'GetTransitionDuration', 'SetTransitionDuration',
-    'SetVolume', 'GetVolume', 'ToggleMute', 'GetMute', 'SetMute', 'GetSpecialSources',
-    'SetCurrentSceneCollection', 'GetCurrentSceneCollection', 'ListSceneCollections',
-    'SetCurrentProfile', 'GetCurrentProfile', 'ListProfiles',
-    'GetStudioModeStatus', 'GetPreviewScene', 'SetPreviewScene', 'TransitionToProgram', 'EnableStudioMode', 'DisableStudioMode', 'ToggleStudioMode',
-    'GetCurrentRTMPSettings', 'GetRecordingFolder', 'SetRecordingFolder'
-  ],
-  availableEvents: [
-    'ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure',
-    'SwitchScenes', 'ScenesChanged', 'SceneCollectionChanged', 'SceneCollectionListChanged',
-    'SwitchTransition', 'TransitionListChanged',
-    'ProfileChanged', 'ProfileListChanged',
-    'StreamStarting', 'StreamStarted', 'StreamStopping', 'StreamStopped',
-    'RecordingStarting', 'RecordingStarted', 'RecordingStopping', 'RecordingStopped',
-    'Exiting',
-    'StreamStatus',
-    'TransitionDurationChanged', 'TransitionBegin',
-    'SourceOrderChanged', 'SceneItemAdded', 'SceneItemRemoved', 'SceneItemVisibilityChanged',
-    'PreviewSceneChanged', 'StudioModeSwitched'
-  ]
-};
-
-module.exports = API;
-
-
-/***/ }),
-/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const WebSocket = __webpack_require__(20);
-const EventEmitter = __webpack_require__(11);
-const hash = __webpack_require__(7);
-const Status = __webpack_require__(0);
+const WebSocket = __webpack_require__(6);
+const EventEmitter = __webpack_require__(7);
+const hash = __webpack_require__(8);
+const Status = __webpack_require__(1);
 const debug = __webpack_require__(2)('obs-websocket-js:Socket');
-const logAmbiguousError = __webpack_require__(8);
+const logAmbiguousError = __webpack_require__(19);
 
 const NOP = function () {};
 
@@ -2478,387 +2438,13 @@ module.exports = Socket;
 
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const SHA256 = __webpack_require__(18);
-
-/**
- * SHA256 Hashing.
- * @param  {String} [salt='']
- * @param  {String} [challenge='']
- * @param  {String} msg
- * @return {String}
- */
-module.exports = function (salt = '', challenge = '', msg) {
-  const hash = new SHA256()
-    .update(msg)
-    .update(salt)
-    .digest('base64');
-
-  const resp = new SHA256()
-    .update(hash)
-    .update(challenge)
-    .digest('base64');
-
-  return resp;
-};
-
-
-/***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, exports) {
 
-/**
- * Disambiguates an "error" and formats it nicely for `debug` output.
- * Particularly useful when dealing with error response objects from obs-websocket,
- * which are not actual Error-type errors, but simply Objects.
- * @param debug - A `debug` instance.
- * @param prefix - A string to print in front of the formatted error.
- * @param error - An error of ambiguous type that you wish to log to `debug`. Can be an Error, Object, or String.
- */
-module.exports = function (debug, prefix, error) {
-  if (error && error.stack) {
-    debug(`${prefix}\n %O`, error.stack);
-  } else if (typeof error === 'object') {
-    debug(`${prefix} %o`, error);
-  } else {
-    debug(`${prefix} %s`, error);
-  }
-};
-
+module.exports = WebSocket;
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.byteLength = byteLength
-exports.toByteArray = toByteArray
-exports.fromByteArray = fromByteArray
-
-var lookup = []
-var revLookup = []
-var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
-
-var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-for (var i = 0, len = code.length; i < len; ++i) {
-  lookup[i] = code[i]
-  revLookup[code.charCodeAt(i)] = i
-}
-
-revLookup['-'.charCodeAt(0)] = 62
-revLookup['_'.charCodeAt(0)] = 63
-
-function placeHoldersCount (b64) {
-  var len = b64.length
-  if (len % 4 > 0) {
-    throw new Error('Invalid string. Length must be a multiple of 4')
-  }
-
-  // the number of equal signs (place holders)
-  // if there are two placeholders, than the two characters before it
-  // represent one byte
-  // if there is only one, then the three characters before it represent 2 bytes
-  // this is just a cheap hack to not do indexOf twice
-  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
-}
-
-function byteLength (b64) {
-  // base64 is 4/3 + up to two characters of the original data
-  return b64.length * 3 / 4 - placeHoldersCount(b64)
-}
-
-function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
-  var len = b64.length
-  placeHolders = placeHoldersCount(b64)
-
-  arr = new Arr(len * 3 / 4 - placeHolders)
-
-  // if there are placeholders, only get up to the last complete 4 chars
-  l = placeHolders > 0 ? len - 4 : len
-
-  var L = 0
-
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
-    arr[L++] = (tmp >> 16) & 0xFF
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  if (placeHolders === 2) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
-    arr[L++] = tmp & 0xFF
-  } else if (placeHolders === 1) {
-    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
-    arr[L++] = (tmp >> 8) & 0xFF
-    arr[L++] = tmp & 0xFF
-  }
-
-  return arr
-}
-
-function tripletToBase64 (num) {
-  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
-}
-
-function encodeChunk (uint8, start, end) {
-  var tmp
-  var output = []
-  for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-    output.push(tripletToBase64(tmp))
-  }
-  return output.join('')
-}
-
-function fromByteArray (uint8) {
-  var tmp
-  var len = uint8.length
-  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
-  var output = ''
-  var parts = []
-  var maxChunkLength = 16383 // must be multiple of 3
-
-  // go through the array every three bytes, we'll deal with trailing stuff later
-  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
-    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
-  }
-
-  // pad the end with zeros, but make sure to not forget the extra bytes
-  if (extraBytes === 1) {
-    tmp = uint8[len - 1]
-    output += lookup[tmp >> 2]
-    output += lookup[(tmp << 4) & 0x3F]
-    output += '=='
-  } else if (extraBytes === 2) {
-    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
-    output += lookup[tmp >> 10]
-    output += lookup[(tmp >> 4) & 0x3F]
-    output += lookup[(tmp << 2) & 0x3F]
-    output += '='
-  }
-
-  parts.push(output)
-
-  return parts.join('')
-}
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * This is the common logic for both the Node.js and web browser
- * implementations of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
-exports.coerce = coerce;
-exports.disable = disable;
-exports.enable = enable;
-exports.enabled = enabled;
-exports.humanize = __webpack_require__(15);
-
-/**
- * The currently active debug mode names, and names to skip.
- */
-
-exports.names = [];
-exports.skips = [];
-
-/**
- * Map of special "%n" handling functions, for the debug "format" argument.
- *
- * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
- */
-
-exports.formatters = {};
-
-/**
- * Previous log timestamp.
- */
-
-var prevTime;
-
-/**
- * Select a color.
- * @param {String} namespace
- * @return {Number}
- * @api private
- */
-
-function selectColor(namespace) {
-  var hash = 0, i;
-
-  for (i in namespace) {
-    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
-    hash |= 0; // Convert to 32bit integer
-  }
-
-  return exports.colors[Math.abs(hash) % exports.colors.length];
-}
-
-/**
- * Create a debugger with the given `namespace`.
- *
- * @param {String} namespace
- * @return {Function}
- * @api public
- */
-
-function createDebug(namespace) {
-
-  function debug() {
-    // disabled?
-    if (!debug.enabled) return;
-
-    var self = debug;
-
-    // set `diff` timestamp
-    var curr = +new Date();
-    var ms = curr - (prevTime || curr);
-    self.diff = ms;
-    self.prev = prevTime;
-    self.curr = curr;
-    prevTime = curr;
-
-    // turn the `arguments` into a proper Array
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-
-    args[0] = exports.coerce(args[0]);
-
-    if ('string' !== typeof args[0]) {
-      // anything else let's inspect with %O
-      args.unshift('%O');
-    }
-
-    // apply any `formatters` transformations
-    var index = 0;
-    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
-      // if we encounter an escaped % then don't increase the array index
-      if (match === '%%') return match;
-      index++;
-      var formatter = exports.formatters[format];
-      if ('function' === typeof formatter) {
-        var val = args[index];
-        match = formatter.call(self, val);
-
-        // now we need to remove `args[index]` since it's inlined in the `format`
-        args.splice(index, 1);
-        index--;
-      }
-      return match;
-    });
-
-    // apply env-specific formatting (colors, etc.)
-    exports.formatArgs.call(self, args);
-
-    var logFn = debug.log || exports.log || console.log.bind(console);
-    logFn.apply(self, args);
-  }
-
-  debug.namespace = namespace;
-  debug.enabled = exports.enabled(namespace);
-  debug.useColors = exports.useColors();
-  debug.color = selectColor(namespace);
-
-  // env-specific initialization logic for debug instances
-  if ('function' === typeof exports.init) {
-    exports.init(debug);
-  }
-
-  return debug;
-}
-
-/**
- * Enables a debug mode by namespaces. This can include modes
- * separated by a colon and wildcards.
- *
- * @param {String} namespaces
- * @api public
- */
-
-function enable(namespaces) {
-  exports.save(namespaces);
-
-  exports.names = [];
-  exports.skips = [];
-
-  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
-  var len = split.length;
-
-  for (var i = 0; i < len; i++) {
-    if (!split[i]) continue; // ignore empty strings
-    namespaces = split[i].replace(/\*/g, '.*?');
-    if (namespaces[0] === '-') {
-      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
-    } else {
-      exports.names.push(new RegExp('^' + namespaces + '$'));
-    }
-  }
-}
-
-/**
- * Disable debug output.
- *
- * @api public
- */
-
-function disable() {
-  exports.enable('');
-}
-
-/**
- * Returns true if the given mode name is enabled, false otherwise.
- *
- * @param {String} name
- * @return {Boolean}
- * @api public
- */
-
-function enabled(name) {
-  var i, len;
-  for (i = 0, len = exports.skips.length; i < len; i++) {
-    if (exports.skips[i].test(name)) {
-      return false;
-    }
-  }
-  for (i = 0, len = exports.names.length; i < len; i++) {
-    if (exports.names[i].test(name)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Coerce `val`.
- *
- * @param {Mixed} val
- * @return {Mixed}
- * @api private
- */
-
-function coerce(val) {
-  if (val instanceof Error) return val.stack || val.message;
-  return val;
-}
-
-
-/***/ }),
-/* 11 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -3166,6 +2752,323 @@ function isUndefined(arg) {
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const SHA256 = __webpack_require__(9);
+
+/**
+ * SHA256 Hashing.
+ * @param  {String} [salt='']
+ * @param  {String} [challenge='']
+ * @param  {String} msg
+ * @return {String}
+ */
+module.exports = function (salt = '', challenge = '', msg) {
+  const hash = new SHA256()
+    .update(msg)
+    .update(salt)
+    .digest('base64');
+
+  const resp = new SHA256()
+    .update(hash)
+    .update(challenge)
+    .digest('base64');
+
+  return resp;
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Buffer) {/**
+ * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
+ * in FIPS 180-2
+ * Version 2.2-beta Copyright Angel Marin, Paul Johnston 2000 - 2009.
+ * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
+ *
+ */
+
+var inherits = __webpack_require__(14)
+var Hash = __webpack_require__(15)
+
+var K = [
+  0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
+  0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5,
+  0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3,
+  0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174,
+  0xE49B69C1, 0xEFBE4786, 0x0FC19DC6, 0x240CA1CC,
+  0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA,
+  0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7,
+  0xC6E00BF3, 0xD5A79147, 0x06CA6351, 0x14292967,
+  0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13,
+  0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85,
+  0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3,
+  0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070,
+  0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5,
+  0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3,
+  0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
+  0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2
+]
+
+var W = new Array(64)
+
+function Sha256 () {
+  this.init()
+
+  this._w = W // new Array(64)
+
+  Hash.call(this, 64, 56)
+}
+
+inherits(Sha256, Hash)
+
+Sha256.prototype.init = function () {
+  this._a = 0x6a09e667
+  this._b = 0xbb67ae85
+  this._c = 0x3c6ef372
+  this._d = 0xa54ff53a
+  this._e = 0x510e527f
+  this._f = 0x9b05688c
+  this._g = 0x1f83d9ab
+  this._h = 0x5be0cd19
+
+  return this
+}
+
+function ch (x, y, z) {
+  return z ^ (x & (y ^ z))
+}
+
+function maj (x, y, z) {
+  return (x & y) | (z & (x | y))
+}
+
+function sigma0 (x) {
+  return (x >>> 2 | x << 30) ^ (x >>> 13 | x << 19) ^ (x >>> 22 | x << 10)
+}
+
+function sigma1 (x) {
+  return (x >>> 6 | x << 26) ^ (x >>> 11 | x << 21) ^ (x >>> 25 | x << 7)
+}
+
+function gamma0 (x) {
+  return (x >>> 7 | x << 25) ^ (x >>> 18 | x << 14) ^ (x >>> 3)
+}
+
+function gamma1 (x) {
+  return (x >>> 17 | x << 15) ^ (x >>> 19 | x << 13) ^ (x >>> 10)
+}
+
+Sha256.prototype._update = function (M) {
+  var W = this._w
+
+  var a = this._a | 0
+  var b = this._b | 0
+  var c = this._c | 0
+  var d = this._d | 0
+  var e = this._e | 0
+  var f = this._f | 0
+  var g = this._g | 0
+  var h = this._h | 0
+
+  for (var i = 0; i < 16; ++i) W[i] = M.readInt32BE(i * 4)
+  for (; i < 64; ++i) W[i] = (gamma1(W[i - 2]) + W[i - 7] + gamma0(W[i - 15]) + W[i - 16]) | 0
+
+  for (var j = 0; j < 64; ++j) {
+    var T1 = (h + sigma1(e) + ch(e, f, g) + K[j] + W[j]) | 0
+    var T2 = (sigma0(a) + maj(a, b, c)) | 0
+
+    h = g
+    g = f
+    f = e
+    e = (d + T1) | 0
+    d = c
+    c = b
+    b = a
+    a = (T1 + T2) | 0
+  }
+
+  this._a = (a + this._a) | 0
+  this._b = (b + this._b) | 0
+  this._c = (c + this._c) | 0
+  this._d = (d + this._d) | 0
+  this._e = (e + this._e) | 0
+  this._f = (f + this._f) | 0
+  this._g = (g + this._g) | 0
+  this._h = (h + this._h) | 0
+}
+
+Sha256.prototype._hash = function () {
+  var H = new Buffer(32)
+
+  H.writeInt32BE(this._a, 0)
+  H.writeInt32BE(this._b, 4)
+  H.writeInt32BE(this._c, 8)
+  H.writeInt32BE(this._d, 12)
+  H.writeInt32BE(this._e, 16)
+  H.writeInt32BE(this._f, 20)
+  H.writeInt32BE(this._g, 24)
+  H.writeInt32BE(this._h, 28)
+
+  return H
+}
+
+module.exports = Sha256
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0).Buffer))
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
+}
+
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function placeHoldersCount (b64) {
+  var len = b64.length
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+}
+
+function byteLength (b64) {
+  // base64 is 4/3 + up to two characters of the original data
+  return (b64.length * 3 / 4) - placeHoldersCount(b64)
+}
+
+function toByteArray (b64) {
+  var i, l, tmp, placeHolders, arr
+  var len = b64.length
+  placeHolders = placeHoldersCount(b64)
+
+  arr = new Arr((len * 3 / 4) - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0; i < l; i += 4) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
+
+
+/***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
@@ -3259,6 +3162,17 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 /* 13 */
 /***/ (function(module, exports) {
 
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -3285,173 +3199,80 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 14 */
-/***/ (function(module, exports) {
-
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-
-/***/ }),
 /* 15 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} [options]
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options) {
-  options = options || {};
-  var type = typeof val;
-  if (type === 'string' && val.length > 0) {
-    return parse(val);
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ? fmtLong(val) : fmtShort(val);
-  }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str);
-  if (str.length > 100) {
-    return;
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(
-    str
-  );
-  if (!match) {
-    return;
-  }
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-    default:
-      return undefined;
-  }
+/* WEBPACK VAR INJECTION */(function(Buffer) {// prototype class for hash functions
+function Hash (blockSize, finalSize) {
+  this._block = new Buffer(blockSize)
+  this._finalSize = finalSize
+  this._blockSize = blockSize
+  this._len = 0
+  this._s = 0
 }
 
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
+Hash.prototype.update = function (data, enc) {
+  if (typeof data === 'string') {
+    enc = enc || 'utf8'
+    data = new Buffer(data, enc)
+  }
 
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd';
+  var l = this._len += data.length
+  var s = this._s || 0
+  var f = 0
+  var buffer = this._block
+
+  while (s < l) {
+    var t = Math.min(data.length, f + this._blockSize - (s % this._blockSize))
+    var ch = (t - f)
+
+    for (var i = 0; i < ch; i++) {
+      buffer[(s % this._blockSize) + i] = data[i + f]
+    }
+
+    s += ch
+    f += ch
+
+    if ((s % this._blockSize) === 0) {
+      this._update(buffer)
+    }
   }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h';
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm';
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's';
-  }
-  return ms + 'ms';
+  this._s = s
+
+  return this
 }
 
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
+Hash.prototype.digest = function (enc) {
+  // Suppose the length of the message M, in bits, is l
+  var l = this._len * 8
 
-function fmtLong(ms) {
-  return plural(ms, d, 'day') ||
-    plural(ms, h, 'hour') ||
-    plural(ms, m, 'minute') ||
-    plural(ms, s, 'second') ||
-    ms + ' ms';
+  // Append the bit 1 to the end of the message
+  this._block[this._len % this._blockSize] = 0x80
+
+  // and then k zero bits, where k is the smallest non-negative solution to the equation (l + 1 + k) === finalSize mod blockSize
+  this._block.fill(0, this._len % this._blockSize + 1)
+
+  if (l % (this._blockSize * 8) >= this._finalSize * 8) {
+    this._update(this._block)
+    this._block.fill(0)
+  }
+
+  // to this append the block which is equal to the number l written in binary
+  // TODO: handle case where l is > Math.pow(2, 29)
+  this._block.writeInt32BE(l, this._blockSize - 4)
+
+  var hash = this._update(this._block) || this._hash()
+
+  return enc ? hash.toString(enc) : hash
 }
 
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return;
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name;
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's';
+Hash.prototype._update = function () {
+  throw new Error('_update must be implemented by subclass')
 }
 
+module.exports = Hash
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0).Buffer))
 
 /***/ }),
 /* 16 */
@@ -3647,251 +3468,427 @@ process.umask = function() { return 0; };
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {// prototype class for hash functions
-function Hash (blockSize, finalSize) {
-  this._block = new Buffer(blockSize)
-  this._finalSize = finalSize
-  this._blockSize = blockSize
-  this._len = 0
-  this._s = 0
-}
 
-Hash.prototype.update = function (data, enc) {
-  if (typeof data === 'string') {
-    enc = enc || 'utf8'
-    data = new Buffer(data, enc)
+/**
+ * This is the common logic for both the Node.js and web browser
+ * implementations of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
+exports.coerce = coerce;
+exports.disable = disable;
+exports.enable = enable;
+exports.enabled = enabled;
+exports.humanize = __webpack_require__(18);
+
+/**
+ * The currently active debug mode names, and names to skip.
+ */
+
+exports.names = [];
+exports.skips = [];
+
+/**
+ * Map of special "%n" handling functions, for the debug "format" argument.
+ *
+ * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
+ */
+
+exports.formatters = {};
+
+/**
+ * Previous log timestamp.
+ */
+
+var prevTime;
+
+/**
+ * Select a color.
+ * @param {String} namespace
+ * @return {Number}
+ * @api private
+ */
+
+function selectColor(namespace) {
+  var hash = 0, i;
+
+  for (i in namespace) {
+    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
   }
 
-  var l = this._len += data.length
-  var s = this._s || 0
-  var f = 0
-  var buffer = this._block
+  return exports.colors[Math.abs(hash) % exports.colors.length];
+}
 
-  while (s < l) {
-    var t = Math.min(data.length, f + this._blockSize - (s % this._blockSize))
-    var ch = (t - f)
+/**
+ * Create a debugger with the given `namespace`.
+ *
+ * @param {String} namespace
+ * @return {Function}
+ * @api public
+ */
 
-    for (var i = 0; i < ch; i++) {
-      buffer[(s % this._blockSize) + i] = data[i + f]
+function createDebug(namespace) {
+
+  function debug() {
+    // disabled?
+    if (!debug.enabled) return;
+
+    var self = debug;
+
+    // set `diff` timestamp
+    var curr = +new Date();
+    var ms = curr - (prevTime || curr);
+    self.diff = ms;
+    self.prev = prevTime;
+    self.curr = curr;
+    prevTime = curr;
+
+    // turn the `arguments` into a proper Array
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
     }
 
-    s += ch
-    f += ch
+    args[0] = exports.coerce(args[0]);
 
-    if ((s % this._blockSize) === 0) {
-      this._update(buffer)
+    if ('string' !== typeof args[0]) {
+      // anything else let's inspect with %O
+      args.unshift('%O');
+    }
+
+    // apply any `formatters` transformations
+    var index = 0;
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
+      // if we encounter an escaped % then don't increase the array index
+      if (match === '%%') return match;
+      index++;
+      var formatter = exports.formatters[format];
+      if ('function' === typeof formatter) {
+        var val = args[index];
+        match = formatter.call(self, val);
+
+        // now we need to remove `args[index]` since it's inlined in the `format`
+        args.splice(index, 1);
+        index--;
+      }
+      return match;
+    });
+
+    // apply env-specific formatting (colors, etc.)
+    exports.formatArgs.call(self, args);
+
+    var logFn = debug.log || exports.log || console.log.bind(console);
+    logFn.apply(self, args);
+  }
+
+  debug.namespace = namespace;
+  debug.enabled = exports.enabled(namespace);
+  debug.useColors = exports.useColors();
+  debug.color = selectColor(namespace);
+
+  // env-specific initialization logic for debug instances
+  if ('function' === typeof exports.init) {
+    exports.init(debug);
+  }
+
+  return debug;
+}
+
+/**
+ * Enables a debug mode by namespaces. This can include modes
+ * separated by a colon and wildcards.
+ *
+ * @param {String} namespaces
+ * @api public
+ */
+
+function enable(namespaces) {
+  exports.save(namespaces);
+
+  exports.names = [];
+  exports.skips = [];
+
+  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+  var len = split.length;
+
+  for (var i = 0; i < len; i++) {
+    if (!split[i]) continue; // ignore empty strings
+    namespaces = split[i].replace(/\*/g, '.*?');
+    if (namespaces[0] === '-') {
+      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+    } else {
+      exports.names.push(new RegExp('^' + namespaces + '$'));
     }
   }
-  this._s = s
-
-  return this
 }
 
-Hash.prototype.digest = function (enc) {
-  // Suppose the length of the message M, in bits, is l
-  var l = this._len * 8
+/**
+ * Disable debug output.
+ *
+ * @api public
+ */
 
-  // Append the bit 1 to the end of the message
-  this._block[this._len % this._blockSize] = 0x80
+function disable() {
+  exports.enable('');
+}
 
-  // and then k zero bits, where k is the smallest non-negative solution to the equation (l + 1 + k) === finalSize mod blockSize
-  this._block.fill(0, this._len % this._blockSize + 1)
+/**
+ * Returns true if the given mode name is enabled, false otherwise.
+ *
+ * @param {String} name
+ * @return {Boolean}
+ * @api public
+ */
 
-  if (l % (this._blockSize * 8) >= this._finalSize * 8) {
-    this._update(this._block)
-    this._block.fill(0)
+function enabled(name) {
+  var i, len;
+  for (i = 0, len = exports.skips.length; i < len; i++) {
+    if (exports.skips[i].test(name)) {
+      return false;
+    }
   }
-
-  // to this append the block which is equal to the number l written in binary
-  // TODO: handle case where l is > Math.pow(2, 29)
-  this._block.writeInt32BE(l, this._blockSize - 4)
-
-  var hash = this._update(this._block) || this._hash()
-
-  return enc ? hash.toString(enc) : hash
+  for (i = 0, len = exports.names.length; i < len; i++) {
+    if (exports.names[i].test(name)) {
+      return true;
+    }
+  }
+  return false;
 }
 
-Hash.prototype._update = function () {
-  throw new Error('_update must be implemented by subclass')
+/**
+ * Coerce `val`.
+ *
+ * @param {Mixed} val
+ * @return {Mixed}
+ * @api private
+ */
+
+function coerce(val) {
+  if (val instanceof Error) return val.stack || val.message;
+  return val;
 }
 
-module.exports = Hash
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
 
 /***/ }),
 /* 18 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-/* WEBPACK VAR INJECTION */(function(Buffer) {/**
- * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
- * in FIPS 180-2
- * Version 2.2-beta Copyright Angel Marin, Paul Johnston 2000 - 2009.
- * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
- *
+/**
+ * Helpers.
  */
 
-var inherits = __webpack_require__(13)
-var Hash = __webpack_require__(17)
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
 
-var K = [
-  0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
-  0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5,
-  0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3,
-  0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174,
-  0xE49B69C1, 0xEFBE4786, 0x0FC19DC6, 0x240CA1CC,
-  0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA,
-  0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7,
-  0xC6E00BF3, 0xD5A79147, 0x06CA6351, 0x14292967,
-  0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13,
-  0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85,
-  0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3,
-  0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070,
-  0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5,
-  0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3,
-  0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208,
-  0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2
-]
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} [options]
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
 
-var W = new Array(64)
-
-function Sha256 () {
-  this.init()
-
-  this._w = W // new Array(64)
-
-  Hash.call(this, 64, 56)
-}
-
-inherits(Sha256, Hash)
-
-Sha256.prototype.init = function () {
-  this._a = 0x6a09e667
-  this._b = 0xbb67ae85
-  this._c = 0x3c6ef372
-  this._d = 0xa54ff53a
-  this._e = 0x510e527f
-  this._f = 0x9b05688c
-  this._g = 0x1f83d9ab
-  this._h = 0x5be0cd19
-
-  return this
-}
-
-function ch (x, y, z) {
-  return z ^ (x & (y ^ z))
-}
-
-function maj (x, y, z) {
-  return (x & y) | (z & (x | y))
-}
-
-function sigma0 (x) {
-  return (x >>> 2 | x << 30) ^ (x >>> 13 | x << 19) ^ (x >>> 22 | x << 10)
-}
-
-function sigma1 (x) {
-  return (x >>> 6 | x << 26) ^ (x >>> 11 | x << 21) ^ (x >>> 25 | x << 7)
-}
-
-function gamma0 (x) {
-  return (x >>> 7 | x << 25) ^ (x >>> 18 | x << 14) ^ (x >>> 3)
-}
-
-function gamma1 (x) {
-  return (x >>> 17 | x << 15) ^ (x >>> 19 | x << 13) ^ (x >>> 10)
-}
-
-Sha256.prototype._update = function (M) {
-  var W = this._w
-
-  var a = this._a | 0
-  var b = this._b | 0
-  var c = this._c | 0
-  var d = this._d | 0
-  var e = this._e | 0
-  var f = this._f | 0
-  var g = this._g | 0
-  var h = this._h | 0
-
-  for (var i = 0; i < 16; ++i) W[i] = M.readInt32BE(i * 4)
-  for (; i < 64; ++i) W[i] = (gamma1(W[i - 2]) + W[i - 7] + gamma0(W[i - 15]) + W[i - 16]) | 0
-
-  for (var j = 0; j < 64; ++j) {
-    var T1 = (h + sigma1(e) + ch(e, f, g) + K[j] + W[j]) | 0
-    var T2 = (sigma0(a) + maj(a, b, c)) | 0
-
-    h = g
-    g = f
-    f = e
-    e = (d + T1) | 0
-    d = c
-    c = b
-    b = a
-    a = (T1 + T2) | 0
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
+  if (type === 'string' && val.length > 0) {
+    return parse(val);
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ? fmtLong(val) : fmtShort(val);
   }
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
 
-  this._a = (a + this._a) | 0
-  this._b = (b + this._b) | 0
-  this._c = (c + this._c) | 0
-  this._d = (d + this._d) | 0
-  this._e = (e + this._e) | 0
-  this._f = (f + this._f) | 0
-  this._g = (g + this._g) | 0
-  this._h = (h + this._h) | 0
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str);
+  if (str.length > 100) {
+    return;
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(
+    str
+  );
+  if (!match) {
+    return;
+  }
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y;
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d;
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h;
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m;
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s;
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n;
+    default:
+      return undefined;
+  }
 }
 
-Sha256.prototype._hash = function () {
-  var H = new Buffer(32)
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
 
-  H.writeInt32BE(this._a, 0)
-  H.writeInt32BE(this._b, 4)
-  H.writeInt32BE(this._c, 8)
-  H.writeInt32BE(this._d, 12)
-  H.writeInt32BE(this._e, 16)
-  H.writeInt32BE(this._f, 20)
-  H.writeInt32BE(this._g, 24)
-  H.writeInt32BE(this._h, 28)
-
-  return H
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd';
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h';
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm';
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's';
+  }
+  return ms + 'ms';
 }
 
-module.exports = Sha256
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1).Buffer))
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms';
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return;
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name;
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's';
+}
+
 
 /***/ }),
 /* 19 */
 /***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
+/**
+ * Disambiguates an "error" and formats it nicely for `debug` output.
+ * Particularly useful when dealing with error response objects from obs-websocket,
+ * which are not actual Error-type errors, but simply Objects.
+ * @param debug - A `debug` instance.
+ * @param prefix - A string to print in front of the formatted error.
+ * @param error - An error of ambiguous type that you wish to log to `debug`. Can be an Error, Object, or String.
+ */
+module.exports = function (debug, prefix, error) {
+  if (error && error.stack) {
+    debug(`${prefix}\n %O`, error.stack);
+  } else if (typeof error === 'object') {
+    debug(`${prefix} %o`, error);
+  } else {
+    debug(`${prefix} %s`, error);
+  }
+};
 
 
 /***/ }),
 /* 20 */
 /***/ (function(module, exports) {
 
-module.exports = WebSocket;
+// Last Updated: June 18, 2017
+
+const API = {
+  availableMethods: [
+    'GetVersion', 'GetAuthRequired',
+    'SetCurrentScene', 'GetCurrentScene', 'GetSceneList',
+    'SetSourceRender', 'SetSceneItemRender', 'SetSceneItemPosition', 'SetSceneItemTransform', 'SetSceneItemCrop',
+    'GetStreamingStatus', 'StartStopStreaming', 'StartStopRecording', 'StartStreaming', 'StopStreaming', 'StartRecording', 'StopRecording',
+    'GetTransitionList', 'GetCurrentTransition', 'SetCurrentTransition', 'GetTransitionDuration', 'SetTransitionDuration',
+    'SetVolume', 'GetVolume', 'ToggleMute', 'GetMute', 'SetMute', 'GetSpecialSources',
+    'SetCurrentSceneCollection', 'GetCurrentSceneCollection', 'ListSceneCollections',
+    'SetCurrentProfile', 'GetCurrentProfile', 'ListProfiles',
+    'GetStudioModeStatus', 'GetPreviewScene', 'SetPreviewScene', 'TransitionToProgram', 'EnableStudioMode', 'DisableStudioMode', 'ToggleStudioMode',
+    'GetCurrentRTMPSettings', 'GetRecordingFolder', 'SetRecordingFolder'
+  ],
+  availableEvents: [
+    'ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure',
+    'SwitchScenes', 'ScenesChanged', 'SceneCollectionChanged', 'SceneCollectionListChanged',
+    'SwitchTransition', 'TransitionListChanged',
+    'ProfileChanged', 'ProfileListChanged',
+    'StreamStarting', 'StreamStarted', 'StreamStopping', 'StreamStopped',
+    'RecordingStarting', 'RecordingStarted', 'RecordingStopping', 'RecordingStopped',
+    'Exiting',
+    'StreamStatus',
+    'TransitionDurationChanged', 'TransitionBegin',
+    'SourceOrderChanged', 'SceneItemAdded', 'SceneItemRemoved', 'SceneItemVisibilityChanged',
+    'PreviewSceneChanged', 'StudioModeSwitched'
+  ]
+};
+
+module.exports = API;
+
 
 /***/ })
 /******/ ]);

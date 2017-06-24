@@ -36,14 +36,14 @@
     "eslint-config-xo-space": "^0.16.0",
     "eslint-plugin-ava": "^4.2.0",
     "nyc": "^11.0.2",
-    "webpack": "^2.2.1"
+    "webpack": "^3.0.0"
   },
   "bugs": {
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
   },
   "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
-  "sha": "318b44cc780e61f45d7d8351637f2962d84ddc86",
-  "timestamp": "2017-06-24 20:06:47+00:00",
+  "sha": "20663747f04f101ac717398c68fed3b5278daed0",
+  "timestamp": "2017-06-24 20:17:31+00:00",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   },
