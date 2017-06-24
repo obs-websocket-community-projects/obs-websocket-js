@@ -3,12 +3,14 @@ const webpack = require('webpack');
 const BabiliPlugin = require('babili-webpack-plugin');
 const pkg = require('./package.json');
 
-const banner =
+let banner =
   `OBS WebSocket Javascript API (${pkg.name}) v${pkg.version}\n` +
   `Author: ${pkg.author}\n` +
+  `License: ${pkg.license}\n` +
   `Repository: ${pkg.repoUrl}\n` +
-  `Built from Commit SHA: ${pkg.sha}\n` +
-  `Build Timestamp: ${pkg.timestamp}`;
+  `Build Timestamp: ${pkg.timestamp || new Date().toISOString()}`;
+
+banner += pkg.sha ? `\nBuilt from Commit: ${pkg.repoUrl}/commit/${pkg.sha}` : ``;
 
 module.exports = {
   target: 'web',

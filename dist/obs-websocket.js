@@ -1,9 +1,10 @@
 /*!
  * OBS WebSocket Javascript API (obs-websocket-js) v0.6.2
  * Author: Brendan Hagan (haganbmj)
+ * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Built from Commit SHA: 20663747f04f101ac717398c68fed3b5278daed0
- * Build Timestamp: 2017-06-24 20:17:31+00:00
+ * Build Timestamp: 2017-06-24 20:56:36+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/5b078d200c3b95c722ee5aba0cb4d710f6477bca
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -3870,7 +3871,8 @@ const API = {
     'SetCurrentSceneCollection', 'GetCurrentSceneCollection', 'ListSceneCollections',
     'SetCurrentProfile', 'GetCurrentProfile', 'ListProfiles',
     'GetStudioModeStatus', 'GetPreviewScene', 'SetPreviewScene', 'TransitionToProgram', 'EnableStudioMode', 'DisableStudioMode', 'ToggleStudioMode',
-    'GetCurrentRTMPSettings', 'GetRecordingFolder', 'SetRecordingFolder'
+    'GetCurrentRTMPSettings', 'GetRecordingFolder', 'SetRecordingFolder',
+    'GetTextGDIPlusProperties', 'SetTextGDIPlusProperties', 'GetBrowserSourceProperties', 'SetBrowserSourceProperties'
   ],
   availableEvents: [
     'ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure',
