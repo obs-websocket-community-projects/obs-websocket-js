@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-06-24 20:56:36+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/5b078d200c3b95c722ee5aba0cb4d710f6477bca
+ * Build Timestamp: 2017-06-28 15:28:23+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/a9c09cccb8fed4306b50daa1d3d7c01e4f255dfc
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap

@@ -12,6 +12,7 @@
 
 **Merged pull requests:**
 
+- Update ava to the latest version 🚀 [\#58](https://github.com/haganbmj/obs-websocket-js/pull/58) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint to the latest version 🚀 [\#57](https://github.com/haganbmj/obs-websocket-js/pull/57) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update webpack to the latest version 🚀 [\#55](https://github.com/haganbmj/obs-websocket-js/pull/55) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update dependencies to enable Greenkeeper 🌴 [\#50](https://github.com/haganbmj/obs-websocket-js/pull/50) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
