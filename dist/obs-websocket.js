@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-07-06 18:12:16+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/ecca3073586349c649a1554ad5f15f38f0889f1c
+ * Build Timestamp: 2017-07-06 18:14:11+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/0ad058553b8c47a7d9d60cbe24d2971546e13c76
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -3858,7 +3858,7 @@ module.exports = function (debug, prefix, error) {
 /* 20 */
 /***/ (function(module, exports) {
 
-// Last Updated: June 18, 2017
+// Last Updated: July 06, 2017
 
 const API = {
   availableMethods: [
@@ -3872,7 +3872,8 @@ const API = {
     'SetCurrentProfile', 'GetCurrentProfile', 'ListProfiles',
     'GetStudioModeStatus', 'GetPreviewScene', 'SetPreviewScene', 'TransitionToProgram', 'EnableStudioMode', 'DisableStudioMode', 'ToggleStudioMode',
     'GetCurrentRTMPSettings', 'GetRecordingFolder', 'SetRecordingFolder',
-    'GetTextGDIPlusProperties', 'SetTextGDIPlusProperties', 'GetBrowserSourceProperties', 'SetBrowserSourceProperties'
+    'GetTextGDIPlusProperties', 'SetTextGDIPlusProperties', 'GetBrowserSourceProperties', 'SetBrowserSourceProperties',
+    'GetStreamSettings', 'SetStreamSettings', 'SaveStreamSettings'
   ],
   availableEvents: [
     'ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure',
