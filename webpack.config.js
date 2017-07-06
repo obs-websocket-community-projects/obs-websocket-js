@@ -29,7 +29,8 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new BabiliPlugin({}, {
-      test: /\.min\.js($|\?)/i
+      test: /\.min\.js($|\?)/i,
+      comments: false
     }),
     new webpack.BannerPlugin({banner})
   ]
