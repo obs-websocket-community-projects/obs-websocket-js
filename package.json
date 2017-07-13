@@ -29,7 +29,7 @@
     "ws": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "^0.20.0",
+    "ava": "^0.21.0",
     "babili-webpack-plugin": "^0.1.1",
     "coveralls": "^2.13.1",
     "eslint": "^4.1.0",
@@ -51,6 +51,6 @@
       "!setup/environment.js"
     ]
   },
-  "sha": "0ad058553b8c47a7d9d60cbe24d2971546e13c76",
-  "timestamp": "2017-07-06 18:14:11+00:00"
+  "sha": "f019a2144b7dbd7359c5c472969bd44083c71555",
+  "timestamp": "2017-07-13 16:36:11+00:00"
 }
