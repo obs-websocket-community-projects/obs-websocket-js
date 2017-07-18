@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.6.1...HEAD)
 
+**Fixed bugs:**
+
+- Fix onAuthenticationFailed emitter [\#49](https://github.com/haganbmj/obs-websocket-js/issues/49)
+
 **Closed issues:**
 
 - Add Get/Set/SaveStreamSettings [\#59](https://github.com/haganbmj/obs-websocket-js/issues/59)

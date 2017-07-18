@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-07-13 16:36:11+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/f019a2144b7dbd7359c5c472969bd44083c71555
+ * Build Timestamp: 2017-07-18 04:22:52+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/d6006c04a3335e4fa11536de5317c2d38315db26
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -2116,7 +2116,7 @@ module.exports = __webpack_require__(4);
 const Socket = __webpack_require__(5);
 const Status = __webpack_require__(1);
 const debug = __webpack_require__(2)('obs-websocket-js:Core');
-const API = __webpack_require__(20);
+const API = __webpack_require__(21);
 
 let requestCounter = 0;
 
@@ -2254,24 +2254,9 @@ const hash = __webpack_require__(8);
 const Status = __webpack_require__(1);
 const debug = __webpack_require__(2)('obs-websocket-js:Socket');
 const logAmbiguousError = __webpack_require__(19);
+const camelCaseKeys = __webpack_require__(20);
 
 const NOP = function () {};
-
-function camelCaseKeys(obj) {
-  obj = obj || {};
-  for (const key in obj) {
-    if (!{}.hasOwnProperty.call(obj, key)) {
-      continue;
-    }
-
-    const camelCasedKey = key.replace(/-([a-z])/gi, ($0, $1) => {
-      return $1.toUpperCase();
-    });
-    obj[camelCasedKey] = obj[key];
-  }
-
-  return obj;
-}
 
 class Socket extends EventEmitter {
   constructor() {
@@ -2314,7 +2299,7 @@ class Socket extends EventEmitter {
       // This handler must be present before we can call _authenticate.
       this._socket.onmessage = msg => {
         // eslint-disable-next-line capitalized-comments
-        // debug('[OnMessage]: %o', msg);
+        debug('[OnMessage]: %o', msg);
         const message = camelCaseKeys(JSON.parse(msg.data));
         let err;
         let data;
@@ -2359,7 +2344,8 @@ class Socket extends EventEmitter {
 
   /**
    * Opens a WebSocket connection to an obs-websocket server, but does not attempt any authentication.
-   * @param address {String}
+   *
+   * @param {String} address
    * @returns {Promise}
    * @private
    */
@@ -2394,7 +2380,8 @@ class Socket extends EventEmitter {
 
   /**
    * Authenticates to an obs-websocket server. Must already have an active connection before calling this method.
-   * @param [password=''] {String}
+   *
+   * @param {String} [password='']
    * @returns {Promise}
    * @private
    */
@@ -2409,6 +2396,7 @@ class Socket extends EventEmitter {
         if (!data.authRequired) {
           debug('Authentication not Required');
           this.emit('AuthenticationSuccess');
+
           return Promise.resolve(Status.AUTH_NOT_REQUIRED);
         }
 
@@ -2418,6 +2406,12 @@ class Socket extends EventEmitter {
           debug('Authentication Success.');
           this.emit('AuthenticationSuccess');
         });
+      })
+      .catch(err => {
+        debug('Authentication Failure. %o', err);
+        this.emit('AuthenticationFailure', err);
+
+        throw err;
       });
   }
 
@@ -2760,9 +2754,10 @@ const SHA256 = __webpack_require__(9);
 
 /**
  * SHA256 Hashing.
+ *
  * @param  {String} [salt='']
  * @param  {String} [challenge='']
- * @param  {String} msg
+ * @param  {String} msg Message to encode.
  * @return {String}
  */
 module.exports = function (salt = '', challenge = '', msg) {
@@ -3856,6 +3851,27 @@ module.exports = function (debug, prefix, error) {
 
 /***/ }),
 /* 20 */
+/***/ (function(module, exports) {
+
+module.exports = function (obj) {
+  obj = obj || {};
+  for (const key in obj) {
+    if (!{}.hasOwnProperty.call(obj, key)) {
+      continue;
+    }
+
+    const camelCasedKey = key.replace(/-([a-z])/gi, ($0, $1) => {
+      return $1.toUpperCase();
+    });
+    obj[camelCasedKey] = obj[key];
+  }
+
+  return obj;
+};
+
+
+/***/ }),
+/* 21 */
 /***/ (function(module, exports) {
 
 // Last Updated: July 06, 2017
