@@ -113,8 +113,7 @@ test.cb('emits AuthenticationSuccess', t => {
   });
 });
 
-// Apparently we're catching the authentication failure and throwing it as a general connection failure.
-test.failing.cb('emits AuthenticationFailure', t => {
+test.cb('emits AuthenticationFailure', t => {
   util.avaTimeout(t, 250);
 
   const obs2 = new OBSWebSocket();
@@ -126,4 +125,16 @@ test.failing.cb('emits AuthenticationFailure', t => {
     address: 'localhost:4443',
     password: 'wrong_password'
   }).catch(() => {});
+});
+
+test.cb('throws AuthenticationFailure', t => {
+  util.avaTimeout(t, 250);
+
+  const obs2 = new OBSWebSocket();
+  obs2.connect({
+    address: 'localhost:4443',
+    password: 'wrong_password'
+  }).catch(() => {
+    t.end();
+  });
 });
