@@ -8,16 +8,17 @@ then
   exit 0
 fi
 
-VERSION=$(json -f package.json version)
+VERSION="v$(json -f package.json version)"
 SHA=$(json -f package.json sha)
 COMMIT_MESSAGE=$(git log --oneline -1 | cut -d " " -f 2)
 
 # Use the commit message to determine if the changelog should use the current version.
 case $(echo $COMMIT_MESSAGE | tr "[A-Z]" "[a-z]") in
-  '[release]')
+  'release:')
     RELEASE="--future-release=v$VERSION";;
   *)
-    RELEASE="";;
+    RELEASE=""
+    VERSION="dev";;
 esac
 
 # Apply all changes on top of the latest gh-pages commit.
@@ -33,7 +34,7 @@ github_changelog_generator -u haganbmj -p obs-websocket-js $RELEASE
 git add -A
 git add CHANGELOG.md ./dist -f
 
-git commit -m "${TARGET_BRANCH}: (v${VERSION}) ${SHA}"
+git commit -m "${TARGET_BRANCH}: (${VERSION}) ${SHA}"
 git push -q upstream HEAD:$TARGET_BRANCH
 
-echo "Pushed > ${TARGET_BRANCH}: (v${VERSION}) ${SHA}"
+echo "Pushed > ${TARGET_BRANCH}: (${VERSION}) ${SHA}"
