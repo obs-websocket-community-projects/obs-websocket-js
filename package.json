@@ -1,6 +1,6 @@
 {
   "name": "obs-websocket-js",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "description": "OBS Websocket API in Javascript, consume @Palakis/obs-websocket",
   "main": "index.js",
   "repository": "haganbmj/obs-websocket-js",
@@ -51,6 +51,6 @@
       "!setup/environment.js"
     ]
   },
-  "sha": "d037b35853016fe6aa68bac39d0d46b6baf33cc3",
-  "timestamp": "2017-07-18 04:38:17+00:00"
+  "sha": "08414eef37ef5cef7becc843b6aec8870a9fb62e",
+  "timestamp": "2017-07-18 04:45:52+00:00"
 }
