@@ -1,7 +1,15 @@
 # Change Log
 
-## [vv0.7.0](https://github.com/haganbmj/obs-websocket-js/tree/vv0.7.0) (2017-07-18)
-[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.6.1...vv0.7.0)
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.7.0...HEAD)
+
+**Implemented enhancements:**
+
+- \[Build\] Reduce Webpack Output File Size [\#23](https://github.com/haganbmj/obs-websocket-js/issues/23)
+
+## [v0.7.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.7.0) (2017-07-18)
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.6.1...v0.7.0)
 
 **Fixed bugs:**
 

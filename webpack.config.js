@@ -14,6 +14,7 @@ banner += pkg.sha ? `\nBuilt from Commit: ${pkg.repoUrl}/commit/${pkg.sha}` : ``
 
 module.exports = {
   target: 'web',
+  stats: 'detailed',
   entry: {
     'obs-websocket': './index.js',
     'obs-websocket.min': './index.js'

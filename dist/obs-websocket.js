@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-07-18 04:45:52+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/08414eef37ef5cef7becc843b6aec8870a9fb62e
+ * Build Timestamp: 2017-07-19 01:53:08+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/9de6b3c4702763301cd6957a95e5760e50821031
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -2296,6 +2296,14 @@ class Socket extends EventEmitter {
       await this._connect(address);
       this._connected = true;
 
+      // Looks like this should be bound. We don't technically cancel the connection when the authentication fails.
+      // This whole method really needs a rewrite.
+      this._socket.onclose = () => {
+        this._connected = false;
+        debug('Connection closed: %s', address);
+        this.emit('ConnectionClosed');
+      };
+
       // This handler must be present before we can call _authenticate.
       this._socket.onmessage = msg => {
         // eslint-disable-next-line capitalized-comments
@@ -2322,14 +2330,6 @@ class Socket extends EventEmitter {
 
       await this._authenticate(args.password);
 
-      // Looks like this should be bound. We don't technically cancel the connection when the authentication fails.
-      // This whole method really needs a rewrite.
-      this._socket.onclose = () => {
-        this._connected = false;
-        debug('Connection closed: %s', address);
-        this.emit('ConnectionClosed');
-      };
-
       debug('Connection opened: %s', address);
       this.emit('ConnectionOpened');
       this._doCallback(callback);
@@ -2349,7 +2349,7 @@ class Socket extends EventEmitter {
    * @returns {Promise}
    * @private
    */
-  _connect(address) {
+  async _connect(address) {
     return new Promise((resolve, reject) => {
       let settled = false;
 
@@ -2385,34 +2385,31 @@ class Socket extends EventEmitter {
    * @returns {Promise}
    * @private
    */
-  _authenticate(password = '') {
+  async _authenticate(password = '') {
     if (!this._connected) {
-      return Promise.reject(Status.NOT_CONNECTED);
+      throw Status.NOT_CONNECTED;
     }
 
-    return this.getAuthRequired()
-      .then(data => {
-        // Return early if authentication is not necessary.
-        if (!data.authRequired) {
-          debug('Authentication not Required');
-          this.emit('AuthenticationSuccess');
+    const auth = await this.getAuthRequired();
 
-          return Promise.resolve(Status.AUTH_NOT_REQUIRED);
-        }
+    if (!auth.authRequired) {
+      debug('Authentication not Required');
+      this.emit('AuthenticationSuccess');
+      return Status.AUTH_NOT_REQUIRED;
+    }
 
-        return this.send('Authenticate', {
-          auth: hash(data.salt, data.challenge, password)
-        }).then(() => {
-          debug('Authentication Success.');
-          this.emit('AuthenticationSuccess');
-        });
-      })
-      .catch(err => {
-        debug('Authentication Failure. %o', err);
-        this.emit('AuthenticationFailure', err);
-
-        throw err;
+    try {
+      await this.send('Authenticate', {
+        auth: hash(auth.salt, auth.challenge, password)
       });
+    } catch (e) {
+      debug('Authentication Failure %o', e);
+      this.emit('AuthenticationFailure');
+      throw e;
+    }
+
+    debug('Authentication Success');
+    this.emit('AuthenticationSuccess');
   }
 
   /**
@@ -3834,6 +3831,7 @@ function plural(ms, n, name) {
  * Disambiguates an "error" and formats it nicely for `debug` output.
  * Particularly useful when dealing with error response objects from obs-websocket,
  * which are not actual Error-type errors, but simply Objects.
+ *
  * @param debug - A `debug` instance.
  * @param prefix - A string to print in front of the formatted error.
  * @param error - An error of ambiguous type that you wish to log to `debug`. Can be an Error, Object, or String.
