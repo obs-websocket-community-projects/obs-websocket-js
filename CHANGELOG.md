@@ -8,6 +8,14 @@
 
 - \[Build\] Reduce Webpack Output File Size [\#23](https://github.com/haganbmj/obs-websocket-js/issues/23)
 
+**Closed issues:**
+
+- SetTextGDIPlusProperties - invalid request type [\#62](https://github.com/haganbmj/obs-websocket-js/issues/62)
+
+**Merged pull requests:**
+
+- Update debug to the latest version 🚀 [\#63](https://github.com/haganbmj/obs-websocket-js/pull/63) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v0.7.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.7.0) (2017-07-18)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.6.1...v0.7.0)
 

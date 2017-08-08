@@ -24,7 +24,7 @@
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
   "dependencies": {
-    "debug": "^2.6.8",
+    "debug": "^3.0.0",
     "sha.js": "^2.4.8",
     "ws": "^3.0.0"
   },
@@ -51,6 +51,6 @@
       "!setup/environment.js"
     ]
   },
-  "sha": "9de6b3c4702763301cd6957a95e5760e50821031",
-  "timestamp": "2017-07-19 01:53:08+00:00"
+  "sha": "ca2cb43884b84ce475984b30d5c9b7af49b609b8",
+  "timestamp": "2017-08-08 22:54:37+00:00"
 }
