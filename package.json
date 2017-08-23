@@ -1,10 +1,19 @@
 {
   "name": "obs-websocket-js",
   "version": "0.8.0",
-  "description": "OBS Websocket API in Javascript, consume @Palakis/obs-websocket",
-  "main": "es5/index.js",
+  "description": "OBS Websocket API in Javascript, consumes @Palakis/obs-websocket",
+  "author": "Brendan Hagan (haganbmj)",
+  "license": "MIT",
   "repository": "haganbmj/obs-websocket-js",
   "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
+  "keywords": [
+    "obs",
+    "studio",
+    "websocket",
+    "node",
+    "node.js"
+  ],
+  "main": "es5/index.js",
   "scripts": {
     "build": "npm-run-all build:*",
     "build:web": "webpack",
@@ -16,15 +25,6 @@
     "node-coveralls": "npm run report | coveralls",
     "static": "eslint ."
   },
-  "keywords": [
-    "obs",
-    "studio",
-    "websocket",
-    "node",
-    "node.js"
-  ],
-  "author": "Brendan Hagan (haganbmj)",
-  "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "debug": "^3.0.0",
@@ -79,6 +79,6 @@
       ]
     ]
   },
-  "sha": "a7ca5d8e64d720c4003f7d14d622eb12a69fc45a",
-  "timestamp": "2017-08-23 20:58:25+00:00"
+  "sha": "e8f2ecc1ec85254b75638f8348618fa52ddd0237",
+  "timestamp": "2017-08-23 21:03:22+00:00"
 }
