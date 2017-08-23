@@ -15,8 +15,7 @@ env:
     - GH_REF="github.com/haganbmj/obs-websocket-js"
 
 before_script:
-  - nvm install node
-  - npm install npm@4.6.1 -g
+  - nvm install v4
   - npm install json -g
   - bash ./.travis/pre-build.sh
   - npm install
