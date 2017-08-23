@@ -35,6 +35,7 @@
     "ava": "^0.22.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.26.0",
     "babili-webpack-plugin": "^0.1.1",
     "coveralls": "^2.13.1",
     "eslint": "^4.1.0",
@@ -55,7 +56,9 @@
     "files": [
       "test/*.spec.js",
       "!setup/environment.js"
-    ]
+    ],
+    "require": "babel-register",
+    "babel": "inherit"
   },
   "babel": {
     "presets": [

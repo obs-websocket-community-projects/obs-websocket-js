@@ -1,7 +1,7 @@
 const test = require('ava');
 const env = require('./setup/environment');
 const util = require('./setup/util');
-const OBSWebSocket = require('../lib/OBSWebSocket');
+const OBSWebSocket = require('../lib/index');
 const SHA256 = require('sha.js/sha256');
 
 let unauthServer;
