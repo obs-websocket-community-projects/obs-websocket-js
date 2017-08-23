@@ -35,8 +35,8 @@
     "eslint": "^4.1.0",
     "eslint-config-xo-space": "^0.16.0",
     "eslint-plugin-ava": "^4.2.0",
-    "nyc": "^11.0.2",
-    "webpack": "^3.0.0"
+    "nyc": "^11.1.0",
+    "webpack": "^3.5.0"
   },
   "bugs": {
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
@@ -51,6 +51,6 @@
       "!setup/environment.js"
     ]
   },
-  "sha": "f022c7655e6fec03d0bb96ce920566f112a9a66f",
-  "timestamp": "2017-08-15 13:23:14+00:00"
+  "sha": "68d6495b8787b9d1d40913ee592a1505808ffe39",
+  "timestamp": "2017-08-23 04:41:02+00:00"
 }

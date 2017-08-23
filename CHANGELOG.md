@@ -10,6 +10,8 @@
 
 **Closed issues:**
 
+- Syntax  Error unexpected identifier [\#67](https://github.com/haganbmj/obs-websocket-js/issues/67)
+- async connect Unexpected identifier [\#66](https://github.com/haganbmj/obs-websocket-js/issues/66)
 - SetTextGDIPlusProperties - invalid request type [\#62](https://github.com/haganbmj/obs-websocket-js/issues/62)
 
 **Merged pull requests:**
