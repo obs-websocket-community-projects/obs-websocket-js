@@ -1,10 +1,10 @@
 /*!
- * OBS WebSocket Javascript API (obs-websocket-js) v0.7.0
+ * OBS WebSocket Javascript API (obs-websocket-js) v0.8.0
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-08-23 04:41:02+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/68d6495b8787b9d1d40913ee592a1505808ffe39
+ * Build Timestamp: 2017-08-23 20:58:25+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/a7ca5d8e64d720c4003f7d14d622eb12a69fc45a
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -87,9 +87,9 @@ var OBSWebSocket =
 
 
 
-var base64 = __webpack_require__(11)
-var ieee754 = __webpack_require__(12)
-var isArray = __webpack_require__(13)
+var base64 = __webpack_require__(10)
+var ieee754 = __webpack_require__(11)
+var isArray = __webpack_require__(12)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -1867,7 +1867,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
 /* 1 */
@@ -1920,7 +1920,7 @@ module.exports = {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(17);
+exports = module.exports = __webpack_require__(16);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -2105,23 +2105,16 @@ function localstorage() {
   } catch (e) {}
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Socket = __webpack_require__(5);
+const Socket = __webpack_require__(4);
 const Status = __webpack_require__(1);
 const debug = __webpack_require__(2)('obs-websocket-js:Core');
-const API = __webpack_require__(21);
+const API = __webpack_require__(20);
 
 let requestCounter = 0;
 
@@ -2250,16 +2243,16 @@ module.exports = OBSWebSocket;
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const WebSocket = __webpack_require__(6);
-const EventEmitter = __webpack_require__(7);
-const hash = __webpack_require__(8);
+const WebSocket = __webpack_require__(5);
+const EventEmitter = __webpack_require__(6);
+const hash = __webpack_require__(7);
 const Status = __webpack_require__(1);
 const debug = __webpack_require__(2)('obs-websocket-js:Socket');
-const logAmbiguousError = __webpack_require__(19);
-const camelCaseKeys = __webpack_require__(20);
+const logAmbiguousError = __webpack_require__(18);
+const camelCaseKeys = __webpack_require__(19);
 
 const NOP = function () {};
 
@@ -2435,13 +2428,13 @@ module.exports = Socket;
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = WebSocket;
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports) {
 
 // Copyright Joyent, Inc. and other Node contributors.
@@ -2749,10 +2742,10 @@ function isUndefined(arg) {
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const SHA256 = __webpack_require__(9);
+const SHA256 = __webpack_require__(8);
 
 /**
  * SHA256 Hashing.
@@ -2778,7 +2771,7 @@ module.exports = function (salt = '', challenge = '', msg) {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {/**
@@ -2789,8 +2782,8 @@ module.exports = function (salt = '', challenge = '', msg) {
  *
  */
 
-var inherits = __webpack_require__(14)
-var Hash = __webpack_require__(15)
+var inherits = __webpack_require__(13)
+var Hash = __webpack_require__(14)
 
 var K = [
   0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
@@ -2919,7 +2912,7 @@ module.exports = Sha256
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0).Buffer))
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 var g;
@@ -2946,7 +2939,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3067,7 +3060,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -3157,7 +3150,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -3168,7 +3161,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -3197,7 +3190,7 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {// prototype class for hash functions
@@ -3273,7 +3266,7 @@ module.exports = Hash
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0).Buffer))
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -3463,7 +3456,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3479,7 +3472,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(18);
+exports.humanize = __webpack_require__(17);
 
 /**
  * Active `debug` instances.
@@ -3694,7 +3687,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports) {
 
 /**
@@ -3852,7 +3845,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /**
@@ -3876,7 +3869,7 @@ module.exports = function (debug, prefix, error) {
 
 
 /***/ }),
-/* 20 */
+/* 19 */
 /***/ (function(module, exports) {
 
 module.exports = function (obj) {
@@ -3897,7 +3890,7 @@ module.exports = function (obj) {
 
 
 /***/ }),
-/* 21 */
+/* 20 */
 /***/ (function(module, exports) {
 
 // Last Updated: July 06, 2017

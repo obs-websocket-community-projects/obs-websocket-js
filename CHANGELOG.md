@@ -16,6 +16,7 @@
 
 **Merged pull requests:**
 
+- Babel es2015 transpile [\#70](https://github.com/haganbmj/obs-websocket-js/pull/70) ([haganbmj](https://github.com/haganbmj))
 - Update ava to the latest version 🚀 [\#65](https://github.com/haganbmj/obs-websocket-js/pull/65) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update debug to the latest version 🚀 [\#63](https://github.com/haganbmj/obs-websocket-js/pull/63) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 

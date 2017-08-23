@@ -2,6 +2,7 @@
 .travis
 samples
 test
+lib
 
 .grunt
 

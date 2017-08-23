@@ -1,5 +1,6 @@
 node_modules
 dist
+es5
 CHANGELOG.md
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
