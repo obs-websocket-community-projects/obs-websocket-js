@@ -15,7 +15,7 @@ COMMIT_MESSAGE=$(git log --oneline -1 | cut -d " " -f 2)
 # Use the commit message to determine if the changelog should use the current version.
 case $(echo $COMMIT_MESSAGE | tr "[A-Z]" "[a-z]") in
   'release:')
-    RELEASE="--future-release=v$VERSION";;
+    RELEASE="--future-release=$VERSION";;
   *)
     RELEASE=""
     VERSION="dev";;
@@ -36,5 +36,17 @@ git add CHANGELOG.md ./dist ./es5 -f
 
 git commit -m "${TARGET_BRANCH}: (${VERSION}) ${SHA}"
 git push -q upstream HEAD:$TARGET_BRANCH
+
+# Handle an NPM Publish and a Bower release.
+if [[ "$VERSION" != "dev" ]]
+then
+  git tag "$VERSION"
+  git push upstream --tags
+
+  echo -e "$NPM_AUTH" > ~/.npmrc
+  npm publish
+
+  echo "Published ${VERSION} to the npm registry"
+fi
 
 echo "Pushed > ${TARGET_BRANCH}: (${VERSION}) ${SHA}"
