@@ -16,8 +16,8 @@ module.exports = {
   target: 'web',
   stats: 'detailed',
   entry: {
-    'obs-websocket': './index.js',
-    'obs-websocket.min': './index.js'
+    'obs-websocket': './lib/OBSWebSocket.js',
+    'obs-websocket.min': './lib/OBSWebSocket.js'
   },
   output: {
     path: path.join(__dirname, '/dist'),
@@ -26,16 +26,6 @@ module.exports = {
   },
   externals: {
     ws: 'WebSocket'
-  },
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader'
-      // query: {
-      //   presets: ['es2015']
-      // }
-    }]
   },
   devtool: 'source-map',
   plugins: [

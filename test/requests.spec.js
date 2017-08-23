@@ -1,6 +1,6 @@
 const test = require('ava');
 const env = require('./setup/environment');
-const OBSWebSocket = require('../index');
+const OBSWebSocket = require('../lib/OBSWebSocket');
 
 let unauthServer;
 const obs = new OBSWebSocket();
