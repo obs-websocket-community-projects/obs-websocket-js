@@ -7,6 +7,7 @@
   "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
   "scripts": {
     "build": "webpack",
+    "babel": "babel",
     "watch": "webpack --watch",
     "test": "npm run static && nyc ava",
     "ava": "nyc ava",
@@ -30,6 +31,11 @@
   },
   "devDependencies": {
     "ava": "^0.22.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "babili-webpack-plugin": "^0.1.1",
     "coveralls": "^2.13.1",
     "eslint": "^4.1.0",
@@ -49,6 +55,15 @@
     "files": [
       "test/*.spec.js",
       "!setup/environment.js"
+    ]
+  },
+  "babel": {
+    "presets": [
+      ["env", {
+        "targets": {
+          "node": "4"
+        }
+      }]
     ]
   }
 }
