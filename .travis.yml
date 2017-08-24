@@ -27,6 +27,7 @@ script:
 
 after_success:
   - npm run node-coveralls
+  - bash ./.travis/update-api.sh
 
 branches:
   except:
