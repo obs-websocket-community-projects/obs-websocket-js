@@ -1,5 +1,18 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.8.0...HEAD)
+
+**Closed issues:**
+
+- Add babel to transpile to es5 before npm publish [\#68](https://github.com/haganbmj/obs-websocket-js/issues/68)
+- \[CI\] Generate available requests/events from plugin page [\#61](https://github.com/haganbmj/obs-websocket-js/issues/61)
+
+**Merged pull requests:**
+
+- ci: Generate/update api at end of travis builds, Closes \#61 [\#71](https://github.com/haganbmj/obs-websocket-js/pull/71) ([haganbmj](https://github.com/haganbmj))
+
 ## [v0.8.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.8.0) (2017-08-23)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.7.0...v0.8.0)
 

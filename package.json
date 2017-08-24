@@ -15,6 +15,7 @@
   ],
   "main": "es5/index.js",
   "scripts": {
+    "update-api": "node .travis/update-api.js",
     "build": "npm-run-all build:*",
     "build:web": "webpack",
     "build:es5": "babel lib -d es5",
@@ -79,6 +80,6 @@
       ]
     ]
   },
-  "sha": "e8f2ecc1ec85254b75638f8348618fa52ddd0237",
-  "timestamp": "2017-08-23 21:03:22+00:00"
+  "sha": "9c1c13196b3536498406b9544c93b02f5bb16a98",
+  "timestamp": "2017-08-24 14:57:35+00:00"
 }
