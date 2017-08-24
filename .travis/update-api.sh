@@ -11,7 +11,7 @@ fi
 npm run update-api
 
 # Apply all changes on top of the latest master commit.
-git remote add upstream "https://$GH_TOKEN@$GH_REF"
+# git remote add upstream "https://$GH_TOKEN@$GH_REF"
 git fetch upstream
 git reset upstream/$TARGET_BRANCH
 git add -A
