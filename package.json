@@ -15,6 +15,7 @@
   ],
   "main": "es5/index.js",
   "scripts": {
+    "update-api": "node .travis/update-api.js",
     "build": "npm-run-all build:*",
     "build:web": "webpack",
     "build:es5": "babel lib -d es5",
