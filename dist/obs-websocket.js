@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-08-24 20:19:42+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/3c86d7e1b64b156bf126f2f1380dd24e3408428d
+ * Build Timestamp: 2017-08-24 20:44:52+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/d0fefe562e9923e732eb254389e187eebc0be192
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -2133,6 +2133,8 @@ class OBSWebSocket extends Socket {
 
     this.registerRequest(API.availableMethods);
     this.registerEvent(API.availableEvents);
+
+    this.registerEvent(['ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure']);
   }
 
   /**
