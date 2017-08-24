@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-08-24 20:14:06+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/57bc038667b84c95e15abd9520015934b6f65db3
+ * Build Timestamp: 2017-08-24 20:19:42+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/3c86d7e1b64b156bf126f2f1380dd24e3408428d
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -3901,7 +3901,7 @@ module.exports = function (obj) {
 // This file is generated, do not edit.
 module.exports = {
   "availableEvents": [
-    "OnSceneChange",
+    "SwitchScenes",
     "ScenesChanged",
     "SceneCollectionChanged",
     "SceneCollectionListChanged",

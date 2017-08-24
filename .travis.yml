@@ -24,10 +24,10 @@ script:
   - npm test
   - npm run build
   - bash ./.travis/gh-pages.sh
+  - bash ./.travis/update-api.sh
 
 after_success:
   - npm run node-coveralls
-  - bash ./.travis/update-api.sh
 
 branches:
   except:
