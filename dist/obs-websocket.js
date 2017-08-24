@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-08-24 15:10:05+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/4cf3a8c6635382180a7cdd2f3a6b6440cc01900d
+ * Build Timestamp: 2017-08-24 15:13:23+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/a217e63ddd865d1b31f87f2a5df3ff0cbcf8f6e3
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -3893,40 +3893,99 @@ module.exports = function (obj) {
 /* 20 */
 /***/ (function(module, exports) {
 
-// Last Updated: July 06, 2017
-
-const API = {
-  availableMethods: [
-    'GetVersion', 'GetAuthRequired',
-    'SetCurrentScene', 'GetCurrentScene', 'GetSceneList',
-    'SetSourceRender', 'SetSceneItemRender', 'SetSceneItemPosition', 'SetSceneItemTransform', 'SetSceneItemCrop',
-    'GetStreamingStatus', 'StartStopStreaming', 'StartStopRecording', 'StartStreaming', 'StopStreaming', 'StartRecording', 'StopRecording',
-    'GetTransitionList', 'GetCurrentTransition', 'SetCurrentTransition', 'GetTransitionDuration', 'SetTransitionDuration',
-    'SetVolume', 'GetVolume', 'ToggleMute', 'GetMute', 'SetMute', 'GetSpecialSources',
-    'SetCurrentSceneCollection', 'GetCurrentSceneCollection', 'ListSceneCollections',
-    'SetCurrentProfile', 'GetCurrentProfile', 'ListProfiles',
-    'GetStudioModeStatus', 'GetPreviewScene', 'SetPreviewScene', 'TransitionToProgram', 'EnableStudioMode', 'DisableStudioMode', 'ToggleStudioMode',
-    'GetCurrentRTMPSettings', 'GetRecordingFolder', 'SetRecordingFolder',
-    'GetTextGDIPlusProperties', 'SetTextGDIPlusProperties', 'GetBrowserSourceProperties', 'SetBrowserSourceProperties',
-    'GetStreamSettings', 'SetStreamSettings', 'SaveStreamSettings'
+// This file is generated, do not edit.
+module.exports = {
+  "availableEvents": [
+    "OnSceneChange",
+    "ScenesChanged",
+    "SceneCollectionChanged",
+    "SceneCollectionListChanged",
+    "SwitchTransition",
+    "TransitionListChanged",
+    "TransitionDurationChanged",
+    "TransitionBegin",
+    "ProfileChanged",
+    "ProfileListChanged",
+    "StreamStarting",
+    "StreamStarted",
+    "StreamStopping",
+    "StreamStopped",
+    "StreamStatus",
+    "RecordingStarting",
+    "RecordingStarted",
+    "RecordingStopping",
+    "RecordingStopped",
+    "ReplayStarting",
+    "ReplayStarted",
+    "ReplayStopping",
+    "ReplayStopped",
+    "Exiting",
+    "SourceOrderChanged",
+    "SceneItemAdded",
+    "SceneItemRemoved",
+    "SceneItemVisibilityChanged",
+    "PreviewSceneChanged",
+    "StudioModeSwitched"
   ],
-  availableEvents: [
-    'ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure',
-    'SwitchScenes', 'ScenesChanged', 'SceneCollectionChanged', 'SceneCollectionListChanged',
-    'SwitchTransition', 'TransitionListChanged',
-    'ProfileChanged', 'ProfileListChanged',
-    'StreamStarting', 'StreamStarted', 'StreamStopping', 'StreamStopped',
-    'RecordingStarting', 'RecordingStarted', 'RecordingStopping', 'RecordingStopped',
-    'Exiting',
-    'StreamStatus',
-    'TransitionDurationChanged', 'TransitionBegin',
-    'SourceOrderChanged', 'SceneItemAdded', 'SceneItemRemoved', 'SceneItemVisibilityChanged',
-    'PreviewSceneChanged', 'StudioModeSwitched'
+  "availableMethods": [
+    "GetVersion",
+    "GetAuthRequired",
+    "Authenticate",
+    "SetCurrentScene",
+    "GetCurrentScene",
+    "GetSceneList",
+    "SetSourceRender",
+    "SetVolume",
+    "GetVolume",
+    "ToggleMute",
+    "SetMute",
+    "GetMute",
+    "SetSyncOffset",
+    "GetSyncOffset",
+    "SetSceneItemPosition",
+    "SetSceneItemTransform",
+    "SetSceneItemCrop",
+    "GetTextGDIPlusProperties",
+    "SetTextGDIPlusProperties",
+    "GetBrowserSourceProperties",
+    "SetBrowserSourceProperties",
+    "ResetSceneItem",
+    "GetStreamingStatus",
+    "StartStopStreaming",
+    "StartStreaming",
+    "StopStreaming",
+    "StartStopRecording",
+    "StartRecording",
+    "StopRecording",
+    "SetRecordingFolder",
+    "GetRecordingFolder",
+    "StartStopReplayBuffer",
+    "StartReplayBuffer",
+    "StopReplayBuffer",
+    "SaveReplayBuffer",
+    "GetTransitionList",
+    "GetCurrentTransition",
+    "SetCurrentTransition",
+    "SetTransitionDuration",
+    "GetTransitionDuration",
+    "SetCurrentSceneCollection",
+    "GetCurrentSceneCollection",
+    "SetCurrentProfile",
+    "GetCurrentProfile",
+    "ListProfiles",
+    "SetStreamingSettings",
+    "GetStreamSettings",
+    "SaveStreamSettings",
+    "GetStudioModeStatus",
+    "GetPreviewScene",
+    "SetPreviewScene",
+    "TransitionToProgram",
+    "EnableStudioMode",
+    "DisableStudioMode",
+    "ToggleStudioMode",
+    "GetSpecialSources"
   ]
-};
-
-module.exports = API;
-
+}
 
 /***/ })
 /******/ ]);
