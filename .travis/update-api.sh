@@ -14,6 +14,6 @@ npm run update-api
 # git remote add upstream "https://$GH_TOKEN@$GH_REF"
 git fetch upstream
 git reset upstream/$TARGET_BRANCH
-git add -A
+git add lib/API.js
 git commit -m "api(ci): Update available obs-websocket methods"
 git push -q upstream HEAD:$TARGET_BRANCH
