@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "debug": "^3.0.0",
+    "debug": "^3.0.1",
     "sha.js": "^2.4.8",
     "ws": "^3.0.0"
   },
@@ -80,6 +80,6 @@
       ]
     ]
   },
-  "sha": "a217e63ddd865d1b31f87f2a5df3ff0cbcf8f6e3",
-  "timestamp": "2017-08-24 20:07:35+00:00"
+  "sha": "57bc038667b84c95e15abd9520015934b6f65db3",
+  "timestamp": "2017-08-24 20:14:06+00:00"
 }

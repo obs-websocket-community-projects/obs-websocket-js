@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-08-24 20:07:35+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/a217e63ddd865d1b31f87f2a5df3ff0cbcf8f6e3
+ * Build Timestamp: 2017-08-24 20:14:06+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/57bc038667b84c95e15abd9520015934b6f65db3
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -1963,6 +1963,11 @@ function useColors() {
   // explicitly
   if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
     return true;
+  }
+
+  // Internet Explorer and Edge do not support colors.
+  if (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/(edge|trident)\/(\d+)/)) {
+    return false;
   }
 
   // is webkit? http://stackoverflow.com/a/16459606/376773
