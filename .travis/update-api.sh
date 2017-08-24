@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -o errexit -o nounset
+set +e
 TARGET_BRANCH="master"
 
 if [[ "$TRAVIS_PULL_REQUEST" != "false" ]] || [[ "$TRAVIS_BRANCH" != "$TARGET_BRANCH" ]]
