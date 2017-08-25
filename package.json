@@ -1,6 +1,6 @@
 {
   "name": "obs-websocket-js",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "OBS Websocket API in Javascript, consumes @Palakis/obs-websocket",
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
@@ -80,6 +80,6 @@
       ]
     ]
   },
-  "sha": "162eb097398be4f9f5f3bb8efe6457a4e42d1f67",
-  "timestamp": "2017-08-24 20:52:03+00:00"
+  "sha": "c648524020eaa9560dffae942d4f2dce62575659",
+  "timestamp": "2017-08-25 17:57:36+00:00"
 }
