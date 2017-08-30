@@ -43,16 +43,28 @@ test('permits null args', async t => {
   await t.notThrows(obs.send('ValidMethodName', null));
 });
 
-test.cb('does not return a promise when a callback is provided', t => {
+// This type of situation should be avoided entirely because the behavior of having two callbacks of different types on a single function shouldn't be done...
+test.cb('still returns a promise when a callback is provided', t => {
   util.avaTimeout(t, 100);
+
   const promise = obs.send('ValidMethodName', {}, (err, data) => {
     t.falsy(err);
     t.deepEqual(data.status, 'ok');
-    console.log('pass');
     t.end();
   });
 
-  t.is(promise, undefined);
+  t.truthy(promise);
+});
+
+// This type of situation should be avoided entirely because the behavior of having two callbacks of different types on a single function shouldn't be done...
+test.cb('does not reject a promise when a callback is provided', async t => {
+  util.avaTimeout(t, 100);
+
+  await obs.send('InvalidMethodName', {}, (err, data) => {
+    t.falsy(data);
+    t.deepEqual(err.status, 'error');
+    t.end();
+  });
 });
 
 test('assigns default methods based on API.js', async t => {
