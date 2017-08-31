@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.9.0...HEAD)
+
+**Implemented enhancements:**
+
+- api: Extract Promise/Callback support to its own file [\#73](https://github.com/haganbmj/obs-websocket-js/pull/73) ([haganbmj](https://github.com/haganbmj))
+
 ## [v0.9.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.9.0) (2017-08-25)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.8.0...v0.9.0)
 

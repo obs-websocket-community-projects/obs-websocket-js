@@ -17,13 +17,15 @@
   "scripts": {
     "update-api": "node .travis/update-api.js",
     "build": "npm-run-all build:*",
-    "build:web": "webpack",
-    "build:es5": "babel lib -d es5",
+    "build:web": "rimraf dist && webpack",
+    "build:es5": "rimraf es5 && babel lib -d es5",
     "watch": "webpack --watch",
-    "test": "npm run static && nyc ava",
-    "ava": "nyc ava",
+    "test": "npm-run-all test:*",
+    "test:static": "eslint .",
+    "test:ava": "npm run ava",
     "report": "nyc report --reporter=text-lcov",
     "node-coveralls": "npm run report | coveralls",
+    "ava": "nyc ava --verbose",
     "static": "eslint ."
   },
   "dependencies": {
@@ -44,6 +46,7 @@
     "eslint-plugin-ava": "^4.2.0",
     "npm-run-all": "^4.0.2",
     "nyc": "^11.1.0",
+    "rimraf": "^2.6.1",
     "webpack": "^3.5.0"
   },
   "bugs": {
@@ -80,6 +83,6 @@
       ]
     ]
   },
-  "sha": "c648524020eaa9560dffae942d4f2dce62575659",
-  "timestamp": "2017-08-25 17:57:36+00:00"
+  "sha": "47ac5e60cdfc931bb07f04b64b9829201970065d",
+  "timestamp": "2017-08-31 05:00:59+00:00"
 }

@@ -1,5 +1,6 @@
 const test = require('ava');
 const env = require('./setup/environment');
+const util = require('./setup/util');
 const OBSWebSocket = require('../lib/index');
 
 let unauthServer;
@@ -40,6 +41,28 @@ test('allows using uppercase request methods', async t => {
 
 test('permits null args', async t => {
   await t.notThrows(obs.send('ValidMethodName', null));
+});
+
+// There's some funky behavior if you try to make use of both the callback and the promise. Should be avoided.
+test.cb('allows the use of a callback instead of a promise.resolve', t => {
+  util.avaTimeout(t, 100);
+
+  obs.send('ValidMethodName', {}, (err, data) => {
+    t.falsy(err);
+    t.deepEqual(data.status, 'ok');
+    t.end();
+  });
+});
+
+// There's some funky behavior if you try to make use of both the callback and the promise. Should be avoided.
+test.cb('allows the use of a callback instead of a promise.reject', t => {
+  util.avaTimeout(t, 100);
+
+  obs.send('InvalidMethodName', {}, (err, data) => {
+    t.falsy(data);
+    t.deepEqual(err.status, 'error');
+    t.end();
+  });
 });
 
 test('assigns default methods based on API.js', async t => {

@@ -8,6 +8,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+require('./util/callbackPromise')(Promise);
 var Socket = require('./Socket');
 var Status = require('./Status');
 var debug = require('debug')('obs-websocket-js:Core');
@@ -70,8 +71,6 @@ var OBSWebSocket = function (_Socket) {
 
         // Assign a temporary event listener for this particular messageId to uniquely identify the response.
         _this2.once('obs:internal:message:id-' + messageId, function (err, data) {
-          _this2._doCallback(callback, err, data);
-
           if (err) {
             debug('[send:reject] %o', err);
             reject(err);
@@ -100,7 +99,7 @@ var OBSWebSocket = function (_Socket) {
         if (rejectReason) {
           _this2.emit('obs:internal:message:id-' + messageId, rejectReason);
         }
-      });
+      }).callback(callback);
     }
 
     /**
@@ -154,14 +153,12 @@ var OBSWebSocket = function (_Socket) {
 
       eventNames.forEach(function (eventName) {
         _this4['on' + eventName] = function (callback) {
-          var _this5 = this;
-
           if (typeof callback !== 'function') {
             return;
           }
 
           this.on(eventName, function (data) {
-            _this5._doCallback(callback, data);
+            callback(data);
           });
         };
       });

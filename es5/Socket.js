@@ -10,6 +10,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+require('./util/callbackPromise')(Promise);
 var WebSocket = require('ws');
 var EventEmitter = require('events');
 var hash = require('./util/authenticationHashing');
@@ -17,8 +18,6 @@ var Status = require('./Status');
 var debug = require('debug')('obs-websocket-js:Socket');
 var logAmbiguousError = require('./util/logAmbiguousError');
 var camelCaseKeys = require('./util/camelCaseKeys');
-
-var NOP = function NOP() {};
 
 var Socket = function (_EventEmitter) {
   _inherits(Socket, _EventEmitter);
@@ -41,18 +40,6 @@ var Socket = function (_EventEmitter) {
   }
 
   _createClass(Socket, [{
-    key: '_doCallback',
-    value: function _doCallback(callback, err, data) {
-      callback = callback || NOP;
-
-      try {
-        callback(err, data);
-      } catch (e) {
-        logAmbiguousError(debug, 'Unable to resolve callback:', e);
-        this.emit('error', e); // Forward the error so that we're not completely swallowing it.
-      }
-    }
-  }, {
     key: 'connect',
     value: function () {
       var _ref = _asyncToGenerator(function* () {
@@ -61,62 +48,31 @@ var Socket = function (_EventEmitter) {
         var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
         var callback = arguments[1];
 
-        try {
-          args = args || {};
-          var address = args.address || 'localhost:4444';
+        args = args || {};
+        var address = args.address || 'localhost:4444';
 
-          if (this._connected) {
-            this._socket.close();
-            this._connected = false;
-          }
-
-          yield this._connect(address);
-          this._connected = true;
-
-          // Looks like this should be bound. We don't technically cancel the connection when the authentication fails.
-          // This whole method really needs a rewrite.
-          this._socket.onclose = function () {
-            _this2._connected = false;
-            debug('Connection closed: %s', address);
-            _this2.emit('ConnectionClosed');
-          };
-
-          // This handler must be present before we can call _authenticate.
-          this._socket.onmessage = function (msg) {
-            // eslint-disable-next-line capitalized-comments
-            debug('[OnMessage]: %o', msg);
-            var message = camelCaseKeys(JSON.parse(msg.data));
-            var err = void 0;
-            var data = void 0;
-
-            if (message.status === 'error') {
-              err = message;
-            } else {
-              data = message;
-            }
-
-            // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
-            if (message.messageId) {
-              _this2.emit('obs:internal:message:id-' + message.messageId, err, data);
-            } else if (message.updateType) {
-              _this2.emit(message.updateType, data);
-            } else {
-              logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
-            }
-          };
-
-          yield this._authenticate(args.password);
-
-          debug('Connection opened: %s', address);
-          this.emit('ConnectionOpened');
-          this._doCallback(callback);
-        } catch (err) {
-          this._connected = false;
-          logAmbiguousError(debug, 'Connection failed:', err);
+        if (this._connected) {
           this._socket.close();
-          this._doCallback(callback, err);
-          return Promise.reject(err);
         }
+
+        return new Promise(function () {
+          var _ref2 = _asyncToGenerator(function* (resolve, reject) {
+            try {
+              yield _this2._connect(address);
+              yield _this2._authenticate(args.password);
+              resolve();
+            } catch (err) {
+              _this2._socket.close();
+              _this2._connected = false;
+              logAmbiguousError(debug, 'Connection failed:', err);
+              reject(err);
+            }
+          });
+
+          return function (_x2, _x3) {
+            return _ref2.apply(this, arguments);
+          };
+        }()).callback(callback);
       });
 
       function connect() {
@@ -137,7 +93,7 @@ var Socket = function (_EventEmitter) {
   }, {
     key: '_connect',
     value: function () {
-      var _ref2 = _asyncToGenerator(function* (address) {
+      var _ref3 = _asyncToGenerator(function* (address) {
         var _this3 = this;
 
         return new Promise(function (resolve, reject) {
@@ -148,6 +104,7 @@ var Socket = function (_EventEmitter) {
 
           // We only handle initial connection errors.
           // Beyond that, the consumer is responsible for adding their own `error` event listener.
+          // Might be better to wrap this to an EventEmitter so that users aren't overriding this handler. Would still handle the connection error of course.
           _this3._socket.onerror = function (error) {
             if (settled) {
               return;
@@ -162,14 +119,49 @@ var Socket = function (_EventEmitter) {
               return;
             }
 
+            _this3._connected = true;
+            debug('Connection opened: %s', address);
+            _this3.emit('ConnectionOpened');
+
             settled = true;
             resolve();
+          };
+
+          // Looks like this should be bound. We don't technically cancel the connection when the authentication fails.
+          _this3._socket.onclose = function () {
+            _this3._connected = false;
+            debug('Connection closed: %s', address);
+            _this3.emit('ConnectionClosed');
+          };
+
+          // This handler must be present before we can call _authenticate.
+          _this3._socket.onmessage = function (msg) {
+            // eslint-disable-next-line capitalized-comments
+            debug('[OnMessage]: %o', msg);
+            var message = camelCaseKeys(JSON.parse(msg.data));
+            var err = void 0;
+            var data = void 0;
+
+            if (message.status === 'error') {
+              err = message;
+            } else {
+              data = message;
+            }
+
+            // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
+            if (message.messageId) {
+              _this3.emit('obs:internal:message:id-' + message.messageId, err, data);
+            } else if (message.updateType) {
+              _this3.emit(message.updateType, data);
+            } else {
+              logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
+            }
           };
         });
       });
 
-      function _connect(_x2) {
-        return _ref2.apply(this, arguments);
+      function _connect(_x4) {
+        return _ref3.apply(this, arguments);
       }
 
       return _connect;
@@ -186,7 +178,7 @@ var Socket = function (_EventEmitter) {
   }, {
     key: '_authenticate',
     value: function () {
-      var _ref3 = _asyncToGenerator(function* () {
+      var _ref4 = _asyncToGenerator(function* () {
         var password = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
         if (!this._connected) {
@@ -216,7 +208,7 @@ var Socket = function (_EventEmitter) {
       });
 
       function _authenticate() {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return _authenticate;
