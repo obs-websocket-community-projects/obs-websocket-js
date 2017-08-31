@@ -20,16 +20,17 @@
     "build:web": "webpack",
     "build:es5": "babel lib -d es5",
     "watch": "webpack --watch",
-    "test": "npm run static && nyc ava",
-    "ava": "nyc ava",
+    "test": "npm-run-all test:*",
+    "test:static": "eslint .",
+    "test:ava": "npm run ava",
     "report": "nyc report --reporter=text-lcov",
     "node-coveralls": "npm run report | coveralls",
+    "ava": "nyc ava --verbose",
     "static": "eslint ."
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "debug": "^3.0.1",
-    "nodeify": "^1.0.1",
     "sha.js": "^2.4.8",
     "ws": "^3.0.0"
   },

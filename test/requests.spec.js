@@ -43,24 +43,22 @@ test('permits null args', async t => {
   await t.notThrows(obs.send('ValidMethodName', null));
 });
 
-// This type of situation should be avoided entirely because the behavior of having two callbacks of different types on a single function shouldn't be done...
-test.cb('still returns a promise when a callback is provided', t => {
+// There's some funky behavior if you try to make use of both the callback and the promise. Should be avoided.
+test.cb('allows the use of a callback instead of a promise.resolve', t => {
   util.avaTimeout(t, 100);
 
-  const promise = obs.send('ValidMethodName', {}, (err, data) => {
+  obs.send('ValidMethodName', {}, (err, data) => {
     t.falsy(err);
     t.deepEqual(data.status, 'ok');
     t.end();
   });
-
-  t.truthy(promise);
 });
 
-// This type of situation should be avoided entirely because the behavior of having two callbacks of different types on a single function shouldn't be done...
-test.cb('does not reject a promise when a callback is provided', async t => {
+// There's some funky behavior if you try to make use of both the callback and the promise. Should be avoided.
+test.cb('allows the use of a callback instead of a promise.reject', t => {
   util.avaTimeout(t, 100);
 
-  await obs.send('InvalidMethodName', {}, (err, data) => {
+  obs.send('InvalidMethodName', {}, (err, data) => {
     t.falsy(data);
     t.deepEqual(err.status, 'error');
     t.end();
