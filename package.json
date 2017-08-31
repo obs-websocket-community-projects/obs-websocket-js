@@ -17,8 +17,8 @@
   "scripts": {
     "update-api": "node .travis/update-api.js",
     "build": "npm-run-all build:*",
-    "build:web": "webpack",
-    "build:es5": "babel lib -d es5",
+    "build:web": "rimraf dist && webpack",
+    "build:es5": "rimraf es5 && babel lib -d es5",
     "watch": "webpack --watch",
     "test": "npm-run-all test:*",
     "test:static": "eslint .",
@@ -46,6 +46,7 @@
     "eslint-plugin-ava": "^4.2.0",
     "npm-run-all": "^4.0.2",
     "nyc": "^11.1.0",
+    "rimraf": "^2.6.1",
     "webpack": "^3.5.0"
   },
   "bugs": {
