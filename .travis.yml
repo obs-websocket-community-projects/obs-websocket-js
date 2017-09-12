@@ -13,6 +13,7 @@ notifications:
 env:
   global:
     - GH_REF="github.com/haganbmj/obs-websocket-js"
+    - DEBUG="obs-websocket-js:*"
 
 before_script:
   - nvm install v4

@@ -144,7 +144,7 @@ test.cb('emits error when an unhandled socket error occurs', t => {
 
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
-    obs2._socket.emit('error');
+    obs2._socket.emit(new Error('abc'));
   });
 
   obs2.on('error', () => {
