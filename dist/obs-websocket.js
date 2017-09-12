@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-09-07 15:38:29+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/47ac5e60cdfc931bb07f04b64b9829201970065d
+ * Build Timestamp: 2017-09-12 23:13:01+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/6cf99e2801a610e9282da22ab2c3bacb016ceffc
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -2835,11 +2835,12 @@ class Socket extends EventEmitter {
       debug('Attempting to connect to: %s', address);
       this._socket = new WebSocket('ws://' + address);
 
-      // We only handle initial connection errors.
-      // Beyond that, the consumer is responsible for adding their own `error` event listener.
-      // Might be better to wrap this to an EventEmitter so that users aren't overriding this handler. Would still handle the connection error of course.
+      // We only handle the initial connection error.
+      // Beyond that, the consumer is responsible for adding their own generic `error` event listener.
       this._socket.onerror = error => {
         if (settled) {
+          logAmbiguousError(debug, 'Unknown Socket Error', error);
+          this.emit('error', error);
           return;
         }
 
@@ -2853,10 +2854,10 @@ class Socket extends EventEmitter {
         }
 
         this._connected = true;
+        settled = true;
+
         debug('Connection opened: %s', address);
         this.emit('ConnectionOpened');
-
-        settled = true;
         resolve();
       };
 
@@ -2888,6 +2889,7 @@ class Socket extends EventEmitter {
           this.emit(message.updateType, data);
         } else {
           logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
+          this.emit('error', message);
         }
       };
     });

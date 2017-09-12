@@ -102,11 +102,12 @@ var Socket = function (_EventEmitter) {
           debug('Attempting to connect to: %s', address);
           _this3._socket = new WebSocket('ws://' + address);
 
-          // We only handle initial connection errors.
-          // Beyond that, the consumer is responsible for adding their own `error` event listener.
-          // Might be better to wrap this to an EventEmitter so that users aren't overriding this handler. Would still handle the connection error of course.
+          // We only handle the initial connection error.
+          // Beyond that, the consumer is responsible for adding their own generic `error` event listener.
           _this3._socket.onerror = function (error) {
             if (settled) {
+              logAmbiguousError(debug, 'Unknown Socket Error', error);
+              _this3.emit('error', error);
               return;
             }
 
@@ -120,10 +121,10 @@ var Socket = function (_EventEmitter) {
             }
 
             _this3._connected = true;
+            settled = true;
+
             debug('Connection opened: %s', address);
             _this3.emit('ConnectionOpened');
-
-            settled = true;
             resolve();
           };
 
@@ -155,6 +156,7 @@ var Socket = function (_EventEmitter) {
               _this3.emit(message.updateType, data);
             } else {
               logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
+              _this3.emit('error', message);
             }
           };
         });

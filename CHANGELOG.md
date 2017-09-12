@@ -6,11 +6,18 @@
 
 **Implemented enhancements:**
 
+- api: Ensure `error` emits occur when unhandled Socket errors/messages are encountered [\#75](https://github.com/haganbmj/obs-websocket-js/pull/75) ([haganbmj](https://github.com/haganbmj))
 - api: Extract Promise/Callback support to its own file [\#73](https://github.com/haganbmj/obs-websocket-js/pull/73) ([haganbmj](https://github.com/haganbmj))
+
+**Fixed bugs:**
+
+- api: Ensure `error` emits occur when unhandled Socket errors/messages are encountered [\#75](https://github.com/haganbmj/obs-websocket-js/pull/75) ([haganbmj](https://github.com/haganbmj))
 
 **Closed issues:**
 
 - Provide better documentation for API? [\#74](https://github.com/haganbmj/obs-websocket-js/issues/74)
+- obs.connect SyntaxError: Unexpected identifier [\#69](https://github.com/haganbmj/obs-websocket-js/issues/69)
+- not supported outside strict mode [\#64](https://github.com/haganbmj/obs-websocket-js/issues/64)
 
 ## [v0.9.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.9.0) (2017-08-25)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.8.0...v0.9.0)
