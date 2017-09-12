@@ -72,7 +72,7 @@ test('fails to connect when the wrong password is provided', async t => {
 });
 
 test.cb('emits ConnectionOpened', t => {
-  util.avaTimeout(t, 250);
+  util.avaTimeout(t, 400);
 
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
@@ -85,7 +85,7 @@ test.cb('emits ConnectionOpened', t => {
 });
 
 test.cb('emits ConnectionClosed', t => {
-  util.avaTimeout(t, 250);
+  util.avaTimeout(t, 400);
 
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionClosed', () => {
@@ -100,7 +100,7 @@ test.cb('emits ConnectionClosed', t => {
 });
 
 test.cb('emits AuthenticationSuccess', t => {
-  util.avaTimeout(t, 250);
+  util.avaTimeout(t, 400);
 
   const obs2 = new OBSWebSocket();
   obs2.on('AuthenticationSuccess', () => {
@@ -114,7 +114,7 @@ test.cb('emits AuthenticationSuccess', t => {
 });
 
 test.cb('emits AuthenticationFailure', t => {
-  util.avaTimeout(t, 250);
+  util.avaTimeout(t, 400);
 
   const obs2 = new OBSWebSocket();
   obs2.on('AuthenticationFailure', () => {
@@ -128,7 +128,7 @@ test.cb('emits AuthenticationFailure', t => {
 });
 
 test.cb('throws AuthenticationFailure', t => {
-  util.avaTimeout(t, 250);
+  util.avaTimeout(t, 400);
 
   const obs2 = new OBSWebSocket();
   obs2.connect({
@@ -140,14 +140,16 @@ test.cb('throws AuthenticationFailure', t => {
 });
 
 test.cb('emits error when an unhandled socket error occurs', t => {
-  util.avaTimeout(t, 250);
+  util.avaTimeout(t, 400);
 
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
-    obs2._socket.emit(new Error('abc'));
+    obs2._socket.onerror('first error message');
+    obs2._socket.onerror('second error message');
   });
 
-  obs2.on('error', () => {
+  obs2.on('error', error => {
+    t.deepEqual(error, 'first error message');
     t.end();
   });
 
@@ -157,7 +159,7 @@ test.cb('emits error when an unhandled socket error occurs', t => {
 });
 
 test.cb('emits error when an unrecognized socket message is received', t => {
-  util.avaTimeout(t, 250);
+  util.avaTimeout(t, 400);
 
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
