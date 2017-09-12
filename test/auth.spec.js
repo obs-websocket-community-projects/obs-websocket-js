@@ -138,3 +138,42 @@ test.cb('throws AuthenticationFailure', t => {
     t.end();
   });
 });
+
+test.cb('emits error when an unhandled socket error occurs', t => {
+  util.avaTimeout(t, 250);
+
+  const obs2 = new OBSWebSocket();
+  obs2.on('ConnectionOpened', () => {
+    obs2._socket.emit('error');
+  });
+
+  obs2.on('error', () => {
+    t.end();
+  });
+
+  obs2.connect({
+    address: 'localhost:4444'
+  });
+});
+
+test.cb('emits error when an unrecognized socket message is received', t => {
+  util.avaTimeout(t, 250);
+
+  const obs2 = new OBSWebSocket();
+  obs2.on('ConnectionOpened', () => {
+    obs2.send('echo', {
+      emitMessage: {
+        message: 'message'
+      }
+    });
+  });
+
+  obs2.on('error', error => {
+    t.deepEqual(error.message, 'message');
+    t.end();
+  });
+
+  obs2.connect({
+    address: 'localhost:4444'
+  });
+});
