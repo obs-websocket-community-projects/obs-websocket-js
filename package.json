@@ -22,7 +22,7 @@
     "watch": "webpack --watch",
     "test": "npm-run-all test:*",
     "test:static": "eslint .",
-    "test:ava": "npm run ava --serial",
+    "test:ava": "npm run ava --serial --timeout=10s",
     "report": "nyc report --reporter=text-lcov",
     "node-coveralls": "npm run report | coveralls",
     "ava": "nyc ava --verbose",
@@ -83,6 +83,6 @@
       ]
     ]
   },
-  "sha": "6cf99e2801a610e9282da22ab2c3bacb016ceffc",
-  "timestamp": "2017-09-21 15:38:46+00:00"
+  "sha": "1186494d8b12b30ca43199f57e017d9e07551fb0",
+  "timestamp": "2017-09-25 17:04:35+00:00"
 }

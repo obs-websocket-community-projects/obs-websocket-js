@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- tests: use cli ava timeout [\#77](https://github.com/haganbmj/obs-websocket-js/pull/77) ([haganbmj](https://github.com/haganbmj))
 - api: Ensure `error` emits occur when unhandled Socket errors/messages are encountered [\#75](https://github.com/haganbmj/obs-websocket-js/pull/75) ([haganbmj](https://github.com/haganbmj))
 - api: Extract Promise/Callback support to its own file [\#73](https://github.com/haganbmj/obs-websocket-js/pull/73) ([haganbmj](https://github.com/haganbmj))
 
