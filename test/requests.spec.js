@@ -1,6 +1,5 @@
 const test = require('ava');
 const env = require('./setup/environment');
-const util = require('./setup/util');
 const OBSWebSocket = require('../lib/index');
 
 let unauthServer;
@@ -45,8 +44,6 @@ test('permits null args', async t => {
 
 // There's some funky behavior if you try to make use of both the callback and the promise. Should be avoided.
 test.cb('allows the use of a callback instead of a promise.resolve', t => {
-  util.avaTimeout(t, 100);
-
   obs.send('ValidMethodName', {}, (err, data) => {
     t.falsy(err);
     t.deepEqual(data.status, 'ok');
@@ -56,8 +53,6 @@ test.cb('allows the use of a callback instead of a promise.resolve', t => {
 
 // There's some funky behavior if you try to make use of both the callback and the promise. Should be avoided.
 test.cb('allows the use of a callback instead of a promise.reject', t => {
-  util.avaTimeout(t, 100);
-
   obs.send('InvalidMethodName', {}, (err, data) => {
     t.falsy(data);
     t.deepEqual(err.status, 'error');
