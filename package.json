@@ -22,7 +22,7 @@
     "watch": "webpack --watch",
     "test": "npm-run-all test:*",
     "test:static": "eslint .",
-    "test:ava": "npm run ava --serial",
+    "test:ava": "npm run ava --serial --timeout=10s",
     "report": "nyc report --reporter=text-lcov",
     "node-coveralls": "npm run report | coveralls",
     "ava": "nyc ava --verbose",

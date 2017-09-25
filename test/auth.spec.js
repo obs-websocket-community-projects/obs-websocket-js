@@ -1,6 +1,5 @@
 const test = require('ava');
 const env = require('./setup/environment');
-const util = require('./setup/util');
 const OBSWebSocket = require('../lib/index');
 const SHA256 = require('sha.js/sha256');
 
@@ -72,8 +71,6 @@ test('fails to connect when the wrong password is provided', async t => {
 });
 
 test.cb('emits ConnectionOpened', t => {
-  util.avaTimeout(t, 400);
-
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
     t.end();
@@ -85,8 +82,6 @@ test.cb('emits ConnectionOpened', t => {
 });
 
 test.cb('emits ConnectionClosed', t => {
-  util.avaTimeout(t, 400);
-
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionClosed', () => {
     t.end();
@@ -100,8 +95,6 @@ test.cb('emits ConnectionClosed', t => {
 });
 
 test.cb('emits AuthenticationSuccess', t => {
-  util.avaTimeout(t, 400);
-
   const obs2 = new OBSWebSocket();
   obs2.on('AuthenticationSuccess', () => {
     t.end();
@@ -114,8 +107,6 @@ test.cb('emits AuthenticationSuccess', t => {
 });
 
 test.cb('emits AuthenticationFailure', t => {
-  util.avaTimeout(t, 400);
-
   const obs2 = new OBSWebSocket();
   obs2.on('AuthenticationFailure', () => {
     t.end();
@@ -128,8 +119,6 @@ test.cb('emits AuthenticationFailure', t => {
 });
 
 test.cb('throws AuthenticationFailure', t => {
-  util.avaTimeout(t, 400);
-
   const obs2 = new OBSWebSocket();
   obs2.connect({
     address: 'localhost:4443',
@@ -140,8 +129,6 @@ test.cb('throws AuthenticationFailure', t => {
 });
 
 test.cb('emits error when an unhandled socket error occurs', t => {
-  util.avaTimeout(t, 400);
-
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
     obs2._socket.onerror('first error message');
@@ -159,8 +146,6 @@ test.cb('emits error when an unhandled socket error occurs', t => {
 });
 
 test.cb('emits error when an unrecognized socket message is received', t => {
-  util.avaTimeout(t, 400);
-
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
     obs2.send('echo', {
