@@ -31,7 +31,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "debug": "^3.0.1",
-    "sha.js": "^2.4.8",
+    "sha.js": "^2.4.9",
     "ws": "^3.0.0"
   },
   "devDependencies": {
@@ -83,6 +83,6 @@
       ]
     ]
   },
-  "sha": "d890c81982f4b19cd82962c55d34a0e9e8665e98",
-  "timestamp": "2017-09-25 17:06:55+00:00"
+  "sha": "9c9764e22d99e0f0ba5eb2e81b622b7c0cdbf8ef",
+  "timestamp": "2017-09-25 17:56:36+00:00"
 }

@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- \[API\] Revise Project Structure [\#25](https://github.com/haganbmj/obs-websocket-js/issues/25)
 - tests: use cli ava timeout [\#77](https://github.com/haganbmj/obs-websocket-js/pull/77) ([haganbmj](https://github.com/haganbmj))
 - api: Ensure `error` emits occur when unhandled Socket errors/messages are encountered [\#75](https://github.com/haganbmj/obs-websocket-js/pull/75) ([haganbmj](https://github.com/haganbmj))
 - api: Extract Promise/Callback support to its own file [\#73](https://github.com/haganbmj/obs-websocket-js/pull/73) ([haganbmj](https://github.com/haganbmj))
@@ -16,9 +17,14 @@
 
 **Closed issues:**
 
+- An in-range update of sha.js is breaking the build 🚨 [\#76](https://github.com/haganbmj/obs-websocket-js/issues/76)
 - Provide better documentation for API? [\#74](https://github.com/haganbmj/obs-websocket-js/issues/74)
 - obs.connect SyntaxError: Unexpected identifier [\#69](https://github.com/haganbmj/obs-websocket-js/issues/69)
 - not supported outside strict mode [\#64](https://github.com/haganbmj/obs-websocket-js/issues/64)
+
+**Merged pull requests:**
+
+- chore\(package\): update sha.js to version 2.4.9 [\#78](https://github.com/haganbmj/obs-websocket-js/pull/78) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.9.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.9.0) (2017-08-25)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.8.0...v0.9.0)
