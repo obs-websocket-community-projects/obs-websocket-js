@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-09-25 17:04:35+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/1186494d8b12b30ca43199f57e017d9e07551fb0
+ * Build Timestamp: 2017-09-25 17:06:55+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/d890c81982f4b19cd82962c55d34a0e9e8665e98
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -4222,6 +4222,7 @@ module.exports = {
     "ReplayStopping",
     "ReplayStopped",
     "Exiting",
+    "Heartbeat",
     "SourceOrderChanged",
     "SceneItemAdded",
     "SceneItemRemoved",
@@ -4233,6 +4234,7 @@ module.exports = {
     "GetVersion",
     "GetAuthRequired",
     "Authenticate",
+    "HandleSetHeartbeat",
     "SetCurrentScene",
     "GetCurrentScene",
     "GetSceneList",
