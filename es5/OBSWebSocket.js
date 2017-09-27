@@ -28,6 +28,9 @@ var OBSWebSocket = function (_Socket) {
 
     var _this = _possibleConstructorReturn(this, (OBSWebSocket.__proto__ || Object.getPrototypeOf(OBSWebSocket)).call(this));
 
+    _this.availableRequests = [];
+    _this.availableEvents = [];
+
     _this.registerRequest(API.availableMethods);
     _this.registerEvent(API.availableEvents);
 
@@ -123,6 +126,7 @@ var OBSWebSocket = function (_Socket) {
       }
 
       requestNames.forEach(function (requestName) {
+        _this3.availableRequests.push(requestName);
         var handler = function handler(args, callback) {
           return this.send(requestName, args, callback);
         };
@@ -152,6 +156,7 @@ var OBSWebSocket = function (_Socket) {
       }
 
       eventNames.forEach(function (eventName) {
+        _this4.availableEvents.push(eventName);
         _this4['on' + eventName] = function (callback) {
           if (typeof callback !== 'function') {
             return;

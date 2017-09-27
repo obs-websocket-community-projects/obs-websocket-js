@@ -1,0 +1,21 @@
+.form {
+  padding: 15px;
+}
+
+.param {
+  padding: 5px 0;
+}
+
+.param:first-of-type {
+  padding-top: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 3em auto 25%;
+  grid-template-areas:
+    "header header header header"
+    "left-top left-top right-top right-top"
+    "footer footer footer footer"
+}

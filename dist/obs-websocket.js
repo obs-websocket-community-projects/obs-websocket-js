@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-09-25 17:56:36+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/9c9764e22d99e0f0ba5eb2e81b622b7c0cdbf8ef
+ * Build Timestamp: 2017-09-27 04:08:11+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/f2e812e16088d6bfe6a7be1a222a5a4f38b6b88b
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -654,6 +654,9 @@ class OBSWebSocket extends Socket {
   constructor() {
     super();
 
+    this.availableRequests = [];
+    this.availableEvents = [];
+
     this.registerRequest(API.availableMethods);
     this.registerEvent(API.availableEvents);
 
@@ -732,6 +735,7 @@ class OBSWebSocket extends Socket {
     }
 
     requestNames.forEach(requestName => {
+      this.availableRequests.push(requestName);
       const handler = function (args, callback) {
         return this.send(requestName, args, callback);
       };
@@ -754,6 +758,7 @@ class OBSWebSocket extends Socket {
     }
 
     eventNames.forEach(eventName => {
+      this.availableEvents.push(eventName);
       this['on' + eventName] = function (callback) {
         if (typeof callback !== 'function') {
           return;

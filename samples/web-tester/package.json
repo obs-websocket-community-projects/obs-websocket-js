@@ -1,0 +1,16 @@
+{
+  "name": "web-tester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "inline": "inline-source lib/tester.html > dist/tester.html"
+  },
+  "author": "Brendan Hagan (haganbmj)",
+  "license": "MIT",
+  "dependencies": {
+    "inline-source-cli": "^1.2.0",
+    "vue": "^2.4.4",
+    "vue-filter": "^0.2.1"
+  }
+}
