@@ -23,3 +23,6 @@ coverage
 
 # Until npm5 package-locks are more reliable.
 package-lock.json
+
+# Allow web-tester's dist
+!samples/web-tester/dist

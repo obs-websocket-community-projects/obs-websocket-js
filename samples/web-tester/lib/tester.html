@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script inline src="../../../dist/obs-websocket.min.js"></script>
+  <script inline src="../node_modules/vue/dist/vue.min.js"></script>
+  <script inline src="../node_modules/vue-filter/dist/vue-filter.min.js"></script>
+  <link inline href="./tester.css">
+  </script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="grid">
+      <div style="grid-area: header">
+        <form class="login form" v-on:submit.prevent="obsLogin()">
+          <input type="text" v-model="login.address" placeholder="Address" />
+          <input type="password" v-model="login.password" placeholder="Password" />
+          <button type="submit">Connect</button>
+        </form>
+      </div>
+
+      <div style="grid-area: left-top">
+        <h2>Request:</h2>
+        <form class="request form" v-on:submit.prevent="sendRequest()">
+          <label>Request Type:</label>
+          <select v-model="selectedName">
+            <option v-for="request in schema.requests">{{request}}</option>
+          </select>
+
+          <button v-if="selectedName != ''" v-on:click="addParam()" type="button">Add Param</button>
+
+          <div class="param" v-for="(param, index) in selectedParams[selectedName]">
+            <select v-model="param.type">
+              <option v-for="type in schema.types">{{type}}</option>
+            </select>
+            <input type="text" v-model="param.name" placeholder="Name" />
+            <input type="text" v-model="param.value" placeholder="Value" />
+            <button v-on:click="removeParam(index)" type="button">x</button>
+          </div>
+
+          <button v-if="selectedName != ''" type="submit">Send Request</button>
+        </form>
+
+        <div class="request raw">
+          <pre>{{formattedRequest}}</pre>
+        </div>
+      </div>
+
+      <div style="grid-area: right-top">
+        <h2>Response:</h2>
+        <div class="response" style="overflow: scroll">
+          <pre>{{response}}</pre>
+        </div>
+      </div>
+
+      <div style="grid-area: footer">
+        <h2>Events:</h2>
+        <div class="events">
+          <div class="event" v-for="emit in reverseEmits">
+            <b>{{emit.event}} - {{emit.timestamp | date('%T')}}</b>
+            <pre>{{emit.data}}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script inline src="./tester.js"></script>
+
+</html>
