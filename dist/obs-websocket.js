@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-10-03 15:31:35+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/c9d6da3bff16887d30d273fababf17e0c2c96247
+ * Build Timestamp: 2017-10-03 15:44:09+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/ec26d1865b047359b3a4eaa7a18ea0634fda50e0
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -689,7 +689,7 @@ class OBSWebSocket extends Socket {
       }
 
       // Assign a temporary event listener for this particular messageId to uniquely identify the response.
-      this.once('obs:internal:message:id-' + messageId, (err, data) => {
+      this.once(`obs:internal:message:id-${messageId}`, (err, data) => {
         if (err) {
           debug('[send:reject] %o', err);
           reject(err);
@@ -716,7 +716,7 @@ class OBSWebSocket extends Socket {
 
       // If the socket call was unsuccessful or bypassed, simulate its resolution.
       if (rejectReason) {
-        this.emit('obs:internal:message:id-' + messageId, rejectReason);
+        this.emit(`obs:internal:message:id-${messageId}`, rejectReason);
       }
     }).callback(callback);
   }
@@ -759,7 +759,7 @@ class OBSWebSocket extends Socket {
 
     eventNames.forEach(eventName => {
       this.availableEvents.push(eventName);
-      this['on' + eventName] = function (callback) {
+      this[`on${eventName}`] = function (callback) {
         if (typeof callback !== 'function') {
           return;
         }
@@ -1160,7 +1160,7 @@ class Socket extends EventEmitter {
 
         // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
         if (message.messageId) {
-          this.emit('obs:internal:message:id-' + message.messageId, err, data);
+          this.emit(`obs:internal:message:id-${message.messageId}`, err, data);
         } else if (message.updateType) {
           this.emit(message.updateType, data);
         } else {

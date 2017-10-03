@@ -151,7 +151,7 @@ var Socket = function (_EventEmitter) {
 
             // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
             if (message.messageId) {
-              _this3.emit('obs:internal:message:id-' + message.messageId, err, data);
+              _this3.emit(`obs:internal:message:id-${message.messageId}`, err, data);
             } else if (message.updateType) {
               _this3.emit(message.updateType, data);
             } else {

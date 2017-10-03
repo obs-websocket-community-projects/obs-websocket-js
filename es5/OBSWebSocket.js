@@ -73,7 +73,7 @@ var OBSWebSocket = function (_Socket) {
         }
 
         // Assign a temporary event listener for this particular messageId to uniquely identify the response.
-        _this2.once('obs:internal:message:id-' + messageId, function (err, data) {
+        _this2.once(`obs:internal:message:id-${messageId}`, function (err, data) {
           if (err) {
             debug('[send:reject] %o', err);
             reject(err);
@@ -100,7 +100,7 @@ var OBSWebSocket = function (_Socket) {
 
         // If the socket call was unsuccessful or bypassed, simulate its resolution.
         if (rejectReason) {
-          _this2.emit('obs:internal:message:id-' + messageId, rejectReason);
+          _this2.emit(`obs:internal:message:id-${messageId}`, rejectReason);
         }
       }).callback(callback);
     }
@@ -157,7 +157,7 @@ var OBSWebSocket = function (_Socket) {
 
       eventNames.forEach(function (eventName) {
         _this4.availableEvents.push(eventName);
-        _this4['on' + eventName] = function (callback) {
+        _this4[`on${eventName}`] = function (callback) {
           if (typeof callback !== 'function') {
             return;
           }
