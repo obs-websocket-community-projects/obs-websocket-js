@@ -40,7 +40,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
     "babili-webpack-plugin": "^0.1.1",
-    "coveralls": "^2.13.1",
+    "coveralls": "^3.0.0",
     "eslint": "^4.1.0",
     "eslint-config-xo-space": "^0.16.0",
     "eslint-plugin-ava": "^4.2.0",
@@ -83,6 +83,6 @@
       ]
     ]
   },
-  "sha": "3b5b72386aeceae672a93d42a1a7a8ea3a88d43b",
-  "timestamp": "2017-09-28 15:39:40+00:00"
+  "sha": "c9d6da3bff16887d30d273fababf17e0c2c96247",
+  "timestamp": "2017-10-03 15:31:35+00:00"
 }

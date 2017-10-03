@@ -24,6 +24,7 @@
 
 **Merged pull requests:**
 
+- Update coveralls to the latest version 🚀 [\#80](https://github.com/haganbmj/obs-websocket-js/pull/80) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - chore\(package\): update sha.js to version 2.4.9 [\#78](https://github.com/haganbmj/obs-websocket-js/pull/78) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.9.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.9.0) (2017-08-25)
