@@ -41,7 +41,7 @@
     "babel-register": "^6.26.0",
     "babili-webpack-plugin": "^0.1.1",
     "coveralls": "^3.0.0",
-    "eslint": "^4.1.0",
+    "eslint": "^4.9.0",
     "eslint-config-xo-space": "^0.17.0",
     "eslint-plugin-ava": "^4.2.0",
     "npm-run-all": "^4.0.2",
