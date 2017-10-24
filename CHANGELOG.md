@@ -25,6 +25,7 @@
 
 **Merged pull requests:**
 
+- Update ava to the latest version 🚀 [\#86](https://github.com/haganbmj/obs-websocket-js/pull/86) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint-config-xo-space to the latest version 🚀 [\#84](https://github.com/haganbmj/obs-websocket-js/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update coveralls to the latest version 🚀 [\#80](https://github.com/haganbmj/obs-websocket-js/pull/80) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - chore\(package\): update sha.js to version 2.4.9 [\#78](https://github.com/haganbmj/obs-websocket-js/pull/78) ([haganbmj](https://github.com/haganbmj))

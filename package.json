@@ -35,7 +35,7 @@
     "ws": "^3.0.0"
   },
   "devDependencies": {
-    "ava": "^0.22.0",
+    "ava": "^0.23.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.26.0",
@@ -83,6 +83,6 @@
       ]
     ]
   },
-  "sha": "9a5aebf526167b8216d4537c7529954f0b4c07c3",
-  "timestamp": "2017-10-19 15:45:18+00:00"
+  "sha": "ed2e3029e4afcdc065022f66536ac8942ad11a9c",
+  "timestamp": "2017-10-24 17:22:24+00:00"
 }
