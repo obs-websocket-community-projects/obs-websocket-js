@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2017-11-02 15:45:51+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/c368e83cce168ca731a374231447184d97af708e
+ * Build Timestamp: 2017-11-08 01:33:53+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/7b3ea44d4adf150c42c67fae334be92a9b944c9e
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -305,6 +305,12 @@ if (typeof setImmediate === 'function') {
   };
 }
 
+/**
+ * Adds a `.callback` method to Promise to handle errbacks.
+ * Will be ignored if the passed Object is not a function.
+ *
+ * @param {Object} promise The currently active Promise object.
+ */
 module.exports = function (promise) {
   promise.prototype.callback = function (cb) {
     if (typeof cb !== 'function') {
@@ -4239,9 +4245,9 @@ function plural(ms, n, name) {
  * Particularly useful when dealing with error response objects from obs-websocket,
  * which are not actual Error-type errors, but simply Objects.
  *
- * @param debug - A `debug` instance.
- * @param prefix - A string to print in front of the formatted error.
- * @param error - An error of ambiguous type that you wish to log to `debug`. Can be an Error, Object, or String.
+ * @param {Object} debug A `debug` instance.
+ * @param {String} prefix A string to print in front of the formatted error.
+ * @param {Object|Error} error An error of ambiguous type that you wish to log to `debug`. Can be an Error, Object, or String.
  */
 module.exports = function (debug, prefix, error) {
   if (error && error.stack) {
@@ -4258,6 +4264,12 @@ module.exports = function (debug, prefix, error) {
 /* 24 */
 /***/ (function(module, exports) {
 
+/**
+ * Converts kebab-case to camelCase.
+ * Retains the original kebab-case entries.
+ *
+ * @param {Object} [obj={}] Keyed object.
+ */
 module.exports = function (obj) {
   obj = obj || {};
   for (const key in obj) {

@@ -1,5 +1,11 @@
 "use strict";
 
+/**
+ * Converts kebab-case to camelCase.
+ * Retains the original kebab-case entries.
+ *
+ * @param {Object} [obj={}] Keyed object.
+ */
 module.exports = function (obj) {
   obj = obj || {};
   for (var key in obj) {

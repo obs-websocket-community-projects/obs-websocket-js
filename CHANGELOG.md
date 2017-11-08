@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- \[API\] Use async/await [\#53](https://github.com/haganbmj/obs-websocket-js/issues/53)
 - \[API\] Revise Project Structure [\#25](https://github.com/haganbmj/obs-websocket-js/issues/25)
 - chore: more consistent use of template strings [\#81](https://github.com/haganbmj/obs-websocket-js/pull/81) ([haganbmj](https://github.com/haganbmj))
 - tests: use cli ava timeout [\#77](https://github.com/haganbmj/obs-websocket-js/pull/77) ([haganbmj](https://github.com/haganbmj))

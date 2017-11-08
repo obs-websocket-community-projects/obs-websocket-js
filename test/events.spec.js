@@ -59,3 +59,20 @@ test.cb('allows registering custom event listeners', t => {
     }
   });
 });
+
+test.cb('does nothing when the callback is not a function', t => {
+  obs.registerEvent('CustomEvent');
+
+  obs.onCustomEvent('String');
+  obs.onCustomEvent(() => {
+    setTimeout(() => {
+      t.end(); // Ghetto waiting to let the other event try to fire.
+    }, 50);
+  });
+
+  obs.send('echo', {
+    emitMessage: {
+      'update-type': 'CustomEvent'
+    }
+  });
+});

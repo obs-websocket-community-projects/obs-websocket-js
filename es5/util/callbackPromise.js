@@ -12,6 +12,12 @@ if (typeof setImmediate === 'function') {
   };
 }
 
+/**
+ * Adds a `.callback` method to Promise to handle errbacks.
+ * Will be ignored if the passed Object is not a function.
+ *
+ * @param {Object} promise The currently active Promise object.
+ */
 module.exports = function (promise) {
   promise.prototype.callback = function (cb) {
     if (typeof cb !== 'function') {
