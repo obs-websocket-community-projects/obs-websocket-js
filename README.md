@@ -7,11 +7,11 @@ OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plug
 <p align="center">
   <a href="https://travis-ci.org/haganbmj/obs-websocket-js"><img src="https://img.shields.io/travis/haganbmj/obs-websocket-js/master.svg?style=flat"></a>
   <a href="https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master"><img src="https://coveralls.io/repos/github/haganbmj/obs-websocket-js/badge.svg?branch=master"></a>
-  <a href="https://github.com/haganbmj/obs-websocket-js/tags"><img src="https://img.shields.io/github/tag/haganbmj/obs-websocket-js.svg?style=flat"></a>
-  <a href="https://github.com/haganbmj/obs-websocket-js/releases"><img src="https://img.shields.io/github/release/haganbmj/obs-websocket-js.svg?style=flat"></a>
-  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/haganbmj/obs-websocket-js.svg"></a>
+  <a href="https://libraries.io/bower/obs-websocket-js"><img src="https://img.shields.io/bower/v/obs-websocket-js.svg?style=flat"></a>
+  <a href="https://www.npmjs.com/package/obs-websocket-js"><img src="https://img.shields.io/npm/v/obs-websocket-js.svg?style=flat"></a>
+  <a href="https://www.npmjs.com/package/obs-websocket-js"><img src="https://img.shields.io/npm/dt/obs-websocket-js.svg"></a>
   <img src="https://img.shields.io/npm/l/obs-websocket-js.svg">
-  <img src="https://img.shields.io/npm/dt/obs-websocket-js.svg">
+  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/haganbmj/obs-websocket-js.svg"></a>
 </p>
 
 <p align="center"><b>
@@ -56,8 +56,8 @@ All requests support the following two Syntax options where both `err` and `data
 _Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
 - RequestName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.  
   - When calling a method directly (instead of via `.send`), you may also use the `lowerCamelCase` version of the request, i.e. `requestName` instead of `RequestName`. This may be preferred if you use a linter such as [ESlint](http://eslint.org/).
-- {args} are optional. Note that both `request-type` and `message-id` will be bound automatically.  
-- callback(err, data) is optional.  
+- `{args}` are optional. Note that both `request-type` and `message-id` will be bound automatically.  
+- `callback(err, data)` is optional.  
 
 ```js
 // These three options are equivalent for every available request.
@@ -103,30 +103,34 @@ To ensure that you are handling every error, you must do the following:
 2. Add a `error` event listener to the `OBSWebSocket` object.
 
 #### Example
+See more examples in [`\samples`](samples).
 ```js
 const OBSWebSocket = require('obs-websocket-js');
 
 const obs = new OBSWebSocket();
 obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' })
   .then(() => {
-	  console.log('Success! We\'re connected & authenticated.');
-	  return obs.getSceneList({});
+    console.log(`Success! We're connected & authenticated.`);
+    
+	  return obs.getSceneList();
   })
   .then(data => {
-  	console.log(`${data.scenes.length} Available Scenes!`);
+    console.log(`${data.scenes.length} Available Scenes!`);
+    
     data.scenes.forEach(scene => {
       if (scene.name !== data.currentScene) {
-        console.log('Found a different scene! Switching to Scene:', scene.name);
+        console.log(`Found a different scene! Switching to Scene: ${scene.name}`);
+
         obs.setCurrentScene({'scene-name': scene.name});
       }
     });
   })
-  .catch(err => { // Ensure that you add a catch handler to every Promise chain.
+  .catch(err => { // Promise convention dicates you have a catch on every chain.
     console.log(err);
   });
 
 obs.onSwitchScenes(data => {
-  console.log('New Active Scene:', data.sceneName);
+  console.log(`New Active Scene: ${data.sceneName}`);
 });
 
 // You must add this handler to avoid uncaught exceptions.
@@ -164,10 +168,6 @@ localStorage.debug = 'foo,bar:*,obs-websocket-js:*';
 ```
 
 For more information, see the [`debug`][link-debug] documentation.
-
-## TODOs
-- Unit testing / Socket mocking.
-- More examples.
 
 ## Projects Using **obs-websocket-js**
 _To add your project to this list, submit a Pull Request._
