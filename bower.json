@@ -28,11 +28,13 @@
     "node_modules",
     "bower_components",
     "lib",
+    "es5",
     "samples",
     "test",
     "_config.yml",
     "Gruntfile.js",
     "webpack.config.js",
-    "package-lock.json"
+    "package-lock.json",
+    "README.md"
   ]
 }

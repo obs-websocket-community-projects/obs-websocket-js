@@ -164,3 +164,31 @@ test.cb('emits error when an unrecognized socket message is received', t => {
     address: 'localhost:4444'
   });
 });
+
+test('closes an existing connection when `connect` is called again', async t => {
+  const obs = new OBSWebSocket();
+
+  let open = false;
+
+  // Verify that the previous connection was closed.
+  obs.onConnectionOpened(() => {
+    t.false(open);
+    open = true;
+  });
+
+  obs.onConnectionClosed(() => {
+    open = false;
+  });
+
+  await t.notThrows(obs.connect({
+    address: 'localhost:4444'
+  }));
+
+  t.true(open);
+
+  await t.notThrows(obs.connect({
+    address: 'localhost:4444'
+  }));
+
+  t.true(open);
+});
