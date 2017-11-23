@@ -1,5 +1,14 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.0.0...HEAD)
+
+**Closed issues:**
+
+- SetSceneItemProperties = "invalid request type" [\#88](https://github.com/haganbmj/obs-websocket-js/issues/88)
+- How to connect to several instances same time? [\#85](https://github.com/haganbmj/obs-websocket-js/issues/85)
+
 ## [v1.0.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.0.0) (2017-11-08)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.9.0...v1.0.0)
 
