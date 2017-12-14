@@ -7,7 +7,6 @@
 **Closed issues:**
 
 - SetSceneItemProperties = "invalid request type" [\#88](https://github.com/haganbmj/obs-websocket-js/issues/88)
-- How to connect to several instances same time? [\#85](https://github.com/haganbmj/obs-websocket-js/issues/85)
 
 **Merged pull requests:**
 
