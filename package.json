@@ -30,24 +30,24 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "debug": "^3.0.1",
+    "debug": "^3.1.0",
     "sha.js": "^2.4.9",
-    "ws": "^3.0.0"
+    "ws": "^3.3.3"
   },
   "devDependencies": {
     "ava": "^0.24.0",
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
-    "babili-webpack-plugin": "^0.1.1",
+    "babili-webpack-plugin": "^0.1.2",
     "coveralls": "^3.0.0",
     "eslint": "^4.14.0",
     "eslint-config-xo-space": "^0.17.0",
-    "eslint-plugin-ava": "^4.2.0",
-    "npm-run-all": "^4.0.2",
-    "nyc": "^11.1.0",
-    "rimraf": "^2.6.1",
-    "webpack": "^3.5.0"
+    "eslint-plugin-ava": "^4.4.0",
+    "npm-run-all": "^4.1.2",
+    "nyc": "^11.4.1",
+    "rimraf": "^2.6.2",
+    "webpack": "^3.10.0"
   },
   "bugs": {
     "url": "https://github.com/haganbmj/obs-websocket-js/issues"
@@ -83,6 +83,6 @@
       ]
     ]
   },
-  "sha": "20f239d6dfbe79179bfda8359fd5409f9caa68c8",
-  "timestamp": "2018-01-01 03:39:21+00:00"
+  "sha": "fb829725b44d64c44b0b701ce91cbff51aa6ba3c",
+  "timestamp": "2018-01-01 03:48:41+00:00"
 }
