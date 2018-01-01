@@ -1,14 +1,15 @@
 # Change Log
 
-## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
-
-[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.0.0...HEAD)
+## [v1.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.1.0) (2018-01-01)
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.0.0...v1.1.0)
 
 **Closed issues:**
 
+- An in-range update of nyc is breaking the build 🚨 [\#94](https://github.com/haganbmj/obs-websocket-js/issues/94)
 - An in-range update of eslint is breaking the build 🚨 [\#92](https://github.com/haganbmj/obs-websocket-js/issues/92)
 - SetSceneItemProperties = "invalid request type" [\#88](https://github.com/haganbmj/obs-websocket-js/issues/88)
 - How to connect to several instances same time? [\#85](https://github.com/haganbmj/obs-websocket-js/issues/85)
+- \[CI\] Update to npm@5 [\#51](https://github.com/haganbmj/obs-websocket-js/issues/51)
 
 **Merged pull requests:**
 
