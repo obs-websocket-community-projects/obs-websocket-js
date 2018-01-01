@@ -6,11 +6,13 @@
 
 **Closed issues:**
 
+- An in-range update of eslint is breaking the build 🚨 [\#92](https://github.com/haganbmj/obs-websocket-js/issues/92)
 - SetSceneItemProperties = "invalid request type" [\#88](https://github.com/haganbmj/obs-websocket-js/issues/88)
 - How to connect to several instances same time? [\#85](https://github.com/haganbmj/obs-websocket-js/issues/85)
 
 **Merged pull requests:**
 
+- chore\(package\): update eslint to version 4.14.0 [\#95](https://github.com/haganbmj/obs-websocket-js/pull/95) ([haganbmj](https://github.com/haganbmj))
 - Update ava to the latest version 🚀 [\#90](https://github.com/haganbmj/obs-websocket-js/pull/90) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.0.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.0.0) (2017-11-08)
