@@ -32,7 +32,7 @@
     "babel-polyfill": "^6.26.0",
     "debug": "^3.1.0",
     "sha.js": "^2.4.9",
-    "ws": "^3.3.3"
+    "ws": "^4.0.0"
   },
   "devDependencies": {
     "ava": "^0.24.0",
