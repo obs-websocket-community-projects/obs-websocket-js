@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.1.0...HEAD)
+
+**Merged pull requests:**
+
+- Update ws to the latest version 🚀 [\#96](https://github.com/haganbmj/obs-websocket-js/pull/96) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v1.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.1.0) (2018-01-01)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.0.0...v1.1.0)
 
