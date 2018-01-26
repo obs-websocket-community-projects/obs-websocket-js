@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Update ava to the latest version 🚀 [\#98](https://github.com/haganbmj/obs-websocket-js/pull/98) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update ws to the latest version 🚀 [\#96](https://github.com/haganbmj/obs-websocket-js/pull/96) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.1.0) (2018-01-01)
