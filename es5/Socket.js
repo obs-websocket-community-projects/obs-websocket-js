@@ -156,7 +156,7 @@ var Socket = function (_EventEmitter) {
               _this3.emit(message.updateType, data);
             } else {
               logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
-              _this3.emit('error', message);
+              _this3.emit('message', message);
             }
           };
         });

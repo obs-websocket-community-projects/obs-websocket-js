@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2018-02-01 15:50:41+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/d35766958250d47131771dd1841b5283df330ff2
+ * Build Timestamp: 2018-02-04 02:57:23+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/a80b173cc8b18fb4274ece2cf4668bb59ae71dce
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -1171,7 +1171,7 @@ class Socket extends EventEmitter {
           this.emit(message.updateType, data);
         } else {
           logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
-          this.emit('error', message);
+          this.emit('message', message);
         }
       };
     });
