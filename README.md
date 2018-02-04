@@ -100,7 +100,14 @@ obs.registerEvent(['EventName1', 'EventName2'])
 By default, certain types of WebSocket errors will be thrown as uncaught exceptions.
 To ensure that you are handling every error, you must do the following:
 1. Add a `.catch()` handler to every returned Promise.
-2. Add a `error` event listener to the `OBSWebSocket` object.
+2. Add a `error` event listener to the `OBSWebSocket` object. By default only errors on the initial socket connection will be caught. Any subsequent errors will be emit here and will be considered uncaught without this handler.
+
+```js
+// You must add this handler to avoid uncaught exceptions.
+obs.on('error', err => {
+	console.error('socket error:', err);
+});
+```
 
 #### Example
 See more examples in [`\samples`](samples).

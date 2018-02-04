@@ -133,11 +133,24 @@ test.cb('emits error when an unhandled socket error occurs', t => {
   obs2.on('ConnectionOpened', () => {
     obs2._socket.onerror('first error message');
     obs2._socket.onerror('second error message');
+    t.end();
   });
 
+  let errorCount = 0;
+
   obs2.on('error', error => {
-    t.deepEqual(error, 'first error message');
-    t.end();
+    errorCount += 1;
+    switch (errorCount) {
+      case 1:
+        t.deepEqual(error, 'first error message');
+        break;
+      case 2:
+        t.deepEqual(error, 'second error message');
+        t.end();
+        break;
+      default:
+        t.fail();
+    }
   });
 
   obs2.connect({
@@ -145,7 +158,7 @@ test.cb('emits error when an unhandled socket error occurs', t => {
   });
 });
 
-test.cb('emits error when an unrecognized socket message is received', t => {
+test.cb(`emits 'message' when an unrecognized socket message is received`, t => {
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
     obs2.send('echo', {
@@ -155,8 +168,8 @@ test.cb('emits error when an unrecognized socket message is received', t => {
     });
   });
 
-  obs2.on('error', error => {
-    t.deepEqual(error.message, 'message');
+  obs2.on('message', msg => {
+    t.deepEqual(msg.message, 'message');
     t.end();
   });
 
