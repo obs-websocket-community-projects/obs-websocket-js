@@ -42,7 +42,7 @@
     "babili-webpack-plugin": "^0.1.2",
     "coveralls": "^3.0.0",
     "eslint": "^4.14.0",
-    "eslint-config-xo-space": "^0.17.0",
+    "eslint-config-xo-space": "^0.18.0",
     "eslint-plugin-ava": "^4.4.0",
     "npm-run-all": "^4.1.2",
     "nyc": "^11.4.1",
@@ -83,6 +83,6 @@
       ]
     ]
   },
-  "sha": "a80b173cc8b18fb4274ece2cf4668bb59ae71dce",
-  "timestamp": "2018-02-15 15:59:23+00:00"
+  "sha": "3581c858d73768cbe6480b819b6316191806d0fc",
+  "timestamp": "2018-02-15 20:52:03+00:00"
 }
