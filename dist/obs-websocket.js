@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2018-03-01 15:53:57+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/3581c858d73768cbe6480b819b6316191806d0fc
+ * Build Timestamp: 2018-03-01 15:58:57+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/de976e2c4d964b510bfc62573519a15fcbf17934
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -4358,6 +4358,7 @@ module.exports = {
     "SetCurrentScene",
     "GetCurrentScene",
     "GetSceneList",
+    "SetSceneItemOrder",
     "GetSourcesList",
     "GetSourcesTypesList",
     "GetVolume",
@@ -4371,8 +4372,12 @@ module.exports = {
     "SetSourceSettings",
     "GetTextGDIPlusProperties",
     "SetTextGDIPlusProperties",
+    "GetTextFreetype2Properties",
+    "SetTextFreetype2Properties",
     "GetBrowserSourceProperties",
     "SetBrowserSourceProperties",
+    "DeleteSceneItem",
+    "DuplicateSceneItem",
     "GetSpecialSources",
     "GetStreamingStatus",
     "StartStopStreaming",
