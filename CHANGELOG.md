@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- Update ws to the latest version 🚀 [\#101](https://github.com/haganbmj/obs-websocket-js/pull/101) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint-config-xo-space to the latest version 🚀 [\#99](https://github.com/haganbmj/obs-websocket-js/pull/99) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update ava to the latest version 🚀 [\#98](https://github.com/haganbmj/obs-websocket-js/pull/98) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update ws to the latest version 🚀 [\#96](https://github.com/haganbmj/obs-websocket-js/pull/96) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
