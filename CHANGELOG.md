@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
-
-[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.1.0...HEAD)
+## [v1.2.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.2.0) (2018-03-22)
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.1.0...v1.2.0)
 
 **Merged pull requests:**
 
