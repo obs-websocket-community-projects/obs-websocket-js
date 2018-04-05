@@ -38,7 +38,7 @@ git commit -m "${TARGET_BRANCH}: (${VERSION}) ${SHA}"
 git push -q upstream HEAD:$TARGET_BRANCH
 
 # Handle an NPM Publish and a Bower release.
-if [[ "$VERSION" != "dev" ]]
+if [[ "$VERSION" != "dev" ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]]
 then
   git tag "$VERSION"
   git push upstream --tags
