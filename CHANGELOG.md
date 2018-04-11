@@ -1,5 +1,17 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.2.0...HEAD)
+
+**Closed issues:**
+
+- Connection to OBS is established but I'm immediately disconnected [\#103](https://github.com/haganbmj/obs-websocket-js/issues/103)
+
+**Merged pull requests:**
+
+- Update webpack to the latest version 🚀 [\#100](https://github.com/haganbmj/obs-websocket-js/pull/100) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+
 ## [v1.2.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.2.0) (2018-03-22)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.1.0...v1.2.0)
 
