@@ -8,6 +8,7 @@
 
 - Error trying to install obs-websocket-js on OS X [\#104](https://github.com/haganbmj/obs-websocket-js/issues/104)
 - Connection to OBS is established but I'm immediately disconnected [\#103](https://github.com/haganbmj/obs-websocket-js/issues/103)
+- ConnectionClosed Event is not working with v1.0.0 [\#93](https://github.com/haganbmj/obs-websocket-js/issues/93)
 
 **Merged pull requests:**
 
