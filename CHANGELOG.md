@@ -13,6 +13,8 @@
 
 **Merged pull requests:**
 
+- Update webpack-cli to the latest version 🚀 [\#109](https://github.com/haganbmj/obs-websocket-js/pull/109) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update nyc to the latest version 🚀 [\#108](https://github.com/haganbmj/obs-websocket-js/pull/108) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update webpack to the latest version 🚀 [\#100](https://github.com/haganbmj/obs-websocket-js/pull/100) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.2.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.2.0) (2018-03-22)

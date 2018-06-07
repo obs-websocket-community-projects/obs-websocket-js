@@ -48,7 +48,7 @@
     "nyc": "^11.4.1",
     "rimraf": "^2.6.2",
     "webpack": "^4.5.0",
-    "webpack-cli": "^2.0.14",
+    "webpack-cli": "^3.0.0",
     "uglifyjs-webpack-plugin": "^1.2.4"
   },
   "bugs": {
@@ -85,6 +85,6 @@
       ]
     ]
   },
-  "sha": "0e431c698e3f8c03194ba833c1ca00dc80aa504e",
-  "timestamp": "2018-05-31 15:59:41+00:00"
+  "sha": "654462b4bb4dd8a7c92256cce472d13eb1e06341",
+  "timestamp": "2018-06-07 01:46:29+00:00"
 }
