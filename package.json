@@ -41,7 +41,7 @@
     "babel-register": "^6.26.0",
     "babili-webpack-plugin": "^0.1.2",
     "coveralls": "^3.0.0",
-    "eslint": "^4.14.0",
+    "eslint": "^5.0.0",
     "eslint-config-xo-space": "^0.18.0",
     "eslint-plugin-ava": "^4.4.0",
     "npm-run-all": "^4.1.2",
@@ -85,6 +85,6 @@
       ]
     ]
   },
-  "sha": "d46b88280dd346ecef22205b8718655d61918d94",
-  "timestamp": "2018-06-28 16:01:59+00:00"
+  "sha": "d2a334f6d0942f57556639bb8313c1e8a01e7378",
+  "timestamp": "2018-07-02 19:13:42+00:00"
 }
