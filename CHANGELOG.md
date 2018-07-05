@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- An in-range update of webpack is breaking the build 🚨 [\#112](https://github.com/haganbmj/obs-websocket-js/issues/112)
 - An in-range update of webpack is breaking the build 🚨 [\#106](https://github.com/haganbmj/obs-websocket-js/issues/106)
 - Error trying to install obs-websocket-js on OS X [\#104](https://github.com/haganbmj/obs-websocket-js/issues/104)
 - Connection to OBS is established but I'm immediately disconnected [\#103](https://github.com/haganbmj/obs-websocket-js/issues/103)
@@ -13,6 +14,7 @@
 
 **Merged pull requests:**
 
+- chore\(package\): update webpack to version 4.15.1 [\#113](https://github.com/haganbmj/obs-websocket-js/pull/113) ([haganbmj](https://github.com/haganbmj))
 - Update eslint to the latest version 🚀 [\#110](https://github.com/haganbmj/obs-websocket-js/pull/110) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update webpack-cli to the latest version 🚀 [\#109](https://github.com/haganbmj/obs-websocket-js/pull/109) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update nyc to the latest version 🚀 [\#108](https://github.com/haganbmj/obs-websocket-js/pull/108) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
