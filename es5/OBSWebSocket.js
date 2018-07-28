@@ -34,6 +34,7 @@ var OBSWebSocket = function (_Socket) {
     _this.registerRequest(API.availableMethods);
     _this.registerEvent(API.availableEvents);
 
+    _this.registerRequest(['GetAuthRequired', 'Authenticate']);
     _this.registerEvent(['ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure']);
     return _this;
   }
