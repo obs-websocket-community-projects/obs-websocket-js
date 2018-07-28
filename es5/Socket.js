@@ -32,9 +32,12 @@ var Socket = function (_EventEmitter) {
 
     var originalEmit = _this.emit;
     _this.emit = function () {
-      // Log every emit to debug. Could be a bit noisy.
-      debug('[emit] %s err: %o data: %o', arguments[0], arguments[1], arguments[2]);
-      originalEmit.apply(this, arguments);
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      debug.apply(undefined, ['[emit] %s err: %o data: %o'].concat(args));
+      originalEmit.apply(this, args);
     };
     return _this;
   }
@@ -85,9 +88,10 @@ var Socket = function (_EventEmitter) {
     /**
      * Opens a WebSocket connection to an obs-websocket server, but does not attempt any authentication.
      *
-     * @param {String} address
+     * @param {String} address url without ws:// prefix.
      * @returns {Promise}
      * @private
+     * @return {Promise} on attempted creation of WebSocket connection.
      */
 
   }, {
@@ -172,9 +176,9 @@ var Socket = function (_EventEmitter) {
     /**
      * Authenticates to an obs-websocket server. Must already have an active connection before calling this method.
      *
-     * @param {String} [password='']
-     * @returns {Promise}
+     * @param {String} [password=''] authentication string.
      * @private
+     * @return {Promise} on resolution of authentication call.
      */
 
   }, {

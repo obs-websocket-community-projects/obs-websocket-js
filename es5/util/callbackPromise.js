@@ -5,6 +5,7 @@ var nextTick = void 0;
 if (typeof setImmediate === 'function') {
   nextTick = setImmediate;
 } else if (typeof process === 'object' && process && process.nextTick) {
+  // eslint-disable-next-line prefer-destructuring
   nextTick = process.nextTick;
 } else {
   nextTick = function nextTick(callback) {

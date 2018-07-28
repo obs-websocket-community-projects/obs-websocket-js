@@ -5,6 +5,7 @@
  * Retains the original kebab-case entries.
  *
  * @param {Object} [obj={}] Keyed object.
+ * @return {Object} Keyed object with added camelCased keys.
  */
 module.exports = function (obj) {
   obj = obj || {};

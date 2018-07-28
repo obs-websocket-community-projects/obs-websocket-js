@@ -5,10 +5,10 @@ var SHA256 = require('sha.js/sha256');
 /**
  * SHA256 Hashing.
  *
- * @param  {String} [salt='']
- * @param  {String} [challenge='']
+ * @param  {String} [salt=''] salt.
+ * @param  {String} [challenge=''] challenge.
  * @param  {String} msg Message to encode.
- * @return {String}
+ * @return {String} sha256 encoded string.
  */
 module.exports = function () {
   var salt = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
