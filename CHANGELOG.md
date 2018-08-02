@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- An in-range update of webpack is breaking the build 🚨 [\#116](https://github.com/haganbmj/obs-websocket-js/issues/116)
 - An in-range update of webpack is breaking the build 🚨 [\#112](https://github.com/haganbmj/obs-websocket-js/issues/112)
 - An in-range update of webpack is breaking the build 🚨 [\#106](https://github.com/haganbmj/obs-websocket-js/issues/106)
 - Error trying to install obs-websocket-js on OS X [\#104](https://github.com/haganbmj/obs-websocket-js/issues/104)
