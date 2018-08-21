@@ -23,12 +23,11 @@ before_script:
 
 script:
   - npm test
-  - npm run build:web
-  - npm run build:es5
-  - bash ./.travis/gh-pages.sh
-  - bash ./.travis/update-api.sh
+  - npm run build
 
 after_success:
+  - bash ./.travis/gh-pages.sh
+  - bash ./.travis/update-api.sh
   - npm run node-coveralls
 
 branches:

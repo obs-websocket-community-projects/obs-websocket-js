@@ -58,6 +58,7 @@ var Socket = function (_EventEmitter) {
           this._socket.close();
         }
 
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(function () {
           var _ref2 = _asyncToGenerator(function* (resolve, reject) {
             try {

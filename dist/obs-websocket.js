@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2018-08-21 00:33:17+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/2492ec88cc986fbace40c1e14043011419bfbe13
+ * Build Timestamp: 2018-08-21 00:41:33+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/4fde46ced098ed072e9ed88249d0342d5c06cc27
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -789,6 +789,7 @@ class Socket extends EventEmitter {
       this._socket.close();
     }
 
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         await this._connect(address);
