@@ -50,14 +50,14 @@ test('connects when auth is required', async t => {
   }));
 });
 
-// FIXME: Not sure I like this behavior, it returns the raw socket response when you provide an incorrect url.
 test('fails to connect when an incorrect url is provided', async t => {
   const obs = new OBSWebSocket();
   const resp = await t.throws(obs.connect({
     address: 'localhost:4442'
   }));
 
-  t.deepEqual(resp.message, 'connect ECONNREFUSED 127.0.0.1:4442');
+  t.deepEqual(resp.err.message, 'connect ECONNREFUSED 127.0.0.1:4442');
+  t.deepEqual(resp.error, 'Connection error.');
 });
 
 test('fails to connect when the wrong password is provided', async t => {
