@@ -56,8 +56,23 @@ test('fails to connect when an incorrect url is provided', async t => {
     address: 'localhost:4442'
   }));
 
-  t.deepEqual(resp.err.message, 'connect ECONNREFUSED 127.0.0.1:4442');
+  t.deepEqual(resp.status, 'error');
+  t.deepEqual(resp.code, 'CONNECTION_ERROR');
   t.deepEqual(resp.error, 'Connection error.');
+});
+
+test.cb('rejects a promise when a connection fails', t => {
+  const obs = new OBSWebSocket();
+  obs.connect({
+    address: 'localhost:4442'
+  }).then(() => {
+    t.fail('Expected a promise rejection when a connection cannot be established.');
+  }).catch(err => {
+    t.deepEqual(err.status, 'error');
+    t.deepEqual(err.code, 'CONNECTION_ERROR');
+    t.deepEqual(err.error, 'Connection error.');
+    t.end();
+  });
 });
 
 test('fails to connect when the wrong password is provided', async t => {
