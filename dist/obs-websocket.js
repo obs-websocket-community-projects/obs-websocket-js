@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2018-08-23 16:05:18+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/4fde46ced098ed072e9ed88249d0342d5c06cc27
+ * Build Timestamp: 2018-08-28 03:26:45+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/33dc5fe94bb2fa558b1d70e101d6782b4994df13
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -821,15 +821,17 @@ class Socket extends EventEmitter {
 
       // We only handle the initial connection error.
       // Beyond that, the consumer is responsible for adding their own generic `error` event listener.
-      this._socket.onerror = error => {
+      // FIXME: Unsure how best to expose additional information about the WebSocket error.
+      this._socket.onerror = err => {
         if (settled) {
-          logAmbiguousError(debug, 'Unknown Socket Error', error);
-          this.emit('error', error);
+          logAmbiguousError(debug, 'Unknown Socket Error', err);
+          this.emit('error', err);
           return;
         }
 
         settled = true;
-        reject(error);
+        logAmbiguousError(debug, 'Websocket Connection failed:', err);
+        reject(Status.CONNECTION_ERROR);
       };
 
       this._socket.onopen = () => {
@@ -3662,6 +3664,10 @@ module.exports = {
   NOT_CONNECTED: {
     status: 'error',
     description: 'There is no Socket connection available.'
+  },
+  CONNECTION_ERROR: {
+    status: 'error',
+    description: 'Connection error.'
   },
   SOCKET_EXCEPTION: {
     status: 'error',

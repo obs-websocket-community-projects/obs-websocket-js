@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Make error messages consistent [\#119](https://github.com/haganbmj/obs-websocket-js/issues/119)
 - An in-range update of webpack is breaking the build 🚨 [\#116](https://github.com/haganbmj/obs-websocket-js/issues/116)
 - An in-range update of webpack is breaking the build 🚨 [\#112](https://github.com/haganbmj/obs-websocket-js/issues/112)
 - An in-range update of webpack is breaking the build 🚨 [\#106](https://github.com/haganbmj/obs-websocket-js/issues/106)
@@ -15,6 +16,7 @@
 
 **Merged pull requests:**
 
+- feat: revise connection error handling [\#120](https://github.com/haganbmj/obs-websocket-js/pull/120) ([haganbmj](https://github.com/haganbmj))
 - Update eslint-plugin-ava to the latest version 🚀 [\#114](https://github.com/haganbmj/obs-websocket-js/pull/114) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - chore\(package\): update webpack to version 4.15.1 [\#113](https://github.com/haganbmj/obs-websocket-js/pull/113) ([haganbmj](https://github.com/haganbmj))
 - Update eslint-config-xo-space to the latest version 🚀 [\#111](https://github.com/haganbmj/obs-websocket-js/pull/111) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))

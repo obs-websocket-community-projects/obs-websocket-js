@@ -109,15 +109,17 @@ var Socket = function (_EventEmitter) {
 
           // We only handle the initial connection error.
           // Beyond that, the consumer is responsible for adding their own generic `error` event listener.
-          _this3._socket.onerror = function (error) {
+          // FIXME: Unsure how best to expose additional information about the WebSocket error.
+          _this3._socket.onerror = function (err) {
             if (settled) {
-              logAmbiguousError(debug, 'Unknown Socket Error', error);
-              _this3.emit('error', error);
+              logAmbiguousError(debug, 'Unknown Socket Error', err);
+              _this3.emit('error', err);
               return;
             }
 
             settled = true;
-            reject(error);
+            logAmbiguousError(debug, 'Websocket Connection failed:', err);
+            reject(Status.CONNECTION_ERROR);
           };
 
           _this3._socket.onopen = function () {

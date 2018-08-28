@@ -5,6 +5,10 @@ module.exports = {
     status: 'error',
     description: 'There is no Socket connection available.'
   },
+  CONNECTION_ERROR: {
+    status: 'error',
+    description: 'Connection error.'
+  },
   SOCKET_EXCEPTION: {
     status: 'error',
     description: 'An exception occurred from the underlying WebSocket.'
