@@ -4,7 +4,8 @@
   "description": "",
   "main": "test.js",
   "scripts": {
-    "inline": "inline-source lib/tester.html > dist/tester.html"
+    "inline": "inline-source lib/tester.html > dist/tester.html",
+    "build": "npm run inline"
   },
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
