@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2018-10-25 16:10:19+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/2f2ddad9adc8bc43193678d0717d8ea3553e6255
+ * Build Timestamp: 2018-10-25 16:12:57+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/478d437e40c020da2a1238a3c3b196eec9ae6f94
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -4455,6 +4455,12 @@ module.exports = {
     "DeleteSceneItem",
     "DuplicateSceneItem",
     "GetSpecialSources",
+    "GetSourceFilters",
+    "AddFilterToSource",
+    "RemoveFilterFromSource",
+    "ReorderSourceFilter",
+    "MoveSourceFilter",
+    "SetSourceFilterSettings",
     "GetStreamingStatus",
     "StartStopStreaming",
     "StartStreaming",
