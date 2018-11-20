@@ -27,7 +27,6 @@ script:
 
 after_success:
   - bash ./.travis/gh-pages.sh
-  - bash ./.travis/update-api.sh
   - npm run node-coveralls
 
 branches:
