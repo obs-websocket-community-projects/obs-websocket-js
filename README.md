@@ -55,7 +55,6 @@ obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' });
 All requests support the following two Syntax options where both `err` and `data` will contain the raw response from the WebSocket plugin.  
 _Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
 - RequestName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.  
-  - When calling a method directly (instead of via `.send`), you may also use the `lowerCamelCase` version of the request, i.e. `requestName` instead of `RequestName`. This may be preferred if you use a linter such as [ESlint](http://eslint.org/).
 - `{args}` are optional. Note that both `request-type` and `message-id` will be bound automatically.  
 - `callback(err, data)` is optional.  
 
@@ -68,7 +67,7 @@ obs.connect({ address: 'address', password: 'password' }, callback(err, data)) r
 ```
 
 #### Receiving Events
-All events support the following two Syntax options where `data` will contain the raw response from the WebSocket plugin.  
+For all events, `data` will contain the raw response from the WebSocket plugin.  
 _Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
 - EventName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.
 
@@ -80,14 +79,6 @@ obs.on('ConnectionOpened', callback(data));
 obs.on('ConnectionClosed', callback(data));
 obs.on('AuthenticationSuccess', callback(data));
 obs.on('AuthenticationFailure', callback(data));
-```
-
-#### Custom Requests
-If this does not yet support a new method, or if you have custom hooks in your build of [`obs-websocket`][link-obswebsocket] and prefer to use the `obs.requestName` and `obs.onEventName` syntaxes, you can register your own methods at runtime. As always, these must match exactly what is to be expected from the plugin.  
-
-```js
-obs.registerRequest('RequestName')
-obs.registerRequest(['RequestName1', 'RequestName2'])
 ```
 
 #### Handling Errors
@@ -113,7 +104,7 @@ obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' })
   .then(() => {
     console.log(`Success! We're connected & authenticated.`);
     
-	  return obs.getSceneList();
+	  return obs.send('GetSceneList');
   })
   .then(data => {
     console.log(`${data.scenes.length} Available Scenes!`);
@@ -122,7 +113,7 @@ obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' })
       if (scene.name !== data.currentScene) {
         console.log(`Found a different scene! Switching to Scene: ${scene.name}`);
 
-        obs.setCurrentScene({'scene-name': scene.name});
+        obs.send('SetCurrentScene', {'scene-name': scene.name});
       }
     });
   })
@@ -130,7 +121,7 @@ obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' })
     console.log(err);
   });
 
-obs.onSwitchScenes(data => {
+obs.on('SwitchScenes', data => {
   console.log(`New Active Scene: ${data.sceneName}`);
 });
 
