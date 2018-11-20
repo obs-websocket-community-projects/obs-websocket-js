@@ -62,8 +62,6 @@ _Note that all response objects will supply both the original [obs-websocket][li
 ```js
 // These three options are equivalent for every available request.
 obs.send('RequestName', {args}, callback(err, data)) returns Promise
-obs.RequestName({args}, callback(err, data)) returns Promise
-obs.requestName({args}, callback(err, data)) returns Promise
 
 // The following are additional supported requests.
 obs.connect({ address: 'address', password: 'password' }, callback(err, data)) returns Promise
@@ -76,7 +74,6 @@ _Note that all response objects will supply both the original [obs-websocket][li
 
 ```js
 obs.on('EventName', callback(data));
-obs.onEventName(callback(data));
 
 // The following are additional supported requests.
 obs.on('ConnectionOpened', callback(data));
@@ -85,15 +82,12 @@ obs.on('AuthenticationSuccess', callback(data));
 obs.on('AuthenticationFailure', callback(data));
 ```
 
-#### Custom Requests/Events
+#### Custom Requests
 If this does not yet support a new method, or if you have custom hooks in your build of [`obs-websocket`][link-obswebsocket] and prefer to use the `obs.requestName` and `obs.onEventName` syntaxes, you can register your own methods at runtime. As always, these must match exactly what is to be expected from the plugin.  
 
 ```js
 obs.registerRequest('RequestName')
 obs.registerRequest(['RequestName1', 'RequestName2'])
-
-obs.registerEvent('EventName')
-obs.registerEvent(['EventName1', 'EventName2'])
 ```
 
 #### Handling Errors

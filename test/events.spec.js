@@ -31,7 +31,7 @@ test.cb('emits data when a server event occurs', t => {
 });
 
 test.cb('permits using .onEventName syntax', t => {
-  obs.onSwitchScenes(data => {
+  obs.on('SwitchScenes', data => {
     t.deepEqual(data.message, 'message');
     t.end();
   });
@@ -45,9 +45,7 @@ test.cb('permits using .onEventName syntax', t => {
 });
 
 test.cb('allows registering custom event listeners', t => {
-  obs.registerEvent('CustomEvent');
-
-  obs.onCustomEvent(data => {
+  obs.on('CustomEvent', data => {
     t.deepEqual(data.message, 'message');
     t.end();
   });
@@ -56,23 +54,6 @@ test.cb('allows registering custom event listeners', t => {
     emitMessage: {
       'update-type': 'CustomEvent',
       message: 'message'
-    }
-  });
-});
-
-test.cb('does nothing when the callback is not a function', t => {
-  obs.registerEvent('CustomEvent');
-
-  obs.onCustomEvent('String');
-  obs.onCustomEvent(() => {
-    setTimeout(() => {
-      t.end(); // Ghetto waiting to let the other event try to fire.
-    }, 50);
-  });
-
-  obs.send('echo', {
-    emitMessage: {
-      'update-type': 'CustomEvent'
     }
   });
 });
