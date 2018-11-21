@@ -43,7 +43,7 @@ const OBSWebSocket = require('obs-websocket-js');
 ```
 
 Create a new WebSocket connection using the following.
-- Address is optional; defaults to `localhost` with a default port of `4444`.  
+- Address is optional; defaults to `localhost` with a port of `4444`.  
 - Password is optional.  
 
 ```js
@@ -59,11 +59,11 @@ _Note that all response objects will supply both the original [obs-websocket][li
 - `callback(err, data)` is optional.  
 
 ```js
-// These three options are equivalent for every available request.
 obs.send('RequestName', {args}, callback(err, data)) returns Promise
 
 // The following are additional supported requests.
 obs.connect({ address: 'address', password: 'password' }, callback(err, data)) returns Promise
+obs.disconnect();
 ```
 
 #### Receiving Events
@@ -74,7 +74,7 @@ _Note that all response objects will supply both the original [obs-websocket][li
 ```js
 obs.on('EventName', callback(data));
 
-// The following are additional supported requests.
+// The following are additional supported events.
 obs.on('ConnectionOpened', callback(data));
 obs.on('ConnectionClosed', callback(data));
 obs.on('AuthenticationSuccess', callback(data));
@@ -90,7 +90,7 @@ To ensure that you are handling every error, you must do the following:
 ```js
 // You must add this handler to avoid uncaught exceptions.
 obs.on('error', err => {
-	console.error('socket error:', err);
+    console.error('socket error:', err);
 });
 ```
 
@@ -100,34 +100,39 @@ See more examples in [`\samples`](samples).
 const OBSWebSocket = require('obs-websocket-js');
 
 const obs = new OBSWebSocket();
-obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' })
-  .then(() => {
-    console.log(`Success! We're connected & authenticated.`);
-    
-	  return obs.send('GetSceneList');
-  })
-  .then(data => {
-    console.log(`${data.scenes.length} Available Scenes!`);
-    
-    data.scenes.forEach(scene => {
-      if (scene.name !== data.currentScene) {
-        console.log(`Found a different scene! Switching to Scene: ${scene.name}`);
+obs.connect({
+        address: 'localhost:4444',
+        password: '$up3rSecretP@ssw0rd'
+    })
+    .then(() => {
+        console.log(`Success! We're connected & authenticated.`);
 
-        obs.send('SetCurrentScene', {'scene-name': scene.name});
-      }
+        return obs.send('GetSceneList');
+    })
+    .then(data => {
+        console.log(`${data.scenes.length} Available Scenes!`);
+
+        data.scenes.forEach(scene => {
+            if (scene.name !== data.currentScene) {
+                console.log(`Found a different scene! Switching to Scene: ${scene.name}`);
+
+                obs.send('SetCurrentScene', {
+                    'scene-name': scene.name
+                });
+            }
+        });
+    })
+    .catch(err => { // Promise convention dicates you have a catch on every chain.
+        console.log(err);
     });
-  })
-  .catch(err => { // Promise convention dicates you have a catch on every chain.
-    console.log(err);
-  });
 
 obs.on('SwitchScenes', data => {
-  console.log(`New Active Scene: ${data.sceneName}`);
+    console.log(`New Active Scene: ${data.sceneName}`);
 });
 
 // You must add this handler to avoid uncaught exceptions.
 obs.on('error', err => {
-	console.error('socket error:', err);
+    console.error('socket error:', err);
 });
 ```
 

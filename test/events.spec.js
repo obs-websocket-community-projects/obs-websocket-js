@@ -30,20 +30,6 @@ test.cb('emits data when a server event occurs', t => {
   });
 });
 
-test.cb('permits using .onEventName syntax', t => {
-  obs.on('SwitchScenes', data => {
-    t.deepEqual(data.message, 'message');
-    t.end();
-  });
-
-  obs.send('echo', {
-    emitMessage: {
-      'update-type': 'SwitchScenes',
-      message: 'message'
-    }
-  });
-});
-
 test.cb('allows registering custom event listeners', t => {
   obs.on('CustomEvent', data => {
     t.deepEqual(data.message, 'message');
