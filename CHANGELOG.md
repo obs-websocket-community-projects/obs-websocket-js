@@ -1,5 +1,14 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.3.0...HEAD)
+
+**Merged pull requests:**
+
+- Basic Typedef [\#125](https://github.com/haganbmj/obs-websocket-js/pull/125) ([Lange](https://github.com/Lange))
+- Agnosticize API; decouple it from the obs-websocket protocol [\#124](https://github.com/haganbmj/obs-websocket-js/pull/124) ([Lange](https://github.com/Lange))
+
 ## [v1.3.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.3.0) (2018-08-28)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.2.0...v1.3.0)
 
