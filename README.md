@@ -28,6 +28,12 @@ npm install obs-websocket-js --save
 bower install obs-websocket-js --save
 ```
 
+Typescript definitions are published in a separate repo to more easily allow the use of any plugin version desired. Please refer to the readme at [obs-websocket-js-types][link-types-repo] for more information.
+
+```sh
+npm install obs-websocket-js-types@4.4
+```
+
 ## Usage
 #### Instantiation
 The web distributable exposes a global named `OBSWebSocket`.  
@@ -43,7 +49,7 @@ const OBSWebSocket = require('obs-websocket-js');
 ```
 
 Create a new WebSocket connection using the following.
-- Address is optional; defaults to `localhost` with a default port of `4444`.  
+- Address is optional; defaults to `localhost` with a port of `4444`.  
 - Password is optional.  
 
 ```js
@@ -55,45 +61,30 @@ obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' });
 All requests support the following two Syntax options where both `err` and `data` will contain the raw response from the WebSocket plugin.  
 _Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
 - RequestName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.  
-  - When calling a method directly (instead of via `.send`), you may also use the `lowerCamelCase` version of the request, i.e. `requestName` instead of `RequestName`. This may be preferred if you use a linter such as [ESlint](http://eslint.org/).
 - `{args}` are optional. Note that both `request-type` and `message-id` will be bound automatically.  
 - `callback(err, data)` is optional.  
 
 ```js
-// These three options are equivalent for every available request.
 obs.send('RequestName', {args}, callback(err, data)) returns Promise
-obs.RequestName({args}, callback(err, data)) returns Promise
-obs.requestName({args}, callback(err, data)) returns Promise
 
 // The following are additional supported requests.
 obs.connect({ address: 'address', password: 'password' }, callback(err, data)) returns Promise
+obs.disconnect();
 ```
 
 #### Receiving Events
-All events support the following two Syntax options where `data` will contain the raw response from the WebSocket plugin.  
+For all events, `data` will contain the raw response from the WebSocket plugin.  
 _Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
 - EventName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.
 
 ```js
 obs.on('EventName', callback(data));
-obs.onEventName(callback(data));
 
-// The following are additional supported requests.
+// The following are additional supported events.
 obs.on('ConnectionOpened', callback(data));
 obs.on('ConnectionClosed', callback(data));
 obs.on('AuthenticationSuccess', callback(data));
 obs.on('AuthenticationFailure', callback(data));
-```
-
-#### Custom Requests/Events
-If this does not yet support a new method, or if you have custom hooks in your build of [`obs-websocket`][link-obswebsocket] and prefer to use the `obs.requestName` and `obs.onEventName` syntaxes, you can register your own methods at runtime. As always, these must match exactly what is to be expected from the plugin.  
-
-```js
-obs.registerRequest('RequestName')
-obs.registerRequest(['RequestName1', 'RequestName2'])
-
-obs.registerEvent('EventName')
-obs.registerEvent(['EventName1', 'EventName2'])
 ```
 
 #### Handling Errors
@@ -105,7 +96,7 @@ To ensure that you are handling every error, you must do the following:
 ```js
 // You must add this handler to avoid uncaught exceptions.
 obs.on('error', err => {
-	console.error('socket error:', err);
+    console.error('socket error:', err);
 });
 ```
 
@@ -115,34 +106,39 @@ See more examples in [`\samples`](samples).
 const OBSWebSocket = require('obs-websocket-js');
 
 const obs = new OBSWebSocket();
-obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' })
-  .then(() => {
-    console.log(`Success! We're connected & authenticated.`);
-    
-	  return obs.getSceneList();
-  })
-  .then(data => {
-    console.log(`${data.scenes.length} Available Scenes!`);
-    
-    data.scenes.forEach(scene => {
-      if (scene.name !== data.currentScene) {
-        console.log(`Found a different scene! Switching to Scene: ${scene.name}`);
+obs.connect({
+        address: 'localhost:4444',
+        password: '$up3rSecretP@ssw0rd'
+    })
+    .then(() => {
+        console.log(`Success! We're connected & authenticated.`);
 
-        obs.setCurrentScene({'scene-name': scene.name});
-      }
+        return obs.send('GetSceneList');
+    })
+    .then(data => {
+        console.log(`${data.scenes.length} Available Scenes!`);
+
+        data.scenes.forEach(scene => {
+            if (scene.name !== data.currentScene) {
+                console.log(`Found a different scene! Switching to Scene: ${scene.name}`);
+
+                obs.send('SetCurrentScene', {
+                    'scene-name': scene.name
+                });
+            }
+        });
+    })
+    .catch(err => { // Promise convention dicates you have a catch on every chain.
+        console.log(err);
     });
-  })
-  .catch(err => { // Promise convention dicates you have a catch on every chain.
-    console.log(err);
-  });
 
-obs.onSwitchScenes(data => {
-  console.log(`New Active Scene: ${data.sceneName}`);
+obs.on('SwitchScenes', data => {
+    console.log(`New Active Scene: ${data.sceneName}`);
 });
 
 // You must add this handler to avoid uncaught exceptions.
 obs.on('error', err => {
-	console.error('socket error:', err);
+    console.error('socket error:', err);
 });
 ```
 
@@ -176,6 +172,19 @@ localStorage.debug = 'foo,bar:*,obs-websocket-js:*';
 
 For more information, see the [`debug`][link-debug] documentation.
 
+## Upgrading from 1.x to 2.x
+In order to better decouple the javascript library from the [obs-websocket][link-obswebsocket] plugin the decision has been made to no longer provide method definitions for request/event methods. You are responsible for aligning your method calls with the plugin version that you would like to support.
+
+```js
+// No longer supported.
+obs.getVersion();
+obs.onSwitchScenes();
+
+// Supported.
+obs.send('GetVersion');
+obs.on('SwitchScenes');
+```
+
 ## Projects Using **obs-websocket-js**
 _To add your project to this list, submit a Pull Request._
 - [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
@@ -192,6 +201,7 @@ _To add your project to this list, submit a Pull Request._
   [badge-npm-downloads]: https://img.shields.io/npm/dt/obs-websocket-js.svg "NPM Downloads"
 
   [link-obswebsocket]: https://github.com/Palakis/obs-websocket "OBS WebSocket Plugin"
+  [link-types-repo]: https://github.com/haganbmj/obs-websocket-js-types "obs-websocket-js Typescript Definitions"
   [link-Travis-CI]: https://travis-ci.org/haganbmj/obs-websocket-js "Travis CI"
   [link-Coveralls]: https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master "Coveralls"
   [link-releases]:  https://github.com/haganbmj/obs-websocket-js/releases "obs-websocket-js Releases"
