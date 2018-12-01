@@ -194,7 +194,7 @@ var Socket = function (_EventEmitter) {
           throw Status.NOT_CONNECTED;
         }
 
-        var auth = yield this.getAuthRequired();
+        var auth = yield this.send('GetAuthRequired');
 
         if (!auth.authRequired) {
           debug('Authentication not Required');
@@ -225,6 +225,7 @@ var Socket = function (_EventEmitter) {
 
     /**
      * Close and disconnect the WebSocket connection.
+     * FIXME: this should support a callback and return a Promise to match the connect method.
      *
      * @function
      * @category request

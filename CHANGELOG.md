@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- major: remove registerEvent, registerRequest, add type definitions [\#127](https://github.com/haganbmj/obs-websocket-js/pull/127) ([haganbmj](https://github.com/haganbmj))
 - Basic Typedef [\#125](https://github.com/haganbmj/obs-websocket-js/pull/125) ([Lange](https://github.com/Lange))
 - Agnosticize API; decouple it from the obs-websocket protocol [\#124](https://github.com/haganbmj/obs-websocket-js/pull/124) ([Lange](https://github.com/Lange))
 

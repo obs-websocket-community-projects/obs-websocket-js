@@ -199,12 +199,12 @@ test('closes an existing connection when `connect` is called again', async t => 
   let open = false;
 
   // Verify that the previous connection was closed.
-  obs.onConnectionOpened(() => {
+  obs.on('ConnectionOpened', () => {
     t.false(open);
     open = true;
   });
 
-  obs.onConnectionClosed(() => {
+  obs.on('ConnectionClosed', () => {
     open = false;
   });
 

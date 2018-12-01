@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2018-11-29 16:11:31+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/478d437e40c020da2a1238a3c3b196eec9ae6f94
+ * Build Timestamp: 2018-12-01 05:07:11+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/0f949d55e3451ba354bc40e1426dc58ce40439c7
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -101,7 +101,6 @@ __webpack_require__(1)(Promise);
 const Socket = __webpack_require__(6);
 const Status = __webpack_require__(18);
 const debug = __webpack_require__(19)('obs-websocket-js:Core');
-const API = __webpack_require__(24);
 
 let requestCounter = 0;
 
@@ -110,19 +109,6 @@ function generateMessageId() {
 }
 
 class OBSWebSocket extends Socket {
-  constructor() {
-    super();
-
-    this.availableRequests = [];
-    this.availableEvents = [];
-
-    this.registerRequest(API.availableMethods);
-    this.registerEvent(API.availableEvents);
-
-    this.registerRequest(['GetAuthRequired', 'Authenticate']);
-    this.registerEvent(['ConnectionOpened', 'ConnectionClosed', 'AuthenticationSuccess', 'AuthenticationFailure']);
-  }
-
   /**
    * Internal generic Socket request method. Returns a promise, handles callbacks.
    * Generates a messageId internally and will override any passed in the args.
@@ -179,56 +165,6 @@ class OBSWebSocket extends Socket {
         this.emit(`obs:internal:message:id-${messageId}`, rejectReason);
       }
     }).callback(callback);
-  }
-
-  /**
-   * Add a new recognized request.
-   * Enables usage with the following syntaxes.
-   * `obs.requestName({args}, callback(err, data)) returns Promise`
-   * `obs.RequestName({args}, callback(err, data)) returns Promise`
-   *
-   * @param  {Array}  [requestNames=[]] String or Array of String request names as defined by the obs-websocket plugin.
-   */
-  registerRequest(requestNames = []) {
-    if (!Array.isArray(requestNames)) {
-      requestNames = [requestNames];
-    }
-
-    requestNames.forEach(requestName => {
-      this.availableRequests.push(requestName);
-      const handler = function (args, callback) {
-        return this.send(requestName, args, callback);
-      };
-
-      this[requestName] = handler;
-      this[requestName.charAt(0).toLowerCase() + requestName.slice(1)] = handler;
-    });
-  }
-
-  /**
-   * Add a new recognized event.
-   * Enables usage with the following syntax.
-   * `obs.onEventName(callback(data))`
-   *
-   * @param  {Array}  [eventNames=[]] String or Array of String event names as defined by the obs-websocket plugin.
-   */
-  registerEvent(eventNames = []) {
-    if (!Array.isArray(eventNames)) {
-      eventNames = [eventNames];
-    }
-
-    eventNames.forEach(eventName => {
-      this.availableEvents.push(eventName);
-      this[`on${eventName}`] = function (callback) {
-        if (typeof callback !== 'function') {
-          return;
-        }
-
-        this.on(eventName, data => {
-          callback(data);
-        });
-      };
-    });
   }
 }
 
@@ -893,7 +829,7 @@ class Socket extends EventEmitter {
       throw Status.NOT_CONNECTED;
     }
 
-    const auth = await this.getAuthRequired();
+    const auth = await this.send('GetAuthRequired');
 
     if (!auth.authRequired) {
       debug('Authentication not Required');
@@ -917,6 +853,7 @@ class Socket extends EventEmitter {
 
   /**
    * Close and disconnect the WebSocket connection.
+   * FIXME: this should support a callback and return a Promise to match the connect method.
    *
    * @function
    * @category request
@@ -4364,124 +4301,6 @@ module.exports = function (obj) {
   return obj;
 };
 
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-// This file is generated, do not edit.
-module.exports = {
-  "availableEvents": [
-    "SwitchScenes",
-    "ScenesChanged",
-    "SceneCollectionChanged",
-    "SceneCollectionListChanged",
-    "SwitchTransition",
-    "TransitionListChanged",
-    "TransitionDurationChanged",
-    "TransitionBegin",
-    "ProfileChanged",
-    "ProfileListChanged",
-    "StreamStarting",
-    "StreamStarted",
-    "StreamStopping",
-    "StreamStopped",
-    "StreamStatus",
-    "RecordingStarting",
-    "RecordingStarted",
-    "RecordingStopping",
-    "RecordingStopped",
-    "ReplayStarting",
-    "ReplayStarted",
-    "ReplayStopping",
-    "ReplayStopped",
-    "Exiting",
-    "Heartbeat",
-    "SourceOrderChanged",
-    "SceneItemAdded",
-    "SceneItemRemoved",
-    "SceneItemVisibilityChanged",
-    "PreviewSceneChanged",
-    "StudioModeSwitched"
-  ],
-  "availableMethods": [
-    "GetVersion",
-    "SetHeartbeat",
-    "SetFilenameFormatting",
-    "GetFilenameFormatting",
-    "SetCurrentProfile",
-    "GetCurrentProfile",
-    "ListProfiles",
-    "StartStopRecording",
-    "StartRecording",
-    "StopRecording",
-    "SetRecordingFolder",
-    "GetRecordingFolder",
-    "StartStopReplayBuffer",
-    "StartReplayBuffer",
-    "StopReplayBuffer",
-    "SaveReplayBuffer",
-    "SetCurrentSceneCollection",
-    "GetCurrentSceneCollection",
-    "ListSceneCollections",
-    "GetSceneItemProperties",
-    "SetSceneItemProperties",
-    "ResetSceneItem",
-    "SetSceneItemRender",
-    "SetSceneItemPosition",
-    "SetSceneItemTransform",
-    "SetSceneItemCrop",
-    "SetCurrentScene",
-    "GetCurrentScene",
-    "GetSceneList",
-    "SetSceneItemOrder",
-    "GetSourcesList",
-    "GetSourcesTypesList",
-    "GetVolume",
-    "SetVolume",
-    "GetMute",
-    "SetMute",
-    "ToggleMute",
-    "SetSyncOffset",
-    "GetSyncOffset",
-    "GetSourceSettings",
-    "SetSourceSettings",
-    "GetTextGDIPlusProperties",
-    "SetTextGDIPlusProperties",
-    "GetTextFreetype2Properties",
-    "SetTextFreetype2Properties",
-    "GetBrowserSourceProperties",
-    "SetBrowserSourceProperties",
-    "DeleteSceneItem",
-    "DuplicateSceneItem",
-    "GetSpecialSources",
-    "GetSourceFilters",
-    "AddFilterToSource",
-    "RemoveFilterFromSource",
-    "ReorderSourceFilter",
-    "MoveSourceFilter",
-    "SetSourceFilterSettings",
-    "GetStreamingStatus",
-    "StartStopStreaming",
-    "StartStreaming",
-    "StopStreaming",
-    "SetStreamSettings",
-    "GetStreamSettings",
-    "SaveStreamSettings",
-    "GetStudioModeStatus",
-    "GetPreviewScene",
-    "SetPreviewScene",
-    "TransitionToProgram",
-    "EnableStudioMode",
-    "DisableStudioMode",
-    "ToggleStudioMode",
-    "GetTransitionList",
-    "GetCurrentTransition",
-    "SetCurrentTransition",
-    "SetTransitionDuration",
-    "GetTransitionDuration"
-  ]
-}
 
 /***/ })
 /******/ ]);
