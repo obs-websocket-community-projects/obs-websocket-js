@@ -28,6 +28,12 @@ npm install obs-websocket-js --save
 bower install obs-websocket-js --save
 ```
 
+Typescript definitions are published in a separate repo to more easily allow the use of any plugin version desired. Please refer to the readme at [obs-websocket-js-types][link-types-repo] for more information.
+
+```sh
+npm install obs-websocket-js-types@4.4
+```
+
 ## Usage
 #### Instantiation
 The web distributable exposes a global named `OBSWebSocket`.  
@@ -166,6 +172,19 @@ localStorage.debug = 'foo,bar:*,obs-websocket-js:*';
 
 For more information, see the [`debug`][link-debug] documentation.
 
+## Upgrading from 1.x to 2.x
+In order to better decouple the javascript library from the [obs-websocket][link-obswebsocket] plugin the decision has been made to no longer provide method definitions for request/event methods. You are responsible for aligning your method calls with the plugin version that you would like to support.
+
+```js
+// No longer supported.
+obs.getVersion();
+obs.onSwitchScenes();
+
+// Supported.
+obs.send('GetVersion');
+obs.on('SwitchScenes');
+```
+
 ## Projects Using **obs-websocket-js**
 _To add your project to this list, submit a Pull Request._
 - [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
@@ -182,6 +201,7 @@ _To add your project to this list, submit a Pull Request._
   [badge-npm-downloads]: https://img.shields.io/npm/dt/obs-websocket-js.svg "NPM Downloads"
 
   [link-obswebsocket]: https://github.com/Palakis/obs-websocket "OBS WebSocket Plugin"
+  [link-types-repo]: https://github.com/haganbmj/obs-websocket-js-types "obs-websocket-js Typescript Definitions"
   [link-Travis-CI]: https://travis-ci.org/haganbmj/obs-websocket-js "Travis CI"
   [link-Coveralls]: https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master "Coveralls"
   [link-releases]:  https://github.com/haganbmj/obs-websocket-js/releases "obs-websocket-js Releases"
