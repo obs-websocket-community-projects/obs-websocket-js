@@ -14,7 +14,6 @@
     "node.js"
   ],
   "main": "es5/index.js",
-  "types": "types/index.d.ts",
   "scripts": {
     "update-api": "node .travis/update-api.js",
     "build": "npm-run-all build:*",
@@ -24,7 +23,6 @@
     "test": "npm-run-all test:*",
     "test:static": "eslint .",
     "test:ava": "npm run ava --serial --timeout=10s",
-    "test:types": "dtslint types",
     "report": "nyc report --reporter=text-lcov",
     "node-coveralls": "npm run report | coveralls",
     "ava": "nyc ava --verbose",
@@ -37,14 +35,12 @@
     "ws": "^5.1.0"
   },
   "devDependencies": {
-    "@types/node": "^10.12.9",
     "ava": "^0.25.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
     "babili-webpack-plugin": "=0.1.1",
     "coveralls": "^3.0.0",
-    "dtslint": "^0.3.0",
     "eslint": "^5.4.0",
     "eslint-config-xo-space": "^0.20.0",
     "eslint-plugin-ava": "^5.1.0",
