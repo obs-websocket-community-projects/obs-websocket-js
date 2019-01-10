@@ -1,5 +1,15 @@
 # Change Log
 
+## [v2.0.1](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.1) (2019-01-10)
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.1...v2.0.1)
+
+**Closed issues:**
+
+- Update on NPM [\#130](https://github.com/haganbmj/obs-websocket-js/issues/130)
+
+## [v2.0.1](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.1) (2019-01-06)
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.0...v2.0.1)
+
 ## [v2.0.0](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.0) (2018-12-01)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.3.0...v2.0.0)
 

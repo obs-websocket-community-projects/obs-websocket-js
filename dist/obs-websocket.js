@@ -3,7 +3,7 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2019-01-06 21:59:31+00:00
+ * Build Timestamp: 2019-01-10 16:14:46+00:00
  * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/0a01be840ef1fd38ec179757daaa998bef4230b5
  */
 var OBSWebSocket =
