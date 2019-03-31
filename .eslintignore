@@ -6,7 +6,6 @@ dist
 coverage
 .nyc_output
 samples
-es5/
 lib/API.js
 
 # Adding an exclusion for the webpack config to make node 4 travis builds easier.
