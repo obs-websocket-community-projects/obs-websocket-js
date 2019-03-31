@@ -13,12 +13,11 @@
     "node",
     "node.js"
   ],
-  "main": "es5/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "update-api": "node .travis/update-api.js",
     "build": "npm-run-all build:*",
     "build:web": "rimraf dist && webpack",
-    "build:es5": "rimraf es5 && babel lib -d es5",
     "watch": "webpack --watch",
     "test": "npm-run-all test:*",
     "test:static": "eslint .",
@@ -29,16 +28,12 @@
     "static": "eslint ."
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "debug": "^4.1.0",
     "sha.js": "^2.4.9",
     "ws": "^5.1.0"
   },
   "devDependencies": {
     "ava": "^0.25.0",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-register": "^6.26.0",
     "babili-webpack-plugin": "=0.1.1",
     "coveralls": "^3.0.0",
     "eslint": "^5.4.0",
@@ -62,27 +57,6 @@
     "files": [
       "test/*.spec.js",
       "!setup/environment.js"
-    ],
-    "require": "babel-register",
-    "babel": "inherit"
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": 4
-          },
-          "debug": true,
-          "include": [
-            "transform-async-to-generator"
-          ],
-          "exclude": [
-            "transform-regenerator"
-          ]
-        }
-      ]
     ]
   }
 }

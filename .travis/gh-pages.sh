@@ -32,7 +32,7 @@ github_changelog_generator -u haganbmj -p obs-websocket-js $RELEASE
 
 # Add all files & ./dist to the new commit.
 git add -A
-git add CHANGELOG.md ./dist ./es5 -f
+git add CHANGELOG.md ./dist -f
 
 git commit -m "${TARGET_BRANCH}: (${VERSION}) ${SHA}"
 git push -q upstream HEAD:$TARGET_BRANCH
