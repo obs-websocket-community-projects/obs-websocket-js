@@ -1,7 +1,7 @@
-language: ruby
-
-rvm:
-  - 2.2.2
+language: node_js
+node_js:
+  - "8"
+  - "10"
 
 cache:
   directories:
@@ -16,14 +16,13 @@ env:
     - DEBUG="obs-websocket-js:*"
 
 before_script:
-  - nvm install node
   - npm install json -g
   - bash ./.travis/pre-build.sh
   - npm install
 
 script:
-  - npm test
   - npm run build
+  - npm test
 
 after_success:
   - bash ./.travis/gh-pages.sh

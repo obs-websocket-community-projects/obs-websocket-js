@@ -1,11 +1,19 @@
 # Change Log
 
-## [v2.0.1](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.1) (2019-01-10)
-[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.1...v2.0.1)
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.1...HEAD)
 
 **Closed issues:**
 
+- Module not found: Error: Can't resolve 'net' in 'C:\ ...\ProjectName\node\_modules\obs-websocket-js\node\_modules\ws\lib' [\#132](https://github.com/haganbmj/obs-websocket-js/issues/132)
 - Update on NPM [\#130](https://github.com/haganbmj/obs-websocket-js/issues/130)
+
+**Merged pull requests:**
+
+- chore\(build\): speed up builds by specifying node as the target language [\#140](https://github.com/haganbmj/obs-websocket-js/pull/140) ([Lange](https://github.com/Lange))
+- chore: remove es5 build [\#139](https://github.com/haganbmj/obs-websocket-js/pull/139) ([Lange](https://github.com/Lange))
+- test: test actual build output [\#138](https://github.com/haganbmj/obs-websocket-js/pull/138) ([Lange](https://github.com/Lange))
 
 ## [v2.0.1](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.1) (2019-01-06)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.0...v2.0.1)

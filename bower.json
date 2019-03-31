@@ -28,7 +28,6 @@
     "node_modules",
     "bower_components",
     "lib",
-    "es5",
     "samples",
     "test",
     "_config.yml",
