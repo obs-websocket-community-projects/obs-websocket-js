@@ -14,6 +14,10 @@
     "node.js"
   ],
   "main": "lib/index.js",
+  "files": [
+    "dist",
+    "lib"
+  ],
   "scripts": {
     "update-api": "node .travis/update-api.js",
     "build": "npm-run-all build:*",
@@ -59,6 +63,6 @@
       "!setup/environment.js"
     ]
   },
-  "sha": "15b69d2475605a4a86268ed0ec947e798d443648",
-  "timestamp": "2019-03-31 19:05:14+00:00"
+  "sha": "83d6b3e1cb895699b12f9b02636c1a85590b93e7",
+  "timestamp": "2019-04-01 21:43:18+00:00"
 }

@@ -4,13 +4,28 @@
 
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.1...HEAD)
 
+**Implemented enhancements:**
+
+- Determine how best to handle back compatibility for obs-websocket api changes [\#89](https://github.com/haganbmj/obs-websocket-js/issues/89)
+- Trim Readme [\#87](https://github.com/haganbmj/obs-websocket-js/issues/87)
+
+**Fixed bugs:**
+
+- Determine how best to handle back compatibility for obs-websocket api changes [\#89](https://github.com/haganbmj/obs-websocket-js/issues/89)
+
 **Closed issues:**
 
 - Module not found: Error: Can't resolve 'net' in 'C:\ ...\ProjectName\node\_modules\obs-websocket-js\node\_modules\ws\lib' [\#132](https://github.com/haganbmj/obs-websocket-js/issues/132)
 - Update on NPM [\#130](https://github.com/haganbmj/obs-websocket-js/issues/130)
+- SetTextFreetype2Properties - invalid request type [\#123](https://github.com/haganbmj/obs-websocket-js/issues/123)
+- Determine need to support Node 4 [\#117](https://github.com/haganbmj/obs-websocket-js/issues/117)
+- "invalid request parameters" from SetSceneItemProperties [\#105](https://github.com/haganbmj/obs-websocket-js/issues/105)
+- PreviewSceneChanged no triggered ? [\#97](https://github.com/haganbmj/obs-websocket-js/issues/97)
+- Switch to Scene Hotkeys doesn't update .onPreviewSceneChanged\(\) [\#79](https://github.com/haganbmj/obs-websocket-js/issues/79)
 
 **Merged pull requests:**
 
+- chore\(package\): use package.json "files" stanza instead of .npmignore [\#143](https://github.com/haganbmj/obs-websocket-js/pull/143) ([Lange](https://github.com/Lange))
 - chore\(build\): speed up builds by specifying node as the target language [\#140](https://github.com/haganbmj/obs-websocket-js/pull/140) ([Lange](https://github.com/Lange))
 - chore: remove es5 build [\#139](https://github.com/haganbmj/obs-websocket-js/pull/139) ([Lange](https://github.com/Lange))
 - test: test actual build output [\#138](https://github.com/haganbmj/obs-websocket-js/pull/138) ([Lange](https://github.com/Lange))
