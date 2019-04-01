@@ -14,6 +14,10 @@
     "node.js"
   ],
   "main": "lib/index.js",
+  "files": [
+    "dist",
+    "lib"
+  ],
   "scripts": {
     "update-api": "node .travis/update-api.js",
     "build": "npm-run-all build:*",
