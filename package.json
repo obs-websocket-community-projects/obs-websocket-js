@@ -16,7 +16,8 @@
   "main": "lib/index.js",
   "files": [
     "dist",
-    "lib"
+    "lib",
+    "types/index.d.ts"
   ],
   "types": "types/index.d.ts",
   "scripts": {

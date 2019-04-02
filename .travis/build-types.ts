@@ -114,7 +114,7 @@ function parseApi(raw: RawComments) {
         const foo = unflattenAndResolveTypes(request.returns);
         returnTypeString = `{messageId: string;status: "ok";${stringifyTypes(foo, {terminator: ';', finalTerminator: false})}}`;
       }
-      responseString += `Promise<${returnTypeString}>;`;
+      responseString += `${returnTypeString};`;
 
       requestArgs.push(argsString);
       requestResponses.push(responseString);
@@ -143,6 +143,11 @@ declare module 'obs-websocket-js' {
   import { EventEmitter } from 'events';
 
   namespace ObsWebSocket {
+    type Callback<K extends keyof RequestMethodReturnMap> = (
+      error?: Error | ObsWebSocket.ObsError,
+      response?: RequestMethodReturnMap[K]
+    ) => void;
+  
     interface ObsError {
       messageId: string;
       status: "error";
@@ -176,6 +181,13 @@ declare module 'obs-websocket-js' {
       requestType: K,
       ...args: (RequestMethodsArgsMap[K] extends object ? [RequestMethodsArgsMap[K]] : [undefined?])
     ): Promise<RequestMethodReturnMap[K]>;
+    
+    sendCallback<K extends keyof RequestMethodsArgsMap>(
+      requestType: K,
+      ...args: RequestMethodsArgsMap[K] extends object
+        ? [RequestMethodsArgsMap[K], ObsWebSocket.Callback<K>]
+        : [ObsWebSocket.Callback<K>],
+    ): void;
 
     on<K extends keyof EventHandlersDataMap>(
       type: K,
