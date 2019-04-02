@@ -44,7 +44,7 @@ then
   git push upstream --tags
   echo "Tagged ${VERSION} on GitHub"
 
-  echo -e "$NPM_AUTH" > ~/.npmrc
+  echo -e "$NPM_TOKEN" > ~/.npmrc
   npm publish
   echo "Published ${VERSION} to the npm registry"
 fi
