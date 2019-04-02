@@ -181,6 +181,38 @@ obs.send('GetVersion');
 obs.on('SwitchScenes');
 ```
 
+## Upgrading from 2.x to 3.x
+- The `es5` build is no longer provided. If you're in an environment which must run ES5-compatible code, continue using the latest 2.x release.
+- The Callback API has been separated from the Promise API. If you use callbacks in your `send` invocations, you will need to update them to use the new `sendCallback` method:
+
+  ```js
+  // No longer supported!
+  obs.send('StartStreaming', (error) => {
+    // Code here...
+  });
+
+  // Use this instead:
+  obs.sendCallback('StartStreaming', (error) => {
+    // Code here...
+  });
+  ```
+
+- The `connect` method no longer accepts a callback. Use the promise it returns instead.
+
+  ```js
+  // No longer supported!
+  obs.connect({address: 'localhost: 4444'}, (error) => {
+    // Code here...
+  });
+
+  // Use this instead:
+  obs.connect({address: 'localhost: 4444'}).then(() => {
+    console.log('connected');
+  }).catch((error) => {
+    console.error(error);
+  });
+  ```
+
 ## Projects Using **obs-websocket-js**
 _To add your project to this list, submit a Pull Request._
 - [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
