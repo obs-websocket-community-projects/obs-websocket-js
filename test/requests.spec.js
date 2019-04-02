@@ -30,18 +30,24 @@ test('permits null args', async t => {
   await t.notThrows(obs.send('ValidMethodName', null));
 });
 
-// There's some funky behavior if you try to make use of both the callback and the promise. Should be avoided.
-test.cb('allows the use of a callback instead of a promise.resolve', t => {
-  obs.send('ValidMethodName', {}, (err, data) => {
+test.cb('sendCallback -- success case', t => {
+  obs.sendCallback('ValidMethodName', {}, (err, data) => {
     t.falsy(err);
     t.deepEqual(data.status, 'ok');
     t.end();
   });
 });
 
-// There's some funky behavior if you try to make use of both the callback and the promise. Should be avoided.
-test.cb('allows the use of a callback instead of a promise.reject', t => {
-  obs.send('InvalidMethodName', {}, (err, data) => {
+test.cb('sendCallback -- omitted args', t => {
+  obs.sendCallback('ValidMethodName', (err, data) => {
+    t.falsy(err);
+    t.deepEqual(data.status, 'ok');
+    t.end();
+  });
+});
+
+test.cb('sendCallback -- error case', t => {
+  obs.sendCallback('InvalidMethodName', {}, (err, data) => {
     t.falsy(data);
     t.deepEqual(err.status, 'error');
     t.end();
