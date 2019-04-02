@@ -32,20 +32,20 @@ github_changelog_generator -u haganbmj -p obs-websocket-js $RELEASE
 
 # Add all files & ./dist to the new commit.
 git add -A
-git add CHANGELOG.md ./dist -f
+git add CHANGELOG.md ./dist ./types/index.d.ts -f
 
 git commit -m "${TARGET_BRANCH}: (${VERSION}) ${SHA}"
 git push -q upstream HEAD:$TARGET_BRANCH
 
-# Handle an NPM Publish and a Bower release.
+# Tag a new release on GitHub, and publish a new release to npm.
 if [[ "$VERSION" != "dev" ]] && [[ "$TRAVIS_EVENT_TYPE" != "cron" ]]
 then
   git tag "$VERSION"
   git push upstream --tags
+  echo "Tagged ${VERSION} on GitHub"
 
   echo -e "$NPM_AUTH" > ~/.npmrc
   npm publish
-
   echo "Published ${VERSION} to the npm registry"
 fi
 

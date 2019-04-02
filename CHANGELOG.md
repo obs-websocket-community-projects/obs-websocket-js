@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
-
-[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.1...HEAD)
+## [v3.0.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.0.0) (2019-04-02)
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.1...v3.0.0)
 
 **Implemented enhancements:**
 
@@ -31,6 +30,7 @@
 - chore\(build\): speed up builds by specifying node as the target language [\#140](https://github.com/haganbmj/obs-websocket-js/pull/140) ([Lange](https://github.com/Lange))
 - chore: remove es5 build [\#139](https://github.com/haganbmj/obs-websocket-js/pull/139) ([Lange](https://github.com/Lange))
 - test: test actual build output [\#138](https://github.com/haganbmj/obs-websocket-js/pull/138) ([Lange](https://github.com/Lange))
+- feat: generate TypeScript type definitions [\#126](https://github.com/haganbmj/obs-websocket-js/pull/126) ([Lange](https://github.com/Lange))
 
 ## [v2.0.1](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.1) (2019-01-06)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.0...v2.0.1)

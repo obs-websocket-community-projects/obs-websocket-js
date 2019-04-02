@@ -1,6 +1,4 @@
 node_modules
-dist
-CHANGELOG.md
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -25,3 +23,8 @@ package-lock.json
 
 # Allow web-tester's dist
 !samples/web-tester/dist
+
+# Exclude build outputs (they'll get added automatically by CI).
+dist
+types/index.d.ts
+CHANGELOG.md
