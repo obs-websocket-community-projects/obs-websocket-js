@@ -181,9 +181,6 @@ obs.send('GetVersion');
 obs.on('SwitchScenes');
 ```
 
-## Upgrading from 2.x to 3.x
-The `es5` build is no longer provided. If you're in an environment which must run ES5-compatible code, continue using the latest 2.x release.
-
 ## Projects Using **obs-websocket-js**
 _To add your project to this list, submit a Pull Request._
 - [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
