@@ -1,0 +1,16 @@
+{
+  "extends": "tslint-xo/space",
+  "rules": {
+    "comment-format": false,
+    "early-exit": false,
+    "file-name-casing": false,
+    "no-require-imports": false,
+    "no-single-line-block-comment": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore"
+    ]
+  }
+}

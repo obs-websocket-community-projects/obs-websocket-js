@@ -28,11 +28,7 @@ npm install obs-websocket-js --save
 bower install obs-websocket-js --save
 ```
 
-Typescript definitions are published in a separate repo to more easily allow the use of any plugin version desired. Please refer to the readme at [obs-websocket-js-types][link-types-repo] for more information.
-
-```sh
-npm install obs-websocket-js-types@4.4
-```
+Typescript definitions are included in this package, and are automatically generated to match the latest `obs-websocket` release.
 
 ## Usage
 #### Instantiation
@@ -201,7 +197,6 @@ _To add your project to this list, submit a Pull Request._
   [badge-npm-downloads]: https://img.shields.io/npm/dt/obs-websocket-js.svg "NPM Downloads"
 
   [link-obswebsocket]: https://github.com/Palakis/obs-websocket "OBS WebSocket Plugin"
-  [link-types-repo]: https://github.com/haganbmj/obs-websocket-js-types "obs-websocket-js Typescript Definitions"
   [link-Travis-CI]: https://travis-ci.org/haganbmj/obs-websocket-js "Travis CI"
   [link-Coveralls]: https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master "Coveralls"
   [link-releases]:  https://github.com/haganbmj/obs-websocket-js/releases "obs-websocket-js Releases"
