@@ -16,6 +16,7 @@
 **Closed issues:**
 
 - Module not found: Error: Can't resolve 'net' in 'C:\ ...\ProjectName\node\_modules\obs-websocket-js\node\_modules\ws\lib' [\#132](https://github.com/haganbmj/obs-websocket-js/issues/132)
+- Args are not optional when using a Callback. [\#131](https://github.com/haganbmj/obs-websocket-js/issues/131)
 - Update on NPM [\#130](https://github.com/haganbmj/obs-websocket-js/issues/130)
 - SetTextFreetype2Properties - invalid request type [\#123](https://github.com/haganbmj/obs-websocket-js/issues/123)
 - Determine need to support Node 4 [\#117](https://github.com/haganbmj/obs-websocket-js/issues/117)
@@ -26,6 +27,7 @@
 **Merged pull requests:**
 
 - chore\(package\): use package.json "files" stanza instead of .npmignore [\#143](https://github.com/haganbmj/obs-websocket-js/pull/143) ([Lange](https://github.com/Lange))
+- refactor\(api\): separate callback API from promise API [\#142](https://github.com/haganbmj/obs-websocket-js/pull/142) ([Lange](https://github.com/Lange))
 - chore\(build\): speed up builds by specifying node as the target language [\#140](https://github.com/haganbmj/obs-websocket-js/pull/140) ([Lange](https://github.com/Lange))
 - chore: remove es5 build [\#139](https://github.com/haganbmj/obs-websocket-js/pull/139) ([Lange](https://github.com/Lange))
 - test: test actual build output [\#138](https://github.com/haganbmj/obs-websocket-js/pull/138) ([Lange](https://github.com/Lange))
