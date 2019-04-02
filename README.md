@@ -58,13 +58,17 @@ All requests support the following two Syntax options where both `err` and `data
 _Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
 - RequestName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.  
 - `{args}` are optional. Note that both `request-type` and `message-id` will be bound automatically.  
-- `callback(err, data)` is optional.  
+- To use callbacks instead of promises, use the `sendCallback` method insetad of `send`.
 
 ```js
-obs.send('RequestName', {args}, callback(err, data)) returns Promise
+// Promise API
+obs.send('RequestName', {args}) returns Promise
+
+// Callback API
+obs.sendCallback('RequestName', {args}, callback(err, data)) no return value
 
 // The following are additional supported requests.
-obs.connect({ address: 'address', password: 'password' }, callback(err, data)) returns Promise
+obs.connect({ address: 'address', password: 'password' }) returns Promise
 obs.disconnect();
 ```
 
