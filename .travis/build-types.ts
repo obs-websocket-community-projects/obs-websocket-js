@@ -394,13 +394,11 @@ function resolveType(inType: string): AnyType {
         optional: isOptional
       };
     case 'sceneitemtransform':
-    case 'sceneitemproperties': // Can be removed once is https://github.com/Palakis/obs-websocket/issues/329 fixed
       return {
         type: 'ObsWebSocket.SceneItemTransform',
         optional: isOptional
       };
     case 'obsstats':
-    case 'stats': // Can be removed once is https://github.com/Palakis/obs-websocket/issues/328 fixed
       return {
         type: 'ObsWebSocket.OBSStats',
         optional: isOptional
