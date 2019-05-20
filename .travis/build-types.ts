@@ -36,7 +36,7 @@ interface Tree {
   [k: string]: AnyType;
 }
 
-type AnyType = PrimitiveType | ObjectType | ArrayType | SceneType | SourceType;
+type AnyType = PrimitiveType | ObjectType | ArrayType | SceneType | SceneItemType | SceneItemTransformType | OBSStatsType;
 
 interface PrimitiveType {
   type: 'string' | 'number' | 'boolean';
@@ -51,7 +51,7 @@ interface ObjectType {
 
 interface ArrayType {
   type: 'array';
-  items: PrimitiveType | ObjectType | SceneType | SourceType;
+  items: PrimitiveType | ObjectType | SceneType | SceneItemType | SceneItemTransformType;
   optional: boolean;
 }
 
@@ -60,8 +60,18 @@ interface SceneType {
   optional: boolean;
 }
 
-interface SourceType {
-  type: 'ObsWebSocket.Source';
+interface SceneItemType {
+  type: 'ObsWebSocket.SceneItem';
+  optional: boolean;
+}
+
+interface SceneItemTransformType {
+  type: 'ObsWebSocket.SceneItemTransform';
+  optional: boolean;
+}
+
+interface OBSStatsType {
+  type: 'ObsWebSocket.OBSStats';
   optional: boolean;
 }
 
@@ -147,24 +157,24 @@ declare module 'obs-websocket-js' {
       error?: Error | ObsWebSocket.ObsError,
       response?: RequestMethodReturnMap[K]
     ) => void;
-  
+
     interface ObsError {
       messageId: string;
       status: "error";
       error: string;
     }
-    
+
     ${interfaces.join('\n\n  ')}
   }
-  
+
   interface RequestMethodsArgsMap {
     ${requestArgs.join('\n\n  ')}
   }
-  
+
   interface RequestMethodReturnMap {
     ${requestResponses.join('\n\n  ')}
   }
-  
+
   interface EventHandlersDataMap {
     "ConnectionOpened": void;
     "ConnectionClosed": void;
@@ -172,16 +182,16 @@ declare module 'obs-websocket-js' {
     "AuthenticationFailure": void;
     ${eventOverloads.join('\n\n  ')}
   }
-  
-  class ObsWebSocket extends EventEmitter {  
+
+  class ObsWebSocket extends EventEmitter {
     connect(options?: {address?: string; password?: string}, callback?: (error?: Error) => void): Promise<void>;
     disconnect(): void;
-    
+
     send<K extends keyof RequestMethodsArgsMap>(
       requestType: K,
       ...args: (RequestMethodsArgsMap[K] extends object ? [RequestMethodsArgsMap[K]] : [undefined?])
     ): Promise<RequestMethodReturnMap[K]>;
-    
+
     sendCallback<K extends keyof RequestMethodsArgsMap>(
       requestType: K,
       ...args: RequestMethodsArgsMap[K] extends object
@@ -194,7 +204,7 @@ declare module 'obs-websocket-js' {
       listener: (data: EventHandlersDataMap[K]) => void
     ): this;
   }
-  
+
   export = ObsWebSocket;
 }`;
   /* tslint:enable:no-trailing-whitespace no-dead-reference */
@@ -365,13 +375,34 @@ function resolveType(inType: string): AnyType {
         },
         optional: isOptional
       };
-    case 'array<source>':
+    case 'array<sceneitem>':
       return {
         type: 'array',
         items: {
-          type: 'ObsWebSocket.Source',
+          type: 'ObsWebSocket.SceneItem',
           optional: true
         },
+        optional: isOptional
+      };
+    case 'array<sceneitemtransform>':
+      return {
+        type: 'array',
+        items: {
+          type: 'ObsWebSocket.SceneItemTransform',
+          optional: true
+        },
+        optional: isOptional
+      };
+    case 'sceneitemtransform':
+    case 'sceneitemproperties': // Can be removed once is https://github.com/Palakis/obs-websocket/issues/329 fixed
+      return {
+        type: 'ObsWebSocket.SceneItemTransform',
+        optional: isOptional
+      };
+    case 'obsstats':
+    case 'stats': // Can be removed once is https://github.com/Palakis/obs-websocket/issues/328 fixed
+      return {
+        type: 'ObsWebSocket.OBSStats',
         optional: isOptional
       };
     case 'object':
@@ -400,7 +431,7 @@ function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = t
       if (typeDef.items) {
         if (typeDef.items.type === 'object') {
           if (Object.keys(typeDef.items.properties).length > 0) {
-            returnString += `${stringifyTypes(typeDef.items.properties as any, {includePrefix: false, terminator: ''})}[]`;
+            returnString += `${stringifyTypes(typeDef.items.properties, {includePrefix: false, terminator: ''})}[]`;
           } else {
             returnString += 'Array<{[k: string]: any}>';
           }
