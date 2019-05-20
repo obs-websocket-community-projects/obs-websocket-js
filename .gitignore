@@ -18,9 +18,6 @@ npm-debug.log*
 coverage
 .nyc_output
 
-# Until npm5 package-locks are more reliable.
-package-lock.json
-
 # Allow web-tester's dist
 !samples/web-tester/dist
 
