@@ -1,5 +1,14 @@
 # Change Log
 
+## [Unreleased](https://github.com/haganbmj/obs-websocket-js/tree/HEAD)
+
+[Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v3.0.0...HEAD)
+
+**Merged pull requests:**
+
+- chore\(package\): add package-lock.json [\#153](https://github.com/haganbmj/obs-websocket-js/pull/153) ([Lange](https://github.com/Lange))
+- fix\(types\): fix types build script for obs-websocket 4.6 [\#152](https://github.com/haganbmj/obs-websocket-js/pull/152) ([Lange](https://github.com/Lange))
+
 ## [v3.0.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.0.0) (2019-04-02)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.1...v3.0.0)
 

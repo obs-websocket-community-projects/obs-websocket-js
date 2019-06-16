@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2019-05-16 16:23:21+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/70d2cc3bc602be341c72efad7d4aaafe930fca21
+ * Build Timestamp: 2019-06-16 21:38:22+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/047a688b6dfbc25560b50be00389049520b55b0a
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -4078,7 +4078,7 @@ module.exports = function(val, options) {
   var type = typeof val;
   if (type === 'string' && val.length > 0) {
     return parse(val);
-  } else if (type === 'number' && isNaN(val) === false) {
+  } else if (type === 'number' && isFinite(val)) {
     return options.long ? fmtLong(val) : fmtShort(val);
   }
   throw new Error(
@@ -4100,7 +4100,7 @@ function parse(str) {
   if (str.length > 100) {
     return;
   }
-  var match = /^((?:\d+)?\-?\d?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
+  var match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(
     str
   );
   if (!match) {

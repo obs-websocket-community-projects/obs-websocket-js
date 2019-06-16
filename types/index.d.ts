@@ -16,22 +16,54 @@ declare module "obs-websocket-js" {
       error: string;
     }
 
-    interface Scene {
-      name: string;
-      sources: ObsWebSocket.Source[];
-    }
-
-    interface Source {
-      cy: number;
-      cx: number;
-      name: string;
-      render: boolean;
-      source_cx: number;
+    interface SceneItem {
       source_cy: number;
+      cy: number;
+      name: string;
+      id: number;
+      render: boolean;
+      locked: boolean;
+      source_cx: number;
+      cx: number;
       type: string;
       volume: number;
       x: number;
       y: number;
+      parentGroupName?: string;
+      groupChildren?: ObsWebSocket.SceneItem[];
+    }
+
+    interface SceneItemTransform {
+      locked: boolean;
+      groupChildren?: ObsWebSocket.SceneItemTransform[];
+      parentGroupName?: string;
+      rotation: number;
+      height: number;
+      width: number;
+      sourceHeight: number;
+      sourceWidth: number;
+      visible: boolean;
+      bounds: { y: number; type: string; alignment: number; x: number };
+      crop: { left: number; bottom: number; right: number; top: number };
+      position: { y: number; alignment: number; x: number };
+      scale: { y: number; x: number };
+    }
+
+    interface OBSStats {
+      fps: number;
+      "render-total-frames": number;
+      "render-missed-frames": number;
+      "output-total-frames": number;
+      "output-skipped-frames": number;
+      "average-frame-time": number;
+      "cpu-usage": number;
+      "memory-usage": number;
+      "free-disk-space": number;
+    }
+
+    interface Scene {
+      name: string;
+      sources: ObsWebSocket.SceneItem[];
     }
   }
 
@@ -47,6 +79,10 @@ declare module "obs-websocket-js" {
     SetFilenameFormatting: { "filename-formatting": string };
 
     GetFilenameFormatting: void;
+
+    GetStats: void;
+
+    GetVideoInfo: void;
 
     SetCurrentProfile: { "profile-name": string };
 
@@ -82,13 +118,14 @@ declare module "obs-websocket-js" {
 
     SetSceneItemProperties: {
       "scene-name"?: string;
-      rotation: number;
+      rotation?: number;
       item: string;
-      visible: boolean;
-      position: { alignment: number; x: number; y: number };
-      bounds: { y: number; type: string; alignment: number; x: number };
-      scale: { x: number; y: number };
-      crop: { bottom: number; left: number; right: number; top: number };
+      visible?: boolean;
+      locked?: boolean;
+      bounds: { y?: number; type?: string; alignment?: number; x?: number };
+      scale: { x?: number; y?: number };
+      crop: { top?: number; left?: number; right?: number; bottom?: number };
+      position: { x?: number; y?: number; alignment?: number };
     };
 
     ResetSceneItem: { "scene-name"?: string; item: string };
@@ -145,7 +182,7 @@ declare module "obs-websocket-js" {
 
     GetSourcesList: void;
 
-    GetSourcesTypesList: void;
+    GetSourceTypesList: void;
 
     GetVolume: { source: string };
 
@@ -262,6 +299,14 @@ declare module "obs-websocket-js" {
       filterSettings: {};
     };
 
+    TakeSourceScreenshot: {
+      sourceName: string;
+      embedPictureFormat?: string;
+      saveToFilePath?: string;
+      width?: number;
+      height?: number;
+    };
+
     GetStreamingStatus: void;
 
     StartStopStreaming: void;
@@ -297,6 +342,8 @@ declare module "obs-websocket-js" {
     GetStreamSettings: void;
 
     SaveStreamSettings: void;
+
+    SendCaptions: { text: string };
 
     GetStudioModeStatus: void;
 
@@ -355,6 +402,22 @@ declare module "obs-websocket-js" {
       "filename-formatting": string;
     };
 
+    GetStats: { messageId: string; status: "ok"; stats: ObsWebSocket.OBSStats };
+
+    GetVideoInfo: {
+      messageId: string;
+      status: "ok";
+      baseWidth: number;
+      baseHeight: number;
+      outputWidth: number;
+      outputHeight: number;
+      scaleType: string;
+      fps: number;
+      videoFormat: string;
+      colorSpace: string;
+      colorRange: string;
+    };
+
     SetCurrentProfile: void;
 
     GetCurrentProfile: {
@@ -409,12 +472,17 @@ declare module "obs-websocket-js" {
       messageId: string;
       status: "ok";
       name: string;
+      height: number;
+      width: number;
+      sourceHeight: number;
       rotation: number;
+      sourceWidth: number;
+      locked: boolean;
       visible: boolean;
-      position: { alignment: number; x: number; y: number };
-      bounds: { y: number; type: string; alignment: number; x: number };
-      scale: { x: number; y: number };
-      crop: { top: number; bottom: number; left: number; right: number };
+      bounds: { alignment: number; type: string; x: number; y: number };
+      crop: { right: number; top: number; bottom: number; left: number };
+      position: { x: number; alignment: number; y: number };
+      scale: { y: number; x: number };
     };
 
     SetSceneItemProperties: void;
@@ -444,7 +512,7 @@ declare module "obs-websocket-js" {
       messageId: string;
       status: "ok";
       name: string;
-      sources: ObsWebSocket.Source[];
+      sources: ObsWebSocket.SceneItem[];
     };
 
     GetSceneList: {
@@ -458,7 +526,7 @@ declare module "obs-websocket-js" {
 
     GetSourcesList: { messageId: string; status: "ok"; sources: string[] };
 
-    GetSourcesTypesList: {
+    GetSourceTypesList: {
       messageId: string;
       status: "ok";
       ids: { isAsync: boolean }[];
@@ -593,6 +661,14 @@ declare module "obs-websocket-js" {
 
     SetSourceFilterSettings: void;
 
+    TakeSourceScreenshot: {
+      messageId: string;
+      status: "ok";
+      sourceName: string;
+      img: string;
+      imageFile: string;
+    };
+
     GetStreamingStatus: {
       messageId: string;
       status: "ok";
@@ -626,6 +702,8 @@ declare module "obs-websocket-js" {
 
     SaveStreamSettings: void;
 
+    SendCaptions: void;
+
     GetStudioModeStatus: {
       messageId: string;
       status: "ok";
@@ -636,7 +714,7 @@ declare module "obs-websocket-js" {
       messageId: string;
       status: "ok";
       name: string;
-      sources: ObsWebSocket.Source[];
+      sources: ObsWebSocket.SceneItem[];
     };
 
     SetPreviewScene: void;
@@ -679,7 +757,7 @@ declare module "obs-websocket-js" {
     ConnectionClosed: void;
     AuthenticationSuccess: void;
     AuthenticationFailure: void;
-    SwitchScenes: { "scene-name": string; sources: ObsWebSocket.Source[] };
+    SwitchScenes: { "scene-name": string; sources: ObsWebSocket.SceneItem[] };
 
     ScenesChanged: void;
 
@@ -713,16 +791,25 @@ declare module "obs-websocket-js" {
     StreamStopped: void;
 
     StreamStatus: {
+      fps: number;
       streaming: boolean;
-      recording: boolean;
-      "preview-only": boolean;
+      "replay-buffer-active": boolean;
       "bytes-per-sec": number;
       "kbits-per-sec": number;
       strain: number;
       "total-stream-time": number;
       "num-total-frames": number;
       "num-dropped-frames": number;
-      fps: number;
+      recording: boolean;
+      "render-total-frames": number;
+      "render-missed-frames": number;
+      "output-total-frames": number;
+      "output-skipped-frames": number;
+      "average-frame-time": number;
+      "cpu-usage": number;
+      "memory-usage": number;
+      "free-disk-space": number;
+      "preview-only": boolean;
     };
 
     RecordingStarting: void;
@@ -744,34 +831,105 @@ declare module "obs-websocket-js" {
     Exiting: void;
 
     Heartbeat: {
-      "total-stream-bytes"?: number;
+      "total-stream-frames"?: number;
       pulse: boolean;
       "current-scene"?: string;
       streaming?: boolean;
       "total-stream-time"?: number;
+      "total-stream-bytes"?: number;
       "current-profile"?: string;
-      "total-stream-frames"?: number;
       recording?: boolean;
       "total-record-time"?: number;
       "total-record-bytes"?: number;
       "total-record-frames"?: number;
+      stats: ObsWebSocket.OBSStats;
     };
 
-    SourceOrderChanged: { "scene-name": string };
+    SourceCreated: {
+      sourceName: string;
+      sourceType: string;
+      sourceKind: string;
+      sourceSettings: {};
+    };
 
-    SceneItemAdded: { "scene-name": string; "item-name": string };
+    SourceDestroyed: {
+      sourceName: string;
+      sourceType: string;
+      sourceKind: string;
+    };
 
-    SceneItemRemoved: { "scene-name": string; "item-name": string };
+    SourceVolumeChanged: { sourceName: string; volume: number };
+
+    SourceMuteStateChanged: { sourceName: string; muted: boolean };
+
+    SourceAudioSyncOffsetChanged: { sourceName: string; syncOffset: number };
+
+    SourceAudioMixersChanged: {
+      sourceName: string;
+      routingStatus: boolean[];
+      hexMixersValue: string;
+    };
+
+    SourceRenamed: { previousName: string; newName: string };
+
+    SourceFilterAdded: {
+      sourceName: string;
+      filterName: string;
+      filterType: string;
+      filterSettings: {};
+    };
+
+    SourceFilterRemoved: {
+      sourceName: string;
+      filterName: string;
+      filterType: string;
+    };
+
+    SourceFiltersReordered: { sourceName: string; filters: string[] };
+
+    SourceOrderChanged: { "scene-name": string; "scene-items": number[] };
+
+    SceneItemAdded: {
+      "scene-name": string;
+      "item-name": string;
+      "item-id": number;
+    };
+
+    SceneItemRemoved: {
+      "scene-name": string;
+      "item-name": string;
+      "item-id": number;
+    };
 
     SceneItemVisibilityChanged: {
       "scene-name": string;
       "item-name": string;
+      "item-id": number;
       "item-visible": boolean;
+    };
+
+    SceneItemTransformChanged: {
+      "scene-name": string;
+      "item-name": string;
+      "item-id": number;
+      transform: ObsWebSocket.SceneItemTransform;
+    };
+
+    SceneItemSelected: {
+      "scene-name": string;
+      "item-name": string;
+      "item-id": number;
+    };
+
+    SceneItemDeselected: {
+      "scene-name": string;
+      "item-name": string;
+      "item-id": number;
     };
 
     PreviewSceneChanged: {
       "scene-name": string;
-      sources: ObsWebSocket.Source[];
+      sources: ObsWebSocket.SceneItem[];
     };
 
     StudioModeSwitched: { "new-state": boolean };
