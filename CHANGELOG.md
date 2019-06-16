@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- build\(travis\): fix GitHub rate limiting [\#157](https://github.com/haganbmj/obs-websocket-js/pull/157) ([Lange](https://github.com/Lange))
 - chore\(package\): add package-lock.json [\#153](https://github.com/haganbmj/obs-websocket-js/pull/153) ([Lange](https://github.com/Lange))
 - fix\(types\): fix types build script for obs-websocket 4.6 [\#152](https://github.com/haganbmj/obs-websocket-js/pull/152) ([Lange](https://github.com/Lange))
 
