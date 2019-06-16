@@ -78,9 +78,19 @@ interface OBSStatsType {
 const DOTS_REGEX = /\./g;
 const outFile = path.join(__dirname, '../types/index.d.ts');
 async function getLatestComments() {
-  const latestReleaseResponse = await got('https://api.github.com/repos/Palakis/obs-websocket/releases/latest', {json: true});
+  const headers = {
+    Authorization: `token ${process.env.GH_TOKEN}`
+  };
+
+  const latestReleaseResponse = await got('https://api.github.com/repos/Palakis/obs-websocket/releases/latest', {
+    json: true,
+    headers
+  });
   const latestReleaseTag = latestReleaseResponse.body.tag_name;
-  const commentsResponse = await got(`https://raw.githubusercontent.com/Palakis/obs-websocket/${latestReleaseTag}/docs/generated/comments.json`, {json: true});
+  const commentsResponse = await got(`https://raw.githubusercontent.com/Palakis/obs-websocket/${latestReleaseTag}/docs/generated/comments.json`, {
+    json: true,
+    headers
+  });
   return commentsResponse.body;
 }
 
