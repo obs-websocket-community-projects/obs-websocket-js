@@ -13,7 +13,6 @@
 **Merged pull requests:**
 
 - build\(travis\): fix GitHub rate limiting [\#157](https://github.com/haganbmj/obs-websocket-js/pull/157) ([Lange](https://github.com/Lange))
-- chore\(package\): add package-lock.json [\#153](https://github.com/haganbmj/obs-websocket-js/pull/153) ([Lange](https://github.com/Lange))
 - fix\(types\): fix types build script for obs-websocket 4.6 [\#152](https://github.com/haganbmj/obs-websocket-js/pull/152) ([Lange](https://github.com/Lange))
 
 ## [v3.0.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.0.0) (2019-04-02)
@@ -188,6 +187,7 @@
 
 **Merged pull requests:**
 
+- Update ava to the latest version 🚀 [\#60](https://github.com/haganbmj/obs-websocket-js/pull/60) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update ava to the latest version 🚀 [\#58](https://github.com/haganbmj/obs-websocket-js/pull/58) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint to the latest version 🚀 [\#57](https://github.com/haganbmj/obs-websocket-js/pull/57) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update webpack to the latest version 🚀 [\#55](https://github.com/haganbmj/obs-websocket-js/pull/55) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
@@ -265,7 +265,6 @@
 
 **Merged pull requests:**
 
-- Update ava to the latest version 🚀 [\#60](https://github.com/haganbmj/obs-websocket-js/pull/60) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Small README fixes [\#39](https://github.com/haganbmj/obs-websocket-js/pull/39) ([Lange](https://github.com/Lange))
 - \[Tests\] Add basic connection & authentication tests [\#36](https://github.com/haganbmj/obs-websocket-js/pull/36) ([Lange](https://github.com/Lange))
 - Several fixes and refactors [\#33](https://github.com/haganbmj/obs-websocket-js/pull/33) ([Lange](https://github.com/Lange))
