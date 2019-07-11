@@ -1,6 +1,6 @@
 # Change Log
 
-## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-07-04)
+## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-07-11)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v3.1.0...v3.1.0)
 
 **Closed issues:**
@@ -188,7 +188,6 @@
 
 **Merged pull requests:**
 
-- Update ava to the latest version 🚀 [\#60](https://github.com/haganbmj/obs-websocket-js/pull/60) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update ava to the latest version 🚀 [\#58](https://github.com/haganbmj/obs-websocket-js/pull/58) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint to the latest version 🚀 [\#57](https://github.com/haganbmj/obs-websocket-js/pull/57) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update webpack to the latest version 🚀 [\#55](https://github.com/haganbmj/obs-websocket-js/pull/55) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
@@ -266,6 +265,7 @@
 
 **Merged pull requests:**
 
+- Update ava to the latest version 🚀 [\#60](https://github.com/haganbmj/obs-websocket-js/pull/60) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Small README fixes [\#39](https://github.com/haganbmj/obs-websocket-js/pull/39) ([Lange](https://github.com/Lange))
 - \[Tests\] Add basic connection & authentication tests [\#36](https://github.com/haganbmj/obs-websocket-js/pull/36) ([Lange](https://github.com/Lange))
 - Several fixes and refactors [\#33](https://github.com/haganbmj/obs-websocket-js/pull/33) ([Lange](https://github.com/Lange))
