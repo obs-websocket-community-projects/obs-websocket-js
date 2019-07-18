@@ -46,7 +46,6 @@
 - chore\(build\): speed up builds by specifying node as the target language [\#140](https://github.com/haganbmj/obs-websocket-js/pull/140) ([Lange](https://github.com/Lange))
 - chore: remove es5 build [\#139](https://github.com/haganbmj/obs-websocket-js/pull/139) ([Lange](https://github.com/Lange))
 - test: test actual build output [\#138](https://github.com/haganbmj/obs-websocket-js/pull/138) ([Lange](https://github.com/Lange))
-- feat: generate TypeScript type definitions [\#126](https://github.com/haganbmj/obs-websocket-js/pull/126) ([Lange](https://github.com/Lange))
 
 ## [v2.0.1](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.1) (2019-01-06)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.0...v2.0.1)
@@ -57,6 +56,7 @@
 **Merged pull requests:**
 
 - major: remove registerEvent, registerRequest, add type definitions [\#127](https://github.com/haganbmj/obs-websocket-js/pull/127) ([haganbmj](https://github.com/haganbmj))
+- feat: generate TypeScript type definitions [\#126](https://github.com/haganbmj/obs-websocket-js/pull/126) ([Lange](https://github.com/Lange))
 - Basic Typedef [\#125](https://github.com/haganbmj/obs-websocket-js/pull/125) ([Lange](https://github.com/Lange))
 - Agnosticize API; decouple it from the obs-websocket protocol [\#124](https://github.com/haganbmj/obs-websocket-js/pull/124) ([Lange](https://github.com/Lange))
 
@@ -231,7 +231,6 @@
 **Merged pull requests:**
 
 - \[CI\] Set up Coveralls [\#45](https://github.com/haganbmj/obs-websocket-js/pull/45) ([haganbmj](https://github.com/haganbmj))
-- \[Style\] Adopt eslint-config-xo-space/esnext [\#30](https://github.com/haganbmj/obs-websocket-js/pull/30) ([Lange](https://github.com/Lange))
 
 ## [v0.5.1](https://github.com/haganbmj/obs-websocket-js/tree/v0.5.1) (2017-04-29)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.0...v0.5.1)
@@ -271,6 +270,7 @@
 - \[Tests\] Add basic connection & authentication tests [\#36](https://github.com/haganbmj/obs-websocket-js/pull/36) ([Lange](https://github.com/Lange))
 - Several fixes and refactors [\#33](https://github.com/haganbmj/obs-websocket-js/pull/33) ([Lange](https://github.com/Lange))
 - \[Docs\] Add agdq17-layouts to projects list [\#31](https://github.com/haganbmj/obs-websocket-js/pull/31) ([Lange](https://github.com/Lange))
+- \[Style\] Adopt eslint-config-xo-space/esnext [\#30](https://github.com/haganbmj/obs-websocket-js/pull/30) ([Lange](https://github.com/Lange))
 - \[CI\] Update Travis Scripts to Ensure updated Distributable [\#28](https://github.com/haganbmj/obs-websocket-js/pull/28) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.4.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.4.0) (2017-04-23)
