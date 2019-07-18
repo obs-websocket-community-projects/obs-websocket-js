@@ -1,6 +1,6 @@
 # Change Log
 
-## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-07-11)
+## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-07-18)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v3.1.0...v3.1.0)
 
 **Closed issues:**
@@ -13,6 +13,7 @@
 **Merged pull requests:**
 
 - build\(travis\): fix GitHub rate limiting [\#157](https://github.com/haganbmj/obs-websocket-js/pull/157) ([Lange](https://github.com/Lange))
+- chore\(package\): add package-lock.json [\#153](https://github.com/haganbmj/obs-websocket-js/pull/153) ([Lange](https://github.com/Lange))
 - fix\(types\): fix types build script for obs-websocket 4.6 [\#152](https://github.com/haganbmj/obs-websocket-js/pull/152) ([Lange](https://github.com/Lange))
 
 ## [v3.0.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.0.0) (2019-04-02)
@@ -230,6 +231,7 @@
 **Merged pull requests:**
 
 - \[CI\] Set up Coveralls [\#45](https://github.com/haganbmj/obs-websocket-js/pull/45) ([haganbmj](https://github.com/haganbmj))
+- \[Style\] Adopt eslint-config-xo-space/esnext [\#30](https://github.com/haganbmj/obs-websocket-js/pull/30) ([Lange](https://github.com/Lange))
 
 ## [v0.5.1](https://github.com/haganbmj/obs-websocket-js/tree/v0.5.1) (2017-04-29)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.5.0...v0.5.1)
@@ -269,7 +271,6 @@
 - \[Tests\] Add basic connection & authentication tests [\#36](https://github.com/haganbmj/obs-websocket-js/pull/36) ([Lange](https://github.com/Lange))
 - Several fixes and refactors [\#33](https://github.com/haganbmj/obs-websocket-js/pull/33) ([Lange](https://github.com/Lange))
 - \[Docs\] Add agdq17-layouts to projects list [\#31](https://github.com/haganbmj/obs-websocket-js/pull/31) ([Lange](https://github.com/Lange))
-- \[Style\] Adopt eslint-config-xo-space/esnext [\#30](https://github.com/haganbmj/obs-websocket-js/pull/30) ([Lange](https://github.com/Lange))
 - \[CI\] Update Travis Scripts to Ensure updated Distributable [\#28](https://github.com/haganbmj/obs-websocket-js/pull/28) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.4.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.4.0) (2017-04-23)
