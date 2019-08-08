@@ -1,6 +1,6 @@
 # Change Log
 
-## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-08-01)
+## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-08-08)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v3.1.0...v3.1.0)
 
 **Closed issues:**
@@ -57,7 +57,6 @@
 **Merged pull requests:**
 
 - major: remove registerEvent, registerRequest, add type definitions [\#127](https://github.com/haganbmj/obs-websocket-js/pull/127) ([haganbmj](https://github.com/haganbmj))
-- Basic Typedef [\#125](https://github.com/haganbmj/obs-websocket-js/pull/125) ([Lange](https://github.com/Lange))
 - Agnosticize API; decouple it from the obs-websocket protocol [\#124](https://github.com/haganbmj/obs-websocket-js/pull/124) ([Lange](https://github.com/Lange))
 
 ## [v1.3.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.3.0) (2018-08-28)
@@ -82,7 +81,6 @@
 - Update eslint to the latest version 🚀 [\#110](https://github.com/haganbmj/obs-websocket-js/pull/110) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update webpack-cli to the latest version 🚀 [\#109](https://github.com/haganbmj/obs-websocket-js/pull/109) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update nyc to the latest version 🚀 [\#108](https://github.com/haganbmj/obs-websocket-js/pull/108) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
-- Update webpack to the latest version 🚀 [\#100](https://github.com/haganbmj/obs-websocket-js/pull/100) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.2.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.2.0) (2018-03-22)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.1.0...v1.2.0)
@@ -108,6 +106,7 @@
 
 **Merged pull requests:**
 
+- Basic Typedef [\#125](https://github.com/haganbmj/obs-websocket-js/pull/125) ([Lange](https://github.com/Lange))
 - chore\(package\): update eslint to version 4.14.0 [\#95](https://github.com/haganbmj/obs-websocket-js/pull/95) ([haganbmj](https://github.com/haganbmj))
 - Update ava to the latest version 🚀 [\#90](https://github.com/haganbmj/obs-websocket-js/pull/90) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
@@ -136,6 +135,7 @@
 
 **Merged pull requests:**
 
+- Update webpack to the latest version 🚀 [\#100](https://github.com/haganbmj/obs-websocket-js/pull/100) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update ava to the latest version 🚀 [\#86](https://github.com/haganbmj/obs-websocket-js/pull/86) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint-config-xo-space to the latest version 🚀 [\#84](https://github.com/haganbmj/obs-websocket-js/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update coveralls to the latest version 🚀 [\#80](https://github.com/haganbmj/obs-websocket-js/pull/80) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
