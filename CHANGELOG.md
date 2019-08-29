@@ -1,6 +1,6 @@
 # Change Log
 
-## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-08-22)
+## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-08-29)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v3.1.0...v3.1.0)
 
 **Closed issues:**
@@ -144,6 +144,10 @@
 ## [v0.9.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.9.0) (2017-08-25)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.8.0...v0.9.0)
 
+**Implemented enhancements:**
+
+- \[API\] Convert AuthHashing from a Class to a Function [\#44](https://github.com/haganbmj/obs-websocket-js/issues/44)
+
 **Closed issues:**
 
 - Add babel to transpile to es5 before npm publish [\#68](https://github.com/haganbmj/obs-websocket-js/issues/68)
@@ -221,7 +225,6 @@
 
 **Implemented enhancements:**
 
-- \[API\] Convert AuthHashing from a Class to a Function [\#44](https://github.com/haganbmj/obs-websocket-js/issues/44)
 - \[API\] Standardize internal emits [\#42](https://github.com/haganbmj/obs-websocket-js/issues/42)
 
 **Fixed bugs:**
