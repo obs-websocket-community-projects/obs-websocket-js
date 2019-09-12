@@ -1,10 +1,11 @@
 # Change Log
 
-## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-09-05)
+## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-09-12)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v3.1.0...v3.1.0)
 
 **Closed issues:**
 
+- StreamStatus - invalid request type [\#166](https://github.com/haganbmj/obs-websocket-js/issues/166)
 - Implement remote controlling of Audio Mixer [\#159](https://github.com/haganbmj/obs-websocket-js/issues/159)
 
 ## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-06-16)
@@ -46,7 +47,6 @@
 - chore\(build\): speed up builds by specifying node as the target language [\#140](https://github.com/haganbmj/obs-websocket-js/pull/140) ([Lange](https://github.com/Lange))
 - chore: remove es5 build [\#139](https://github.com/haganbmj/obs-websocket-js/pull/139) ([Lange](https://github.com/Lange))
 - test: test actual build output [\#138](https://github.com/haganbmj/obs-websocket-js/pull/138) ([Lange](https://github.com/Lange))
-- feat: generate TypeScript type definitions [\#126](https://github.com/haganbmj/obs-websocket-js/pull/126) ([Lange](https://github.com/Lange))
 
 ## [v2.0.1](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.1) (2019-01-06)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.0...v2.0.1)
@@ -75,6 +75,7 @@
 
 **Merged pull requests:**
 
+- feat: generate TypeScript type definitions [\#126](https://github.com/haganbmj/obs-websocket-js/pull/126) ([Lange](https://github.com/Lange))
 - feat: revise connection error handling [\#120](https://github.com/haganbmj/obs-websocket-js/pull/120) ([haganbmj](https://github.com/haganbmj))
 - Update eslint-plugin-ava to the latest version 🚀 [\#114](https://github.com/haganbmj/obs-websocket-js/pull/114) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - chore\(package\): update webpack to version 4.15.1 [\#113](https://github.com/haganbmj/obs-websocket-js/pull/113) ([haganbmj](https://github.com/haganbmj))
@@ -140,6 +141,7 @@
 - Update eslint-config-xo-space to the latest version 🚀 [\#84](https://github.com/haganbmj/obs-websocket-js/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update coveralls to the latest version 🚀 [\#80](https://github.com/haganbmj/obs-websocket-js/pull/80) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - chore\(package\): update sha.js to version 2.4.9 [\#78](https://github.com/haganbmj/obs-websocket-js/pull/78) ([haganbmj](https://github.com/haganbmj))
+- \[Style\] Adopt eslint-config-xo-space/esnext [\#30](https://github.com/haganbmj/obs-websocket-js/pull/30) ([Lange](https://github.com/Lange))
 
 ## [v0.9.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.9.0) (2017-08-25)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.8.0...v0.9.0)
@@ -270,7 +272,6 @@
 - \[Tests\] Add basic connection & authentication tests [\#36](https://github.com/haganbmj/obs-websocket-js/pull/36) ([Lange](https://github.com/Lange))
 - Several fixes and refactors [\#33](https://github.com/haganbmj/obs-websocket-js/pull/33) ([Lange](https://github.com/Lange))
 - \[Docs\] Add agdq17-layouts to projects list [\#31](https://github.com/haganbmj/obs-websocket-js/pull/31) ([Lange](https://github.com/Lange))
-- \[Style\] Adopt eslint-config-xo-space/esnext [\#30](https://github.com/haganbmj/obs-websocket-js/pull/30) ([Lange](https://github.com/Lange))
 - \[CI\] Update Travis Scripts to Ensure updated Distributable [\#28](https://github.com/haganbmj/obs-websocket-js/pull/28) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.4.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.4.0) (2017-04-23)
