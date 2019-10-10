@@ -1,6 +1,6 @@
 # Change Log
 
-## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-09-26)
+## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-10-10)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v3.1.0...v3.1.0)
 
 **Closed issues:**
@@ -84,12 +84,14 @@
 - Update webpack-cli to the latest version 🚀 [\#109](https://github.com/haganbmj/obs-websocket-js/pull/109) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update nyc to the latest version 🚀 [\#108](https://github.com/haganbmj/obs-websocket-js/pull/108) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update webpack to the latest version 🚀 [\#100](https://github.com/haganbmj/obs-websocket-js/pull/100) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
+- Update coveralls to the latest version 🚀 [\#80](https://github.com/haganbmj/obs-websocket-js/pull/80) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v1.2.0](https://github.com/haganbmj/obs-websocket-js/tree/v1.2.0) (2018-03-22)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v1.1.0...v1.2.0)
 
 **Merged pull requests:**
 
+- chore\(package\): update ws to version 5.1.0 [\#102](https://github.com/haganbmj/obs-websocket-js/pull/102) ([haganbmj](https://github.com/haganbmj))
 - Update ws to the latest version 🚀 [\#101](https://github.com/haganbmj/obs-websocket-js/pull/101) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint-config-xo-space to the latest version 🚀 [\#99](https://github.com/haganbmj/obs-websocket-js/pull/99) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update ava to the latest version 🚀 [\#98](https://github.com/haganbmj/obs-websocket-js/pull/98) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
@@ -104,11 +106,9 @@
 - An in-range update of eslint is breaking the build 🚨 [\#92](https://github.com/haganbmj/obs-websocket-js/issues/92)
 - SetSceneItemProperties = "invalid request type" [\#88](https://github.com/haganbmj/obs-websocket-js/issues/88)
 - How to connect to several instances same time? [\#85](https://github.com/haganbmj/obs-websocket-js/issues/85)
-- \[CI\] Update to npm@5 [\#51](https://github.com/haganbmj/obs-websocket-js/issues/51)
 
 **Merged pull requests:**
 
-- chore\(package\): update ws to version 5.1.0 [\#102](https://github.com/haganbmj/obs-websocket-js/pull/102) ([haganbmj](https://github.com/haganbmj))
 - chore\(package\): update eslint to version 4.14.0 [\#95](https://github.com/haganbmj/obs-websocket-js/pull/95) ([haganbmj](https://github.com/haganbmj))
 - Update ava to the latest version 🚀 [\#90](https://github.com/haganbmj/obs-websocket-js/pull/90) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
@@ -139,7 +139,6 @@
 
 - Update ava to the latest version 🚀 [\#86](https://github.com/haganbmj/obs-websocket-js/pull/86) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint-config-xo-space to the latest version 🚀 [\#84](https://github.com/haganbmj/obs-websocket-js/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
-- Update coveralls to the latest version 🚀 [\#80](https://github.com/haganbmj/obs-websocket-js/pull/80) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - chore\(package\): update sha.js to version 2.4.9 [\#78](https://github.com/haganbmj/obs-websocket-js/pull/78) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.9.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.9.0) (2017-08-25)
@@ -201,6 +200,7 @@
 **Implemented enhancements:**
 
 - \[API\] Expose registerEvent and registerRequest methods [\#47](https://github.com/haganbmj/obs-websocket-js/issues/47)
+- \[Test\] Basic Unit Testing [\#22](https://github.com/haganbmj/obs-websocket-js/issues/22)
 - \[API\] Strengthen Address Parsing [\#21](https://github.com/haganbmj/obs-websocket-js/issues/21)
 
 **Closed issues:**
@@ -229,6 +229,10 @@
 
 - \[API\] Binding multiple events results in duplicate callbacks [\#46](https://github.com/haganbmj/obs-websocket-js/issues/46)
 
+**Closed issues:**
+
+- \[CI\] Update to npm@5 [\#51](https://github.com/haganbmj/obs-websocket-js/issues/51)
+
 **Merged pull requests:**
 
 - \[CI\] Set up Coveralls [\#45](https://github.com/haganbmj/obs-websocket-js/pull/45) ([haganbmj](https://github.com/haganbmj))
@@ -251,7 +255,6 @@
 
 - \[API\] Refactor \#connect\(\) to accept both an address and password [\#29](https://github.com/haganbmj/obs-websocket-js/issues/29)
 - \[Style\] Consider using ESlint instead of jshint [\#27](https://github.com/haganbmj/obs-websocket-js/issues/27)
-- \[Test\] Basic Unit Testing [\#22](https://github.com/haganbmj/obs-websocket-js/issues/22)
 - \[Docs\] Update Readme and Code Samples [\#19](https://github.com/haganbmj/obs-websocket-js/issues/19)
 
 **Fixed bugs:**
