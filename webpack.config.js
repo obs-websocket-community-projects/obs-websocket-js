@@ -23,7 +23,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: '[name].js',
-    library: 'OBSWebSocket'
+    library: 'OBSWebSocket',
+    libraryTarget: 'commonjs-module'
   },
   externals: {
     ws: 'WebSocket'
