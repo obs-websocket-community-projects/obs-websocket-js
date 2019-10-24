@@ -1,6 +1,6 @@
 # Change Log
 
-## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-10-17)
+## [v3.1.0](https://github.com/haganbmj/obs-websocket-js/tree/v3.1.0) (2019-10-24)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v3.1.0...v3.1.0)
 
 **Closed issues:**
@@ -48,7 +48,6 @@
 - chore: remove es5 build [\#139](https://github.com/haganbmj/obs-websocket-js/pull/139) ([Lange](https://github.com/Lange))
 - test: test actual build output [\#138](https://github.com/haganbmj/obs-websocket-js/pull/138) ([Lange](https://github.com/Lange))
 - feat: generate TypeScript type definitions [\#126](https://github.com/haganbmj/obs-websocket-js/pull/126) ([Lange](https://github.com/Lange))
-- Update eslint-config-xo-space to the latest version 🚀 [\#111](https://github.com/haganbmj/obs-websocket-js/pull/111) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 
 ## [v2.0.1](https://github.com/haganbmj/obs-websocket-js/tree/v2.0.1) (2019-01-06)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v2.0.0...v2.0.1)
@@ -80,6 +79,7 @@
 - feat: revise connection error handling [\#120](https://github.com/haganbmj/obs-websocket-js/pull/120) ([haganbmj](https://github.com/haganbmj))
 - Update eslint-plugin-ava to the latest version 🚀 [\#114](https://github.com/haganbmj/obs-websocket-js/pull/114) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - chore\(package\): update webpack to version 4.15.1 [\#113](https://github.com/haganbmj/obs-websocket-js/pull/113) ([haganbmj](https://github.com/haganbmj))
+- Update eslint-config-xo-space to the latest version 🚀 [\#111](https://github.com/haganbmj/obs-websocket-js/pull/111) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update eslint to the latest version 🚀 [\#110](https://github.com/haganbmj/obs-websocket-js/pull/110) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update webpack-cli to the latest version 🚀 [\#109](https://github.com/haganbmj/obs-websocket-js/pull/109) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update nyc to the latest version 🚀 [\#108](https://github.com/haganbmj/obs-websocket-js/pull/108) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
@@ -141,6 +141,7 @@
 - Update eslint-config-xo-space to the latest version 🚀 [\#84](https://github.com/haganbmj/obs-websocket-js/pull/84) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - Update coveralls to the latest version 🚀 [\#80](https://github.com/haganbmj/obs-websocket-js/pull/80) ([greenkeeper[bot]](https://github.com/apps/greenkeeper))
 - chore\(package\): update sha.js to version 2.4.9 [\#78](https://github.com/haganbmj/obs-websocket-js/pull/78) ([haganbmj](https://github.com/haganbmj))
+- Travis-CI Test + Update .gitignore [\#10](https://github.com/haganbmj/obs-websocket-js/pull/10) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.9.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.9.0) (2017-08-25)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.8.0...v0.9.0)
@@ -307,10 +308,6 @@
 - setSourceVisbility not working [\#7](https://github.com/haganbmj/obs-websocket-js/issues/7)
 - onSceneListChanged not working [\#5](https://github.com/haganbmj/obs-websocket-js/issues/5)
 - Fix Node dependency [\#4](https://github.com/haganbmj/obs-websocket-js/issues/4)
-
-**Merged pull requests:**
-
-- Travis-CI Test + Update .gitignore [\#10](https://github.com/haganbmj/obs-websocket-js/pull/10) ([haganbmj](https://github.com/haganbmj))
 
 ## [v0.2.0](https://github.com/haganbmj/obs-websocket-js/tree/v0.2.0) (2016-12-02)
 [Full Changelog](https://github.com/haganbmj/obs-websocket-js/compare/v0.1.0...v0.2.0)
