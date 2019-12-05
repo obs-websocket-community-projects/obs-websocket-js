@@ -6,6 +6,7 @@
     "file-name-casing": false,
     "no-require-imports": false,
     "no-single-line-block-comment": false,
+    "no-unsafe-any": false,
     "variable-name": [
       true,
       "ban-keywords",

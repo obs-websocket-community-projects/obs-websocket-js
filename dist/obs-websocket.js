@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2019-12-05 02:03:45+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/45953ac4a9897c4f8ca152adac383809b6b87987
+ * Build Timestamp: 2019-12-05 03:10:57+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/b39dff4088b6a544ea5bf8e7774bcfba105d70df
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -152,7 +152,7 @@ class OBSWebSocket extends Socket {
         debug('[send] %s %s %o', messageId, requestType, args);
         try {
           this._socket.send(JSON.stringify(args));
-        } catch (e) {
+        } catch (_) {
           // TODO: Consider inspecting the exception thrown to gleam some relevant info and pass that on.
           rejectReason = Status.SOCKET_EXCEPTION;
         }
@@ -173,7 +173,7 @@ class OBSWebSocket extends Socket {
    * @param  {Object}   [args={}]   request arguments.
    * @param  {Function} callback    Optional. callback(err, data)
    */
-  sendCallback(requestType, args = {}, callback) {
+  sendCallback(requestType, args = {}, callback) { // eslint-disable-line default-param-last
     // Allow the `args` argument to be omitted.
     if (callback === undefined && typeof args === 'function') {
       callback = args;
@@ -292,7 +292,6 @@ class Socket extends EventEmitter {
 
       // This handler must be present before we can call _authenticate.
       this._socket.onmessage = msg => {
-        // eslint-disable-next-line capitalized-comments
         debug('[OnMessage]: %o', msg);
         const message = camelCaseKeys(JSON.parse(msg.data));
         let err;
@@ -844,6 +843,7 @@ const SHA256 = __webpack_require__(5);
  * @param  {String} msg Message to encode.
  * @return {String} sha256 encoded string.
  */
+// eslint-disable-next-line default-param-last
 module.exports = function (salt = '', challenge = '', msg) {
   const hash = new SHA256()
     .update(msg)

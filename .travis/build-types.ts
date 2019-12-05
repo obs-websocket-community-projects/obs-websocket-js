@@ -83,7 +83,7 @@ interface OBSStatsType {
 
 const DOTS_REGEX = /\./g;
 const outFile = path.join(__dirname, '../types/index.d.ts');
-async function getLatestComments() {
+async function getLatestComments(): Promise<any> {
   const headers = {
     Authorization: `token ${process.env.GH_TOKEN}`
   };
@@ -101,12 +101,12 @@ async function getLatestComments() {
 }
 
 getLatestComments().then(rawComments => {
-  return parseApi(rawComments);
+  parseApi(rawComments);
 }).catch(error => {
   console.error(error);
 });
 
-function parseApi(raw: RawComments) {
+function parseApi(raw: RawComments): void {
   const interfaces: string[] = [];
   const requestArgs: string[] = [];
   const requestResponses: string[] = [];
@@ -230,7 +230,7 @@ declare module 'obs-websocket-js' {
   }));
 }
 
-function unflattenAndResolveTypes(inputItems: RawType[]) {
+function unflattenAndResolveTypes(inputItems: RawType[]): Tree {
   const tree: Tree = {};
 
   const items = inputItems.slice(0);
@@ -276,7 +276,7 @@ function unflattenAndResolveTypes(inputItems: RawType[]) {
       }
 
       if (currentNode.type === 'array') {
-        const arrayNode = currentNode as ArrayType;
+        const arrayNode = currentNode;
         // If the currentNode is an array, then we must be describing the items of that array.
         if (!arrayNode.items) {
           arrayNode.items = {
@@ -446,7 +446,7 @@ function resolveType(inType: string): AnyType {
   }
 }
 
-function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = true, includePrefix = true} = {}) {
+function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = true, includePrefix = true} = {}): string {
   let returnString = '';
   Object.entries(inputTypes).forEach(([key, typeDef]) => {
     if (includePrefix) {

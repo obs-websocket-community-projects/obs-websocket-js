@@ -7,7 +7,7 @@ const obs = new OBSWebSocket();
 
 test.before(async t => {
   unauthServer = await env.makeServer(4446);
-  await t.notThrows(obs.connect({
+  await t.notThrowsAsync(obs.connect({
     address: 'localhost:4446'
   }));
 });
@@ -18,7 +18,7 @@ test.after.always('cleanup', () => {
 
 test.cb('emits data when a server event occurs', t => {
   obs.on('GenericEvent', data => {
-    t.deepEqual(data.message, 'message');
+    t.is(data.message, 'message');
     t.end();
   });
 
@@ -32,7 +32,7 @@ test.cb('emits data when a server event occurs', t => {
 
 test.cb('allows registering custom event listeners', t => {
   obs.on('CustomEvent', data => {
-    t.deepEqual(data.message, 'message');
+    t.is(data.message, 'message');
     t.end();
   });
 

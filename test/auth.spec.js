@@ -37,14 +37,14 @@ test.after.always('cleanup', () => {
 
 test('connects when auth is not required', async t => {
   const obs = new OBSWebSocket();
-  await t.notThrows(obs.connect({
+  await t.notThrowsAsync(obs.connect({
     address: 'localhost:4444'
   }));
 });
 
 test('connects when auth is required', async t => {
   const obs = new OBSWebSocket();
-  await t.notThrows(obs.connect({
+  await t.notThrowsAsync(obs.connect({
     address: 'localhost:4443',
     password
   }));
@@ -52,13 +52,16 @@ test('connects when auth is required', async t => {
 
 test('fails to connect when an incorrect url is provided', async t => {
   const obs = new OBSWebSocket();
-  const resp = await t.throws(obs.connect({
-    address: 'localhost:4442'
-  }));
-
-  t.deepEqual(resp.status, 'error');
-  t.deepEqual(resp.code, 'CONNECTION_ERROR');
-  t.deepEqual(resp.error, 'Connection error.');
+  try {
+    await obs.connect({
+      address: 'localhost:4442'
+    });
+    t.fail('expected promise rejection');
+  } catch (e) {
+    t.is(e.status, 'error');
+    t.is(e.code, 'CONNECTION_ERROR');
+    t.is(e.error, 'Connection error.');
+  }
 });
 
 test.cb('rejects a promise when a connection fails', t => {
@@ -68,21 +71,24 @@ test.cb('rejects a promise when a connection fails', t => {
   }).then(() => {
     t.fail('Expected a promise rejection when a connection cannot be established.');
   }).catch(err => {
-    t.deepEqual(err.status, 'error');
-    t.deepEqual(err.code, 'CONNECTION_ERROR');
-    t.deepEqual(err.error, 'Connection error.');
+    t.is(err.status, 'error');
+    t.is(err.code, 'CONNECTION_ERROR');
+    t.is(err.error, 'Connection error.');
     t.end();
   });
 });
 
 test('fails to connect when the wrong password is provided', async t => {
   const obs = new OBSWebSocket();
-  const resp = await t.throws(obs.connect({
-    address: 'localhost:4443',
-    password: 'wrong_password'
-  }));
-
-  t.deepEqual(resp.error, 'authentication failed');
+  try {
+    await obs.connect({
+      address: 'localhost:4443',
+      password: 'wrong_password'
+    });
+    t.fail('expected promise rejection');
+  } catch (e) {
+    t.is(e.error, 'authentication failed');
+  }
 });
 
 test.cb('emits ConnectionOpened', t => {
@@ -157,10 +163,10 @@ test.cb('emits error when an unhandled socket error occurs', t => {
     errorCount += 1;
     switch (errorCount) {
       case 1:
-        t.deepEqual(error, 'first error message');
+        t.is(error, 'first error message');
         break;
       case 2:
-        t.deepEqual(error, 'second error message');
+        t.is(error, 'second error message');
         t.end();
         break;
       default:
@@ -173,6 +179,7 @@ test.cb('emits error when an unhandled socket error occurs', t => {
   });
 });
 
+// eslint-disable-next-line quotes
 test.cb(`emits 'message' when an unrecognized socket message is received`, t => {
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
@@ -184,7 +191,7 @@ test.cb(`emits 'message' when an unrecognized socket message is received`, t => 
   });
 
   obs2.on('message', msg => {
-    t.deepEqual(msg.message, 'message');
+    t.is(msg.message, 'message');
     t.end();
   });
 
@@ -208,13 +215,13 @@ test('closes an existing connection when `connect` is called again', async t => 
     open = false;
   });
 
-  await t.notThrows(obs.connect({
+  await t.notThrowsAsync(obs.connect({
     address: 'localhost:4444'
   }));
 
   t.true(open);
 
-  await t.notThrows(obs.connect({
+  await t.notThrowsAsync(obs.connect({
     address: 'localhost:4444'
   }));
 
