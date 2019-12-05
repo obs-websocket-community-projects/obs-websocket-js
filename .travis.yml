@@ -24,10 +24,15 @@ script:
   - npm run build
   - npm test
 
-after_success:
-  - bash ./.travis/gh-pages.sh
-  - npm run node-coveralls
-
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
+
+jobs:
+  include:
+    - stage: deploy
+      script:
+        - npm run build
+        - bash ./.travis/gh-pages.sh
+        - npm run node-coveralls
+      node_js: 10
