@@ -24,7 +24,7 @@ module.exports = {
     path: path.join(__dirname, '/dist'),
     filename: '[name].js',
     library: 'OBSWebSocket',
-    libraryTarget: 'commonjs-module'
+    libraryTarget: 'umd'
   },
   devtool: 'source-map',
   plugins: [
