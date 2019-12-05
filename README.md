@@ -62,13 +62,13 @@ _Note that all response objects will supply both the original [obs-websocket][li
 
 ```js
 // Promise API
-obs.send('RequestName', {args}) returns Promise
+obs.send('RequestName', {args}) // returns Promise
 
 // Callback API
-obs.sendCallback('RequestName', {args}, callback(err, data)) no return value
+obs.sendCallback('RequestName', {args}, callback(err, data)) // no return value
 
 // The following are additional supported requests.
-obs.connect({ address: 'address', password: 'password' }) returns Promise
+obs.connect({ address: 'address', password: 'password' }) // returns Promise
 obs.disconnect();
 ```
 
