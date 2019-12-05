@@ -61,6 +61,28 @@ declare module "obs-websocket-js" {
       "free-disk-space": number;
     }
 
+    interface Output {
+      name: string;
+      totalBytes: number;
+      width: number;
+      height: number;
+      flags: {
+        service: boolean;
+        encoded: boolean;
+        video: boolean;
+        audio: boolean;
+        rawValue: number;
+        multiTrack: boolean;
+      };
+      droppedFrames: number;
+      totalFrames: number;
+      congestion: number;
+      reconnecting: boolean;
+      type: string;
+      active: boolean;
+      settings: {};
+    }
+
     interface Scene {
       name: string;
       sources: ObsWebSocket.SceneItem[];
@@ -82,7 +104,17 @@ declare module "obs-websocket-js" {
 
     GetStats: void;
 
+    BroadcastCustomMessage: { realm: string; data: {} };
+
     GetVideoInfo: void;
+
+    ListOutputs: void;
+
+    GetOutputInfo: { outputName: string };
+
+    StartOutput: { outputName: string };
+
+    StopOutput: { outputName: string; force?: boolean };
 
     SetCurrentProfile: { "profile-name": string };
 
@@ -95,6 +127,10 @@ declare module "obs-websocket-js" {
     StartRecording: void;
 
     StopRecording: void;
+
+    PauseRecording: void;
+
+    ResumeRecording: void;
 
     SetRecordingFolder: { "rec-folder": string };
 
@@ -272,6 +308,8 @@ declare module "obs-websocket-js" {
 
     GetSourceFilters: { sourceName: string };
 
+    GetSourceFilterInfo: { sourceName: string; filterName: string };
+
     AddFilterToSource: {
       sourceName: string;
       filterName: string;
@@ -297,6 +335,12 @@ declare module "obs-websocket-js" {
       sourceName: string;
       filterName: string;
       filterSettings: {};
+    };
+
+    SetSourceFilterVisibility: {
+      sourceName: string;
+      filterName: string;
+      filterEnabled: string;
     };
 
     TakeSourceScreenshot: {
@@ -404,6 +448,8 @@ declare module "obs-websocket-js" {
 
     GetStats: { messageId: string; status: "ok"; stats: ObsWebSocket.OBSStats };
 
+    BroadcastCustomMessage: void;
+
     GetVideoInfo: {
       messageId: string;
       status: "ok";
@@ -417,6 +463,18 @@ declare module "obs-websocket-js" {
       colorSpace: string;
       colorRange: string;
     };
+
+    ListOutputs: {
+      messageId: string;
+      status: "ok";
+      outputs: Array<{ [k: string]: any }>;
+    };
+
+    GetOutputInfo: { messageId: string; status: "ok"; outputInfo: {} };
+
+    StartOutput: void;
+
+    StopOutput: void;
 
     SetCurrentProfile: void;
 
@@ -437,6 +495,10 @@ declare module "obs-websocket-js" {
     StartRecording: void;
 
     StopRecording: void;
+
+    PauseRecording: void;
+
+    ResumeRecording: void;
 
     SetRecordingFolder: void;
 
@@ -529,7 +591,7 @@ declare module "obs-websocket-js" {
     GetSourceTypesList: {
       messageId: string;
       status: "ok";
-      ids: { isAsync: boolean }[];
+      types: { isAsync: boolean }[];
     };
 
     GetVolume: {
@@ -651,6 +713,15 @@ declare module "obs-websocket-js" {
 
     GetSourceFilters: { messageId: string; status: "ok"; filters: {}[] };
 
+    GetSourceFilterInfo: {
+      messageId: string;
+      status: "ok";
+      enabled: boolean;
+      type: string;
+      name: string;
+      settings: {};
+    };
+
     AddFilterToSource: void;
 
     RemoveFilterFromSource: void;
@@ -660,6 +731,8 @@ declare module "obs-websocket-js" {
     MoveSourceFilter: void;
 
     SetSourceFilterSettings: void;
+
+    SetSourceFilterVisibility: void;
 
     TakeSourceScreenshot: {
       messageId: string;
@@ -820,6 +893,10 @@ declare module "obs-websocket-js" {
 
     RecordingStopped: void;
 
+    RecordingPaused: void;
+
+    RecordingResumed: void;
+
     ReplayStarting: void;
 
     ReplayStarted: void;
@@ -845,6 +922,8 @@ declare module "obs-websocket-js" {
       stats: ObsWebSocket.OBSStats;
     };
 
+    BroadcastCustomMessage: { realm: string; data: {} };
+
     SourceCreated: {
       sourceName: string;
       sourceType: string;
@@ -866,7 +945,7 @@ declare module "obs-websocket-js" {
 
     SourceAudioMixersChanged: {
       sourceName: string;
-      routingStatus: boolean[];
+      mixers: boolean[];
       hexMixersValue: string;
     };
 
@@ -883,6 +962,12 @@ declare module "obs-websocket-js" {
       sourceName: string;
       filterName: string;
       filterType: string;
+    };
+
+    SourceFilterVisibilityChanged: {
+      sourceName: string;
+      filterName: string;
+      filterEnabled: boolean;
     };
 
     SourceFiltersReordered: { sourceName: string; filters: string[] };

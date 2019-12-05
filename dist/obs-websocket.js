@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2019-10-24 16:35:20+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/d4564f41d0971cde0e543df9f31e5a498194452c
+ * Build Timestamp: 2019-12-05 01:40:05+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/91fec0b9f07b16173d5d6f4233fd8465deed90cc
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -1192,7 +1192,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 /* WEBPACK VAR INJECTION */(function(global) {/*!
  * The buffer module from node.js, for the browser.
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @author   Feross Aboukhadijeh <http://feross.org>
  * @license  MIT
  */
 /* eslint-disable no-proto */
@@ -3079,7 +3079,8 @@ function toByteArray (b64) {
     ? validLen - 4
     : validLen
 
-  for (var i = 0; i < len; i += 4) {
+  var i
+  for (i = 0; i < len; i += 4) {
     tmp =
       (revLookup[b64.charCodeAt(i)] << 18) |
       (revLookup[b64.charCodeAt(i + 1)] << 12) |
