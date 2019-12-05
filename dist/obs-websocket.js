@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2019-12-05 03:35:54+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/a4b515c02133034607ac3f768ac7e60b3d504490
+ * Build Timestamp: 2019-12-05 03:51:37+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/5521364a8dc68c5638817b68cb24dd8797208665
  */
 var OBSWebSocket =
 /******/ (function(modules) { // webpackBootstrap
@@ -197,8 +197,8 @@ module.exports = OBSWebSocket;
 /***/ (function(module, exports, __webpack_require__) {
 
 const WebSocket = __webpack_require__(2);
-const EventEmitter = __webpack_require__(3);
-const hash = __webpack_require__(4);
+const EventEmitter = __webpack_require__(4);
+const hash = __webpack_require__(5);
 const Status = __webpack_require__(14);
 const debug = __webpack_require__(15)('obs-websocket-js:Socket');
 const logAmbiguousError = __webpack_require__(19);
@@ -370,12 +370,56 @@ module.exports = Socket;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = WebSocket;
+/* WEBPACK VAR INJECTION */(function(global) {// https://github.com/maxogden/websocket-stream/blob/48dc3ddf943e5ada668c31ccd94e9186f02fafbd/ws-fallback.js
+
+var ws = null
+
+if (typeof WebSocket !== 'undefined') {
+  ws = WebSocket
+} else if (typeof MozWebSocket !== 'undefined') {
+  ws = MozWebSocket
+} else if (typeof global !== 'undefined') {
+  ws = global.WebSocket || global.MozWebSocket
+} else if (typeof window !== 'undefined') {
+  ws = window.WebSocket || window.MozWebSocket
+} else if (typeof self !== 'undefined') {
+  ws = self.WebSocket || self.MozWebSocket
+}
+
+module.exports = ws
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(3)))
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -830,10 +874,10 @@ function unwrapListeners(arr) {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const SHA256 = __webpack_require__(5);
+const SHA256 = __webpack_require__(6);
 
 /**
  * SHA256 Hashing.
@@ -860,7 +904,7 @@ module.exports = function (salt = '', challenge = '', msg) {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -871,9 +915,9 @@ module.exports = function (salt = '', challenge = '', msg) {
  *
  */
 
-var inherits = __webpack_require__(6)
-var Hash = __webpack_require__(7)
-var Buffer = __webpack_require__(8).Buffer
+var inherits = __webpack_require__(7)
+var Hash = __webpack_require__(8)
+var Buffer = __webpack_require__(9).Buffer
 
 var K = [
   0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5,
@@ -1001,7 +1045,7 @@ module.exports = Sha256
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 if (typeof Object.create === 'function') {
@@ -1030,10 +1074,10 @@ if (typeof Object.create === 'function') {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Buffer = __webpack_require__(8).Buffer
+var Buffer = __webpack_require__(9).Buffer
 
 // prototype class for hash functions
 function Hash (blockSize, finalSize) {
@@ -1117,11 +1161,11 @@ module.exports = Hash
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* eslint-disable node/no-deprecated-api */
-var buffer = __webpack_require__(9)
+var buffer = __webpack_require__(10)
 var Buffer = buffer.Buffer
 
 // alternative to using Object.keys for old browsers
@@ -1185,7 +1229,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2979,33 +3023,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(10)))
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(3)))
 
 /***/ }),
 /* 11 */
