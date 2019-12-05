@@ -88,6 +88,10 @@ async function getLatestComments(): Promise<any> {
     Authorization: `token ${process.env.GH_TOKEN}`
   };
 
+  if (!process.env.GH_TOKEN) {
+    delete headers.Authorization;
+  }
+
   const latestReleaseResponse = await got('https://api.github.com/repos/Palakis/obs-websocket/releases/latest', {
     json: true,
     headers
