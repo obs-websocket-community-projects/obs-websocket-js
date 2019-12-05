@@ -21,15 +21,15 @@
         });
       });
 
-      obs.onConnectionOpened(() => {
-        obs.getSceneList().then(data => {
+      obs.on('ConnectionOpened', () => {
+        obs.send('GetSceneList').then(data => {
           const sceneListDiv = document.getElementById('scene_list');
 
           data.scenes.forEach(scene => {
             const sceneElement = document.createElement('button');
             sceneElement.textContent = scene.name;
             sceneElement.onclick = function() {
-              obs.setCurrentScene({
+              obs.send('SetCurrentScene', {
                 'scene-name': scene.name
               });
             };

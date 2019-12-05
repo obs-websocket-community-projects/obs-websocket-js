@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "obs-websocket-js": "^0.6.1"
+    "obs-websocket-js": "^4.0.0"
   }
 }
