@@ -23,6 +23,7 @@ before_script:
 script:
   - npm run build
   - npm test
+  - npm run node-coveralls
 
 branches:
   except:
@@ -34,5 +35,4 @@ jobs:
       script:
         - npm run build
         - bash ./.travis/gh-pages.sh
-        - npm run node-coveralls
       node_js: 10
