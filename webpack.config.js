@@ -25,9 +25,6 @@ module.exports = {
     filename: '[name].js',
     library: 'OBSWebSocket'
   },
-  externals: {
-    ws: 'WebSocket'
-  },
   devtool: 'source-map',
   plugins: [
     new BabiliPlugin({}, {
