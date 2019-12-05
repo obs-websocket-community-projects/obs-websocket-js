@@ -32,7 +32,8 @@ git reset upstream/$TARGET_BRANCH
 
 # Add all files & ./dist to the new commit.
 git add -A
-git add CHANGELOG.md ./dist ./types/index.d.ts -f
+# git add CHANGELOG.md ./dist ./types/index.d.ts -f
+git add ./dist ./types/index.d.ts -f
 
 git commit -m "${TARGET_BRANCH}: (${VERSION}) ${SHA}"
 git push -q upstream HEAD:$TARGET_BRANCH
