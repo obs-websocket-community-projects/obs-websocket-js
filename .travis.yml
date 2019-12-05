@@ -32,6 +32,7 @@ branches:
 jobs:
   include:
     - stage: deploy
+      if: branch = master
       script:
         - npm run build
         - bash ./.travis/gh-pages.sh
