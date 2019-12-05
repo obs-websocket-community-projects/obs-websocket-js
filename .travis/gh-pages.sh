@@ -27,8 +27,8 @@ git fetch upstream
 git reset upstream/$TARGET_BRANCH
 
 # Generate a Changelog.
-gem install github_changelog_generator
-github_changelog_generator -u haganbmj -p obs-websocket-js $RELEASE
+# gem install github_changelog_generator
+# github_changelog_generator -u haganbmj -p obs-websocket-js $RELEASE
 
 # Add all files & ./dist to the new commit.
 git add -A
