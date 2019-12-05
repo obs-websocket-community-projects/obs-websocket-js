@@ -26,9 +26,6 @@ module.exports = {
     library: 'OBSWebSocket',
     libraryTarget: 'commonjs-module'
   },
-  externals: {
-    ws: 'WebSocket'
-  },
   devtool: 'source-map',
   plugins: [
     new BabiliPlugin({}, {
