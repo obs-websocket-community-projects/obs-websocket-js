@@ -36,7 +36,7 @@ interface Tree {
   [k: string]: AnyType;
 }
 
-type AnyType = PrimitiveType | ObjectType | ArrayType | SceneType | SceneItemType | SceneItemTransformType | OBSStatsType;
+type AnyType = PrimitiveType | ObjectType | OutputType | ArrayType | SceneType | SceneItemType | SceneItemTransformType | OBSStatsType;
 
 interface PrimitiveType {
   type: 'string' | 'number' | 'boolean';
@@ -49,9 +49,15 @@ interface ObjectType {
   optional: boolean;
 }
 
+interface OutputType {
+  type: 'object';
+  properties: Tree;
+  optional: boolean;
+}
+
 interface ArrayType {
   type: 'array';
-  items: PrimitiveType | ObjectType | SceneType | SceneItemType | SceneItemTransformType;
+  items: PrimitiveType | ObjectType | OutputType | SceneType | SceneItemType | SceneItemTransformType;
   optional: boolean;
 }
 
@@ -376,6 +382,16 @@ function resolveType(inType: string): AnyType {
         },
         optional: isOptional
       };
+    case 'array<output>':
+      return {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {},
+          optional: true
+        },
+        optional: isOptional
+      };
     case 'array<scene>':
       return {
         type: 'array',
@@ -414,6 +430,12 @@ function resolveType(inType: string): AnyType {
         optional: isOptional
       };
     case 'object':
+      return {
+        type: 'object',
+        properties: {},
+        optional: isOptional
+      };
+    case 'output':
       return {
         type: 'object',
         properties: {},
