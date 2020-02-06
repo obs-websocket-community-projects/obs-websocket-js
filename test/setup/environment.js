@@ -19,8 +19,8 @@ const onMessage = function (server, message) {
   return JSON.stringify(reply);
 };
 
-async function makeServer(port) {
-  const server = await new WebSocket.Server({port}, err => {
+function makeServer(port) {
+  const server = new WebSocket.Server({port}, err => {
     if (err) {
       throw err;
     }

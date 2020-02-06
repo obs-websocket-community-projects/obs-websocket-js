@@ -6,7 +6,7 @@ let unauthServer;
 const obs = new OBSWebSocket();
 
 test.before(async t => {
-  unauthServer = await env.makeServer(4446);
+  unauthServer = env.makeServer(4446);
   await t.notThrowsAsync(obs.connect({
     address: 'localhost:4446'
   }));
