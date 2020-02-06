@@ -8,9 +8,9 @@ let authServer;
 
 const password = 'supersecretpassword';
 
-test.before(async () => {
-  unauthServer = await env.makeServer(4444);
-  authServer = await env.makeServer(4443);
+test.before(() => {
+  unauthServer = env.makeServer(4444);
+  authServer = env.makeServer(4443);
 
   const salt = 'PZVbYpvAnZut2SS6JNJytDm9';
   const challenge = 'ztTBnnuqrqaKDzRM3xcVdbYm';
