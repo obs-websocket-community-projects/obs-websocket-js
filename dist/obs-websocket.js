@@ -1,10 +1,10 @@
 /*!
- * OBS WebSocket Javascript API (obs-websocket-js) v4.0.0
+ * OBS WebSocket Javascript API (obs-websocket-js) v4.0.1
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2020-02-06 21:31:42+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/474c77f3ce505952d8233b846177fb8001e02ef7
+ * Build Timestamp: 2020-02-06 21:35:02+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/ce3f98c979d2a06c678848e3cf75454bce7a04d9
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
