@@ -2,6 +2,7 @@ const test = require('ava');
 const env = require('./setup/environment');
 const OBSWebSocket = require('..');
 const SHA256 = require('sha.js/sha256');
+const WebSocket = require('ws');
 
 let unauthServer;
 let authServer;
@@ -226,4 +227,24 @@ test('closes an existing connection when `connect` is called again', async t => 
   }));
 
   t.true(open);
+});
+
+test('closes in-flight sockets when `connect` is called', async t => {
+  const obs = new OBSWebSocket();
+  obs._connected = false;
+
+  // A minimal stub of a socket that is currently connecting.
+  let closeCalled = 0;
+  obs._socket = {
+    readyState: WebSocket.CONNECTING,
+    close() {
+      closeCalled++;
+    }
+  };
+
+  await t.notThrowsAsync(obs.connect({
+    address: 'localhost:4444'
+  }));
+
+  t.is(closeCalled, 1);
 });
