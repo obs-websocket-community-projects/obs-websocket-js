@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2020-02-06 21:29:48+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/adeb28e32e4d2fd9d8f887c4fbd7159d2613b6a6
+ * Build Timestamp: 2020-02-06 21:31:42+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/474c77f3ce505952d8233b846177fb8001e02ef7
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -230,8 +230,16 @@ class Socket extends EventEmitter {
     args = args || {};
     const address = args.address || 'localhost:4444';
 
-    if (this._connected) {
-      this._socket.close();
+    if (this._socket) {
+      try {
+        // Blindly try to close the socket.
+        // Don't care if its already closed.
+        // We just don't want any sockets to leak.
+        this._socket.close();
+      } catch (error) {
+        // These errors are probably safe to ignore, but debug log them just in case.
+        debug('Failed to close previous WebSocket:', error.message);
+      }
     }
 
     // eslint-disable-next-line no-async-promise-executor
