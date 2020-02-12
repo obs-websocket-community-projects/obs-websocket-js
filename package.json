@@ -52,7 +52,7 @@
     "cross-env": "^6.0.3",
     "dtslint": "^2.0.2",
     "eslint": "^6.7.2",
-    "eslint-config-xo-space": "^0.22.0",
+    "eslint-config-xo-space": "^0.24.0",
     "eslint-plugin-ava": "^10.0.1",
     "got": "^9.6.0",
     "lodash.deburr": "^4.1.0",
