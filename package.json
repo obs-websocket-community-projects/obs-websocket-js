@@ -49,7 +49,7 @@
     "ava": "^3.2.0",
     "babili-webpack-plugin": "^0.1.2",
     "coveralls": "^3.0.9",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.1",
     "dtslint": "^2.0.2",
     "eslint": "^6.7.2",
     "eslint-config-xo-space": "^0.22.0",
