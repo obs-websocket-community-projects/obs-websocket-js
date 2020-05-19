@@ -50,7 +50,7 @@
     "babili-webpack-plugin": "^0.1.2",
     "coveralls": "^3.0.9",
     "cross-env": "^6.0.3",
-    "dtslint": "^2.0.2",
+    "dtslint": "^3.6.3",
     "eslint": "^6.7.2",
     "eslint-config-xo-space": "^0.22.0",
     "eslint-plugin-ava": "^10.0.1",
