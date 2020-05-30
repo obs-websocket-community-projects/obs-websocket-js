@@ -44,7 +44,7 @@
   "devDependencies": {
     "@types/got": "^9.6.9",
     "@types/lodash.deburr": "^4.1.6",
-    "@types/node": "^10.17.6",
+    "@types/node": "^14.0.6",
     "@types/prettier": "^1.19.0",
     "ava": "^3.2.0",
     "babili-webpack-plugin": "^0.1.2",
