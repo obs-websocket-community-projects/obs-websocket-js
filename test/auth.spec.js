@@ -155,7 +155,6 @@ test.cb('emits error when an unhandled socket error occurs', t => {
   obs2.on('ConnectionOpened', () => {
     obs2._socket.onerror('first error message');
     obs2._socket.onerror('second error message');
-    t.end();
   });
 
   let errorCount = 0;
