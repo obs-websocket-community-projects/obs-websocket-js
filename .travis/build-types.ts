@@ -204,7 +204,7 @@ declare module 'obs-websocket-js' {
   }
 
   class ObsWebSocket extends EventEmitter {
-    connect(options?: {address?: string; password?: string}, callback?: (error?: Error) => void): Promise<void>;
+    connect(options?: {address?: string; password?: string; secure?: boolean}, callback?: (error?: Error) => void): Promise<void>;
     disconnect(): void;
 
     send<K extends keyof RequestMethodsArgsMap>(
