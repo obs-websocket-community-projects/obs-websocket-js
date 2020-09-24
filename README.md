@@ -78,13 +78,17 @@ _Note that all response objects will supply both the original [obs-websocket][li
 - EventName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.
 
 ```js
-obs.on('EventName', callback(data));
+const callback = (data) => {
+	console.log(data);
+};
+
+obs.on('EventName', (data) => callback(data));
 
 // The following are additional supported events.
-obs.on('ConnectionOpened', callback(data));
-obs.on('ConnectionClosed', callback(data));
-obs.on('AuthenticationSuccess', callback(data));
-obs.on('AuthenticationFailure', callback(data));
+obs.on('ConnectionOpened', (data) => callback(data));
+obs.on('ConnectionClosed', (data) => callback(data));
+obs.on('AuthenticationSuccess', (data) => callback(data));
+obs.on('AuthenticationFailure', (data) => callback(data));
 ```
 
 #### Handling Errors
