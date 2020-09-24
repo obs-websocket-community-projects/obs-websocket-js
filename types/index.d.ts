@@ -17,14 +17,16 @@ declare module "obs-websocket-js" {
     }
 
     interface SceneItem {
-      source_cy: number;
+      source_cx: number;
       cy: number;
+      alignment: number;
       name: string;
       id: number;
       render: boolean;
+      muted: boolean;
       locked: boolean;
-      source_cx: number;
       cx: number;
+      source_cy: number;
       type: string;
       volume: number;
       x: number;
@@ -108,6 +110,13 @@ declare module "obs-websocket-js" {
 
     GetVideoInfo: void;
 
+    OpenProjector: {
+      type?: string;
+      monitor?: number;
+      geometry?: string;
+      name?: string;
+    };
+
     ListOutputs: void;
 
     GetOutputInfo: { outputName: string };
@@ -150,26 +159,32 @@ declare module "obs-websocket-js" {
 
     ListSceneCollections: void;
 
-    GetSceneItemProperties: { "scene-name"?: string; item: string };
+    GetSceneItemProperties: {
+      "scene-name"?: string;
+      item: { name?: string; id?: number };
+    };
 
     SetSceneItemProperties: {
       "scene-name"?: string;
       rotation?: number;
-      item: string;
+      item: { name?: string; id?: number };
       visible?: boolean;
       locked?: boolean;
+      position: { y?: number; alignment?: number; x?: number };
       bounds: { y?: number; type?: string; alignment?: number; x?: number };
       scale: { x?: number; y?: number };
-      crop: { top?: number; left?: number; right?: number; bottom?: number };
-      position: { x?: number; y?: number; alignment?: number };
+      crop: { bottom?: number; left?: number; right?: number; top?: number };
     };
 
-    ResetSceneItem: { "scene-name"?: string; item: string };
+    ResetSceneItem: {
+      "scene-name"?: string;
+      item: { name?: string; id?: number };
+    };
 
     SetSceneItemRender: {
+      "scene-name"?: string;
       source: string;
       render: boolean;
-      "scene-name"?: string;
     };
 
     SetSceneItemPosition: {
@@ -216,19 +231,31 @@ declare module "obs-websocket-js" {
       "items[]": { id?: number; name?: string };
     };
 
+    SetSceneTransitionOverride: {
+      sceneName: string;
+      transitionName: string;
+      transitionDuration?: number;
+    };
+
+    RemoveSceneTransitionOverride: { sceneName: string };
+
+    GetSceneTransitionOverride: { sceneName: string };
+
     GetSourcesList: void;
 
     GetSourceTypesList: void;
 
-    GetVolume: { source: string };
+    GetVolume: { source: string; useDecibel?: boolean };
 
-    SetVolume: { source: string; volume: number };
+    SetVolume: { source: string; volume: number; useDecibel?: boolean };
 
     GetMute: { source: string };
 
     SetMute: { source: string; mute: boolean };
 
     ToggleMute: { source: string };
+
+    SetSourceName: { sourceName: string; newName: string };
 
     SetSyncOffset: { source: string; offset: number };
 
@@ -340,13 +367,19 @@ declare module "obs-websocket-js" {
     SetSourceFilterVisibility: {
       sourceName: string;
       filterName: string;
-      filterEnabled: string;
+      filterEnabled: boolean;
     };
+
+    GetAudioMonitorType: { sourceName: string };
+
+    SetAudioMonitorType: { sourceName: string; monitorType: string };
 
     TakeSourceScreenshot: {
       sourceName: string;
       embedPictureFormat?: string;
       saveToFilePath?: string;
+      fileFormat?: string;
+      compressionQuality?: number;
       width?: number;
       height?: number;
     };
@@ -362,7 +395,7 @@ declare module "obs-websocket-js" {
         settings?: {
           server?: string;
           key?: string;
-          "use-auth"?: boolean;
+          use_auth?: boolean;
           username?: string;
           password?: string;
         };
@@ -376,7 +409,7 @@ declare module "obs-websocket-js" {
       settings: {
         server?: string;
         key?: string;
-        "use-auth"?: boolean;
+        use_auth?: boolean;
         username?: string;
         password?: string;
       };
@@ -414,6 +447,8 @@ declare module "obs-websocket-js" {
     SetTransitionDuration: { duration: number };
 
     GetTransitionDuration: void;
+
+    GetTransitionPosition: void;
   }
 
   interface RequestMethodReturnMap {
@@ -424,6 +459,7 @@ declare module "obs-websocket-js" {
       "obs-websocket-version": string;
       "obs-studio-version": string;
       "available-requests": string;
+      "supported-image-export-formats": string;
     };
 
     GetAuthRequired: {
@@ -463,6 +499,8 @@ declare module "obs-websocket-js" {
       colorSpace: string;
       colorRange: string;
     };
+
+    OpenProjector: void;
 
     ListOutputs: {
       messageId: string;
@@ -533,18 +571,23 @@ declare module "obs-websocket-js" {
     GetSceneItemProperties: {
       messageId: string;
       status: "ok";
+      muted: boolean;
       name: string;
+      parentGroupName?: string;
+      alignment: number;
       height: number;
+      rotation: number;
       width: number;
       sourceHeight: number;
-      rotation: number;
       sourceWidth: number;
       locked: boolean;
+      itemId: number;
       visible: boolean;
-      bounds: { alignment: number; type: string; x: number; y: number };
-      crop: { right: number; top: number; bottom: number; left: number };
-      position: { x: number; alignment: number; y: number };
+      groupChildren?: ObsWebSocket.SceneItemTransform[];
+      crop: { left: number; right: number; bottom: number; top: number };
+      bounds: { type: string; alignment: number; x: number; y: number };
       scale: { y: number; x: number };
+      position: { alignment: number; y: number; x: number };
     };
 
     SetSceneItemProperties: void;
@@ -586,6 +629,17 @@ declare module "obs-websocket-js" {
 
     ReorderSceneItems: void;
 
+    SetSceneTransitionOverride: void;
+
+    RemoveSceneTransitionOverride: void;
+
+    GetSceneTransitionOverride: {
+      messageId: string;
+      status: "ok";
+      transitionName: string;
+      transitionDuration: number;
+    };
+
     GetSourcesList: { messageId: string; status: "ok"; sources: string[] };
 
     GetSourceTypesList: {
@@ -609,6 +663,8 @@ declare module "obs-websocket-js" {
     SetMute: void;
 
     ToggleMute: void;
+
+    SetSourceName: void;
 
     SetSyncOffset: void;
 
@@ -734,6 +790,14 @@ declare module "obs-websocket-js" {
 
     SetSourceFilterVisibility: void;
 
+    GetAudioMonitorType: {
+      messageId: string;
+      status: "ok";
+      monitorType: string;
+    };
+
+    SetAudioMonitorType: void;
+
     TakeSourceScreenshot: {
       messageId: string;
       status: "ok";
@@ -767,7 +831,7 @@ declare module "obs-websocket-js" {
       settings: {
         server: string;
         key: string;
-        "use-auth": boolean;
+        use_auth: boolean;
         username: string;
         password: string;
       };
@@ -823,6 +887,12 @@ declare module "obs-websocket-js" {
       status: "ok";
       "transition-duration": number;
     };
+
+    GetTransitionPosition: {
+      messageId: string;
+      status: "ok";
+      position: number;
+    };
   }
 
   interface EventHandlersDataMap {
@@ -846,6 +916,22 @@ declare module "obs-websocket-js" {
 
     TransitionBegin: {
       name: string;
+      type: string;
+      duration: number;
+      "from-scene": string;
+      "to-scene": string;
+    };
+
+    TransitionEnd: {
+      name: string;
+      type: string;
+      duration: number;
+      "to-scene": string;
+    };
+
+    TransitionVideoEnd: {
+      name: string;
+      type: string;
       duration: number;
       "from-scene": string;
       "to-scene": string;
@@ -949,7 +1035,11 @@ declare module "obs-websocket-js" {
       hexMixersValue: string;
     };
 
-    SourceRenamed: { previousName: string; newName: string };
+    SourceRenamed: {
+      previousName: string;
+      newName: string;
+      sourceType: string;
+    };
 
     SourceFilterAdded: {
       sourceName: string;
@@ -991,6 +1081,13 @@ declare module "obs-websocket-js" {
       "item-name": string;
       "item-id": number;
       "item-visible": boolean;
+    };
+
+    SceneItemLockChanged: {
+      "scene-name": string;
+      "item-name": string;
+      "item-id": number;
+      "item-locked": boolean;
     };
 
     SceneItemTransformChanged: {

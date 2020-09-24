@@ -433,6 +433,7 @@ function resolveType(inType: string): AnyType {
         type: 'ObsWebSocket.OBSStats',
         optional: isOptional
       };
+    case 'string | object':
     case 'object':
       return {
         type: 'object',

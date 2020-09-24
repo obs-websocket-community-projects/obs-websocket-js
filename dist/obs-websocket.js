@@ -3,8 +3,8 @@
  * Author: Brendan Hagan (haganbmj)
  * License: MIT
  * Repository: https://github.com/haganbmj/obs-websocket-js
- * Build Timestamp: 2020-05-21 16:52:03+00:00
- * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/ce3f98c979d2a06c678848e3cf75454bce7a04d9
+ * Build Timestamp: 2020-09-24 01:21:13+00:00
+ * Built from Commit: https://github.com/haganbmj/obs-websocket-js/commit/a69251a33137cc8979c9156bc8e4ee22b50fc92f
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
