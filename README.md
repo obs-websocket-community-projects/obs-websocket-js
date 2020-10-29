@@ -225,6 +225,7 @@ obs.on('SwitchScenes');
 _To add your project to this list, submit a Pull Request._
 - [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
 - [nodecg/nodecg-obs](https://github.com/nodecg/nodecg-obs)
+- [OBS Banana controller](https://github.com/sernaleon/obs-banana-streamdeck)
 
 ## [Contributing Guidelines][link-contributing]
 
