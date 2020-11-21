@@ -196,6 +196,7 @@ declare module 'obs-websocket-js' {
   }
 
   interface EventHandlersDataMap {
+    "error": string;
     "ConnectionOpened": void;
     "ConnectionClosed": void;
     "AuthenticationSuccess": void;
