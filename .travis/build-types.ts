@@ -50,7 +50,7 @@ interface ObjectType {
 }
 
 interface OutputType {
-  type: 'object';
+  type: 'ObsWebSocket.Output';
   properties: Tree;
   optional: boolean;
 }
@@ -402,7 +402,7 @@ function resolveType(inType: string): AnyType {
       return {
         type: 'array',
         items: {
-          type: 'object',
+          type: 'ObsWebSocket.Output',
           properties: {},
           optional: true
         },
@@ -454,14 +454,14 @@ function resolveType(inType: string): AnyType {
         type: 'ObsWebSocket.OBSStats',
         optional: isOptional
       };
+      case 'output':
+        return {
+          type: 'ObsWebSocket.Output',
+          properties: {},
+          optional: isOptional
+        };
     case 'string | object':
     case 'object':
-      return {
-        type: 'object',
-        properties: {},
-        optional: isOptional
-      };
-    case 'output':
       return {
         type: 'object',
         properties: {},
