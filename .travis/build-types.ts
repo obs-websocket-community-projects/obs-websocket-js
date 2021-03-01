@@ -321,11 +321,14 @@ function unflattenAndResolveTypes(inputItems: RawType[]): Tree {
 
         const firstIntermediate = (currentNode as any)[nodeName];
         if (firstIntermediate.type === 'array') {
-          firstIntermediate.items = {
-            type: 'object',
-            properties: {},
-            optional: false
-          };
+          // Not sure if needed at all, but was here before and causing issues, so added a check.
+          if (!firstIntermediate.items.properties) {
+            firstIntermediate.items = {
+              type: 'object',
+              properties: {},
+              optional: true // Matches the "array<object>" case in "resolveType".
+            };
+          }
           currentNode = firstIntermediate.items.properties;
         } else {
           currentNode = firstIntermediate.properties;
@@ -487,7 +490,7 @@ function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = t
       if (typeDef.items) {
         if (typeDef.items.type === 'object') {
           if (Object.keys(typeDef.items.properties).length > 0) {
-            returnString += `${stringifyTypes(typeDef.items.properties, {includePrefix: false, terminator: ''})}[]`;
+            returnString += `{ ${stringifyTypes(typeDef.items.properties)} }[]`;
           } else {
             returnString += 'Array<{[k: string]: any}>';
           }
