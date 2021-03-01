@@ -138,7 +138,7 @@ function parseApi(raw: RawComments): void {
       if (request.params) {
         const foo = unflattenAndResolveTypes(request.params);
         argsString += '{';
-        argsString += stringifyTypes(foo, {terminator: ',', finalTerminator: false});
+        argsString += stringifyTypes(foo, {terminator: ',', finalTerminator: false, name: request.name});
         argsString += '}';
       } else {
         argsString += 'void';
@@ -147,7 +147,7 @@ function parseApi(raw: RawComments): void {
       let returnTypeString = 'void';
       if (request.returns) {
         const foo = unflattenAndResolveTypes(request.returns);
-        returnTypeString = `{messageId: string;status: "ok";${stringifyTypes(foo, {terminator: ';', finalTerminator: false})}}`;
+        returnTypeString = `{messageId: string;status: "ok";${stringifyTypes(foo, {terminator: ';', finalTerminator: false, name: request.name})}}`;
       }
       responseString += `${returnTypeString};`;
 
@@ -475,7 +475,7 @@ function resolveType(inType: string): AnyType {
   }
 }
 
-function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = true, includePrefix = true} = {}): string {
+function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = true, includePrefix = true, name = ''} = {}): string {
   let returnString = '';
   Object.entries(inputTypes).forEach(([key, typeDef]) => {
     if (includePrefix) {
@@ -490,7 +490,12 @@ function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = t
       if (typeDef.items) {
         if (typeDef.items.type === 'object') {
           if (Object.keys(typeDef.items.properties).length > 0) {
-            returnString += `{ ${stringifyTypes(typeDef.items.properties)} }[]`;
+            returnString += `{ ${stringifyTypes(typeDef.items.properties, {name})}`;
+            // Allows other arbitrary properties inside of "ExecuteBatch".
+            if (name === 'ExecuteBatch') {
+              returnString += ' [k: string]: any;';
+            }
+            returnString += ' }[]';
           } else {
             returnString += 'Array<{[k: string]: any}>';
           }
