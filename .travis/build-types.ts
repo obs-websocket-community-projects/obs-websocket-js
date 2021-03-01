@@ -490,12 +490,12 @@ function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = t
       if (typeDef.items) {
         if (typeDef.items.type === 'object') {
           if (Object.keys(typeDef.items.properties).length > 0) {
-            returnString += `{ ${stringifyTypes(typeDef.items.properties, {name})}`;
+            returnString += `{${stringifyTypes(typeDef.items.properties, {name})}`;
             // Allows other arbitrary properties inside of "ExecuteBatch".
             if (name === 'ExecuteBatch') {
-              returnString += ' [k: string]: any;';
+              returnString += '[k: string]: any;';
             }
-            returnString += ' }[]';
+            returnString += '}[]';
           } else {
             returnString += 'Array<{[k: string]: any}>';
           }
