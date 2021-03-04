@@ -1,7 +1,7 @@
 import * as fs from 'fs';
+import * as got from 'got';
 import * as path from 'path';
 import * as prettier from 'prettier';
-import * as got from 'got';
 import deburr = require('lodash.deburr');
 
 interface RawType {
@@ -55,9 +55,14 @@ interface OutputType {
   optional: boolean;
 }
 
+interface OBSStatsType {
+  type: 'ObsWebSocket.OBSStats';
+  optional: boolean;
+}
+
 interface ArrayType {
   type: 'array';
-  items: PrimitiveType | ObjectType | OutputType | SceneType | SceneItemType | SceneItemTransformType;
+  items: PrimitiveType | ObjectType | OutputType | SceneType | SceneItemType | SceneItemTransformType | ScenesCollectionType;
   optional: boolean;
 }
 
@@ -76,8 +81,8 @@ interface SceneItemTransformType {
   optional: boolean;
 }
 
-interface OBSStatsType {
-  type: 'ObsWebSocket.OBSStats';
+interface ScenesCollectionType {
+  type: 'ObsWebSocket.ScenesCollection';
   optional: boolean;
 }
 
@@ -200,6 +205,13 @@ declare module 'obs-websocket-js' {
     "ConnectionClosed": void;
     "AuthenticationSuccess": void;
     "AuthenticationFailure": void;
+    "error": {
+      error: any;
+      message: string;
+      type: string;
+      // This would require importing all of the WebSocket types so leaving out for now.
+      // target: WebSocket;
+    };
     ${eventOverloads.join('\n\n  ')}
   }
 
@@ -423,6 +435,15 @@ function resolveType(inType: string): AnyType {
         },
         optional: isOptional
       };
+      case 'array<scenescollection>':
+        return {
+          type: 'array',
+          items: {
+            type: 'ObsWebSocket.ScenesCollection',
+            optional: true
+          },
+          optional: isOptional
+        };
     case 'sceneitemtransform':
       return {
         type: 'ObsWebSocket.SceneItemTransform',
