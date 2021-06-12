@@ -1,7 +1,7 @@
 import * as fs from 'fs';
+import * as got from 'got';
 import * as path from 'path';
 import * as prettier from 'prettier';
-import * as got from 'got';
 import deburr = require('lodash.deburr');
 
 interface RawType {
@@ -50,14 +50,19 @@ interface ObjectType {
 }
 
 interface OutputType {
-  type: 'object';
+  type: 'ObsWebSocket.Output';
   properties: Tree;
+  optional: boolean;
+}
+
+interface OBSStatsType {
+  type: 'ObsWebSocket.OBSStats';
   optional: boolean;
 }
 
 interface ArrayType {
   type: 'array';
-  items: PrimitiveType | ObjectType | OutputType | SceneType | SceneItemType | SceneItemTransformType;
+  items: PrimitiveType | ObjectType | OutputType | SceneType | SceneItemType | SceneItemTransformType | ScenesCollectionType;
   optional: boolean;
 }
 
@@ -76,8 +81,8 @@ interface SceneItemTransformType {
   optional: boolean;
 }
 
-interface OBSStatsType {
-  type: 'ObsWebSocket.OBSStats';
+interface ScenesCollectionType {
+  type: 'ObsWebSocket.ScenesCollection';
   optional: boolean;
 }
 
@@ -133,7 +138,7 @@ function parseApi(raw: RawComments): void {
       if (request.params) {
         const foo = unflattenAndResolveTypes(request.params);
         argsString += '{';
-        argsString += stringifyTypes(foo, {terminator: ',', finalTerminator: false});
+        argsString += stringifyTypes(foo, {terminator: ',', finalTerminator: false, name: request.name});
         argsString += '}';
       } else {
         argsString += 'void';
@@ -142,7 +147,7 @@ function parseApi(raw: RawComments): void {
       let returnTypeString = 'void';
       if (request.returns) {
         const foo = unflattenAndResolveTypes(request.returns);
-        returnTypeString = `{messageId: string;status: "ok";${stringifyTypes(foo, {terminator: ';', finalTerminator: false})}}`;
+        returnTypeString = `{messageId: string;status: "ok";${stringifyTypes(foo, {terminator: ';', finalTerminator: false, name: request.name})}}`;
       }
       responseString += `${returnTypeString};`;
 
@@ -200,6 +205,13 @@ declare module 'obs-websocket-js' {
     "ConnectionClosed": void;
     "AuthenticationSuccess": void;
     "AuthenticationFailure": void;
+    "error": {
+      error: any;
+      message: string;
+      type: string;
+      // This would require importing all of the WebSocket types so leaving out for now.
+      // target: WebSocket;
+    };
     ${eventOverloads.join('\n\n  ')}
   }
 
@@ -309,11 +321,14 @@ function unflattenAndResolveTypes(inputItems: RawType[]): Tree {
 
         const firstIntermediate = (currentNode as any)[nodeName];
         if (firstIntermediate.type === 'array') {
-          firstIntermediate.items = {
-            type: 'object',
-            properties: {},
-            optional: false
-          };
+          // Not sure if needed at all, but was here before and causing issues, so added a check.
+          if (!firstIntermediate.items.properties) {
+            firstIntermediate.items = {
+              type: 'object',
+              properties: {},
+              optional: true // Matches the "array<object>" case in "resolveType".
+            };
+          }
           currentNode = firstIntermediate.items.properties;
         } else {
           currentNode = firstIntermediate.properties;
@@ -390,7 +405,7 @@ function resolveType(inType: string): AnyType {
       return {
         type: 'array',
         items: {
-          type: 'object',
+          type: 'ObsWebSocket.Output',
           properties: {},
           optional: true
         },
@@ -423,6 +438,15 @@ function resolveType(inType: string): AnyType {
         },
         optional: isOptional
       };
+      case 'array<scenescollection>':
+        return {
+          type: 'array',
+          items: {
+            type: 'ObsWebSocket.ScenesCollection',
+            optional: true
+          },
+          optional: isOptional
+        };
     case 'sceneitemtransform':
       return {
         type: 'ObsWebSocket.SceneItemTransform',
@@ -433,14 +457,14 @@ function resolveType(inType: string): AnyType {
         type: 'ObsWebSocket.OBSStats',
         optional: isOptional
       };
+      case 'output':
+        return {
+          type: 'ObsWebSocket.Output',
+          properties: {},
+          optional: isOptional
+        };
     case 'string | object':
     case 'object':
-      return {
-        type: 'object',
-        properties: {},
-        optional: isOptional
-      };
-    case 'output':
       return {
         type: 'object',
         properties: {},
@@ -451,7 +475,7 @@ function resolveType(inType: string): AnyType {
   }
 }
 
-function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = true, includePrefix = true} = {}): string {
+function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = true, includePrefix = true, name = ''} = {}): string {
   let returnString = '';
   Object.entries(inputTypes).forEach(([key, typeDef]) => {
     if (includePrefix) {
@@ -466,7 +490,12 @@ function stringifyTypes(inputTypes: Tree, {terminator = ';', finalTerminator = t
       if (typeDef.items) {
         if (typeDef.items.type === 'object') {
           if (Object.keys(typeDef.items.properties).length > 0) {
-            returnString += `${stringifyTypes(typeDef.items.properties, {includePrefix: false, terminator: ''})}[]`;
+            returnString += `{${stringifyTypes(typeDef.items.properties, {name})}`;
+            // Allows other arbitrary properties inside of "ExecuteBatch".
+            if (name === 'ExecuteBatch') {
+              returnString += '[k: string]: any;';
+            }
+            returnString += '}[]';
           } else {
             returnString += 'Array<{[k: string]: any}>';
           }
