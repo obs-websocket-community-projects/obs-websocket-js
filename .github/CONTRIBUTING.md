@@ -1,5 +1,5 @@
 ## Issues/Feedback/Requests
-- Create a new issue [here](https://github.com/haganbmj/obs-websocket-js/issues/new), please be as descriptive as possible.
+- Create a new issue [here](https://github.com/obs-websocket-community-projects/obs-websocket-js/issues/new), please be as descriptive as possible.
 
 ## Building the Project Locally
 - Install [node.js](http://nodejs.org)
@@ -15,4 +15,4 @@
 
 ## Contributing Guidelines
 - Please use descriptive commit messages.
-- When submitting a Pull Request, reference related [Issues](https://github.com/haganbmj/obs-websocket-js/issues) if any exist.
+- When submitting a Pull Request, reference related [Issues](https://github.com/obs-websocket-community-projects/obs-websocket-js/issues) if any exist.
