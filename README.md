@@ -10,8 +10,8 @@ OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plug
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.com/obs-websocket-community-projects/obs-websocket-js"><img src="https://img.shields.io/travis/obs-websocket-community-projects/obs-websocket-js/master.svg?style=flat"></a>
-  <a href="https://coveralls.io/github/obs-websocket-community-projects/obs-websocket-js?branch=master"><img src="https://coveralls.io/repos/github/obs-websocket-community-projects/obs-websocket-js/badge.svg?branch=master"></a>
+  <a href="https://travis-ci.com/haganbmj/obs-websocket-js"><img src="https://img.shields.io/travis/haganbmj/obs-websocket-js/master.svg?style=flat"></a>
+  <a href="https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master"><img src="https://coveralls.io/repos/github/haganbmj/obs-websocket-js/badge.svg?branch=master"></a>
   <a href="https://libraries.io/bower/obs-websocket-js"><img src="https://img.shields.io/bower/v/obs-websocket-js.svg?style=flat"></a>
   <a href="https://www.npmjs.com/package/obs-websocket-js"><img src="https://img.shields.io/npm/v/obs-websocket-js.svg?style=flat"></a>
   <a href="https://www.npmjs.com/package/obs-websocket-js"><img src="https://img.shields.io/npm/dt/obs-websocket-js.svg"></a>
