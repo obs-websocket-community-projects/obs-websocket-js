@@ -12,7 +12,7 @@ notifications:
 
 env:
   global:
-    - GH_REF="github.com/haganbmj/obs-websocket-js"
+    - GH_REF="github.com/obs-websocket-community-projects/obs-websocket-js"
     - DEBUG="obs-websocket-js:*"
 
 before_script:
