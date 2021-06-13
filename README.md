@@ -5,6 +5,7 @@ OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plug
 </i>
   <br>
   Created by <a href="https://github.com/haganbmj">Brendan Hagan</a>
+  <br>
   Maintained by <a href="https://github.com/obs-websocket-community-projects">OBS Websocket Community</a>
 </p>
 
