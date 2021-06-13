@@ -235,10 +235,10 @@ _To add your project to this list, submit a Pull Request._
 
 
 
-  [badge-build-status]: https://img.shields.io/travis/obs-websocket-community-projects/obs-websocket-js/master.svg?style=flat "Travis Status"
-  [badge-tag]: https://img.shields.io/github/tag/obs-websocket-community-projects/obs-websocket-js.svg?style=flat "Latest Tag"
+  [badge-build-status]: https://img.shields.io/travis/haganbmj/obs-websocket-js/master.svg?style=flat "Travis Status"
+  [badge-tag]: https://img.shields.io/github/tag/haganbmj/obs-websocket-js.svg?style=flat "Latest Tag"
   [badge-release]: https://img.shields.io/github/release/obs-websocket-community-projects/obs-websocket-js.svg?style=flat "Latest Release"
-  [badge-coveralls]: https://coveralls.io/repos/github/obs-websocket-community-projects/obs-websocket-js/badge.svg?branch=master "Coveralls Status"
+  [badge-coveralls]: https://coveralls.io/repos/github/haganbmj/obs-websocket-js/badge.svg?branch=master "Coveralls Status"
   [badge-npm-downloads]: https://img.shields.io/npm/dt/obs-websocket-js.svg "NPM Downloads"
 
   [link-obswebsocket]: https://github.com/Palakis/obs-websocket "OBS WebSocket Plugin"
