@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 git config --global user.name "travis-ci"
-git config --global user.email "travis@travis-ci.org"
+git config --global user.email "travis@travis-ci.com"
 
 # Determine and write the SHA responsible for this build as well as the current system timestamp.
 SHA=$(git rev-parse --verify HEAD)
