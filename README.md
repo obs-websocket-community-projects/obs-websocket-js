@@ -5,22 +5,23 @@ OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plug
 </i>
   <br>
   Created by <a href="https://github.com/haganbmj">Brendan Hagan</a>
+  Maintained by <a href="https://github.com/obs-websocket-community-projects">OBS Websocket Community</a>
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/haganbmj/obs-websocket-js"><img src="https://img.shields.io/travis/haganbmj/obs-websocket-js/master.svg?style=flat"></a>
-  <a href="https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master"><img src="https://coveralls.io/repos/github/haganbmj/obs-websocket-js/badge.svg?branch=master"></a>
+  <a href="https://travis-ci.com/obs-websocket-community-projects/obs-websocket-js"><img src="https://img.shields.io/travis/obs-websocket-community-projects/obs-websocket-js/master.svg?style=flat"></a>
+  <a href="https://coveralls.io/github/obs-websocket-community-projects/obs-websocket-js?branch=master"><img src="https://coveralls.io/repos/github/obs-websocket-community-projects/obs-websocket-js/badge.svg?branch=master"></a>
   <a href="https://libraries.io/bower/obs-websocket-js"><img src="https://img.shields.io/bower/v/obs-websocket-js.svg?style=flat"></a>
   <a href="https://www.npmjs.com/package/obs-websocket-js"><img src="https://img.shields.io/npm/v/obs-websocket-js.svg?style=flat"></a>
   <a href="https://www.npmjs.com/package/obs-websocket-js"><img src="https://img.shields.io/npm/dt/obs-websocket-js.svg"></a>
   <img src="https://img.shields.io/npm/l/obs-websocket-js.svg">
-  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/haganbmj/obs-websocket-js.svg"></a>
+  <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/obs-websocket-community-projects/obs-websocket-js.svg"></a>
 </p>
 
 <p align="center"><b>
-  <a href="https://raw.githubusercontent.com/haganbmj/obs-websocket-js/gh-pages/dist/obs-websocket.js">Download</a> |
-  <a href="https://github.com/haganbmj/obs-websocket-js/tree/master/samples">Samples</a> |
-  <a href="https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/CHANGELOG.md">Changelog</a>
+  <a href="https://raw.githubusercontent.com/obs-websocket-community-projects/obs-websocket-js/gh-pages/dist/obs-websocket.js">Download</a> |
+  <a href="https://github.com/obs-websocket-community-projects/obs-websocket-js/tree/master/samples">Samples</a> |
+  <a href="https://github.com/obs-websocket-community-projects/obs-websocket-js/blob/gh-pages/CHANGELOG.md">Changelog</a>
 </b></p>
 
 ## Installation
@@ -233,20 +234,20 @@ _To add your project to this list, submit a Pull Request._
 
 
 
-  [badge-build-status]: https://img.shields.io/travis/haganbmj/obs-websocket-js/master.svg?style=flat "Travis Status"
-  [badge-tag]: https://img.shields.io/github/tag/haganbmj/obs-websocket-js.svg?style=flat "Latest Tag"
-  [badge-release]: https://img.shields.io/github/release/haganbmj/obs-websocket-js.svg?style=flat "Latest Release"
-  [badge-coveralls]: https://coveralls.io/repos/github/haganbmj/obs-websocket-js/badge.svg?branch=master "Coveralls Status"
+  [badge-build-status]: https://img.shields.io/travis/obs-websocket-community-projects/obs-websocket-js/master.svg?style=flat "Travis Status"
+  [badge-tag]: https://img.shields.io/github/tag/obs-websocket-community-projects/obs-websocket-js.svg?style=flat "Latest Tag"
+  [badge-release]: https://img.shields.io/github/release/obs-websocket-community-projects/obs-websocket-js.svg?style=flat "Latest Release"
+  [badge-coveralls]: https://coveralls.io/repos/github/obs-websocket-community-projects/obs-websocket-js/badge.svg?branch=master "Coveralls Status"
   [badge-npm-downloads]: https://img.shields.io/npm/dt/obs-websocket-js.svg "NPM Downloads"
 
   [link-obswebsocket]: https://github.com/Palakis/obs-websocket "OBS WebSocket Plugin"
-  [link-Travis-CI]: https://travis-ci.org/haganbmj/obs-websocket-js "Travis CI"
-  [link-Coveralls]: https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master "Coveralls"
-  [link-releases]:  https://github.com/haganbmj/obs-websocket-js/releases "obs-websocket-js Releases"
-  [link-tags]: https://github.com/haganbmj/obs-websocket-js/tags "obs-websocket-js Tags"
-  [link-download]: https://raw.githubusercontent.com/haganbmj/obs-websocket-js/gh-pages/dist/obs-websocket.js "Download"
-  [link-documentation]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/DOCUMENTATION.md "Documentation"
-  [link-samples]: https://github.com/haganbmj/obs-websocket-js/tree/master/samples "Samples"
-  [link-changelog]: https://github.com/haganbmj/obs-websocket-js/blob/gh-pages/CHANGELOG.md "Changelog"
+  [link-Travis-CI]: https://travis-ci.com/obs-websocket-community-projects/obs-websocket-js "Travis CI"
+  [link-Coveralls]: https://coveralls.io/github/obs-websocket-community-projects/obs-websocket-js?branch=master "Coveralls"
+  [link-releases]:  https://github.com/obs-websocket-community-projects/obs-websocket-js/releases "obs-websocket-js Releases"
+  [link-tags]: https://github.com/obs-websocket-community-projects/obs-websocket-js/tags "obs-websocket-js Tags"
+  [link-download]: https://raw.githubusercontent.com/obs-websocket-community-projects/obs-websocket-js/gh-pages/dist/obs-websocket.js "Download"
+  [link-documentation]: https://github.com/obs-websocket-community-projects/obs-websocket-js/blob/gh-pages/DOCUMENTATION.md "Documentation"
+  [link-samples]: https://github.com/obs-websocket-community-projects/obs-websocket-js/tree/master/samples "Samples"
+  [link-changelog]: https://github.com/obs-websocket-community-projects/obs-websocket-js/blob/gh-pages/CHANGELOG.md "Changelog"
   [link-contributing]: .github/CONTRIBUTING.md "Contributing"
   [link-debug]: https://github.com/visionmedia/debug "Debug Documentation"
