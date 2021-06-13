@@ -4,8 +4,8 @@
   "description": "OBS Websocket API in Javascript, consumes @Palakis/obs-websocket",
   "author": "Brendan Hagan (haganbmj)",
   "license": "MIT",
-  "repository": "haganbmj/obs-websocket-js",
-  "repoUrl": "https://github.com/haganbmj/obs-websocket-js",
+  "repository": "obs-websocket-community-projects/obs-websocket-js",
+  "repoUrl": "https://github.com/obs-websocket-community-projects/obs-websocket-js",
   "keywords": [
     "obs",
     "studio",
@@ -69,9 +69,9 @@
     "webpack-cli": "^3.3.10"
   },
   "bugs": {
-    "url": "https://github.com/haganbmj/obs-websocket-js/issues"
+    "url": "https://github.com/obs-websocket-community-projects/obs-websocket-js/issues"
   },
-  "homepage": "https://github.com/haganbmj/obs-websocket-js#readme",
+  "homepage": "https://github.com/obs-websocket-community-projects/obs-websocket-js#readme",
   "eslintConfig": {
     "extends": "xo-space/esnext"
   },
