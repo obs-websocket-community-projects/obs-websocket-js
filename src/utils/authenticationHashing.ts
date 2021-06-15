@@ -1,4 +1,5 @@
-import { sha256 as SHA256 } from 'sha.js';
+import sha256 from 'crypto-js/sha256';
+import Base64 from 'crypto-js/enc-base64';
 
 /**
  * SHA256 Hashing.
@@ -9,13 +10,7 @@ import { sha256 as SHA256 } from 'sha.js';
  * @return {String} sha256 encoded string.
  */
 export default function(salt: string, challenge: string, msg: string): string {
-  const hash = new SHA256()
-    .update(msg)
-    .update(salt)
-    .digest('base64');
+  const hash = Base64.stringify(sha256(msg + salt));
 
-  return new SHA256()
-    .update(hash)
-    .update(challenge)
-    .digest('base64');
+  return Base64.stringify(sha256(hash + challenge));
 }

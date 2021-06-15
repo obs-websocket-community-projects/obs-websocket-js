@@ -37,9 +37,10 @@
     "static": "eslint ."
   },
   "dependencies": {
+    "crypto-js": "^4.0.0",
     "debug": "^4.1.0",
+    "eventemitter3": "^4.0.7",
     "isomorphic-ws": "^4.0.1",
-    "sha.js": "^2.4.9",
     "ws": "^7.2.0"
   },
   "devDependencies": {
@@ -47,7 +48,6 @@
     "@types/node": "^10.17.6",
     "@types/node-fetch": "^2.5.10",
     "@types/prettier": "^1.19.0",
-    "@types/sha.js": "^2.4.0",
     "@types/ws": "^7.4.4",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",

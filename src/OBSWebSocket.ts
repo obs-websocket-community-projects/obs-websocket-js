@@ -43,6 +43,7 @@ export class OBSWebSocket extends Socket {
       }
 
       // Assign a temporary event listener for this particular messageId to uniquely identify the response.
+      // @ts-ignore Internal message
       this.once(`obs:internal:message:id-${messageId}`, (err, data) => {
         if (err && Object.keys(err).length > 0) {
           this.debug('[send:reject] %o', err);

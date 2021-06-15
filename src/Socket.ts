@@ -1,5 +1,5 @@
 import WebSocket from 'isomorphic-ws';
-import { EventEmitter } from 'events';
+import EventEmitter from 'eventemitter3';
 import debug from 'debug';
 import { Status, StatusType } from './Status.js';
 import hash from './utils/authenticationHashing.js';
@@ -13,16 +13,12 @@ export type ConnectArgs = {
   password: string;
 };
 
-export abstract class Socket extends EventEmitter {
+export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
   protected connected = false;
   protected socket: WebSocket;
   protected debug = debug('obs-websocket-js:Socket');
 
-  on<K extends keyof EventHandlersDataMap>(event: K, listener: (data: EventHandlersDataMap[K]) => void): this {
-    return super.on(event, listener);
-  }
-
-  emit(event: string | symbol, ...args: any[]): boolean {
+  emit<T extends EventEmitter.EventNames<EventHandlersDataMap>>(event: T, ...args): boolean {
     this.debug('[emit] %s err: %o data: %o', event, ...args);
     return super.emit(event, ...args);
   }
@@ -126,11 +122,13 @@ export abstract class Socket extends EventEmitter {
 
         // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
         if (message.messageId) {
+          // @ts-ignore Internal event
           this.emit(`obs:internal:message:id-${message.messageId}`, err, data);
         } else if (message.updateType) {
           this.emit(message.updateType, data);
         } else {
           logAmbiguousError(this.debug, 'Unrecognized Socket Message:', message);
+          // @ts-ignore Unrecognized Socket Message
           this.emit('message', message);
         }
       };
