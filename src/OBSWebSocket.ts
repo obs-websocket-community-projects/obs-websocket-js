@@ -84,34 +84,16 @@ export class OBSWebSocket extends Socket {
    * @param  {String}   requestType obs-websocket plugin expected request type.
    * @param  {Object}   [args={}]   request arguments.
    * @param  {Function} callback    Optional. callback(err, data)
+   * @deprecated use #send() instead
+   * @throw {Error} always
    */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   sendCallback<K extends keyof RequestMethodsArgsMap>(
     requestType: K,
     args: RequestMethodsArgsMap[K] extends object ? RequestMethodsArgsMap[K] : Callback<K>,
     callback?: Callback<K> | undefined
   ): void {
-    let finalArgs = args;
-    let finalCallback = callback;
-
-    // Allow the `args` argument to be omitted.
-    if (typeof callback === 'undefined' && typeof args === 'function') {
-      finalCallback = args;
-      // @ts-ignore this is valid
-      finalArgs = {};
-    }
-
-    // Perform the actual request, using `send`.
-    // @ts-ignore args are valid smh
-    this.send(requestType, finalArgs).then((...response) => {
-      // check for safety because javascript
-      if (finalCallback) {
-        finalCallback(null, ...response);
-      }
-    })
-      .catch((error: Error) => {
-        if (finalCallback) {
-          finalCallback(error);
-        }
-      });
+    throw new Error('This method is not supported anymore! use the normal send method');
   }
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 }
