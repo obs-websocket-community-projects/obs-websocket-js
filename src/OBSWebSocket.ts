@@ -84,32 +84,34 @@ export class OBSWebSocket extends Socket {
    * @param  {String}   requestType obs-websocket plugin expected request type.
    * @param  {Object}   [args={}]   request arguments.
    * @param  {Function} callback    Optional. callback(err, data)
-   * @deprecated This method is not fun to maintain in typescript, use the promise api instead
    */
-  // this is hell to maintain in typescript and will be removed
   sendCallback<K extends keyof RequestMethodsArgsMap>(
     requestType: K,
     args: RequestMethodsArgsMap[K] extends object ? RequestMethodsArgsMap[K] : Callback<K>,
     callback?: Callback<K> | undefined
-  ): void { // eslint-disable-line default-param-last
+  ): void {
+    let finalArgs = args;
+    let finalCallback = callback;
+
     // Allow the `args` argument to be omitted.
     if (typeof callback === 'undefined' && typeof args === 'function') {
-      // eslint-disable-next-line no-param-reassign
-      callback = args;
+      finalCallback = args;
       // @ts-ignore this is valid
-      // eslint-disable-next-line no-param-reassign
-      args = {};
+      finalArgs = {};
     }
 
     // Perform the actual request, using `send`.
-    // @ts-ignore args is stupid
-    this.send(requestType, args).then((...response) => {
-      // @ts-ignore is not undefined
-      callback(null, ...response);
+    // @ts-ignore args are valid smh
+    this.send(requestType, finalArgs).then((...response) => {
+      // check for safety because javascript
+      if (finalCallback) {
+        finalCallback(null, ...response);
+      }
     })
       .catch((error: Error) => {
-        // @ts-ignore is not undefined
-        callback(error);
+        if (finalCallback) {
+          finalCallback(error);
+        }
       });
   }
 }
