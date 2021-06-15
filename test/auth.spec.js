@@ -1,6 +1,6 @@
 const test = require('ava');
 const env = require('./setup/environment');
-const OBSWebSocket = require('..');
+const { OBSWebSocket } = require('..');
 const SHA256 = require('sha.js/sha256');
 const WebSocket = require('ws');
 
@@ -153,8 +153,8 @@ test.cb('throws AuthenticationFailure', t => {
 test.cb('emits error when an unhandled socket error occurs', t => {
   const obs2 = new OBSWebSocket();
   obs2.on('ConnectionOpened', () => {
-    obs2._socket.onerror('first error message');
-    obs2._socket.onerror('second error message');
+    obs2.socket.onerror('first error message');
+    obs2.socket.onerror('second error message');
     t.end();
   });
 
@@ -231,11 +231,11 @@ test('closes an existing connection when `connect` is called again', async t => 
 
 test('closes in-flight sockets when `connect` is called', async t => {
   const obs = new OBSWebSocket();
-  obs._connected = false;
+  obs.connected = false;
 
   // A minimal stub of a socket that is currently connecting.
   let closeCalled = 0;
-  obs._socket = {
+  obs.socket = {
     readyState: WebSocket.CONNECTING,
     close() {
       closeCalled++;
