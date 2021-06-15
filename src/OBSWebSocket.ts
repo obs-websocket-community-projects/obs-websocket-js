@@ -73,6 +73,7 @@ export class OBSWebSocket extends Socket {
 
       // If the socket call was unsuccessful or bypassed, simulate its resolution.
       if (rejectReason) {
+        // @ts-ignore Internal message
         this.emit(`obs:internal:message:id-${messageId}`, rejectReason);
       }
     });
