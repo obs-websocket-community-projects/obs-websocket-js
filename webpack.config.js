@@ -17,11 +17,11 @@ module.exports = {
   stats: 'detailed',
   mode: 'none',
   entry: {
-    'obs-websocket': './lib/OBSWebSocket.js',
-    'obs-websocket.min': './lib/OBSWebSocket.js'
+    'obs-websocket': './dist/OBSWebSocket.js',
+    'obs-websocket.min': './dist/OBSWebSocket.js'
   },
   output: {
-    path: path.join(__dirname, '/dist'),
+    path: path.join(__dirname, '/browser-dist'),
     filename: '[name].js',
     library: 'OBSWebSocket',
     libraryTarget: 'umd'
