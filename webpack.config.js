@@ -1,9 +1,9 @@
-var path = require('path');
-var webpack = require('webpack');
-var BabiliPlugin = require('babili-webpack-plugin');
-var pkg = require('./package.json');
+const path = require('path');
+const webpack = require('webpack');
+const TerserPlugin = require("terser-webpack-plugin");
+const pkg = require('./package.json');
 
-var banner =
+let banner =
   `OBS WebSocket Javascript API (${pkg.name}) v${pkg.version}\n` +
   `Author: ${pkg.author}\n` +
   `License: ${pkg.license}\n` +
@@ -20,6 +20,11 @@ module.exports = {
     'obs-websocket': './dist/OBSWebSocket.js',
     'obs-websocket.min': './dist/OBSWebSocket.js'
   },
+  resolve: {
+    fallback: {
+      buffer: require.resolve('buffer/'),
+    }
+  },
   output: {
     path: path.join(__dirname, '/browser-dist'),
     filename: '[name].js',
@@ -27,11 +32,14 @@ module.exports = {
     libraryTarget: 'umd'
   },
   devtool: 'source-map',
-  plugins: [
-    new BabiliPlugin({}, {
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
       test: /\.min\.js($|\?)/i,
-      comments: false
-    }),
+      extractComments: false,
+    })],
+  },
+  plugins: [
     new webpack.BannerPlugin({banner})
   ]
 };
