@@ -24,7 +24,7 @@
     "build": "npm-run-all build:*",
     "build:types": "cross-env-shell TS_NODE_PROJECT=tsconfig.json \"node $NODE_DEBUG_OPTION -r ts-node/register .travis/build-types-v2.ts\"",
     "postbuild:types": "eslint .",
-    "build:ts": "tsc",
+    "build:ts": "rimraf dist && tsc",
     "build:web": "rimraf browser-dist && webpack",
     "watch": "webpack --watch",
     "test": "npm-run-all test:*",
