@@ -89,7 +89,7 @@ export class OBSWebSocket extends Socket {
   // this is hell to maintain in typescript and will be removed
   sendCallback<K extends keyof RequestMethodsArgsMap>(
     requestType: K,
-    args?: RequestMethodsArgsMap[K] extends object ? RequestMethodsArgsMap[K] : Callback<K>,
+    args: RequestMethodsArgsMap[K] extends object ? RequestMethodsArgsMap[K] : Callback<K>,
     callback?: Callback<K> | undefined
   ): void { // eslint-disable-line default-param-last
     // Allow the `args` argument to be omitted.
