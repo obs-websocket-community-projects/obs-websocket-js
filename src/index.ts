@@ -1,1 +1,1 @@
-export * from './OBSWebSocket.js';
+export {OBSWebSocket as default} from './OBSWebSocket';

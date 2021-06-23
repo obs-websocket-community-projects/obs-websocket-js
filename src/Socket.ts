@@ -1,11 +1,13 @@
 import WebSocket from 'isomorphic-ws';
 import EventEmitter from 'eventemitter3';
-import debug from 'debug';
-import { Status, StatusType } from './Status.js';
+import debugLib from 'debug';
+import {Status, StatusType} from './Status.js';
 import hash from './utils/authenticationHashing.js';
 import logAmbiguousError from './utils/logAmbiguousError.js';
 import camelCaseKeys from './utils/camelCaseKeys.js';
-import { EventHandlersDataMap, RequestMethodReturnMap, RequestMethodsArgsMap } from './typings/obsWebsocket.js';
+import {EventHandlersDataMap, RequestMethodReturnMap, RequestMethodsArgsMap} from './typings/obsWebsocket.js';
+
+export const debug = debugLib('obs-websocket-js:Socket');
 
 export type ConnectArgs = {
   address: string;
@@ -16,10 +18,9 @@ export type ConnectArgs = {
 export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
   protected connected = false;
   protected socket: WebSocket;
-  protected debug = debug('obs-websocket-js:Socket');
 
   emit<T extends EventEmitter.EventNames<EventHandlersDataMap>>(event: T, ...args): boolean {
-    this.debug('[emit] %s err: %o data: %o', event, ...args);
+    debug('[emit] %s err: %o data: %o', event, ...args);
     return super.emit(event, ...args);
   }
 
@@ -37,22 +38,45 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
         // Don't care if its already closed.
         // We just don't want any sockets to leak.
         this.socket.close();
-      } catch (error) {
+      } catch (error: any) {
         // These errors are probably safe to ignore, but debug log them just in case.
-        this.debug('Failed to close previous WebSocket:', error.message);
+        debug('Failed to close previous WebSocket:', error.message);
       }
     }
 
     try {
       await this.connect0(parsedArgs.address, parsedArgs.secure);
       await this.authenticate(parsedArgs.password);
-    } catch (e) {
+    } catch (e: unknown) {
       this.socket.close();
       this.connected = false;
-      logAmbiguousError(this.debug, 'Connection failed:', e);
-      // retrhow to let the user handle it
+      logAmbiguousError(debug, 'Connection failed:', e);
+      // Rethrow to let the user handle it
       throw e;
     }
+  }
+
+  /**
+   * Close and disconnect the WebSocket connection.
+   *
+   * @function
+   * @category request
+   * @return {Promise}
+   */
+  async disconnect(): Promise<void> {
+    debug('Disconnect requested.');
+
+    if (this.socket) {
+      return new Promise(resolve => {
+        this.once('ConnectionClosed', () => {
+          resolve();
+        });
+
+        this.socket.close();
+      });
+    }
+
+    return Promise.resolve();
   }
 
   /**
@@ -64,26 +88,25 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
    * @private
    * @return {Promise} on attempted creation of WebSocket connection.
    */
-  private connect0(address: string, secure: boolean): Promise<void> {
-    // we need to wrap this in a promise so we can resolve only when connected
+  private async connect0(address: string, secure: boolean): Promise<void> {
+    // We need to wrap this in a promise so we can resolve only when connected
     return new Promise<void>((resolve, reject): void => {
       let settled = false;
 
-      this.debug('Attempting to connect to: %s (secure: %s)', address, secure);
+      debug('Attempting to connect to: %s (secure: %s)', address, secure);
       this.socket = new WebSocket((secure ? 'wss://' : 'ws://') + address);
 
       // We only handle the initial connection error.
       // Beyond that, the consumer is responsible for adding their own generic `error` event listener.
-      // FIXME: Unsure how best to expose additional information about the WebSocket error.
       this.socket.onerror = (err: WebSocket.ErrorEvent): void => {
         if (settled) {
-          logAmbiguousError(this.debug, 'Unknown Socket Error', err);
+          logAmbiguousError(debug, 'Unknown Socket Error', err);
           this.emit('error', err);
           return;
         }
 
         settled = true;
-        logAmbiguousError(this.debug, 'Websocket Connection failed:', err);
+        logAmbiguousError(debug, 'Websocket Connection failed:', err);
         reject(Status.CONNECTION_ERROR);
       };
 
@@ -95,7 +118,7 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
         this.connected = true;
         settled = true;
 
-        this.debug('Connection opened: %s', address);
+        debug('Connection opened: %s', address);
         this.emit('ConnectionOpened');
         resolve();
       };
@@ -103,13 +126,13 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
       // Looks like this should be bound. We don't technically cancel the connection when the authentication fails.
       this.socket.onclose = (): void => {
         this.connected = false;
-        this.debug('Connection closed: %s', address);
+        debug('Connection closed: %s', address);
         this.emit('ConnectionClosed');
       };
 
       // This handler must be present before we can call _authenticate.
       this.socket.onmessage = (msg: WebSocket.MessageEvent): void => {
-        this.debug('[OnMessage]: %o', msg);
+        debug('[OnMessage]: %o', msg);
         const message = camelCaseKeys(JSON.parse(String(msg.data)));
         let err = {};
         let data = {};
@@ -122,13 +145,14 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
 
         // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
         if (message.messageId) {
-          // @ts-ignore Internal event
+          // @ts-expect-error Internal event
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           this.emit(`obs:internal:message:id-${message.messageId}`, err, data);
         } else if (message.updateType) {
           this.emit(message.updateType, data);
         } else {
-          logAmbiguousError(this.debug, 'Unrecognized Socket Message:', message);
-          // @ts-ignore Unrecognized Socket Message
+          logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
+          // @ts-expect-error Unrecognized Socket Message
           this.emit('message', message);
         }
       };
@@ -142,50 +166,36 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
    * @private
    * @return {Promise} on resolution of authentication call.
    */
-  private async authenticate(password = ''): Promise<StatusType|null> {
+  private async authenticate(password = ''): Promise<StatusType | null> {
     if (!this.connected) {
+      // eslint-disable-next-line @typescript-eslint/no-throw-literal
       throw Status.NOT_CONNECTED;
     }
 
     const auth = await this.send('GetAuthRequired');
 
     if (!auth.authRequired) {
-      this.debug('Authentication not Required');
+      debug('Authentication not Required');
       this.emit('AuthenticationSuccess');
       return Status.AUTH_NOT_REQUIRED;
     }
 
     try {
       await this.send('Authenticate', {
-        auth: hash(auth.salt || '', auth.challenge || '', password)
+        auth: hash(auth.salt ?? '', auth.challenge ?? '', password),
       });
-    } catch (e) {
-      this.debug('Authentication Failure %o', e);
+    } catch (e: any) {
+      debug('Authentication Failure %o', e);
       this.emit('AuthenticationFailure');
       throw e;
     }
 
-    this.debug('Authentication Success');
+    debug('Authentication Success');
     this.emit('AuthenticationSuccess');
 
     return null;
   }
 
-  /**
-   * Close and disconnect the WebSocket connection.
-   *
-   * @function
-   * @category request
-   * @return {Promise}
-   */
-  async disconnect(): Promise<void> {
-    this.debug('Disconnect requested.');
-
-    if (this.socket) {
-      await this.socket.close();
-    }
-  }
-
-  // overwritten in parent class
-  abstract send<K extends keyof RequestMethodsArgsMap>(requestType: K, args?: RequestMethodsArgsMap[K] extends object ? RequestMethodsArgsMap[K] : undefined): Promise<RequestMethodReturnMap[K]>;
+  // Overwritten in parent class
+  abstract send<K extends keyof RequestMethodsArgsMap>(requestType: K, args?: RequestMethodsArgsMap[K] extends Record<string, unknown> ? RequestMethodsArgsMap[K] : undefined): Promise<RequestMethodReturnMap[K]>;
 }
