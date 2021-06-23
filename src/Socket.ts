@@ -35,7 +35,7 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
         // Blindly try to close the socket.
         // Don't care if its already closed.
         // We just don't want any sockets to leak.
-        this.socket.close();
+        await this.disconnect();
       } catch (error: any) {
         // These errors are probably safe to ignore, but debug log them just in case.
         debug('Failed to close previous WebSocket:', error.message);
@@ -45,7 +45,7 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
     try {
       await this.connect0(parsedArgs.address);
       await this.authenticate(parsedArgs.password);
-    } catch (e: unknown) {
+    } catch (e: any) {
       this.socket.close();
       this.connected = false;
       logAmbiguousError(debug, 'Connection failed:', e);
@@ -65,12 +65,16 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
     debug('Disconnect requested.');
 
     if (this.socket) {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         this.once('ConnectionClosed', () => {
           resolve();
         });
 
-        this.socket.close();
+        try {
+          this.socket.close();
+        } catch (e: any) {
+          reject(e);
+        }
       });
     }
 
@@ -145,9 +149,8 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
 
         // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
         if (message.messageId) {
-          // @ts-expect-error Internal event
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-          this.emit(`obs:internal:message:id-${message.messageId}`, err, data);
+          // @ts-expect-error Internal event, not documented
+          this.emit(`obs:internal:message:id-${message.messageId as string}`, err, data);
         } else if (message.updateType) {
           this.emit(message.updateType, data);
         } else {
