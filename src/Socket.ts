@@ -11,7 +11,6 @@ export const debug = debugLib('obs-websocket-js:Socket');
 
 export type ConnectArgs = {
   address: string;
-  secure: boolean;
   password: string;
 };
 
@@ -26,9 +25,8 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
 
   async connect(args: Partial<ConnectArgs> = {}): Promise<void> {
     const parsedArgs = {
-      address: 'localhost:4444',
+      address: 'ws://localhost:4444',
       password: '',
-      secure: false,
       ...args,
     };
 
@@ -45,7 +43,7 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
     }
 
     try {
-      await this.connect0(parsedArgs.address, parsedArgs.secure);
+      await this.connect0(parsedArgs.address);
       await this.authenticate(parsedArgs.password);
     } catch (e: unknown) {
       this.socket.close();
@@ -82,19 +80,21 @@ export abstract class Socket extends EventEmitter<EventHandlersDataMap> {
   /**
    * Opens a WebSocket connection to an obs-websocket server, but does not attempt any authentication.
    *
-   * @param {String} address url without ws:// or wss:// prefix.
-   * @param {Boolean} secure whether to us ws:// or wss://
+   * @param {String} address url with or without ws:// or wss:// prefix.
    * @returns {Promise}
    * @private
    * @return {Promise} on attempted creation of WebSocket connection.
    */
-  private async connect0(address: string, secure: boolean): Promise<void> {
+  private async connect0(address: string): Promise<void> {
     // We need to wrap this in a promise so we can resolve only when connected
     return new Promise<void>((resolve, reject): void => {
       let settled = false;
+      // Check if the address starts with a prefix and prepend if needed
+      const regex = /^wss?:\/\//i;
+      const parsedAddress = `${regex.test(address) ? '' : 'ws://'}${address}`;
 
-      debug('Attempting to connect to: %s (secure: %s)', address, secure);
-      this.socket = new WebSocket((secure ? 'wss://' : 'ws://') + address);
+      debug('Attempting to connect to: %s', parsedAddress);
+      this.socket = new WebSocket(parsedAddress);
 
       // We only handle the initial connection error.
       // Beyond that, the consumer is responsible for adding their own generic `error` event listener.
