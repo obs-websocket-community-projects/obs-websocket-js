@@ -230,6 +230,7 @@ obs.on('SwitchScenes');
 _To add your project to this list, submit a Pull Request._
 - [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
 - [nodecg/nodecg-obs](https://github.com/nodecg/nodecg-obs)
+- [skarab42/marv](https://github.com/skarab42/marv)
 
 ## [Contributing Guidelines][link-contributing]
 
