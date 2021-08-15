@@ -23,5 +23,6 @@ coverage
 
 # Exclude build outputs (they'll get added automatically by CI).
 dist
+browser-dist
 types/index.d.ts
 CHANGELOG.md

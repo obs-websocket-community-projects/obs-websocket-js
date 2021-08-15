@@ -28,8 +28,13 @@ OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plug
 ## Installation
 
 ```sh
+# with npm
 npm install obs-websocket-js --save
 
+# with yarn
+yarn add obs-websocket-js
+
+# with bower
 bower install obs-websocket-js --save
 ```
 
@@ -46,7 +51,7 @@ The web distributable exposes a global named `OBSWebSocket`.
 In node...  
 
 ```js
-const OBSWebSocket = require('obs-websocket-js');
+const { OBSWebSocket } = require('obs-websocket-js');
 ```
 
 Create a new WebSocket connection using the following.
@@ -68,9 +73,6 @@ _Note that all response objects will supply both the original [obs-websocket][li
 ```js
 // Promise API
 obs.send('RequestName', {args}) // returns Promise
-
-// Callback API
-obs.sendCallback('RequestName', {args}, callback(err, data)) // no return value
 
 // The following are additional supported requests.
 obs.connect({ address: 'address', password: 'password' }) // returns Promise
@@ -112,7 +114,7 @@ obs.on('error', err => {
 #### Example
 See more examples in [`\samples`](samples).
 ```js
-const OBSWebSocket = require('obs-websocket-js');
+const { OBSWebSocket } = require('obs-websocket-js');
 
 const obs = new OBSWebSocket();
 obs.connect({
@@ -205,7 +207,7 @@ obs.on('SwitchScenes');
   });
 
   // Use this instead:
-  obs.sendCallback('StartStreaming', (error) => {
+  obs.send('StartStreaming').catch(error => {
     // Code here...
   });
   ```

@@ -1,8 +1,9 @@
 const test = require('ava');
 const env = require('./setup/environment');
-const OBSWebSocket = require('..');
+const { OBSWebSocket } = require('..');
 
 let unauthServer;
+
 const obs = new OBSWebSocket();
 
 test.before(async t => {
@@ -32,30 +33,6 @@ test('rejects when an invalid request is sent', async t => {
 
 test('permits null args', async t => {
   await t.notThrowsAsync(obs.send('ValidMethodName', null));
-});
-
-test.cb('sendCallback -- success case', t => {
-  obs.sendCallback('ValidMethodName', {}, (err, data) => {
-    t.falsy(err);
-    t.is(data.status, 'ok');
-    t.end();
-  });
-});
-
-test.cb('sendCallback -- omitted args', t => {
-  obs.sendCallback('ValidMethodName', (err, data) => {
-    t.falsy(err);
-    t.is(data.status, 'ok');
-    t.end();
-  });
-});
-
-test.cb('sendCallback -- error case', t => {
-  obs.sendCallback('InvalidMethodName', {}, (err, data) => {
-    t.falsy(data);
-    t.is(err.status, 'error');
-    t.end();
-  });
 });
 
 test('rejects when no open connection exists', async t => {

@@ -5,18 +5,16 @@
  * @param {Object} [obj={}] Keyed object.
  * @return {Object} Keyed object with added camelCased keys.
  */
-module.exports = function (obj) {
-  obj = obj || {};
+export default function (obj: Record<string, any> = {}): Record<string, any> {
   for (const key in obj) {
     if (!{}.hasOwnProperty.call(obj, key)) {
       continue;
     }
 
-    const camelCasedKey = key.replace(/-([a-z])/gi, ($0, $1) => {
-      return $1.toUpperCase();
-    });
+    const camelCasedKey: string = key.replace(/-([a-z])/gi, ($0: string, $1: string) => $1.toUpperCase());
+
     obj[camelCasedKey] = obj[key];
   }
 
   return obj;
-};
+}

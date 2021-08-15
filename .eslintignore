@@ -1,12 +1,16 @@
-node_modules
-bower_components
-.github
-.travis
-dist
-coverage
-.nyc_output
-samples
+node_modules/
+bower_components/
+.github/
+.travis/
+dist/
+browser-dist/
+coverage/
+.nyc_output/
+samples/
 lib/API.js
+test/
+src/typings/obsWebsocket.ts
+scripts/
 
 # Adding an exclusion for the webpack config to make node 4 travis builds easier.
 webpack.config.js
