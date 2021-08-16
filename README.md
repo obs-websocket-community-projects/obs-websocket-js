@@ -48,21 +48,27 @@ Typescript definitions are included in this package, and are automatically gener
 
 ## Usage
 #### Instantiation
-The web distributable exposes a global named `OBSWebSocket`.  
+The web distributable exposes a global named `OBSWebSocket`.
 
 ```html
 <script type='text/javascript' src='./dist/obs-websocket.js'></script>
 ```
 
-In node...  
+In node...
 
 ```js
 const { OBSWebSocket } = require('obs-websocket-js');
 ```
 
+If you're working in a frontend framework and want to use static imports...
+
+```js
+import OBSWebSocket from '../../node_modules/obs-websocket-js/lib/OBSWebSocket.js'; //relative path may vary depending on location of node_modules directory
+```
+
 Create a new WebSocket connection using the following.
-- Address is optional; defaults to `localhost` with a port of `4444`.  
-- Password is optional.  
+- Address is optional; defaults to `localhost` with a port of `4444`.
+- Password is optional.
 
 ```js
 const obs = new OBSWebSocket();
@@ -70,10 +76,10 @@ obs.connect({ address: 'localhost:4444', password: '$up3rSecretP@ssw0rd' });
 ```
 
 #### Sending Requests
-All requests support the following two Syntax options where both `err` and `data` will contain the raw response from the WebSocket plugin.  
-_Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
-- RequestName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.  
-- `{args}` are optional. Note that both `request-type` and `message-id` will be bound automatically.  
+All requests support the following two Syntax options where both `err` and `data` will contain the raw response from the WebSocket plugin.
+_Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._
+- RequestName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.
+- `{args}` are optional. Note that both `request-type` and `message-id` will be bound automatically.
 - To use callbacks instead of promises, use the `sendCallback` method instead of `send`.
 
 ```js
@@ -86,8 +92,8 @@ obs.disconnect();
 ```
 
 #### Receiving Events
-For all events, `data` will contain the raw response from the WebSocket plugin.  
-_Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._  
+For all events, `data` will contain the raw response from the WebSocket plugin.
+_Note that all response objects will supply both the original [obs-websocket][link-obswebsocket] response items in their original format (ex: `'response-item'`), but also camelCased (ex: `'responseItem'`) for convenience._
 - EventName must exactly match what is defined by the [`obs-websocket`][link-obswebsocket] plugin.
 
 ```js
