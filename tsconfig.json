@@ -1,25 +1,14 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "ES2015",
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
     "esModuleInterop": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "noImplicitThis": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "noEmit": false,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": [
-    ".travis",
-    "test",
-    "dist"
+  "include": [
+    "src/**/*.ts"
   ]
 }

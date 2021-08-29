@@ -1,8 +1,5 @@
 node_modules
 
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
-
 # IntelliJ
 .idea/
 *.ipr
@@ -23,6 +20,3 @@ coverage
 
 # Exclude build outputs (they'll get added automatically by CI).
 dist
-browser-dist
-types/index.d.ts
-CHANGELOG.md

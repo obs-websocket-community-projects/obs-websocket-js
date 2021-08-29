@@ -31,8 +31,6 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      # we may need this, not sure
-      # - run: npm install json -g
       - run: npm ci
       - run: npm run build
         env:
