@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    name: Node ${{ matrix.node-version }}
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,12 +25,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          cache: 'npm'
       - run: npm ci
       - run: npm run build
         env:

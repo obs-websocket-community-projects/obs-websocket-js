@@ -12,7 +12,6 @@ OBSWebSocket.JS allows Javascript-based connections to the Open Broadcaster plug
 <p align="center">
   <a href="https://travis-ci.com/haganbmj/obs-websocket-js"><img src="https://img.shields.io/travis/haganbmj/obs-websocket-js/master.svg?style=flat"></a>
   <a href="https://coveralls.io/github/haganbmj/obs-websocket-js?branch=master"><img src="https://coveralls.io/repos/github/haganbmj/obs-websocket-js/badge.svg?branch=master"></a>
-  <a href="https://libraries.io/bower/obs-websocket-js"><img src="https://img.shields.io/bower/v/obs-websocket-js.svg?style=flat"></a>
   <a href="https://www.npmjs.com/package/obs-websocket-js"><img src="https://img.shields.io/npm/v/obs-websocket-js.svg?style=flat"></a>
   <a href="https://www.npmjs.com/package/obs-websocket-js"><img src="https://img.shields.io/npm/dt/obs-websocket-js.svg"></a>
   <img src="https://img.shields.io/npm/l/obs-websocket-js.svg">
@@ -35,16 +34,13 @@ You are currently reading the documentation for upcoming v5. [For v4 documentati
 
 ```sh
 # with npm
-npm install obs-websocket-js --save
+npm install obs-websocket-js
 
 # with yarn
 yarn add obs-websocket-js
-
-# with bower
-bower install obs-websocket-js --save
 ```
 
-Typescript definitions are included in this package, and are automatically generated to match the latest `obs-websocket` release.
+Typescript definitions are included in this package, and are made to match the latest `obs-websocket` release.
 
 ## Usage
 #### Instantiation

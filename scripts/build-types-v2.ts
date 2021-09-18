@@ -107,11 +107,18 @@ async function getLatestComments(): Promise<any> {
 	).then(async r => r.json()));
 }
 
+console.error('Script disabled for now (Not compatible with v5)');
+process.exit(1);
+
+/*
+Re-enable later
+
 getLatestComments().then(rawComments => {
 	parseApi(rawComments);
 }).catch(error => {
 	console.error(error);
 });
+*/
 
 function parseApi(raw: RawComments): void {
 	const interfaces: string[] = [];

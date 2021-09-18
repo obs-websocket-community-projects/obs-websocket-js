@@ -14,34 +14,40 @@
     "node.js"
   ],
   "type": "module",
-  "main": "dist/index.js",
-  "browser": "browser-dist/index.js",
+  "main": "dist/obs-ws.cjs",
+  "module": "dist/obs-ws.module.js",
+  "unpkg": "dist/obs-ws.min.js",
+  "exports": "./dist/obs-ws.modern.js",
+  "source": "src/index.ts",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "npm-run-all build:*",
+    "build": "npm-run-all clean build:bundle build:unpkg",
+    "build:bundle": "microbundle -f modern,esm,cjs --no-compress",
+    "build:unpkg": "microbundle -f iife src/JsonOBSWebSocket.ts -o dist/obs-ws.min.js --external none",
     "build:obs-types": "cross-env-shell TS_NODE_PROJECT=tsconfig.json \"node $NODE_DEBUG_OPTION -r ts-node/register scripts/build-types-v2.ts\"",
     "postbuild:obs-types": "npm run lint",
-    "build:ts": "rimraf dist && tsc",
-    "build:web": "rimraf browser-dist && webpack",
-    "watch": "webpack --watch",
+    "clean": "rimraf dist",
+    "dev": "npm run build:bundle -- --watch",
+    "lint": "eslint . --ext .cjs,.js,.ts",
     "test": "npm-run-all test:*",
     "test:static": "npm run lint",
     "test:ava": "npm run ava",
     "test:types": "dtslint types",
     "report": "nyc report --reporter=text-lcov",
     "node-coveralls": "npm run report | coveralls",
-    "ava": "nyc ava --verbose",
-    "lint": "eslint ."
+    "ava": "nyc ava --verbose"
   },
   "dependencies": {
+    "@msgpack/msgpack": "^2.7.1",
     "crypto-js": "^4.1.1",
     "debug": "^4.3.2",
     "eventemitter3": "^4.0.7",
     "isomorphic-ws": "^4.0.1",
-    "ws": "^8.2.1"
+    "type-fest": "^2.3.2",
+    "ws": "^8.2.2"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.0.1",
@@ -58,12 +64,13 @@
     "eslint-config-xo-typescript": "^0.44.0",
     "eslint-plugin-ava": "^12.0.0",
     "lodash.deburr": "^4.1.0",
+    "microbundle": "^0.13.3",
     "node-fetch": "^2.6.1",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   },
   "bugs": {
     "url": "https://github.com/obs-websocket-community-projects/obs-websocket-js/issues"
