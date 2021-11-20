@@ -1,5 +1,5 @@
 // This file is manually updated while obs-websocket doesn't have
-// comments.json in 5.x branch.
+// docs/comments.json in 5.x branch.
 
 import {JsonObject, JsonPrimitive, JsonValue} from 'type-fest';
 

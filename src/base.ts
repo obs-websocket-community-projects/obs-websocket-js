@@ -37,14 +37,14 @@ IncomingMessageTypes[OpCode.Identified]
 export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<EventTypes>> {
 	protected static requestCounter = 0;
 
+	protected static generateMessageId(): string {
+		return String(BaseOBSWebSocket.requestCounter++);
+	}
+
 	protected _identified = false;
 	protected internalListeners = new EventEmitter();
 	protected socket?: WebSocket;
 	protected abstract protocol: string;
-
-	protected static generateMessageId(): string {
-		return String(BaseOBSWebSocket.requestCounter++);
-	}
 
 	public get identified() {
 		return this._identified;
@@ -68,7 +68,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 		}
 
 		try {
-			const ConnectionClosedPromise = this.internalEventPromise<CloseEvent>('ConnectionClosed');
+			const connectionClosedPromise = this.internalEventPromise<CloseEvent>('ConnectionClosed');
 
 			return await Promise.race([
 				(async () => {
@@ -76,7 +76,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 					this.emit('Hello', hello);
 					return this.identify(hello, password, identificationParams);
 				})(),
-				ConnectionClosedPromise.then(e => {
+				connectionClosedPromise.then(e => {
 					throw new OBSWebSocketError(e.code, e.reason);
 				}),
 			]);
@@ -94,9 +94,9 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 			return;
 		}
 
-		const ConnectionClosedPromise = this.internalEventPromise('ConnectionClosed');
+		const connectionClosedPromise = this.internalEventPromise('ConnectionClosed');
 		this.socket.close();
-		await ConnectionClosedPromise;
+		await connectionClosedPromise;
 	}
 
 	/**
@@ -106,9 +106,9 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @returns Identified message data
 	 */
 	async reidentify(data: OutgoingMessageTypes[OpCode.Reidentify]) {
-		const IdentifiedPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Identified]>(`op:${OpCode.Identified}`);
+		const identifiedPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Identified]>(`op:${OpCode.Identified}`);
 		await this.message(OpCode.Reidentify, data);
-		return IdentifiedPromise;
+		return identifiedPromise;
 	}
 
 	/**
@@ -119,13 +119,13 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 */
 	async call<Type extends keyof OBSRequestTypes>(requestType: Type, requestData: OBSRequestTypes[Type]): Promise<OBSResponseTypes[Type]> {
 		const requestId = BaseOBSWebSocket.generateMessageId();
-		const ResponsePromise = this.internalEventPromise<ResponseMessage<Type>>(`res:${requestId}`);
+		const responsePromise = this.internalEventPromise<ResponseMessage<Type>>(`res:${requestId}`);
 		await this.message(OpCode.Request, {
 			requestId,
 			requestType,
 			requestData,
 		} as RequestMessage<Type>);
-		const {requestStatus, responseData} = await ResponsePromise;
+		const {requestStatus, responseData} = await responsePromise;
 
 		if (!requestStatus.result) {
 			throw new OBSWebSocketError(requestStatus.code, requestStatus.comment);
@@ -159,8 +159,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @param url Websocket address
 	 */
 	protected async createConnection(url: string) {
-		const ConnectionOpenedPromise = this.internalEventPromise('ConnectionOpened');
-		const HelloPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Hello]>(`op:${OpCode.Hello}`);
+		const connectionOpenedPromise = this.internalEventPromise('ConnectionOpened');
+		const helloPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Hello]>(`op:${OpCode.Hello}`);
 
 		this.socket = new WebSocketIpml(url, this.protocol) as unknown as WebSocket;
 		this.socket.onopen = this.onOpen.bind(this);
@@ -168,7 +168,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 		this.socket.onerror = this.onError.bind(this);
 		this.socket.onclose = this.onClose.bind(this);
 
-		await ConnectionOpenedPromise;
+		await connectionOpenedPromise;
 		const protocol = this.socket?.protocol;
 		if (!protocol) {
 			throw new OBSWebSocketError(-1, 'Missing socket protocol (server must be v5 or newer)');
@@ -178,7 +178,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 			throw new OBSWebSocketError(-2, `Unknown socket protocol (${protocol})`);
 		}
 
-		return HelloPromise;
+		return helloPromise;
 	}
 
 	/**
@@ -208,9 +208,9 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 			data.authentication = authenticationHashing(authentication.salt, authentication.challenge, password);
 		}
 
-		const IdentifiedPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Identified]>(`op:${OpCode.Identified}`);
+		const identifiedPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Identified]>(`op:${OpCode.Identified}`);
 		await this.message(OpCode.Identify, data);
-		const identified = await IdentifiedPromise;
+		const identified = await identifiedPromise;
 		this._identified = true;
 		this.emit('Identified', identified);
 
