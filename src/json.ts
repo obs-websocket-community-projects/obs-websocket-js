@@ -3,7 +3,7 @@ export {OBSWebSocketError} from './base.js';
 import {IncomingMessage, OutgoingMessage} from './types.js';
 export * from './types.js';
 
-export default class JsonOBSWebSocket extends BaseOBSWebSocket {
+export default class OBSWebSocket extends BaseOBSWebSocket {
 	protocol = 'obswebsocket.json';
 
 	protected async encodeMessage(data: OutgoingMessage): Promise<string> {

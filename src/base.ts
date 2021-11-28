@@ -18,6 +18,7 @@ export class OBSWebSocketError extends Error {
 export type EventTypes = Merge<{
 	ConnectionOpened: void;
 	ConnectionClosed: OBSWebSocketError;
+	ConnectionError: OBSWebSocketError;
 	Hello: IncomingMessageTypes[OpCode.Hello];
 	Identified: IncomingMessageTypes[OpCode.Identified];
 }, OBSEventTypes>;
@@ -35,7 +36,7 @@ IncomingMessageTypes[OpCode.Identified]
 >;
 
 export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<EventTypes>> {
-	protected static requestCounter = 0;
+	protected static requestCounter = 1;
 
 	protected static generateMessageId(): string {
 		return String(BaseOBSWebSocket.requestCounter++);
@@ -68,7 +69,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 		}
 
 		try {
-			const connectionClosedPromise = this.internalEventPromise<CloseEvent>('ConnectionClosed');
+			const connectionClosedPromise = this.internalEventPromise<EventTypes['ConnectionClosed']>('ConnectionClosed');
+			const connectionErrorPromise = this.internalEventPromise<EventTypes['ConnectionError']>('ConnectionError');
 
 			return await Promise.race([
 				(async () => {
@@ -77,7 +79,10 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 					return this.identify(hello, password, identificationParams);
 				})(),
 				connectionClosedPromise.then(e => {
-					throw new OBSWebSocketError(e.code, e.reason);
+					throw e;
+				}),
+				connectionErrorPromise.then(e => {
+					throw e;
 				}),
 			]);
 		} catch (error: unknown) {
@@ -165,17 +170,18 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 		this.socket = new WebSocketIpml(url, this.protocol) as unknown as WebSocket;
 		this.socket.onopen = this.onOpen.bind(this);
 		this.socket.onmessage = this.onMessage.bind(this);
-		this.socket.onerror = this.onError.bind(this);
+		this.socket.onerror = this.onError.bind(this) as (e: Event) => void;
 		this.socket.onclose = this.onClose.bind(this);
 
 		await connectionOpenedPromise;
 		const protocol = this.socket?.protocol;
+		// Browsers don't autoclose on missing/wrong protocol
 		if (!protocol) {
-			throw new OBSWebSocketError(-1, 'Missing socket protocol (server must be v5 or newer)');
+			throw new OBSWebSocketError(-1, 'Server sent no subprotocol');
 		}
 
 		if (protocol !== this.protocol) {
-			throw new OBSWebSocketError(-2, `Unknown socket protocol (${protocol})`);
+			throw new OBSWebSocketError(-1, 'Server sent an invalid subprotocol');
 		}
 
 		return helloPromise;
@@ -302,11 +308,14 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Websocket error event listener
-	 * @param e Event
+	 * @param e ErrorEvent
 	 */
-	protected onError(e: Event) {
+	protected onError(e: ErrorEvent) {
 		debug('socket.error: %o', e);
-		// Generally shouldn't have anything useful - anything closing will be in close event handler
+		const error = new OBSWebSocketError(-1, e.message);
+
+		this.emit('ConnectionError', error);
+		this.internalListeners.emit('ConnectionError', error);
 	}
 
 	/**

@@ -83,7 +83,7 @@ export type RequestMessage<T = keyof OBSRequestTypes> = T extends keyof OBSReque
 export type ResponseMessage<T = keyof OBSResponseTypes> = T extends keyof OBSResponseTypes ? {
 	requestType: T;
 	requestId: string;
-	requestStatus: {result: boolean; code: number; comment: string};
+	requestStatus: {result: true; code: number} | {result: false; code: number; comment: string};
 	responseData: OBSResponseTypes[T];
 } : never;
 
@@ -95,8 +95,8 @@ type EventMessage<T = keyof OBSEventTypes> = T extends keyof OBSEventTypes ? {
 
 export interface OBSRequestTypes {
 	// General
-	GetVersion: void;
-	BroadcastCustomEvent: JsonValue;
+	GetVersion: undefined;
+	BroadcastCustomEvent: JsonObject;
 	GetStats: void;
 	GetHotkeyList: void;
 	TriggerHotkeyByName: {hotkeyName: string};
@@ -316,4 +316,12 @@ export interface OBSEventTypes {
 	MediaInputPlaybackStarted: {inputName: string};
 	MediaInputPlaybackEnded: {inputName: string};
 	MediaInputActionTriggered: {inputName: string; mediaAction: string};
+}
+
+declare module './base' {
+	interface BaseOBSWebSocket {
+		call(requestType: 'GetVersion', requestData?: undefined): Promise<OBSResponseTypes['GetVersion']>;
+		call(requestType: 'BroadcastCustomEvent', requestData: OBSRequestTypes['BroadcastCustomEvent']): Promise<OBSResponseTypes['BroadcastCustomEvent']>;
+		call(requestType: 'TriggerHotkeyByName', requestData: OBSRequestTypes['TriggerHotkeyByName']): Promise<OBSResponseTypes['TriggerHotkeyByName']>;
+	}
 }

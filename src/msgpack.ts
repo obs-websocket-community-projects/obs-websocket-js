@@ -4,7 +4,7 @@ export {OBSWebSocketError} from './base.js';
 import {IncomingMessage, OutgoingMessage} from './types.js';
 export * from './types.js';
 
-export default class MsgpackOBSWebSocket extends BaseOBSWebSocket {
+export default class OBSWebSocket extends BaseOBSWebSocket {
 	protocol = 'obswebsocket.msgpack';
 
 	protected async encodeMessage(data: OutgoingMessage): Promise<ArrayBufferView> {
@@ -12,6 +12,7 @@ export default class MsgpackOBSWebSocket extends BaseOBSWebSocket {
 	}
 
 	protected async decodeMessage(data: ArrayBuffer | Blob): Promise<IncomingMessage> {
+		// Browsers provide Blob while node gives straight ArrayBuffer
 		if (typeof Blob !== 'undefined' && data instanceof Blob) {
 			data = await data.arrayBuffer();
 		}
