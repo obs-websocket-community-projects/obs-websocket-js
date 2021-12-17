@@ -398,7 +398,7 @@ export interface OBSRequestTypes {
 		 */
 		slotValue: JsonValue;
 	};
-	GetSceneCollectionList: undefined;
+	GetSceneCollectionList: never;
 	SetCurrentSceneCollection: {
 		/**
 		 * Name of the scene collection to switch to
@@ -411,7 +411,7 @@ export interface OBSRequestTypes {
 		 */
 		sceneCollectionName: string;
 	};
-	GetProfileList: undefined;
+	GetProfileList: never;
 	SetCurrentProfile: {
 		/**
 		 * Name of the profile to switch to
@@ -454,7 +454,7 @@ export interface OBSRequestTypes {
 		 */
 		parameterValue: string;
 	};
-	GetVideoSettings: undefined;
+	GetVideoSettings: never;
 	SetVideoSettings: {
 		/**
 		 * Numerator of the fractional FPS value
@@ -499,7 +499,7 @@ export interface OBSRequestTypes {
 		 */
 		outputHeight?: number;
 	};
-	GetStreamServiceSettings: undefined;
+	GetStreamServiceSettings: never;
 	SetStreamServiceSettings: {
 		/**
 		 * Type of stream service to apply. Example: `rtmp_common` or `rtmp_custom`
@@ -510,8 +510,8 @@ export interface OBSRequestTypes {
 		 */
 		streamServiceSettings: JsonObject;
 	};
-	GetVersion: undefined;
-	GetStats: undefined;
+	GetVersion: never;
+	GetStats: never;
 	BroadcastCustomEvent: {
 		/**
 		 * Data payload to emit to all receivers
@@ -534,7 +534,7 @@ export interface OBSRequestTypes {
 		 */
 		requestData?: JsonObject;
 	};
-	GetHotkeyList: undefined;
+	GetHotkeyList: never;
 	TriggerHotkeyByName: {
 		/**
 		 * Name of the hotkey to trigger
@@ -580,7 +580,7 @@ export interface OBSRequestTypes {
 			command?: boolean;
 		};
 	};
-	GetStudioModeEnabled: undefined;
+	GetStudioModeEnabled: never;
 	SetStudioModeEnabled: {
 		/**
 		 * True == Enabled, False == Disabled
@@ -783,15 +783,15 @@ export interface OBSRequestTypes {
 		 */
 		propertyName: string;
 	};
-	GetSceneList: undefined;
-	GetCurrentProgramScene: undefined;
+	GetSceneList: never;
+	GetCurrentProgramScene: never;
 	SetCurrentProgramScene: {
 		/**
 		 * Scene to set as the current program scene
 		 */
 		sceneName: string;
 	};
-	GetCurrentPreviewScene: undefined;
+	GetCurrentPreviewScene: never;
 	SetCurrentPreviewScene: {
 		/**
 		 * Scene to set as the current preview scene
@@ -1202,638 +1202,4 @@ export interface OBSResponseTypes {
 		 */
 		imageData: string;
 	};
-}
-
-// Overrides to improve typescript for requests without data and to provide documentation
-declare module './base' {
-	interface BaseOBSWebSocket {
-		/**
-		 * Gets the value of a "slot" from the selected persistent data realm.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetPersistentData', requestData: OBSRequestTypes['GetPersistentData']): Promise<OBSResponseTypes['GetPersistentData']>;
-		/**
-		 * Sets the value of a "slot" from the selected persistent data realm.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'SetPersistentData', requestData: OBSRequestTypes['SetPersistentData']): Promise<OBSResponseTypes['SetPersistentData']>;
-		/**
-		 * Gets an array of all scene collections
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'GetSceneCollectionList', requestData?: undefined): Promise<OBSResponseTypes['GetSceneCollectionList']>;
-		/**
-		 * Switches to a scene collection.
-		 *
-		 * Note: This will block until the collection has finished changing.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'SetCurrentSceneCollection', requestData: OBSRequestTypes['SetCurrentSceneCollection']): Promise<OBSResponseTypes['SetCurrentSceneCollection']>;
-		/**
-		 * Creates a new scene collection, switching to it in the process.
-		 *
-		 * Note: This will block until the collection has finished changing.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'CreateSceneCollection', requestData: OBSRequestTypes['CreateSceneCollection']): Promise<OBSResponseTypes['CreateSceneCollection']>;
-		/**
-		 * Gets an array of all profiles
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'GetProfileList', requestData?: undefined): Promise<OBSResponseTypes['GetProfileList']>;
-		/**
-		 * Switches to a profile.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'SetCurrentProfile', requestData: OBSRequestTypes['SetCurrentProfile']): Promise<OBSResponseTypes['SetCurrentProfile']>;
-		/**
-		 * Creates a new profile, switching to it in the process
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'CreateProfile', requestData: OBSRequestTypes['CreateProfile']): Promise<OBSResponseTypes['CreateProfile']>;
-		/**
-		 * Removes a profile. If the current profile is chosen, it will change to a different profile first.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'RemoveProfile', requestData: OBSRequestTypes['RemoveProfile']): Promise<OBSResponseTypes['RemoveProfile']>;
-		/**
-		 * Gets a parameter from the current profile's configuration.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'GetProfileParameter', requestData: OBSRequestTypes['GetProfileParameter']): Promise<OBSResponseTypes['GetProfileParameter']>;
-		/**
-		 * Sets the value of a parameter in the current profile's configuration.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'SetProfileParameter', requestData: OBSRequestTypes['SetProfileParameter']): Promise<OBSResponseTypes['SetProfileParameter']>;
-		/**
-		 * Gets the current video settings.
-		 *
-		 * Note: To get the true FPS value, divide the FPS numerator by the FPS denominator. Example: `60000/1001`
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetVideoSettings', requestData?: undefined): Promise<OBSResponseTypes['GetVideoSettings']>;
-		/**
-		 * Sets the current video settings.
-		 *
-		 * Note: Fields must be specified in pairs. For example, you cannot set only `baseWidth` without needing to specify `baseHeight`.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'SetVideoSettings', requestData: OBSRequestTypes['SetVideoSettings']): Promise<OBSResponseTypes['SetVideoSettings']>;
-		/**
-		 * Gets the current stream service settings (stream destination).
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 4
-		 */
-		call(requestType: 'GetStreamServiceSettings', requestData?: undefined): Promise<OBSResponseTypes['GetStreamServiceSettings']>;
-		/**
-		 * Sets the current stream service settings (stream destination).
-		 *
-		 * Note: Simple RTMP settings can be set with type `rtmp_custom` and the settings fields `server` and `key`.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 4
-		 */
-		call(requestType: 'SetStreamServiceSettings', requestData: OBSRequestTypes['SetStreamServiceSettings']): Promise<OBSResponseTypes['SetStreamServiceSettings']>;
-		/**
-		 * Gets data about the current plugin and RPC version.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'GetVersion', requestData?: undefined): Promise<OBSResponseTypes['GetVersion']>;
-		/**
-		 * Gets statistics about OBS, obs-websocket, and the current session.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetStats', requestData?: undefined): Promise<OBSResponseTypes['GetStats']>;
-		/**
-		 * Broadcasts a `CustomEvent` to all WebSocket clients. Receivers are clients which are identified and subscribed.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'BroadcastCustomEvent', requestData: OBSRequestTypes['BroadcastCustomEvent']): Promise<OBSResponseTypes['BroadcastCustomEvent']>;
-		/**
-		 * Call a request registered to a vendor.
-		 *
-		 * A vendor is a unique name registered by a third-party plugin or script, which allows for custom requests and events to be added to obs-websocket.
-		 * If a plugin or script implements vendor requests or events, documentation is expected to be provided with them.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'CallVendorRequest', requestData: OBSRequestTypes['CallVendorRequest']): Promise<OBSResponseTypes['CallVendorRequest']>;
-		/**
-		 * Gets an array of all hotkey names in OBS
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'GetHotkeyList', requestData?: undefined): Promise<OBSResponseTypes['GetHotkeyList']>;
-		/**
-		 * Triggers a hotkey using its name. See `GetHotkeyList`
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'TriggerHotkeyByName', requestData: OBSRequestTypes['TriggerHotkeyByName']): Promise<OBSResponseTypes['TriggerHotkeyByName']>;
-		/**
-		 * Triggers a hotkey using a sequence of keys.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 4
-		 */
-		call(requestType: 'TriggerHotkeyByKeySequence', requestData: OBSRequestTypes['TriggerHotkeyByKeySequence']): Promise<OBSResponseTypes['TriggerHotkeyByKeySequence']>;
-		/**
-		 * Gets whether studio is enabled.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'GetStudioModeEnabled', requestData?: undefined): Promise<OBSResponseTypes['GetStudioModeEnabled']>;
-		/**
-		 * Enables or disables studio mode
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'SetStudioModeEnabled', requestData: OBSRequestTypes['SetStudioModeEnabled']): Promise<OBSResponseTypes['SetStudioModeEnabled']>;
-		/**
-		 * Sleeps for a time duration or number of frames. Only available in request batches with types `SERIAL_REALTIME` or `SERIAL_FRAME`.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'Sleep', requestData: OBSRequestTypes['Sleep']): Promise<OBSResponseTypes['Sleep']>;
-		/**
-		 * Gets an array of all inputs in OBS.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetInputList', requestData: OBSRequestTypes['GetInputList']): Promise<OBSResponseTypes['GetInputList']>;
-		/**
-		 * Gets an array of all available input kinds in OBS.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetInputKindList', requestData: OBSRequestTypes['GetInputKindList']): Promise<OBSResponseTypes['GetInputKindList']>;
-		/**
-		 * Creates a new input, adding it as a scene item to the specified scene.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'CreateInput', requestData: OBSRequestTypes['CreateInput']): Promise<OBSResponseTypes['CreateInput']>;
-		/**
-		 * Removes an existing input.
-		 *
-		 * Note: Will immediately remove all associated scene items.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'RemoveInput', requestData: OBSRequestTypes['RemoveInput']): Promise<OBSResponseTypes['RemoveInput']>;
-		/**
-		 * Sets the name of an input (rename).
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'SetInputName', requestData: OBSRequestTypes['SetInputName']): Promise<OBSResponseTypes['SetInputName']>;
-		/**
-		 * Gets the default settings for an input kind.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'GetInputDefaultSettings', requestData: OBSRequestTypes['GetInputDefaultSettings']): Promise<OBSResponseTypes['GetInputDefaultSettings']>;
-		/**
-		 * Gets the settings of an input.
-		 *
-		 * Note: Does not include defaults. To create the entire settings object, overlay `inputSettings` over the `defaultInputSettings` provided by `GetInputDefaultSettings`.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'GetInputSettings', requestData: OBSRequestTypes['GetInputSettings']): Promise<OBSResponseTypes['GetInputSettings']>;
-		/**
-		 * Sets the settings of an input.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'SetInputSettings', requestData: OBSRequestTypes['SetInputSettings']): Promise<OBSResponseTypes['SetInputSettings']>;
-		/**
-		 * Gets the audio mute state of an input.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetInputMute', requestData: OBSRequestTypes['GetInputMute']): Promise<OBSResponseTypes['GetInputMute']>;
-		/**
-		 * Sets the audio mute state of an input.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'SetInputMute', requestData: OBSRequestTypes['SetInputMute']): Promise<OBSResponseTypes['SetInputMute']>;
-		/**
-		 * Toggles the audio mute state of an input.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'ToggleInputMute', requestData: OBSRequestTypes['ToggleInputMute']): Promise<OBSResponseTypes['ToggleInputMute']>;
-		/**
-		 * Gets the current volume setting of an input.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'GetInputVolume', requestData: OBSRequestTypes['GetInputVolume']): Promise<OBSResponseTypes['GetInputVolume']>;
-		/**
-		 * Sets the volume setting of an input.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'SetInputVolume', requestData: OBSRequestTypes['SetInputVolume']): Promise<OBSResponseTypes['SetInputVolume']>;
-		/**
-		 * Gets the audio sync offset of an input.
-		 *
-		 * Note: The audio sync offset can be negative too!
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'GetInputAudioSyncOffset', requestData: OBSRequestTypes['GetInputAudioSyncOffset']): Promise<OBSResponseTypes['GetInputAudioSyncOffset']>;
-		/**
-		 * Sets the audio sync offset of an input.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'SetInputAudioSyncOffset', requestData: OBSRequestTypes['SetInputAudioSyncOffset']): Promise<OBSResponseTypes['SetInputAudioSyncOffset']>;
-		/**
-		 * Gets the audio monitor type of an input.
-		 *
-		 * The available audio monitor types are:
-		 * - `OBS_MONITORING_TYPE_NONE`
-		 * - `OBS_MONITORING_TYPE_MONITOR_ONLY`
-		 * - `OBS_MONITORING_TYPE_MONITOR_AND_OUTPUT`
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetInputAudioMonitorType', requestData: OBSRequestTypes['GetInputAudioMonitorType']): Promise<OBSResponseTypes['GetInputAudioMonitorType']>;
-		/**
-		 * Sets the audio monitor type of an input.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'SetInputAudioMonitorType', requestData: OBSRequestTypes['SetInputAudioMonitorType']): Promise<OBSResponseTypes['SetInputAudioMonitorType']>;
-		/**
-		 * Gets the items of a list property from an input's properties.
-		 *
-		 * Note: Use this in cases where an input provides a dynamic, selectable list of items. For example, display capture, where it provides a list of available displays.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 4
-		 */
-		call(requestType: 'GetInputPropertiesListPropertyItems', requestData: OBSRequestTypes['GetInputPropertiesListPropertyItems']): Promise<OBSResponseTypes['GetInputPropertiesListPropertyItems']>;
-		/**
-		 * Presses a button in the properties of an input.
-		 *
-		 * Note: Use this in cases where there is a button in the properties of an input that cannot be accessed in any other way. For example, browser sources, where there is a refresh button.
-		 *
-		 * @category inputs
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 4
-		 */
-		call(requestType: 'PressInputPropertiesButton', requestData: OBSRequestTypes['PressInputPropertiesButton']): Promise<OBSResponseTypes['PressInputPropertiesButton']>;
-		/**
-		 * Gets an array of all scenes in OBS.
-		 *
-		 * @category scenes
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetSceneList', requestData?: undefined): Promise<OBSResponseTypes['GetSceneList']>;
-		/**
-		 * Gets the current program scene.
-		 *
-		 * @category scenes
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'GetCurrentProgramScene', requestData?: undefined): Promise<OBSResponseTypes['GetCurrentProgramScene']>;
-		/**
-		 * Sets the current program scene.
-		 *
-		 * @category scenes
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'SetCurrentProgramScene', requestData: OBSRequestTypes['SetCurrentProgramScene']): Promise<OBSResponseTypes['SetCurrentProgramScene']>;
-		/**
-		 * Gets the current preview scene.
-		 *
-		 * Only available when studio mode is enabled.
-		 *
-		 * @category scenes
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'GetCurrentPreviewScene', requestData?: undefined): Promise<OBSResponseTypes['GetCurrentPreviewScene']>;
-		/**
-		 * Sets the current preview scene.
-		 *
-		 * Only available when studio mode is enabled.
-		 *
-		 * @category scenes
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		call(requestType: 'SetCurrentPreviewScene', requestData: OBSRequestTypes['SetCurrentPreviewScene']): Promise<OBSResponseTypes['SetCurrentPreviewScene']>;
-		/**
-		 * Creates a new scene in OBS.
-		 *
-		 * @category scenes
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'CreateScene', requestData: OBSRequestTypes['CreateScene']): Promise<OBSResponseTypes['CreateScene']>;
-		/**
-		 * Removes a scene from OBS.
-		 *
-		 * @category scenes
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'RemoveScene', requestData: OBSRequestTypes['RemoveScene']): Promise<OBSResponseTypes['RemoveScene']>;
-		/**
-		 * Sets the name of a scene (rename).
-		 *
-		 * @category scenes
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'SetSceneName', requestData: OBSRequestTypes['SetSceneName']): Promise<OBSResponseTypes['SetSceneName']>;
-		/**
-		 * Gets the active and show state of a source.
-		 *
-		 * **Compatible with inputs and scenes.**
-		 *
-		 * @category sources
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 2
-		 */
-		call(requestType: 'GetSourceActive', requestData: OBSRequestTypes['GetSourceActive']): Promise<OBSResponseTypes['GetSourceActive']>;
-		/**
-		 * Gets a Base64-encoded screenshot of a source.
-		 *
-		 * The `imageWidth` and `imageHeight` parameters are treated as "scale to inner", meaning the smallest ratio will be used and the aspect ratio of the original resolution is kept.
-		 * If `imageWidth` and `imageHeight` are not specified, the compressed image will use the full resolution of the source.
-		 *
-		 * **Compatible with inputs and scenes.**
-		 *
-		 * @category sources
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 4
-		 */
-		call(requestType: 'GetSourceScreenshot', requestData: OBSRequestTypes['GetSourceScreenshot']): Promise<OBSResponseTypes['GetSourceScreenshot']>;
-		/**
-		 * Saves a screenshot of a source to the filesystem.
-		 *
-		 * The `imageWidth` and `imageHeight` parameters are treated as "scale to inner", meaning the smallest ratio will be used and the aspect ratio of the original resolution is kept.
-		 * If `imageWidth` and `imageHeight` are not specified, the compressed image will use the full resolution of the source.
-		 *
-		 * **Compatible with inputs and scenes.**
-		 *
-		 * @category sources
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		call(requestType: 'SaveSourceScreenshot', requestData: OBSRequestTypes['SaveSourceScreenshot']): Promise<OBSResponseTypes['SaveSourceScreenshot']>;
-		/**
-		 * The current scene collection has begun changing.
-		 *
-		 * Note: We recommend using this event to trigger a pause of all polling requests, as performing any requests during a
-		 * scene collection change is considered undefined behavior and can cause crashes!
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		on(event: 'CurrentSceneCollectionChanging', listener: (data: OBSEventTypes['CurrentSceneCollectionChanging']) => void): this;
-		/**
-		 * The current scene collection has changed.
-		 *
-		 * Note: If polling has been paused during `CurrentSceneCollectionChanging`, this is the que to restart polling.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		on(event: 'CurrentSceneCollectionChanged', listener: (data: OBSEventTypes['CurrentSceneCollectionChanged']) => void): this;
-		/**
-		 * The scene collection list has changed.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		on(event: 'SceneCollectionListChanged', listener: (data: OBSEventTypes['SceneCollectionListChanged']) => void): this;
-		/**
-		 * The current profile has begun changing.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		on(event: 'CurrentProfileChanging', listener: (data: OBSEventTypes['CurrentProfileChanging']) => void): this;
-		/**
-		 * The current profile has changed.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		on(event: 'CurrentProfileChanged', listener: (data: OBSEventTypes['CurrentProfileChanged']) => void): this;
-		/**
-		 * The profile list has changed.
-		 *
-		 * @category config
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		on(event: 'ProfileListChanged', listener: (data: OBSEventTypes['ProfileListChanged']) => void): this;
-		/**
-		 * OBS has begun the shutdown process.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		on(event: 'ExitStarted', listener: (data: OBSEventTypes['ExitStarted']) => void): this;
-		/**
-		 * Studio mode has been enabled or disabled.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 1
-		 */
-		on(event: 'StudioModeStateChanged', listener: (data: OBSEventTypes['StudioModeStateChanged']) => void): this;
-		/**
-		 * An event has been emitted from a vendor.
-		 *
-		 * A vendor is a unique name registered by a third-party plugin or script, which allows for custom requests and events to be added to obs-websocket.
-		 * If a plugin or script implements vendor requests or events, documentation is expected to be provided with them.
-		 *
-		 * @category general
-		 * @initialVersion 5.0.0
-		 * @rpcVersion 1
-		 * @complexity 3
-		 */
-		on(event: 'VendorEvent', listener: (data: OBSEventTypes['VendorEvent']) => void): this;
-	}
 }

@@ -45,13 +45,13 @@ test('request without parameters triggers typescript error (but still works)', a
 	// @ts-expect-error Should not match any signature
 	const res = await client.call('GetVersion', {});
 
-	// @ts-expect-error Method overloading causes wrong return type due to the error above
 	t.is(res.obsVersion, '5.0.0-mock.0');
 });
 
 test('request requiring parameters throws', async t => {
 	const {client} = t.context;
-	// @ts-expect-error Should have arguments
+	// Wish there was a typescript error here but method overloading to say
+	// when 2nd argument is needed didn't work out.
 	await t.throwsAsync(client.call('BroadcastCustomEvent'), {
 		instanceOf: OBSWebSocketError,
 		message: 'Missing params',

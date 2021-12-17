@@ -123,7 +123,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @param requestData Request data
 	 * @returns Request response
 	 */
-	async call<Type extends keyof OBSRequestTypes>(requestType: Type, requestData: OBSRequestTypes[Type]): Promise<OBSResponseTypes[Type]> {
+	async call<Type extends keyof OBSRequestTypes>(requestType: Type, requestData?: OBSRequestTypes[Type]): Promise<OBSResponseTypes[Type]> {
 		const requestId = BaseOBSWebSocket.generateMessageId();
 		const responsePromise = this.internalEventPromise<ResponseMessage<Type>>(`res:${requestId}`);
 		await this.message(WebSocketOpCode.Request, {

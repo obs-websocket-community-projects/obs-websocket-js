@@ -243,7 +243,8 @@ export interface OBSRequestTypes {
 export interface OBSResponseTypes {
 	${generateObsResponseTypes(protocol.requests)}
 }
-
+`;
+/* typescript provides worse autocomplete results and errors with these
 // Overrides to improve typescript for requests without data and to provide documentation
 declare module './base' {
 	interface BaseOBSWebSocket {
@@ -251,7 +252,7 @@ declare module './base' {
 		${generateObsListenerOverrides(protocol.events)}
 	}
 }
-`;
+*/
 
 const linter = new ESLint({fix: true});
 const linted = await linter.lintText(source, {
@@ -310,7 +311,7 @@ function generateObsEventTypes(events: OBSEvent[]): string {
 function generateObsRequestTypes(requests: OBSRequest[]): string {
 	return requests.map(req => {
 		if (req.requestFields.length === 0) {
-			return `${req.requestType}: undefined;`;
+			return `${req.requestType}: never;`;
 		}
 
 		return `${req.requestType}: ${stringifyTypes(unflattenAndResolveTypes(req.requestFields))};`;
@@ -327,6 +328,7 @@ function generateObsResponseTypes(requests: OBSRequest[]): string {
 	}).join('\n');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateObsListenerOverrides(events: OBSEvent[]): string {
 	return events.map(ev => {
 		const jsdoc: string[] = [
@@ -348,6 +350,7 @@ function generateObsListenerOverrides(events: OBSEvent[]): string {
 	}).join('\n');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateObsRequestOverrides(requests: OBSRequest[]): string {
 	return requests.map(req => {
 		const jsdoc: string[] = [
@@ -364,7 +367,7 @@ function generateObsRequestOverrides(requests: OBSRequest[]): string {
 
 		const requestData = req.requestFields.length > 0
 			? `requestData: OBSRequestTypes['${req.requestType}']`
-			: 'requestData?: undefined';
+			: 'requestData?: never';
 
 		return [
 			formatJsDoc(jsdoc),
