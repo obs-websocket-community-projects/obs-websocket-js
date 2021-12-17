@@ -20,7 +20,7 @@ jobs:
           node-version: '16'
           cache: 'npm'
       - run: npm ci
-      - run: npm build
+      - run: npm run build
 
   lint:
     name: Lint
@@ -32,7 +32,7 @@ jobs:
           node-version: '16'
           cache: 'npm'
       - run: npm ci
-      - run: npm lint
+      - run: npm run lint
 
   test:
     name: Test node ${{ matrix.node-version }}
