@@ -54,7 +54,7 @@ jobs:
       - run: npm ci
       - name: Target older ts version for nodejs 12
         if: matrix.node-version == '12.x'
-        run: echo "TS_NODE_COMPILER_OPTIONS={\"target":"es2019\"}'" >> $GITHUB_ENV
+        run: echo "TS_NODE_COMPILER_OPTIONS={\"target\":\"es2019\"}" >> $GITHUB_ENV
       - run: npm test
       # Currently broken
       #- run: npm run node-coveralls
