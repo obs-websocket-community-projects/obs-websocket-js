@@ -4,7 +4,7 @@ import EventEmitter from 'eventemitter3';
 import WebSocketIpml from 'isomorphic-ws';
 import {Except, Merge, SetOptional} from 'type-fest';
 
-import {OutgoingMessageTypes, OpCode, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, ResponseMessage} from './types.js';
+import {OutgoingMessageTypes, WebSocketOpCode, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, ResponseMessage} from './types.js';
 import authenticationHashing from './utils/authenticationHashing.js';
 
 export const debug = createDebug('obs-websocket-js');
@@ -19,8 +19,8 @@ export type EventTypes = Merge<{
 	ConnectionOpened: void;
 	ConnectionClosed: OBSWebSocketError;
 	ConnectionError: OBSWebSocketError;
-	Hello: IncomingMessageTypes[OpCode.Hello];
-	Identified: IncomingMessageTypes[OpCode.Identified];
+	Hello: IncomingMessageTypes[WebSocketOpCode.Hello];
+	Identified: IncomingMessageTypes[WebSocketOpCode.Identified];
 }, OBSEventTypes>;
 
 // EventEmitter expects {type: [value]} syntax while for us {type: value} is neater
@@ -29,10 +29,10 @@ type MapValueToArgsArray<T extends Record<string, unknown>> = {
 	[K in keyof T]: T[K] extends void ? [] : [T[K]];
 };
 
-type IdentificationInput = SetOptional<Except<OutgoingMessageTypes[OpCode.Identify], 'authentication'>, 'rpcVersion'>;
+type IdentificationInput = SetOptional<Except<OutgoingMessageTypes[WebSocketOpCode.Identify], 'authentication'>, 'rpcVersion'>;
 type HelloIdentifiedMerged = Merge<
-Exclude<IncomingMessageTypes[OpCode.Hello], 'authenticate'>,
-IncomingMessageTypes[OpCode.Identified]
+Exclude<IncomingMessageTypes[WebSocketOpCode.Hello], 'authenticate'>,
+IncomingMessageTypes[WebSocketOpCode.Identified]
 >;
 
 export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<EventTypes>> {
@@ -110,14 +110,15 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @param data Reidentify data
 	 * @returns Identified message data
 	 */
-	async reidentify(data: OutgoingMessageTypes[OpCode.Reidentify]) {
-		const identifiedPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Identified]>(`op:${OpCode.Identified}`);
-		await this.message(OpCode.Reidentify, data);
+	async reidentify(data: OutgoingMessageTypes[WebSocketOpCode.Reidentify]) {
+		const identifiedPromise = this.internalEventPromise<IncomingMessageTypes[WebSocketOpCode.Identified]>(`op:${WebSocketOpCode.Identified}`);
+		await this.message(WebSocketOpCode.Reidentify, data);
 		return identifiedPromise;
 	}
 
 	/**
 	 * Send a request to obs-websocket
+	 *
 	 * @param requestType Request name
 	 * @param requestData Request data
 	 * @returns Request response
@@ -125,7 +126,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	async call<Type extends keyof OBSRequestTypes>(requestType: Type, requestData: OBSRequestTypes[Type]): Promise<OBSResponseTypes[Type]> {
 		const requestId = BaseOBSWebSocket.generateMessageId();
 		const responsePromise = this.internalEventPromise<ResponseMessage<Type>>(`res:${requestId}`);
-		await this.message(OpCode.Request, {
+		await this.message(WebSocketOpCode.Request, {
 			requestId,
 			requestType,
 			requestData,
@@ -161,11 +162,13 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	/**
 	 * Create connection to specified obs-websocket server
 	 *
+	 * @private
 	 * @param url Websocket address
+	 * @returns Promise for hello data
 	 */
 	protected async createConnection(url: string) {
 		const connectionOpenedPromise = this.internalEventPromise('ConnectionOpened');
-		const helloPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Hello]>(`op:${OpCode.Hello}`);
+		const helloPromise = this.internalEventPromise<IncomingMessageTypes[WebSocketOpCode.Hello]>(`op:${WebSocketOpCode.Hello}`);
 
 		this.socket = new WebSocketIpml(url, this.protocol) as unknown as WebSocket;
 		this.socket.onopen = this.onOpen.bind(this);
@@ -190,6 +193,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	/**
 	 * Send identify message
 	 *
+	 * @private
 	 * @param hello Hello message data
 	 * @param password Password
 	 * @param identificationParams Identification params
@@ -200,12 +204,12 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 			authentication,
 			rpcVersion,
 			...helloRest
-		}: IncomingMessageTypes[OpCode.Hello],
+		}: IncomingMessageTypes[WebSocketOpCode.Hello],
 		password?: string,
 		identificationParams: IdentificationInput = {},
 	): Promise<HelloIdentifiedMerged> {
 		// Set rpcVersion if unset
-		const data: OutgoingMessageTypes[OpCode.Identify] = {
+		const data: OutgoingMessageTypes[WebSocketOpCode.Identify] = {
 			rpcVersion,
 			...identificationParams,
 		};
@@ -214,8 +218,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 			data.authentication = authenticationHashing(authentication.salt, authentication.challenge, password);
 		}
 
-		const identifiedPromise = this.internalEventPromise<IncomingMessageTypes[OpCode.Identified]>(`op:${OpCode.Identified}`);
-		await this.message(OpCode.Identify, data);
+		const identifiedPromise = this.internalEventPromise<IncomingMessageTypes[WebSocketOpCode.Identified]>(`op:${WebSocketOpCode.Identified}`);
+		await this.message(WebSocketOpCode.Identify, data);
 		const identified = await identifiedPromise;
 		this._identified = true;
 		this.emit('Identified', identified);
@@ -230,7 +234,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	/**
 	 * Send message to obs-websocket
 	 *
-	 * @param op OpCode
+	 * @private
+	 * @param op WebSocketOpCode
 	 * @param d Message data
 	 */
 	protected async message<Type extends keyof OutgoingMessageTypes>(op: Type, d: OutgoingMessageTypes[Type]) {
@@ -253,6 +258,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * Create a promise to listen for an event on internal listener
 	 * (will be cleaned up on disconnect)
 	 *
+	 * @private
 	 * @param event Event to listen to
 	 * @returns Event data
 	 */
@@ -264,6 +270,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Websocket open event listener
+	 *
+	 * @private
 	 * @param e Event
 	 */
 	protected onOpen(e: Event) {
@@ -274,6 +282,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Websocket message event listener
+	 *
+	 * @private
 	 * @param e Event
 	 */
 	protected async onMessage(e: MessageEvent) {
@@ -286,14 +296,15 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 			}
 
 			switch (op) {
-				case OpCode.Event: {
-					const {eventType, eventData} = d as IncomingMessageTypes[OpCode.Event];
-					this.emit(eventType, eventData as any);
+				case WebSocketOpCode.Event: {
+					const {eventType, eventData} = d as IncomingMessageTypes[WebSocketOpCode.Event];
+					// @ts-expect-error Typescript just doesn't understand it
+					this.emit(eventType, eventData);
 					return;
 				}
 
-				case OpCode.RequestResponse: {
-					const {requestId} = d as IncomingMessageTypes[OpCode.RequestResponse];
+				case WebSocketOpCode.RequestResponse: {
+					const {requestId} = d as IncomingMessageTypes[WebSocketOpCode.RequestResponse];
 					this.internalListeners.emit(`res:${requestId}`, d);
 					return;
 				}
@@ -308,6 +319,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Websocket error event listener
+	 *
+	 * @private
 	 * @param e ErrorEvent
 	 */
 	protected onError(e: ErrorEvent) {
@@ -320,6 +333,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Websocket close event listener
+	 *
+	 * @private
 	 * @param e Event
 	 */
 	protected onClose(e: CloseEvent) {
@@ -333,15 +348,17 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Encode a message for specified protocol
+	 *
 	 * @param data Outgoing message
-	 * @return Outgoing message to send via websocket
+	 * @returns Outgoing message to send via websocket
 	 */
 	protected abstract encodeMessage(data: OutgoingMessage): Promise<string | Blob | ArrayBufferView>;
 
 	/**
 	 * Decode a message for specified protocol
+	 *
 	 * @param data Incoming message from websocket
-	 * @return Parsed incoming message
+	 * @returns Parsed incoming message
 	 */
 	protected abstract decodeMessage(data: string | ArrayBuffer | Blob): Promise<IncomingMessage>;
 }

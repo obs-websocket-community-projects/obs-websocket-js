@@ -3,7 +3,7 @@ import sha256 from 'crypto-js/sha256.js';
 import Base64 from 'crypto-js/enc-base64.js';
 import {JsonObject} from 'type-fest';
 import {AddressInfo, WebSocketServer} from 'ws';
-import {IncomingMessage, OpCode, OutgoingMessage} from '../../src/types';
+import {IncomingMessage, WebSocketOpCode, OutgoingMessage} from '../../src/types';
 
 export interface MockServer {
 	server: WebSocketServer;
@@ -32,6 +32,10 @@ const REQUEST_HANDLERS: Record<string, (req?: JsonObject | void) => FailureRespo
 	BroadcastCustomEvent: params => {
 		if (!params) {
 			return new FailureResponse(301, 'Missing params');
+		}
+
+		if (!params.eventData) {
+			return new FailureResponse(300, 'Missing eventData');
 		}
 
 		return undefined;
@@ -100,7 +104,7 @@ export async function makeServer(
 			received.push(message);
 
 			switch (message.op) {
-				case OpCode.Identify:
+				case WebSocketOpCode.Identify:
 					if (authenticate) {
 						if (!message.d.authentication) {
 							socket.close(4008, 'Missing authentication');
@@ -114,25 +118,25 @@ export async function makeServer(
 					}
 
 					send({
-						op: OpCode.Identified,
+						op: WebSocketOpCode.Identified,
 						d: {
 							negotiatedRpcVersion: 1,
 						},
 					});
 					break;
-				case OpCode.Reidentify:
+				case WebSocketOpCode.Reidentify:
 					send({
-						op: OpCode.Identified,
+						op: WebSocketOpCode.Identified,
 						d: {
 							negotiatedRpcVersion: 1,
 						},
 					});
 					break;
-				case OpCode.Request: {
+				case WebSocketOpCode.Request: {
 					const {requestData, requestId, requestType} = message.d;
 					if (!(requestType in REQUEST_HANDLERS)) {
 						send({
-							op: OpCode.RequestResponse,
+							op: WebSocketOpCode.RequestResponse,
 							d: {
 								// @ts-expect-error don't care
 								requestType,
@@ -151,7 +155,7 @@ export async function makeServer(
 
 					if (responseData instanceof FailureResponse) {
 						send({
-							op: OpCode.RequestResponse,
+							op: WebSocketOpCode.RequestResponse,
 							d: {
 								// @ts-expect-error don't care
 								requestType,
@@ -167,7 +171,7 @@ export async function makeServer(
 					}
 
 					send({
-						op: OpCode.RequestResponse,
+						op: WebSocketOpCode.RequestResponse,
 						d: {
 							// @ts-expect-error don't care
 							requestType,
@@ -190,7 +194,7 @@ export async function makeServer(
 		});
 
 		send({
-			op: OpCode.Hello,
+			op: WebSocketOpCode.Hello,
 			d: {
 				obsWebSocketVersion: '5.0.0-mock.0',
 				rpcVersion: 1,

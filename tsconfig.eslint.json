@@ -5,6 +5,7 @@
   },
   "extends": "./tsconfig.json",
   "include": [
+    "scripts/**/*.js",
     "scripts/**/*.ts",
     "src/**/*.ts",
     "tests/**/*.ts",

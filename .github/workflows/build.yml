@@ -28,8 +28,6 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm test
       # Currently broken
       #- run: npm run node-coveralls

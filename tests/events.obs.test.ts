@@ -1,7 +1,7 @@
 import anyTest, {TestFn} from 'ava';
 
 import {makeServer, MockServer} from './helpers/dev-server.js';
-import OBSWebSocket, {OBSEventTypes, OpCode} from '../src/json.js';
+import OBSWebSocket, {OBSEventTypes, WebSocketOpCode} from '../src/json.js';
 
 const test = anyTest as TestFn<{
 	server: MockServer;
@@ -26,23 +26,21 @@ test.afterEach(async t => {
 
 test('disconencted throws', async t => {
 	const {client, server} = t.context;
-	const eventFiredPromise = new Promise<OBSEventTypes['StreamStateChanged']>(resolve => {
-		client.on('StreamStateChanged', resolve);
+	const eventFiredPromise = new Promise<OBSEventTypes['StudioModeStateChanged']>(resolve => {
+		client.on('StudioModeStateChanged', resolve);
 	});
 	server.send({
-		op: OpCode.Event,
+		op: WebSocketOpCode.Event,
 		d: {
-			eventType: 'StreamStateChanged',
+			eventType: 'StudioModeStateChanged',
 			eventIntent: 1,
 			eventData: {
-				outputActive: true,
-				outputState: 'started',
+				studioModeEnabled: true,
 			},
 		},
 	});
 
 	const event = await eventFiredPromise;
-	t.true(event.outputActive);
-	t.is(event.outputState, 'started');
+	t.true(event.studioModeEnabled);
 });
 

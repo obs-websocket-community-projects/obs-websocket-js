@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import OBSWebSocket, {OBSWebSocketError, OpCode} from '../src/json.js';
+import OBSWebSocket, {OBSWebSocketError, WebSocketOpCode} from '../src/json.js';
 import {makeServer, PASSWORD} from './helpers/dev-server.js';
 
 test('connects: auth not required', async t => {
@@ -101,7 +101,7 @@ test('connects: identify extra fileds', async t => {
 	}));
 	t.true(obs.identified);
 
-	const message = server.received.find(({op}) => op === OpCode.Identify);
+	const message = server.received.find(({op}) => op === WebSocketOpCode.Identify);
 
 	t.assert(message);
 	// For typescript
@@ -130,7 +130,7 @@ test('connects: reidentify', async t => {
 		eventSubscriptions: 127,
 	}));
 
-	const message = server.received.find(({op}) => op === OpCode.Reidentify);
+	const message = server.received.find(({op}) => op === WebSocketOpCode.Reidentify);
 
 	t.assert(message);
 	// For typescript

@@ -3,6 +3,7 @@ module.exports = {
 	extends: [
 		'xo',
 		'xo-typescript',
+		'plugin:jsdoc/recommended',
 	],
 	parserOptions: {
 		project: './tsconfig.eslint.json',
@@ -98,13 +99,28 @@ module.exports = {
 			},
 		],
 		'capitalized-comments': 'off',
+		'jsdoc/check-tag-names': ['warn', {
+			definedTags: ['category', 'complexity', 'defaultValue', 'initialVersion', 'restrictions', 'rpcVersion'],
+		}],
+		// Better handled by typescript
+		'jsdoc/require-param-type': 'off',
+		'jsdoc/require-returns-type': 'off',
+		'jsdoc/valid-types': 'off',
+	},
+	settings: {
+		jsdoc: {
+			ignorePrivate: true,
+		},
 	},
 	overrides: [
 		{
-			files: ['test/**/*.{js,ts}'],
+			files: ['tests/**/*.{js,ts}'],
 			extends: [
 				'plugin:ava/recommended',
 			],
+			rules: {
+				'jsdoc/require-jsdoc': 'off',
+			},
 		},
 	],
 };

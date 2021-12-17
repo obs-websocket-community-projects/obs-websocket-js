@@ -4,10 +4,10 @@ import Base64 from 'crypto-js/enc-base64.js';
 /**
  * SHA256 Hashing.
  *
- * @param  {String} [salt=''] salt.
- * @param  {String} [challenge=''] challenge.
- * @param  {String} msg Message to encode.
- * @return {String} sha256 encoded string.
+ * @param  {string} [salt=''] salt.
+ * @param  {string} [challenge=''] challenge.
+ * @param  {string} msg Message to encode.
+ * @returns {string} sha256 encoded string.
  */
 export default function (salt: string, challenge: string, msg: string): string {
 	const hash = Base64.stringify(sha256(msg + salt))!;

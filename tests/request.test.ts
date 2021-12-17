@@ -45,6 +45,7 @@ test('request without parameters triggers typescript error (but still works)', a
 	// @ts-expect-error Should not match any signature
 	const res = await client.call('GetVersion', {});
 
+	// @ts-expect-error Method overloading causes wrong return type due to the error above
 	t.is(res.obsVersion, '5.0.0-mock.0');
 });
 
@@ -60,7 +61,7 @@ test('request requiring parameters throws', async t => {
 
 test('request requiring parameters but void response', async t => {
 	const {client} = t.context;
-	const prom = client.call('BroadcastCustomEvent', {test: 'true'});
+	const prom = client.call('BroadcastCustomEvent', {eventData: {test: 'true'}});
 	await t.notThrowsAsync(prom);
 	// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
 	const res = await prom;
