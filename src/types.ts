@@ -680,6 +680,12 @@ export interface OBSRequestTypes {
 		 * Object of settings to apply
 		 */
 		inputSettings: JsonObject;
+		/**
+		 * True == apply the settings on top of existing ones, False == reset the input to its defaults, then apply settings.
+		 *
+		 * @defaultValue true
+		 */
+		overlay?: boolean;
 	};
 	GetInputMute: {
 		/**
@@ -782,6 +788,188 @@ export interface OBSRequestTypes {
 		 * Name of the button property to press
 		 */
 		propertyName: string;
+	};
+	GetSceneItemList: {
+		/**
+		 * Name of the scene to get the items of
+		 */
+		sceneName: string;
+	};
+	GetGroupItemList: {
+		/**
+		 * Name of the group to get the items of
+		 */
+		sceneName: string;
+	};
+	GetSceneItemId: {
+		/**
+		 * Name of the scene or group to search in
+		 */
+		sceneName: string;
+		/**
+		 * Name of the source to find
+		 */
+		sourceName: string;
+	};
+	CreateSceneItem: {
+		/**
+		 * Name of the scene to create the new item in
+		 */
+		sceneName: string;
+		/**
+		 * Name of the source to add to the scene
+		 */
+		sourceName: string;
+		/**
+		 * Enable state to apply to the scene item on creation
+		 *
+		 * @defaultValue True
+		 */
+		sceneItemEnabled?: boolean;
+	};
+	RemoveSceneItem: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+	};
+	DuplicateSceneItem: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+		/**
+		 * Name of the scene to create the duplicated item in
+		 *
+		 * @defaultValue `sceneName` is assumed
+		 */
+		destinationSceneName?: string;
+	};
+	GetSceneItemTransform: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+	};
+	SetSceneItemTransform: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+		/**
+		 * Object containing scene item transform info to update
+		 */
+		sceneItemTransform: JsonObject;
+	};
+	GetSceneItemEnabled: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+	};
+	SetSceneItemEnabled: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+		/**
+		 * New enable state of the scene item
+		 */
+		sceneItemEnabled: boolean;
+	};
+	GetSceneItemLocked: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+	};
+	SetSceneItemLocked: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+		/**
+		 * New lock state of the scene item
+		 */
+		sceneItemLocked: boolean;
+	};
+	GetSceneItemIndex: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+	};
+	SetSceneItemIndex: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+		/**
+		 * New index position of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemIndex: number;
 	};
 	GetSceneList: never;
 	GetCurrentProgramScene: never;
@@ -892,6 +1080,10 @@ export interface OBSRequestTypes {
 		 */
 		imageCompressionQuality?: number;
 	};
+	GetStreamStatus: never;
+	ToggleStream: never;
+	StartStream: never;
+	StopStream: never;
 }
 
 export interface OBSResponseTypes {
@@ -1149,11 +1341,66 @@ export interface OBSResponseTypes {
 		propertyItems: JsonArray;
 	};
 	PressInputPropertiesButton: undefined;
-	GetSceneList: {
+	GetSceneItemList: {
 		/**
-		 * Array of scenes in OBS
+		 * Array of scene items in the scene
 		 */
-		scenes: JsonArray;
+		sceneItems: JsonArray;
+	};
+	GetGroupItemList: {
+		/**
+		 * Array of scene items in the group
+		 */
+		sceneItems: JsonArray;
+	};
+	GetSceneItemId: {
+		/**
+		 * Numeric ID of the scene item
+		 */
+		sceneItemId: number;
+	};
+	CreateSceneItem: {
+		/**
+		 * Numeric ID of the scene item
+		 */
+		sceneItemId: number;
+	};
+	RemoveSceneItem: undefined;
+	DuplicateSceneItem: {
+		/**
+		 * Numeric ID of the duplicated scene item
+		 */
+		sceneItemId: number;
+	};
+	GetSceneItemTransform: {
+		/**
+		 * Object containing scene item transform info
+		 */
+		sceneItemTransform: JsonObject;
+	};
+	SetSceneItemTransform: undefined;
+	GetSceneItemEnabled: {
+		/**
+		 * Whether the scene item is enabled. `true` for enabled, `false` for disabled
+		 */
+		sceneItemEnabled: boolean;
+	};
+	SetSceneItemEnabled: undefined;
+	GetSceneItemLocked: {
+		/**
+		 * Whether the scene item is locked. `true` for locked, `false` for unlocked
+		 */
+		sceneItemLocked: boolean;
+	};
+	SetSceneItemLocked: undefined;
+	GetSceneItemIndex: {
+		/**
+		 * Index position of the scene item
+		 */
+		sceneItemIndex: number;
+	};
+	SetSceneItemIndex: undefined;
+	GetSceneList: {
 		/**
 		 * Current program scene
 		 */
@@ -1162,6 +1409,10 @@ export interface OBSResponseTypes {
 		 * Current preview scene. `null` if not in studio mode
 		 */
 		currentPreviewSceneName: string;
+		/**
+		 * Array of scenes in OBS
+		 */
+		scenes: JsonArray;
 	};
 	GetCurrentProgramScene: {
 		/**
@@ -1202,4 +1453,42 @@ export interface OBSResponseTypes {
 		 */
 		imageData: string;
 	};
+	GetStreamStatus: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+		/**
+		 * Whether the output is currently reconnecting
+		 */
+		outputReconnecting: boolean;
+		/**
+		 * Current formatted timecode string for the output
+		 */
+		outputTimecode: string;
+		/**
+		 * Current duration in milliseconds for the output
+		 */
+		outputDuration: number;
+		/**
+		 * Number of bytes sent by the output
+		 */
+		outputBytes: number;
+		/**
+		 * Number of frames skipped by the output's process
+		 */
+		outputSkippedFrames: number;
+		/**
+		 * Total number of frames delivered by the output's process
+		 */
+		outputTotalFrames: number;
+	};
+	ToggleStream: {
+		/**
+		 * New state of the stream output
+		 */
+		outputActive: boolean;
+	};
+	StartStream: undefined;
+	StopStream: undefined;
 }
