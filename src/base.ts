@@ -78,11 +78,18 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 					this.emit('Hello', hello);
 					return this.identify(hello, password, identificationParams);
 				})(),
-				connectionClosedPromise.then(e => {
-					throw e;
-				}),
-				connectionErrorPromise.then(e => {
-					throw e;
+				// Choose the best promise for connection error/close
+				// In browser connection close has close code + reason,
+				// while in node error event has these
+				new Promise<never>((resolve, reject) => {
+					void connectionErrorPromise.then(e => {
+						if (e.message) {
+							reject(e);
+						}
+					});
+					void connectionClosedPromise.then(e => {
+						reject(e);
+					});
 				}),
 			]);
 		} catch (error: unknown) {

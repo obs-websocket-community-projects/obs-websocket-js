@@ -85,3 +85,32 @@ test('server returns wrong protocol', async t => {
 
 	await obs.disconnect();
 });
+
+test('no server listening', async t => {
+	const obs = new OBSWebSocket();
+
+	// Temporarily create a websocket server to guarantee an unused port
+	const port = await new Promise<number>(resolve => {
+		const server = new WebSocketServer({
+			port: 0,
+			handleProtocols() {
+				return 'dummy';
+			},
+		}, () => {
+			const {port} = server.address() as AddressInfo;
+			server.close(() => {
+				resolve(port);
+			});
+		});
+	});
+
+	t.false(obs.identified);
+	await t.throwsAsync(obs.connect(`ws://127.0.0.1:${port}`), {
+		instanceOf: OBSWebSocketError,
+		message: `connect ECONNREFUSED 127.0.0.1:${port}`,
+		code: -1,
+	});
+	t.false(obs.identified);
+
+	await obs.disconnect();
+});
