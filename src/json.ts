@@ -1,5 +1,6 @@
 import {BaseOBSWebSocket} from './base.js';
 export {OBSWebSocketError} from './base.js';
+export type {EventTypes} from './base.js';
 import {IncomingMessage, OutgoingMessage} from './types.js';
 export * from './types.js';
 
