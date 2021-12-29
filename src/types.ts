@@ -130,6 +130,12 @@ export enum EventSubscription {
 	 */
 	Vendors = (1 << 9),
 	/**
+	 * Subscription value to receive events in the `Ui` category.
+	 *
+	 * Initial OBS Version: 5.0.0
+	 */
+	Ui = (1 << 10),
+	/**
 	 * Helper to receive all non-high-volume events.
 	 *
 	 * Initial OBS Version: 5.0.0
@@ -350,6 +356,324 @@ export interface OBSEventTypes {
 		profiles: string[];
 	};
 	ExitStarted: undefined;
+	InputCreated: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * The kind of the input
+		 */
+		inputKind: string;
+		/**
+		 * The unversioned kind of input (aka no `_v2` stuff)
+		 */
+		unversionedInputKind: string;
+		/**
+		 * The settings configured to the input when it was created
+		 */
+		inputSettings: JsonObject;
+		/**
+		 * The default settings for the input
+		 */
+		defaultInputSettings: JsonObject;
+	};
+	InputRemoved: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+	};
+	InputNameChanged: {
+		/**
+		 * Old name of the input
+		 */
+		oldInputName: string;
+		/**
+		 * New name of the input
+		 */
+		inputName: string;
+	};
+	InputActiveStateChanged: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * Whether the input is active
+		 */
+		videoActive: boolean;
+	};
+	InputShowStateChanged: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * Whether the input is showing
+		 */
+		videoShowing: boolean;
+	};
+	InputMuteStateChanged: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * Whether the input is muted
+		 */
+		inputMuted: boolean;
+	};
+	InputVolumeChanged: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * New volume level in multimap
+		 */
+		inputVolumeMul: number;
+		/**
+		 * New volume level in dB
+		 */
+		inputVolumeDb: number;
+	};
+	InputAudioSyncOffsetChanged: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * New sync offset in milliseconds
+		 */
+		inputAudioSyncOffset: number;
+	};
+	InputAudioTracksChanged: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * Array of audio tracks along with their associated enable states
+		 */
+		inputAudioTracks: boolean[];
+	};
+	InputAudioMonitorTypeChanged: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * New monitor type of the input
+		 */
+		monitorType: string;
+	};
+	InputVolumeMeters: {
+		/**
+		 * Array of active inputs with their associated volume levels
+		 */
+		inputs: JsonArray;
+	};
+	MediaInputPlaybackStarted: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+	};
+	MediaInputPlaybackEnded: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+	};
+	MediaInputActionTriggered: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * Action performed on the input. See `ObsMediaInputAction` enum
+		 */
+		mediaAction: string;
+	};
+	StreamStateChanged: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+		/**
+		 * The specific state of the output
+		 */
+		outputState: string;
+	};
+	RecordStateChanged: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+		/**
+		 * The specific state of the output
+		 */
+		outputState: string;
+	};
+	ReplayBufferStateChanged: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+		/**
+		 * The specific state of the output
+		 */
+		outputState: string;
+	};
+	VirtualcamStateChanged: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+		/**
+		 * The specific state of the output
+		 */
+		outputState: string;
+	};
+	ReplayBufferSaved: {
+		/**
+		 * Path of the saved replay file
+		 */
+		savedReplayPath: string;
+	};
+	SceneItemCreated: {
+		/**
+		 * Name of the scene the item was added to
+		 */
+		sceneName: string;
+		/**
+		 * Name of the underlying source (input/scene)
+		 */
+		sourceName: string;
+		/**
+		 * Numeric ID of the scene item
+		 */
+		sceneItemId: number;
+		/**
+		 * Index position of the item
+		 */
+		sceneItemIndex: number;
+	};
+	SceneItemRemoved: {
+		/**
+		 * Name of the scene the item was removed from
+		 */
+		sceneName: string;
+		/**
+		 * Name of the underlying source (input/scene)
+		 */
+		sourceName: string;
+		/**
+		 * Numeric ID of the scene item
+		 */
+		sceneItemId: number;
+	};
+	SceneItemListReindexed: {
+		/**
+		 * Name of the scene
+		 */
+		sceneName: string;
+		/**
+		 * Array of scene item objects
+		 */
+		sceneItems: JsonArray;
+	};
+	SceneItemEnableStateChanged: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 */
+		sceneItemId: number;
+		/**
+		 * Whether the scene item is enabled (visible)
+		 */
+		sceneItemEnabled: boolean;
+	};
+	SceneItemLockStateChanged: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 */
+		sceneItemId: number;
+		/**
+		 * Whether the scene item is locked
+		 */
+		sceneItemEnabled: boolean;
+	};
+	SceneItemTransformChanged: {
+		/**
+		 * The name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 */
+		sceneItemId: number;
+		/**
+		 * New transform/crop info of the scene item
+		 */
+		sceneItemTransform: JsonObject;
+	};
+	SceneCreated: {
+		/**
+		 * Name of the new scene
+		 */
+		sceneName: string;
+		/**
+		 * Whether the new scene is a group
+		 */
+		isGroup: boolean;
+	};
+	SceneRemoved: {
+		/**
+		 * Name of the removed scene
+		 */
+		sceneName: string;
+		/**
+		 * Whether the scene was a group
+		 */
+		isGroup: boolean;
+	};
+	SceneNameChanged: {
+		/**
+		 * Old name of the scene
+		 */
+		oldSceneName: string;
+		/**
+		 * New name of the scene
+		 */
+		sceneName: string;
+	};
+	CurrentProgramSceneChanged: {
+		/**
+		 * Name of the scene that was switched to
+		 */
+		sceneName: string;
+	};
+	CurrentPreviewSceneChanged: {
+		/**
+		 * Name of the scene that was switched to
+		 */
+		sceneName: string;
+	};
+	SceneListChanged: {
+		/**
+		 * Updated array of scenes
+		 */
+		scenes: JsonArray;
+	};
 	StudioModeStateChanged: {
 		/**
 		 * True == Enabled, False == Disabled
@@ -580,13 +904,6 @@ export interface OBSRequestTypes {
 			command?: boolean;
 		};
 	};
-	GetStudioModeEnabled: never;
-	SetStudioModeEnabled: {
-		/**
-		 * True == Enabled, False == Disabled
-		 */
-		studioModeEnabled: boolean;
-	};
 	Sleep: {
 		/**
 		 * Number of milliseconds to sleep for (if `SERIAL_REALTIME` mode)
@@ -789,6 +1106,52 @@ export interface OBSRequestTypes {
 		 */
 		propertyName: string;
 	};
+	GetMediaInputStatus: {
+		/**
+		 * Name of the media input
+		 */
+		inputName: string;
+	};
+	SetMediaInputCursor: {
+		/**
+		 * Name of the media input
+		 */
+		inputName: string;
+		/**
+		 * New cursor position to set
+		 *
+		 * @restrictions >= 0
+		 */
+		mediaCursor: number;
+	};
+	OffsetMediaInputCursor: {
+		/**
+		 * Name of the media input
+		 */
+		inputName: string;
+		/**
+		 * Value to offset the current cursor position by
+		 */
+		mediaCursorOffset: number;
+	};
+	TriggerMediaInputAction: {
+		/**
+		 * Name of the media input
+		 */
+		inputName: string;
+		/**
+		 * Identifier of the `ObsMediaInputAction` enum
+		 */
+		mediaAction: string;
+	};
+	GetRecordStatus: never;
+	ToggleRecord: never;
+	StartRecord: never;
+	StopRecord: never;
+	ToggleRecordPause: never;
+	PauseRecord: never;
+	ResumeRecord: never;
+	GetRecordDirectory: never;
 	GetSceneItemList: {
 		/**
 		 * Name of the scene to get the items of
@@ -1084,6 +1447,43 @@ export interface OBSRequestTypes {
 	ToggleStream: never;
 	StartStream: never;
 	StopStream: never;
+	GetTransitionKindList: never;
+	GetSceneTransitionList: never;
+	GetCurrentSceneTransition: never;
+	SetCurrentSceneTransition: {
+		/**
+		 * Name of the transition to make active
+		 */
+		transitionName: string;
+	};
+	SetCurrentSceneTransitionDuration: {
+		/**
+		 * Duration in milliseconds
+		 *
+		 * @restrictions >= 50, <= 20000
+		 */
+		transitionDuration: number;
+	};
+	SetCurrentSceneTransitionSettings: {
+		/**
+		 * Settings object to apply to the transition. Can be `{}`
+		 */
+		transitionSettings: JsonObject;
+		/**
+		 * Whether to overlay over the current settings or replace them
+		 *
+		 * @defaultValue true
+		 */
+		overlay?: boolean;
+	};
+	TriggerStudioModeTransition: never;
+	GetStudioModeEnabled: never;
+	SetStudioModeEnabled: {
+		/**
+		 * True == Enabled, False == Disabled
+		 */
+		studioModeEnabled: boolean;
+	};
 }
 
 export interface OBSResponseTypes {
@@ -1251,13 +1651,6 @@ export interface OBSResponseTypes {
 	};
 	TriggerHotkeyByName: undefined;
 	TriggerHotkeyByKeySequence: undefined;
-	GetStudioModeEnabled: {
-		/**
-		 * Whether studio mode is enabled
-		 */
-		studioModeEnabled: boolean;
-	};
-	SetStudioModeEnabled: undefined;
 	Sleep: undefined;
 	GetInputList: {
 		/**
@@ -1341,6 +1734,57 @@ export interface OBSResponseTypes {
 		propertyItems: JsonArray;
 	};
 	PressInputPropertiesButton: undefined;
+	GetMediaInputStatus: {
+		/**
+		 * State of the media input
+		 */
+		mediaState: string;
+		/**
+		 * Total duration of the playing media in milliseconds. `null` if not playing
+		 */
+		mediaDuration: number;
+		/**
+		 * Position of the cursor in milliseconds. `null` if not playing
+		 */
+		mediaCursor: number;
+	};
+	SetMediaInputCursor: undefined;
+	OffsetMediaInputCursor: undefined;
+	TriggerMediaInputAction: undefined;
+	GetRecordStatus: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+		/**
+		 * Whether the output is paused
+		 */
+		ouputPaused: boolean;
+		/**
+		 * Current formatted timecode string for the output
+		 */
+		outputTimecode: string;
+		/**
+		 * Current duration in milliseconds for the output
+		 */
+		outputDuration: number;
+		/**
+		 * Number of bytes sent by the output
+		 */
+		outputBytes: number;
+	};
+	ToggleRecord: undefined;
+	StartRecord: undefined;
+	StopRecord: undefined;
+	ToggleRecordPause: undefined;
+	PauseRecord: undefined;
+	ResumeRecord: undefined;
+	GetRecordDirectory: {
+		/**
+		 * Output directory
+		 */
+		recordDirectory: string;
+	};
 	GetSceneItemList: {
 		/**
 		 * Array of scene items in the scene
@@ -1491,4 +1935,61 @@ export interface OBSResponseTypes {
 	};
 	StartStream: undefined;
 	StopStream: undefined;
+	GetTransitionKindList: {
+		/**
+		 * Array of transition kinds
+		 */
+		transitionKinds: string[];
+	};
+	GetSceneTransitionList: {
+		/**
+		 * Name of the current scene transition. Can be null
+		 */
+		currentSceneTransitionName: string;
+		/**
+		 * Kind of the current scene transition. Can be null
+		 */
+		currentSceneTransitionKind: string;
+		/**
+		 * Array of transitions
+		 */
+		transitions: JsonArray;
+	};
+	GetCurrentSceneTransition: {
+		/**
+		 * Name of the transition
+		 */
+		transitionName: string;
+		/**
+		 * Kind of the transition
+		 */
+		transitionKind: string;
+		/**
+		 * Whether the transition uses a fixed (unconfigurable) duration
+		 */
+		transitionFixed: boolean;
+		/**
+		 * Configured transition duration in milliseconds. `null` if transition is fixed
+		 */
+		transitionDuration: number;
+		/**
+		 * Whether the transition supports being configured
+		 */
+		transitionConfigurable: boolean;
+		/**
+		 * Object of settings for the transition. `null` if transition is not configurable
+		 */
+		transitionSettings: JsonObject;
+	};
+	SetCurrentSceneTransition: undefined;
+	SetCurrentSceneTransitionDuration: undefined;
+	SetCurrentSceneTransitionSettings: undefined;
+	TriggerStudioModeTransition: undefined;
+	GetStudioModeEnabled: {
+		/**
+		 * Whether studio mode is enabled
+		 */
+		studioModeEnabled: boolean;
+	};
+	SetStudioModeEnabled: undefined;
 }
