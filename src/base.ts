@@ -369,3 +369,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 */
 	protected abstract decodeMessage(data: string | ArrayBuffer | Blob): Promise<IncomingMessage>;
 }
+
+// https://github.com/developit/microbundle/issues/531#issuecomment-575473024
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const __esModule = true;
