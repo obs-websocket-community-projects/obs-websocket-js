@@ -180,11 +180,6 @@ export interface OutgoingMessageTypes {
 		 * Authentication challenge response
 		 */
 		authentication?: string;
-		/**
-		 * When \`ignoreInvalidMessages\` is true, the socket will not be closed for \`WebSocketCloseCode\`: \`MessageDecodeError\`, \`UnknownOpCode\`, or \`MissingDataKey\`. Instead, the message will be logged and ignored.
-		 */
-		ignoreInvalidMessages?: boolean;
-		/**
 		 * Bitmask of \`EventSubscription\` items to subscribe to events and event categories at will. By default, all event categories are subscribed, except for events marked as high volume. High volume events must be explicitly subscribed to.
 		 */
 		eventSubscriptions?: number;
@@ -193,11 +188,6 @@ export interface OutgoingMessageTypes {
 	 * Sent at any time after initial identification to update the provided session parameters.
 	 */
 	[WebSocketOpCode.Reidentify]: {
-		/**
-		 * When \`ignoreInvalidMessages\` is true, the socket will not be closed for \`WebSocketCloseCode\`: \`MessageDecodeError\`, \`UnknownOpCode\`, or \`MissingDataKey\`. Instead, the message will be logged and ignored.
-		 */
-		ignoreInvalidMessages?: boolean;
-		/**
 		 * Bitmask of \`EventSubscription\` items to subscribe to events and event categories at will. By default, all event categories are subscribed, except for events marked as high volume. High volume events must be explicitly subscribed to.
 		 */
 		eventSubscriptions?: number;
