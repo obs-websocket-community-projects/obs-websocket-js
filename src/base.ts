@@ -371,5 +371,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 }
 
 // https://github.com/developit/microbundle/issues/531#issuecomment-575473024
-// eslint-disable-next-line @typescript-eslint/naming-convention
-Object.defineProperty(exports, '__esModule', {value: true});
+// Not using ESM export due to it also being detected and breaking rollup based bundlers (vite)
+if (typeof exports !== 'undefined') {
+	Object.defineProperty(exports, '__esModule', {value: true});
+}
