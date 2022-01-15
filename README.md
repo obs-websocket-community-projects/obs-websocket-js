@@ -35,10 +35,10 @@ obs-websocket-js allows Javascript-based connections to the Open Broadcaster Sof
 Using a package manager like npm / yarn is the recommended installation method when you're planning to use obs-websocket-js in node.js, building a web app that you'll bundle with webpack or rollup, or for using type definitions.
 
 ```sh
-# with npm
 npm install obs-websocket-js@next
-
-# with yarn
+```
+or
+```sh
 yarn add obs-websocket-js@next
 ```
 
