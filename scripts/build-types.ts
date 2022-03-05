@@ -180,6 +180,7 @@ export interface OutgoingMessageTypes {
 		 * Authentication challenge response
 		 */
 		authentication?: string;
+		/**
 		 * Bitmask of \`EventSubscription\` items to subscribe to events and event categories at will. By default, all event categories are subscribed, except for events marked as high volume. High volume events must be explicitly subscribed to.
 		 */
 		eventSubscriptions?: number;
@@ -188,6 +189,7 @@ export interface OutgoingMessageTypes {
 	 * Sent at any time after initial identification to update the provided session parameters.
 	 */
 	[WebSocketOpCode.Reidentify]: {
+		/**
 		 * Bitmask of \`EventSubscription\` items to subscribe to events and event categories at will. By default, all event categories are subscribed, except for events marked as high volume. High volume events must be explicitly subscribed to.
 		 */
 		eventSubscriptions?: number;

@@ -347,6 +347,80 @@ export interface OBSEventTypes {
 		 */
 		profiles: string[];
 	};
+	SourceFilterListReindexed: {
+		/**
+		 * Name of the source
+		 */
+		sourceName: string;
+		/**
+		 * Array of filter objects
+		 */
+		filters: JsonArray;
+	};
+	SourceFilterCreated: {
+		/**
+		 * Name of the source the filter was added to
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter
+		 */
+		filterName: string;
+		/**
+		 * The kind of the filter
+		 */
+		filterKind: string;
+		/**
+		 * Index position of the filter
+		 */
+		filterIndex: number;
+		/**
+		 * The settings configured to the filter when it was created
+		 */
+		filterSettings: JsonObject;
+		/**
+		 * The default settings for the filter
+		 */
+		defaultFilterSettings: JsonObject;
+	};
+	SourceFilterRemoved: {
+		/**
+		 * Name of the source the filter was on
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter
+		 */
+		filterName: string;
+	};
+	SourceFilterNameChanged: {
+		/**
+		 * The source the filter is on
+		 */
+		sourceName: string;
+		/**
+		 * Old name of the filter
+		 */
+		oldFilterName: string;
+		/**
+		 * New name of the filter
+		 */
+		filterName: string;
+	};
+	SourceFilterEnableStateChanged: {
+		/**
+		 * Name of the source the filter is on
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter
+		 */
+		filterName: string;
+		/**
+		 * Whether the filter is enabled
+		 */
+		filterEnabled: boolean;
+	};
 	ExitStarted: undefined;
 	InputCreated: {
 		/**
@@ -430,6 +504,16 @@ export interface OBSEventTypes {
 		 */
 		inputVolumeDb: number;
 	};
+	InputAudioBalanceChanged: {
+		/**
+		 * Name of the affected input
+		 */
+		inputName: string;
+		/**
+		 * New audio balance value of the input
+		 */
+		inputAudioBalance: number;
+	};
 	InputAudioSyncOffsetChanged: {
 		/**
 		 * Name of the input
@@ -446,9 +530,9 @@ export interface OBSEventTypes {
 		 */
 		inputName: string;
 		/**
-		 * Array of audio tracks along with their associated enable states
+		 * Object of audio tracks along with their associated enable states
 		 */
-		inputAudioTracks: boolean[];
+		inputAudioTracks: JsonObject;
 	};
 	InputAudioMonitorTypeChanged: {
 		/**
@@ -602,7 +686,17 @@ export interface OBSEventTypes {
 		/**
 		 * Whether the scene item is locked
 		 */
-		sceneItemEnabled: boolean;
+		sceneItemLocked: boolean;
+	};
+	SceneItemSelected: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 */
+		sceneItemId: number;
 	};
 	SceneItemTransformChanged: {
 		/**
@@ -665,6 +759,36 @@ export interface OBSEventTypes {
 		 * Updated array of scenes
 		 */
 		scenes: JsonArray;
+	};
+	CurrentSceneTransitionChanged: {
+		/**
+		 * Name of the new transition
+		 */
+		transitionName: string;
+	};
+	CurrentSceneTransitionDurationChanged: {
+		/**
+		 * Transition duration in milliseconds
+		 */
+		transitionDuration: number;
+	};
+	SceneTransitionStarted: {
+		/**
+		 * Scene transition name
+		 */
+		transitionName: string;
+	};
+	SceneTransitionEnded: {
+		/**
+		 * Scene transition name
+		 */
+		transitionName: string;
+	};
+	SceneTransitionVideoEnded: {
+		/**
+		 * Scene transition name
+		 */
+		transitionName: string;
 	};
 	StudioModeStateChanged: {
 		/**
@@ -826,6 +950,109 @@ export interface OBSRequestTypes {
 		 */
 		streamServiceSettings: JsonObject;
 	};
+	GetRecordDirectory: never;
+	GetSourceFilterList: {
+		/**
+		 * Name of the source
+		 */
+		sourceName: string;
+	};
+	GetSourceFilterDefaultSettings: {
+		/**
+		 * Filter kind to get the default settings for
+		 */
+		filterKind: string;
+	};
+	CreateSourceFilter: {
+		/**
+		 * Name of the source to add the filter to
+		 */
+		sourceName: string;
+		/**
+		 * Name of the new filter to be created
+		 */
+		filterName: string;
+		/**
+		 * The kind of filter to be created
+		 */
+		filterKind: string;
+		/**
+		 * Settings object to initialize the filter with
+		 *
+		 * @defaultValue Default settings used
+		 */
+		filterSettings?: JsonObject;
+	};
+	RemoveSourceFilter: {
+		/**
+		 * Name of the source the filter is on
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter to remove
+		 */
+		filterName: string;
+	};
+	SetSourceFilterName: {
+		/**
+		 * Name of the source the filter is on
+		 */
+		sourceName: string;
+		/**
+		 * Current name of the filter
+		 */
+		filterName: string;
+		/**
+		 * New name for the filter
+		 */
+		newFilterName: string;
+	};
+	GetSourceFilter: {
+		/**
+		 * Name of the source
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter
+		 */
+		filterName: string;
+	};
+	SetSourceFilterIndex: {
+		/**
+		 * Name of the source the filter is on
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter
+		 */
+		filterName: string;
+		/**
+		 * New index position of the filter
+		 *
+		 * @restrictions >= 0
+		 */
+		filterIndex: number;
+	};
+	SetSourceFilterSettings: {
+		/**
+		 * Name of the source the filter is on
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter to set the settings of
+		 */
+		filterName: string;
+		/**
+		 * Object of settings to apply
+		 */
+		filterSettings: JsonObject;
+		/**
+		 * True == apply the settings on top of existing ones, False == reset the input to its defaults, then apply settings.
+		 *
+		 * @defaultValue true
+		 */
+		overlay?: boolean;
+	};
 	GetVersion: never;
 	GetStats: never;
 	BroadcastCustomEvent: {
@@ -926,6 +1153,7 @@ export interface OBSRequestTypes {
 		 */
 		unversioned?: boolean;
 	};
+	GetSpecialInputs: never;
 	CreateInput: {
 		/**
 		 * Name of the scene to add the input to as a scene item
@@ -1039,10 +1267,28 @@ export interface OBSRequestTypes {
 		/**
 		 * Volume setting in dB
 		 *
-		 * @restrictions >= -100, <= -26
+		 * @restrictions >= -100, <= 26
 		 * @defaultValue `inputVolumeMul` should be specified
 		 */
 		inputVolumeDb?: number;
+	};
+	GetInputAudioBalance: {
+		/**
+		 * Name of the input to get the audio balance of
+		 */
+		inputName: string;
+	};
+	SetInputAudioBalance: {
+		/**
+		 * Name of the input to set the audio balance of
+		 */
+		inputName: string;
+		/**
+		 * New audio balance value
+		 *
+		 * @restrictions >= 0.0, <= 1.0
+		 */
+		inputAudioBalance: number;
 	};
 	GetInputAudioSyncOffset: {
 		/**
@@ -1077,6 +1323,22 @@ export interface OBSRequestTypes {
 		 * Audio monitor type
 		 */
 		monitorType: string;
+	};
+	GetInputAudioTracks: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+	};
+	SetInputAudioTracks: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * Track settings to apply
+		 */
+		inputAudioTracks: JsonObject;
 	};
 	GetInputPropertiesListPropertyItems: {
 		/**
@@ -1136,6 +1398,16 @@ export interface OBSRequestTypes {
 		 */
 		mediaAction: string;
 	};
+	GetVirtualCamStatus: never;
+	ToggleVirtualCam: never;
+	StartVirtualCam: never;
+	StopVirtualCam: never;
+	GetReplayBufferStatus: never;
+	ToggleReplayBuffer: never;
+	StartReplayBuffer: never;
+	StopReplayBuffer: never;
+	SaveReplayBuffer: never;
+	GetLastReplayBufferReplay: never;
 	GetRecordStatus: never;
 	ToggleRecord: never;
 	StartRecord: never;
@@ -1143,7 +1415,6 @@ export interface OBSRequestTypes {
 	ToggleRecordPause: never;
 	PauseRecord: never;
 	ResumeRecord: never;
-	GetRecordDirectory: never;
 	GetSceneItemList: {
 		/**
 		 * Name of the scene to get the items of
@@ -1326,7 +1597,36 @@ export interface OBSRequestTypes {
 		 */
 		sceneItemIndex: number;
 	};
+	GetSceneItemBlendMode: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+	};
+	SetSceneItemBlendMode: {
+		/**
+		 * Name of the scene the item is in
+		 */
+		sceneName: string;
+		/**
+		 * Numeric ID of the scene item
+		 *
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+		/**
+		 * New blend mode
+		 */
+		sceneItemBlendMode: string;
+	};
 	GetSceneList: never;
+	GetGroupList: never;
 	GetCurrentProgramScene: never;
 	SetCurrentProgramScene: {
 		/**
@@ -1362,6 +1662,31 @@ export interface OBSRequestTypes {
 		 * New name for the scene
 		 */
 		newSceneName: string;
+	};
+	GetSceneSceneTransitionOverride: {
+		/**
+		 * Name of the scene
+		 */
+		sceneName: string;
+	};
+	SetSceneSceneTransitionOverride: {
+		/**
+		 * Name of the scene
+		 */
+		sceneName: string;
+		/**
+		 * Name of the scene transition to use as override. Specify `null` to remove
+		 *
+		 * @defaultValue Unchanged
+		 */
+		transitionName?: string;
+		/**
+		 * Duration to use for any overridden transition. Specify `null` to remove
+		 *
+		 * @restrictions >= 50, <= 20000
+		 * @defaultValue Unchanged
+		 */
+		transitionDuration?: number;
 	};
 	GetSourceActive: {
 		/**
@@ -1439,6 +1764,12 @@ export interface OBSRequestTypes {
 	ToggleStream: never;
 	StartStream: never;
 	StopStream: never;
+	SendStreamCaption: {
+		/**
+		 * Caption text
+		 */
+		captionText: string;
+	};
 	GetTransitionKindList: never;
 	GetSceneTransitionList: never;
 	GetCurrentSceneTransition: never;
@@ -1468,13 +1799,46 @@ export interface OBSRequestTypes {
 		 */
 		overlay?: boolean;
 	};
+	GetCurrentSceneTransitionCursor: never;
 	TriggerStudioModeTransition: never;
+	SetTBarPosition: {
+		/**
+		 * New position
+		 *
+		 * @restrictions >= 0.0, <= 1.0
+		 */
+		position: number;
+		/**
+		 * Whether to release the TBar. Only set `false` if you know that you will be sending another position update
+		 *
+		 * @defaultValue `true`
+		 */
+		release?: boolean;
+	};
 	GetStudioModeEnabled: never;
 	SetStudioModeEnabled: {
 		/**
 		 * True == Enabled, False == Disabled
 		 */
 		studioModeEnabled: boolean;
+	};
+	OpenInputPropertiesDialog: {
+		/**
+		 * Name of the input to open the dialog of
+		 */
+		inputName: string;
+	};
+	OpenInputFiltersDialog: {
+		/**
+		 * Name of the input to open the dialog of
+		 */
+		inputName: string;
+	};
+	OpenInputInteractDialog: {
+		/**
+		 * Name of the input to open the dialog of
+		 */
+		inputName: string;
 	};
 }
 
@@ -1560,6 +1924,47 @@ export interface OBSResponseTypes {
 		streamServiceSettings: JsonObject;
 	};
 	SetStreamServiceSettings: undefined;
+	GetRecordDirectory: {
+		/**
+		 * Output directory
+		 */
+		recordDirectory: string;
+	};
+	GetSourceFilterList: {
+		/**
+		 * Array of filters
+		 */
+		filters: JsonArray;
+	};
+	GetSourceFilterDefaultSettings: {
+		/**
+		 * Object of default settings for the filter kind
+		 */
+		defaultFilterSettings: JsonObject;
+	};
+	CreateSourceFilter: undefined;
+	RemoveSourceFilter: undefined;
+	SetSourceFilterName: undefined;
+	GetSourceFilter: {
+		/**
+		 * Whether the filter is enabled
+		 */
+		filterEnabled: boolean;
+		/**
+		 * Index of the filter in the list, beginning at 0
+		 */
+		filterIndex: number;
+		/**
+		 * The kind of filter
+		 */
+		filterKind: string;
+		/**
+		 * Settings object associated with the filter
+		 */
+		filterSettings: JsonObject;
+	};
+	SetSourceFilterIndex: undefined;
+	SetSourceFilterSettings: undefined;
 	GetVersion: {
 		/**
 		 * Current OBS Studio version
@@ -1656,6 +2061,32 @@ export interface OBSResponseTypes {
 		 */
 		inputKinds: string[];
 	};
+	GetSpecialInputs: {
+		/**
+		 * Name of the Desktop Audio input
+		 */
+		desktop1: string;
+		/**
+		 * Name of the Desktop Audio 2 input
+		 */
+		desktop2: string;
+		/**
+		 * Name of the Mic/Auxiliary Audio input
+		 */
+		mic1: string;
+		/**
+		 * Name of the Mic/Auxiliary Audio 2 input
+		 */
+		mic2: string;
+		/**
+		 * Name of the Mic/Auxiliary Audio 3 input
+		 */
+		mic3: string;
+		/**
+		 * Name of the Mic/Auxiliary Audio 4 input
+		 */
+		mic4: string;
+	};
 	CreateInput: {
 		/**
 		 * ID of the newly created scene item
@@ -1705,6 +2136,13 @@ export interface OBSResponseTypes {
 		inputVolumeDb: number;
 	};
 	SetInputVolume: undefined;
+	GetInputAudioBalance: {
+		/**
+		 * Audio balance value from 0.0-1.0
+		 */
+		inputAudioBalance: number;
+	};
+	SetInputAudioBalance: undefined;
 	GetInputAudioSyncOffset: {
 		/**
 		 * Audio sync offset in milliseconds
@@ -1719,6 +2157,13 @@ export interface OBSResponseTypes {
 		monitorType: string;
 	};
 	SetInputAudioMonitorType: undefined;
+	GetInputAudioTracks: {
+		/**
+		 * Object of audio tracks and associated enable states
+		 */
+		inputAudioTracks: JsonObject;
+	};
+	SetInputAudioTracks: undefined;
 	GetInputPropertiesListPropertyItems: {
 		/**
 		 * Array of items in the list property
@@ -1743,6 +2188,41 @@ export interface OBSResponseTypes {
 	SetMediaInputCursor: undefined;
 	OffsetMediaInputCursor: undefined;
 	TriggerMediaInputAction: undefined;
+	GetVirtualCamStatus: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+	};
+	ToggleVirtualCam: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+	};
+	StartVirtualCam: undefined;
+	StopVirtualCam: undefined;
+	GetReplayBufferStatus: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+	};
+	ToggleReplayBuffer: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+	};
+	StartReplayBuffer: undefined;
+	StopReplayBuffer: undefined;
+	SaveReplayBuffer: undefined;
+	GetLastReplayBufferReplay: {
+		/**
+		 * File path
+		 */
+		savedReplayPath: string;
+	};
 	GetRecordStatus: {
 		/**
 		 * Whether the output is active
@@ -1771,12 +2251,6 @@ export interface OBSResponseTypes {
 	ToggleRecordPause: undefined;
 	PauseRecord: undefined;
 	ResumeRecord: undefined;
-	GetRecordDirectory: {
-		/**
-		 * Output directory
-		 */
-		recordDirectory: string;
-	};
 	GetSceneItemList: {
 		/**
 		 * Array of scene items in the scene
@@ -1836,6 +2310,13 @@ export interface OBSResponseTypes {
 		sceneItemIndex: number;
 	};
 	SetSceneItemIndex: undefined;
+	GetSceneItemBlendMode: {
+		/**
+		 * Current blend mode
+		 */
+		sceneItemBlendMode: string;
+	};
+	SetSceneItemBlendMode: undefined;
 	GetSceneList: {
 		/**
 		 * Current program scene
@@ -1846,9 +2327,15 @@ export interface OBSResponseTypes {
 		 */
 		currentPreviewSceneName: string;
 		/**
-		 * Array of scenes in OBS
+		 * Array of scenes
 		 */
 		scenes: JsonArray;
+	};
+	GetGroupList: {
+		/**
+		 * Array of group names
+		 */
+		groups: string[];
 	};
 	GetCurrentProgramScene: {
 		/**
@@ -1867,6 +2354,17 @@ export interface OBSResponseTypes {
 	CreateScene: undefined;
 	RemoveScene: undefined;
 	SetSceneName: undefined;
+	GetSceneSceneTransitionOverride: {
+		/**
+		 * Name of the overridden scene transition, else `null`
+		 */
+		transitionName: string;
+		/**
+		 * Duration of the overridden scene transition, else `null`
+		 */
+		transitionDuration: number;
+	};
+	SetSceneSceneTransitionOverride: undefined;
 	GetSourceActive: {
 		/**
 		 * Whether the source is showing in Program
@@ -1927,6 +2425,7 @@ export interface OBSResponseTypes {
 	};
 	StartStream: undefined;
 	StopStream: undefined;
+	SendStreamCaption: undefined;
 	GetTransitionKindList: {
 		/**
 		 * Array of transition kinds
@@ -1976,7 +2475,14 @@ export interface OBSResponseTypes {
 	SetCurrentSceneTransition: undefined;
 	SetCurrentSceneTransitionDuration: undefined;
 	SetCurrentSceneTransitionSettings: undefined;
+	GetCurrentSceneTransitionCursor: {
+		/**
+		 * Cursor position, between 0.0 and 1.0
+		 */
+		transitionCursor: number;
+	};
 	TriggerStudioModeTransition: undefined;
+	SetTBarPosition: undefined;
 	GetStudioModeEnabled: {
 		/**
 		 * Whether studio mode is enabled
@@ -1984,4 +2490,7 @@ export interface OBSResponseTypes {
 		studioModeEnabled: boolean;
 	};
 	SetStudioModeEnabled: undefined;
+	OpenInputPropertiesDialog: undefined;
+	OpenInputFiltersDialog: undefined;
+	OpenInputInteractDialog: undefined;
 }
