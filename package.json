@@ -40,7 +40,8 @@
   },
   "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "*.d.ts"
   ],
   "scripts": {
     "build": "npm-run-all clean build:*",
