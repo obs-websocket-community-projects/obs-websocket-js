@@ -60,7 +60,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @returns Hello & Identified messages data (combined)
 	 */
 	async connect(
-		url = 'ws://127.0.0.1:4444',
+		url = 'ws://127.0.0.1:4455',
 		password?: string,
 		identificationParams: IdentificationInput = {},
 	): Promise<HelloIdentifiedMerged> {
