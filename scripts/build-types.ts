@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable jsdoc/require-jsdoc */
 import {writeFileSync} from 'node:fs';
 import {join} from 'node:path';
@@ -320,7 +321,6 @@ function generateObsResponseTypes(requests: OBSRequest[]): string {
 	}).join('\n');
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateObsListenerOverrides(events: OBSEvent[]): string {
 	return events.map(ev => {
 		const jsdoc: string[] = [
@@ -342,7 +342,6 @@ function generateObsListenerOverrides(events: OBSEvent[]): string {
 	}).join('\n');
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function generateObsRequestOverrides(requests: OBSRequest[]): string {
 	return requests.map(req => {
 		const jsdoc: string[] = [

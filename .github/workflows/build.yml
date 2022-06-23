@@ -14,10 +14,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: 'latest'
           cache: 'npm'
       - run: npm ci
       - run: npm run build
@@ -26,10 +26,10 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: 'latest'
           cache: 'npm'
       - run: npm ci
       - run: npm run lint
@@ -42,19 +42,17 @@ jobs:
       fail-fast: false
       matrix:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node-version: [12.x, 14.x, 16.x, 17.x]
+        node-version: [14.x, 16.x, 18.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run: npm ci
-      - name: Target older ts version for nodejs 12
-        if: matrix.node-version == '12.x'
-        run: echo "TS_NODE_COMPILER_OPTIONS={\"target\":\"es2019\"}" >> $GITHUB_ENV
       - run: npm test
+      - run: npm run report -- --reporter text >> $GITHUB_STEP_SUMMARY
       # Currently broken
       #- run: npm run node-coveralls

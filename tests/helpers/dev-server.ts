@@ -29,7 +29,7 @@ const EXPECTED_AUTH_RESPONSE = Base64.stringify(sha256(SECRET + CHALLENGE));
 const REQUEST_HANDLERS: Record<string, (req?: JsonObject | void) => FailureResponse | Record<string, unknown> | void> = {
 	/* eslint-disable @typescript-eslint/naming-convention */
 	GetVersion: () => ({obsVersion: '5.0.0-mock.0'}),
-	BroadcastCustomEvent: params => {
+	BroadcastCustomEvent(params) {
 		if (!params) {
 			return new FailureResponse(301, 'Missing params');
 		}
@@ -40,7 +40,7 @@ const REQUEST_HANDLERS: Record<string, (req?: JsonObject | void) => FailureRespo
 
 		return undefined;
 	},
-	TriggerHotkeyByName: params => {
+	TriggerHotkeyByName(params) {
 		if (!params) {
 			return new FailureResponse(301, 'Missing params');
 		}
