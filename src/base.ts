@@ -304,14 +304,14 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 			switch (op) {
 				case WebSocketOpCode.Event: {
-					const {eventType, eventData} = d as IncomingMessageTypes[WebSocketOpCode.Event];
+					const {eventType, eventData} = d;
 					// @ts-expect-error Typescript just doesn't understand it
 					this.emit(eventType, eventData);
 					return;
 				}
 
 				case WebSocketOpCode.RequestResponse: {
-					const {requestId} = d as IncomingMessageTypes[WebSocketOpCode.RequestResponse];
+					const {requestId} = d;
 					this.internalListeners.emit(`res:${requestId}`, d);
 					return;
 				}

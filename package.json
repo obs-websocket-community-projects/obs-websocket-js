@@ -16,15 +16,18 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/json.d.ts",
       "require": "./dist/json.cjs",
       "browser": "./dist/json.modern.js",
       "default": "./dist/msgpack.modern.js"
     },
     "./json": {
+      "types": "./dist/json.d.ts",
       "require": "./dist/json.cjs",
       "default": "./dist/json.modern.js"
     },
     "./msgpack": {
+      "types": "./dist/json.d.ts",
       "require": "./dist/msgpack.cjs",
       "default": "./dist/msgpack.modern.js"
     }
@@ -74,7 +77,7 @@
     "@types/ws": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "ava": "^4.0.0-rc.1",
+    "ava": "^4.2.0",
     "c8": "^7.10.0",
     "coveralls": "^3.1.0",
     "cross-env": "^7.0.3",
@@ -90,8 +93,8 @@
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.21",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.4.3"
+    "ts-node": "^10.8.0",
+    "typescript": "^4.7.2"
   },
   "bugs": {
     "url": "https://github.com/obs-websocket-community-projects/obs-websocket-js/issues"
@@ -102,8 +105,7 @@
       "ts": "module"
     },
     "nodeArguments": [
-      "--loader=ts-node/esm",
-      "--experimental-specifier-resolution=node"
+      "--loader=ts-node/esm"
     ],
     "verbose": true
   },

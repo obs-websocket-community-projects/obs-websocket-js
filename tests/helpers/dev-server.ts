@@ -3,7 +3,7 @@ import sha256 from 'crypto-js/sha256.js';
 import Base64 from 'crypto-js/enc-base64.js';
 import {JsonObject} from 'type-fest';
 import {AddressInfo, WebSocketServer} from 'ws';
-import {IncomingMessage, WebSocketOpCode, OutgoingMessage} from '../../src/types';
+import {IncomingMessage, WebSocketOpCode, OutgoingMessage} from '../../src/types.js';
 
 export interface MockServer {
 	server: WebSocketServer;
