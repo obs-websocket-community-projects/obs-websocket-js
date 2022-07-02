@@ -305,5 +305,6 @@ For more information, see the [`debug`](https://github.com/visionmedia/debug) pa
 _To add your project to this list, submit a Pull Request._
 - [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
 - [nodecg/nodecg-obs](https://github.com/nodecg/nodecg-obs)
+- [Niek/obs-web](https://github.com/Niek/obs-web)
 
 ## [Contributing Guidelines](.github/CONTRIBUTING.md)
