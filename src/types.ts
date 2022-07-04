@@ -355,7 +355,7 @@ export interface OBSEventTypes {
 		/**
 		 * Array of filter objects
 		 */
-		filters: JsonArray;
+		filters: JsonObject[];
 	};
 	SourceFilterCreated: {
 		/**
@@ -548,7 +548,7 @@ export interface OBSEventTypes {
 		/**
 		 * Array of active inputs with their associated volume levels
 		 */
-		inputs: JsonArray;
+		inputs: JsonObject[];
 	};
 	MediaInputPlaybackStarted: {
 		/**
@@ -658,7 +658,7 @@ export interface OBSEventTypes {
 		/**
 		 * Array of scene item objects
 		 */
-		sceneItems: JsonArray;
+		sceneItems: JsonObject[];
 	};
 	SceneItemEnableStateChanged: {
 		/**
@@ -758,7 +758,7 @@ export interface OBSEventTypes {
 		/**
 		 * Updated array of scenes
 		 */
-		scenes: JsonArray;
+		scenes: JsonObject[];
 	};
 	CurrentSceneTransitionChanged: {
 		/**
@@ -1052,6 +1052,20 @@ export interface OBSRequestTypes {
 		 * @defaultValue true
 		 */
 		overlay?: boolean;
+	};
+	SetSourceFilterEnabled: {
+		/**
+		 * Name of the source the filter is on
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter
+		 */
+		filterName: string;
+		/**
+		 * New enable state of the filter
+		 */
+		filterEnabled: boolean;
 	};
 	GetVersion: never;
 	GetStats: never;
@@ -1436,6 +1450,13 @@ export interface OBSRequestTypes {
 		 * Name of the source to find
 		 */
 		sourceName: string;
+		/**
+		 * Number of matches to skip during search. >= 0 means first forward. -1 means last (top) item
+		 *
+		 * @restrictions >= -1
+		 * @defaultValue 0
+		 */
+		searchOffset?: number;
 	};
 	CreateSceneItem: {
 		/**
@@ -1840,6 +1861,7 @@ export interface OBSRequestTypes {
 		 */
 		inputName: string;
 	};
+	GetMonitorList: never;
 }
 
 export interface OBSResponseTypes {
@@ -1934,7 +1956,7 @@ export interface OBSResponseTypes {
 		/**
 		 * Array of filters
 		 */
-		filters: JsonArray;
+		filters: JsonObject[];
 	};
 	GetSourceFilterDefaultSettings: {
 		/**
@@ -1965,6 +1987,7 @@ export interface OBSResponseTypes {
 	};
 	SetSourceFilterIndex: undefined;
 	SetSourceFilterSettings: undefined;
+	SetSourceFilterEnabled: undefined;
 	GetVersion: {
 		/**
 		 * Current OBS Studio version
@@ -1986,6 +2009,14 @@ export interface OBSResponseTypes {
 		 * Image formats available in `GetSourceScreenshot` and `SaveSourceScreenshot` requests.
 		 */
 		supportedImageFormats: string[];
+		/**
+		 * Name of the platform. Usually `windows`, `macos`, or `ubuntu` (linux flavor). Not guaranteed to be any of those
+		 */
+		platform: string;
+		/**
+		 * Description of the platform, like `Windows 10 (10.0)`
+		 */
+		platformDescription: string;
 	};
 	GetStats: {
 		/**
@@ -2053,7 +2084,7 @@ export interface OBSResponseTypes {
 		/**
 		 * Array of inputs
 		 */
-		inputs: JsonArray;
+		inputs: JsonObject[];
 	};
 	GetInputKindList: {
 		/**
@@ -2168,7 +2199,7 @@ export interface OBSResponseTypes {
 		/**
 		 * Array of items in the list property
 		 */
-		propertyItems: JsonArray;
+		propertyItems: JsonObject[];
 	};
 	PressInputPropertiesButton: undefined;
 	GetMediaInputStatus: {
@@ -2255,13 +2286,13 @@ export interface OBSResponseTypes {
 		/**
 		 * Array of scene items in the scene
 		 */
-		sceneItems: JsonArray;
+		sceneItems: JsonObject[];
 	};
 	GetGroupItemList: {
 		/**
 		 * Array of scene items in the group
 		 */
-		sceneItems: JsonArray;
+		sceneItems: JsonObject[];
 	};
 	GetSceneItemId: {
 		/**
@@ -2329,7 +2360,7 @@ export interface OBSResponseTypes {
 		/**
 		 * Array of scenes
 		 */
-		scenes: JsonArray;
+		scenes: JsonObject[];
 	};
 	GetGroupList: {
 		/**
@@ -2444,7 +2475,7 @@ export interface OBSResponseTypes {
 		/**
 		 * Array of transitions
 		 */
-		transitions: JsonArray;
+		transitions: JsonObject[];
 	};
 	GetCurrentSceneTransition: {
 		/**
@@ -2493,4 +2524,10 @@ export interface OBSResponseTypes {
 	OpenInputPropertiesDialog: undefined;
 	OpenInputFiltersDialog: undefined;
 	OpenInputInteractDialog: undefined;
+	GetMonitorList: {
+		/**
+		 * a list of detected monitors with some information
+		 */
+		monitors: JsonObject[];
+	};
 }

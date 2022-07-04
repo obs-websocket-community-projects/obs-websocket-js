@@ -4,6 +4,7 @@ import {writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import got from 'got';
 import {ESLint} from 'eslint';
+import {JsonObject} from 'type-fest';
 
 // protoco.json typing
 interface GeneratedProtocol {
@@ -76,14 +77,11 @@ const headers = {
 	Authorization: process.env.GH_TOKEN ? `token ${process.env.GH_TOKEN}` : undefined,
 };
 
-/* Uncomment once released
 const {body: release} = await got('https://api.github.com/repos/obsproject/obs-websocket/releases/latest', {
 	headers,
-	responseType: 'json'
+	responseType: 'json',
 });
-const commit = release.tag_name;
-*/
-const commit = 'master';
+const commit = (release as JsonObject).tag_name as string;
 
 const {body: protocol} = await got<GeneratedProtocol>(`https://raw.githubusercontent.com/obsproject/obs-websocket/${commit}/docs/generated/protocol.json`, {
 	headers,
@@ -254,7 +252,7 @@ const linted = await linter.lintText(source, {
 
 if (linted[0].messages.length > 0) {
 	const formatter = await linter.loadFormatter('stylish');
-	process.stderr.write(formatter.format(linted));
+	process.stderr.write(await formatter.format(linted));
 	process.exitCode = 1;
 }
 
@@ -548,7 +546,7 @@ function stringifyTypes(inputTypes: AnyType): string {
 			const subtype = stringifyTypes(inputTypes.items);
 
 			if (subtype === 'JsonObject') {
-				return 'JsonArray';
+				return 'JsonObject[]';
 			}
 
 			return `Array<${subtype}>`;
