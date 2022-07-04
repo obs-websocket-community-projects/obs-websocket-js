@@ -24,7 +24,7 @@ obs-websocket-js allows Javascript-based connections to the Open Broadcaster Sof
 
 # Version Warning!
 
-> You are currently reading the documentation for upcoming v5. [For v4 documentation look here](https://github.com/obs-websocket-community-projects/obs-websocket-js/tree/v4)
+> You are currently reading the documentation for v5. [For v4 documentation look here](https://github.com/obs-websocket-community-projects/obs-websocket-js/tree/v4)
 
 ---
 
@@ -35,14 +35,18 @@ obs-websocket-js allows Javascript-based connections to the Open Broadcaster Sof
 Using a package manager like npm / yarn is the recommended installation method when you're planning to use obs-websocket-js in node.js, building a web app that you'll bundle with webpack or rollup, or for using type definitions.
 
 ```sh
-npm install obs-websocket-js@next
-```
-or
-```sh
-yarn add obs-websocket-js@next
+npm install obs-websocket-js
+yarn add obs-websocket-js
 ```
 
-> Until obs-websocket 5.0 is released, the client supporting 5.x is released under next tag
+### Standalone file / CDN build
+
+Standalone js file is available from [the latest github release](https://github.com/obs-websocket-community-projects/obs-websocket-js/releases) or from jsdeliver & unpkg CDN's:
+
+```
+https://cdn.jsdelivr.net/npm/obs-websocket-js
+https://unpkg.com/obs-websocket-js
+```
 
 ## Usage
 
@@ -297,13 +301,12 @@ For more information, see the [`debug`](https://github.com/visionmedia/debug) pa
 
 ## Upgrading
 
-* Upgrading from 4.x to 5.x (available soon)
+* [Upgrading from 4.x to 5.x](https://github.com/obs-websocket-community-projects/obs-websocket-js/releases/tag/v5.0.0)
 * [Upgrading from 2.x to 3.x](https://github.com/obs-websocket-community-projects/obs-websocket-js/tree/v4#upgrading-from-2x-to-3x)
 * [Upgrading from 1.x to 2.x](https://github.com/obs-websocket-community-projects/obs-websocket-js/tree/v4#upgrading-from-1x-to-2x)
 
 ## Projects Using **obs-websocket-js**
-_To add your project to this list, submit a Pull Request._
-- [GamesDoneQuick/agdq17-layouts](https://github.com/GamesDoneQuick/agdq17-layouts)
-- [nodecg/nodecg-obs](https://github.com/nodecg/nodecg-obs)
+
+[Share your project in github discussions!](https://github.com/obs-websocket-community-projects/obs-websocket-js/discussions/categories/show-and-tell)
 
 ## [Contributing Guidelines](.github/CONTRIBUTING.md)
