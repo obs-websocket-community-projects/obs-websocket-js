@@ -1435,7 +1435,7 @@ export interface OBSRequestTypes {
 		 */
 		sceneName: string;
 	};
-	GetGroupItemList: {
+	GetGroupSceneItemList: {
 		/**
 		 * Name of the group to get the items of
 		 */
@@ -2288,7 +2288,7 @@ export interface OBSResponseTypes {
 		 */
 		sceneItems: JsonObject[];
 	};
-	GetGroupItemList: {
+	GetGroupSceneItemList: {
 		/**
 		 * Array of scene items in the group
 		 */
