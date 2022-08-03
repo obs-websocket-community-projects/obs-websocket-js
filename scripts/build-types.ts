@@ -88,10 +88,10 @@ const {body: protocol} = await got<GeneratedProtocol>(`https://raw.githubusercon
 	responseType: 'json',
 });
 
-// fix oopsie in protocol.json
+// fix oopsie in protocol.json (5.0.1)
 protocol.requests.forEach(req => {
-	if (req.requestType === 'GetSourceScreenshot' && req.description.startsWith('Saves')) {
-		req.requestType = 'SaveSourceScreenshot';
+	if (req.requestType === 'GetGroupItemList') {
+		req.requestType = 'GetGroupSceneItemList';
 	}
 });
 
