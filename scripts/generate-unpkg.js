@@ -9,9 +9,19 @@ const {output} = await microbundle({
 	cwd: '.',
 	format: 'iife',
 	entries: ['src/unpkg.ts'],
+	output: 'dist/obs-ws.js',
+	external: 'none',
+	generateTypes: false,
+	compress: false,
+});
+console.log('Readable build', output);
+
+const {output: outputMin} = await microbundle({
+	cwd: '.',
+	format: 'iife',
+	entries: ['src/unpkg.ts'],
 	output: 'dist/obs-ws.min.js',
 	external: 'none',
 	generateTypes: false,
 });
-
-console.log(output);
+console.log('Minified build', outputMin);
