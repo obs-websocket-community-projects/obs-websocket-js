@@ -85,14 +85,14 @@ const obs = new OBSWebSocket();
 ### Connecting
 
 ```ts
-connect(url = 'ws://127.0.0.1:4444', password?: string, identificationParams = {}): Promise
+connect(url = 'ws://127.0.0.1:4455', password?: string, identificationParams = {}): Promise
 ```
 
 To connect to obs-websocket server use the `connect` method.
 
 Parameter | Description
 ---|---
-`url`<br />`string (optional)` | Websocket URL to connect to, including protocol. (For example when connecting via a proxy that supports https use `wss://127.0.0.1:4444`)
+`url`<br />`string (optional)` | Websocket URL to connect to, including protocol. (For example when connecting via a proxy that supports https use `wss://127.0.0.1:4455`)
 `password`<br />`string (optional)` | Password required to authenticate with obs-websocket server
 `identificationParams`<br />`object (optional)` | Object with parameters to send with the [Identify message](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#identify-opcode-1)<br />Use this to include RPC version to guarantee compatibility with server
 
@@ -106,16 +106,16 @@ const obs = new OBSWebSocket();
 await obs.connect();
 
 // Connect to obs-ws running on 192.168.0.4
-await obs.connect('ws://192.168.0.4:4444');
+await obs.connect('ws://192.168.0.4:4455');
 
 // Connect to localhost with password
-await obs.connect('ws://127.0.0.1:4444', 'super-sekret');
+await obs.connect('ws://127.0.0.1:4455', 'super-sekret');
 
 // Connect expecting RPC version 1
-await obs.connect('ws://127.0.0.1:4444', undefined, {rpcVersion: 1});
+await obs.connect('ws://127.0.0.1:4455', undefined, {rpcVersion: 1});
 
 // Connect with request for high-volume event
-await obs.connect('ws://127.0.0.1:4444', undefined, {
+await obs.connect('ws://127.0.0.1:4455', undefined, {
   eventSubscriptions: EventSubscription.All | EventSubscription.InputVolumeMeters,
   rpcVersion: 1
 });
@@ -125,7 +125,7 @@ try {
   const {
     obsWebSocketVersion,
     negotiatedRpcVersion
-  } = await obs.connect('ws://192.168.0.4:4444', 'password', {
+  } = await obs.connect('ws://192.168.0.4:4455', 'password', {
     rpcVersion: 1
   });
   console.log(`Connected to server ${obsWebSocketVersion} (using RPC ${negotiatedRpcVersion})`)
