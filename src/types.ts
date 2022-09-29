@@ -310,9 +310,12 @@ export type RequestMessage<T = keyof OBSRequestTypes> = T extends keyof OBSReque
 	requestData: OBSRequestTypes[T];
 } : never;
 
-export type RequestBatchRequest<T = keyof OBSRequestTypes> = T extends keyof OBSRequestTypes ? {
-	requestId?: string;
+export type RequestBatchRequest<T = keyof OBSRequestTypes> = T extends keyof OBSRequestTypes ? OBSRequestTypes[T] extends never ? {
 	requestType: T;
+	requestId?: string;
+} : {
+	requestType: T;
+	requestId?: string;
 	requestData: OBSRequestTypes[T];
 } : never;
 

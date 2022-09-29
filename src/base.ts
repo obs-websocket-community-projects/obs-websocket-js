@@ -156,7 +156,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @param options.haltOnFailure Whether obs-websocket should stop executing the batch if one request fails
 	 * @returns RequestBatch response
 	 */
-	async callBatch(requests: RequestBatchRequest[], options: {haltOnFailure?: boolean; executionType?: RequestBatchExecutionType}): Promise<ResponseMessage[]> {
+	async callBatch(requests: RequestBatchRequest[], options: {haltOnFailure?: boolean; executionType?: RequestBatchExecutionType} = {}): Promise<ResponseMessage[]> {
 		const requestId = BaseOBSWebSocket.generateMessageId();
 		const responsePromise = this.internalEventPromise<ResponseBatchMessage>(`res:${requestId}`);
 
