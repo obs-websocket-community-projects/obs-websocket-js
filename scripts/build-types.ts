@@ -164,6 +164,10 @@ export interface IncomingMessageTypes {
 	 * obs-websocket is responding to a request coming from a client
 	 */
 	[WebSocketOpCode.RequestResponse]: ResponseMessage;
+	/**
+	 * obs-websocket is responding to a batch request coming from a client
+	 */
+	[WebSocketOpCode.RequestBatchResponse]: ResponseBatchMessage;
 }
 
 export interface OutgoingMessageTypes {
@@ -197,6 +201,10 @@ export interface OutgoingMessageTypes {
 	 * Client is making a request to obs-websocket. Eg get current scene, create source.
 	 */
 	[WebSocketOpCode.Request]: RequestMessage;
+	/**
+	 * Client is making a batch request to obs-websocket.
+	 */
+	[WebSocketOpCode.RequestBatch]: RequestBatchMessage;
 }
 
 type EventMessage<T = keyof OBSEventTypes> = T extends keyof OBSEventTypes ? {
@@ -214,12 +222,30 @@ export type RequestMessage<T = keyof OBSRequestTypes> = T extends keyof OBSReque
 	requestData: OBSRequestTypes[T];
 } : never;
 
+export type RequestBatchRequest<T = keyof OBSRequestTypes> = T extends keyof OBSRequestTypes ? {
+	requestId?: string;
+	requestType: T;
+	requestData: OBSRequestTypes[T];
+} : never;
+
+export type RequestBatchMessage = {
+	requestId: string;
+	haltOnFailure?: boolean;
+	executionType?: RequestBatchExecutionType
+	requests: RequestBatchRequest[];
+};
+
 export type ResponseMessage<T = keyof OBSResponseTypes> = T extends keyof OBSResponseTypes ? {
 	requestType: T;
 	requestId: string;
 	requestStatus: {result: true; code: number} | {result: false; code: number; comment: string};
 	responseData: OBSResponseTypes[T];
 } : never;
+
+export type ResponseBatchMessage = {
+	requestId: string;
+	results: ResponseMessage[];
+}
 
 // Events
 export interface OBSEventTypes {
