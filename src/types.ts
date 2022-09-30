@@ -628,7 +628,20 @@ export interface OBSEventTypes {
 		/**
 		 * The specific state of the output
 		 */
-		outputState: string;
+		outputState: 'OBS_WEBSOCKET_OUTPUT_STARTING' | 'OBS_WEBSOCKET_OUTPUT_STOPPING';
+	} | {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+		/**
+		 * The specific state of the output
+		 */
+		outputState: 'OBS_WEBSOCKET_OUTPUT_STARTED' | 'OBS_WEBSOCKET_OUTPUT_STOPPED';
+		/**
+		 * The filename of the output recording
+		 */
+		outputPath: string;
 	};
 	ReplayBufferStateChanged: {
 		/**
