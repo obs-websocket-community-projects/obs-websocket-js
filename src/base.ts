@@ -4,7 +4,7 @@ import EventEmitter from 'eventemitter3';
 import WebSocketIpml from 'isomorphic-ws';
 import {Except, Merge, SetOptional} from 'type-fest';
 
-import {OutgoingMessageTypes, WebSocketOpCode, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, RequestBatchExecutionType, RequestBatchRequest, RequestBatchMessage, ResponseMessage, ResponseBatchMessage} from './types.js';
+import {OutgoingMessageTypes, WebSocketOpCode, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, RequestBatchExecutionType, RequestBatchRequest, RequestBatchMessage, ResponseMessage, ResponseBatchMessage, RequestBatchOptions} from './types.js';
 import authenticationHashing from './utils/authenticationHashing.js';
 
 export const debug = createDebug('obs-websocket-js');
@@ -156,15 +156,14 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @param options.haltOnFailure Whether obs-websocket should stop executing the batch if one request fails
 	 * @returns RequestBatch response
 	 */
-	async callBatch(requests: RequestBatchRequest[], options: {haltOnFailure?: boolean; executionType?: RequestBatchExecutionType} = {}): Promise<ResponseMessage[]> {
+	async callBatch(requests: RequestBatchRequest[], options: RequestBatchOptions = {}): Promise<ResponseMessage[]> {
 		const requestId = BaseOBSWebSocket.generateMessageId();
 		const responsePromise = this.internalEventPromise<ResponseBatchMessage>(`res:${requestId}`);
 
 		await this.message(WebSocketOpCode.RequestBatch, {
 			requestId,
 			requests,
-			haltOnFailure: options.haltOnFailure,
-			executionType: options.executionType,
+			...options,
 		});
 
 		const {results} = await responsePromise;

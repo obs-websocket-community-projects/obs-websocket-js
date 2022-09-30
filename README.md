@@ -194,6 +194,53 @@ await obs.call('SetCurrentProgramScene', {sceneName: 'Gameplay'});
 const {inputMuted} = obs.call('ToggleInputMute', {inputName: 'Camera'});
 ```
 
+### Sending Batch Requests
+
+```ts
+callBatch(requests: RequestBatchRequest[], options?: RequestBatchOptions): Promise<ResponseMessage[]>
+```
+
+Multiple requests can be batched together into a single message sent to obs-websocket using the `callBatch` method. The full request list is sent over the socket at once, obs-websocket executes the requests based on the `options` provided, then returns the full list of results once all have finished.
+
+Parameter | Description
+---|---
+`requests`<br />`RequestBatchRequest[]` | The list of requests to be sent ([see obs-websocket documentation](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requests)). Each request follows the same structure as individual requests sent to [`call`](#sending-requests).
+`options`<br />`RequestBatchOptions (optional)` | Options controlling how obs-websocket will execute the request list.
+`options.executionType`<br />`RequestBatchExecutionType (optional)` | The mode of execution obs-websocket will run the batch in
+`options.haltOnFailure`<br />`boolean (optional)` | Whether obs-websocket should stop executing the batch if one request fails
+
+Returns promise that resolve with a list of `results`, one for each request that was executed.
+
+```ts
+// Execute a transition sequence to a different scene with a specific transition.
+const results = await obs.callBatch([
+  {
+    requestType: 'GetVersion',
+  },
+  {
+    requestType: 'SetCurrentPreviewScene',
+    requestData: {sceneName: 'Scene 5'},
+  },
+  {
+    requestType: 'SetCurrentSceneTransition',
+    requestData: {transitionName: 'Fade'},
+  },
+  {
+    requestType: 'Sleep',
+    requestData: {sleepMillis: 100},
+  },
+  {
+    requestType: 'TriggerStudioModeTransition',
+  }
+])
+```
+
+Currently, obs-websocket-js is not able to infer the types of ResponseData to any specific request's response. To use the data safely, cast it to the appropriate type for the request that was sent.
+
+```ts
+(results[0].responseData as OBSResponseTypes['GetVersion']).obsVersion //=> 28.0.0
+```
+
 ### Receiving Events
 
 ```ts
