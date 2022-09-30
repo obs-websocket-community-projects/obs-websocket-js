@@ -3,7 +3,7 @@ import sha256 from 'crypto-js/sha256.js';
 import Base64 from 'crypto-js/enc-base64.js';
 import {JsonObject} from 'type-fest';
 import {AddressInfo, WebSocketServer} from 'ws';
-import {IncomingMessage, WebSocketOpCode, OutgoingMessage} from '../../src/types.js';
+import {IncomingMessage, WebSocketOpCode, OutgoingMessage, ResponseBatchMessage, OBSRequestTypes, ResponseMessage} from '../../src/types.js';
 
 export interface MockServer {
 	server: WebSocketServer;
@@ -53,6 +53,44 @@ const REQUEST_HANDLERS: Record<string, (req?: JsonObject | void) => FailureRespo
 	},
 	/* eslint-enable @typescript-eslint/naming-convention */
 };
+
+function handleRequestData<T extends keyof OBSRequestTypes>(requestId: string | undefined, requestType: T, requestData: OBSRequestTypes[T]) {
+	if (!(requestType in REQUEST_HANDLERS)) {
+		return {
+			requestType,
+			requestId,
+			requestStatus: {
+				result: false,
+				code: 204,
+				comment: 'unknown type',
+			},
+		};
+	}
+
+	const responseData = REQUEST_HANDLERS[requestType](requestData);
+
+	if (responseData instanceof FailureResponse) {
+		return {
+			requestType,
+			requestId,
+			requestStatus: {
+				result: false,
+				code: responseData.code,
+				comment: responseData.message,
+			},
+		};
+	}
+
+	return {
+		requestType,
+		requestId,
+		requestStatus: {
+			result: true,
+			code: 100,
+		},
+		responseData,
+	};
+}
 
 export async function makeServer(
 	authenticate?: boolean,
@@ -134,55 +172,33 @@ export async function makeServer(
 					break;
 				case WebSocketOpCode.Request: {
 					const {requestData, requestId, requestType} = message.d;
-					if (!(requestType in REQUEST_HANDLERS)) {
-						send({
-							op: WebSocketOpCode.RequestResponse,
-							d: {
-								// @ts-expect-error don't care
-								requestType,
-								requestId,
-								requestStatus: {
-									result: false,
-									code: 204,
-									comment: 'unknown type',
-								},
-							},
-						});
-						break;
-					}
+					const responseData = handleRequestData(requestId, requestType, requestData);
+					send({
+						op: WebSocketOpCode.RequestResponse,
+						// @ts-expect-error RequestTypes and ResponseTypes are non-overlapping according to ts
+						d: responseData,
+					});
+					break;
+				}
 
-					const responseData = REQUEST_HANDLERS[requestType](requestData);
+				case WebSocketOpCode.RequestBatch: {
+					const {requests, requestId, haltOnFailure: shouldHalt} = message.d;
 
-					if (responseData instanceof FailureResponse) {
-						send({
-							op: WebSocketOpCode.RequestResponse,
-							d: {
-								// @ts-expect-error don't care
-								requestType,
-								requestId,
-								requestStatus: {
-									result: false,
-									code: responseData.code,
-									comment: responseData.message,
-								},
-							},
-						});
-						break;
+					const response: ResponseBatchMessage = {requestId, results: []};
+
+					for (const request of requests) {
+						// @ts-expect-error requestData only exists on _some_ request types, not all
+						const result = handleRequestData(request.requestId, request.requestType, request.requestData);
+						response.results.push(result as ResponseMessage);
+
+						if (!result.requestStatus.result && shouldHalt) {
+							break;
+						}
 					}
 
 					send({
-						op: WebSocketOpCode.RequestResponse,
-						d: {
-							// @ts-expect-error don't care
-							requestType,
-							requestId,
-							requestStatus: {
-								result: true,
-								code: 100,
-							},
-							// @ts-expect-error don't care
-							responseData,
-						},
+						op: WebSocketOpCode.RequestBatchResponse,
+						d: response,
 					});
 
 					break;

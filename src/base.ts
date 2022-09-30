@@ -4,7 +4,7 @@ import EventEmitter from 'eventemitter3';
 import WebSocketIpml from 'isomorphic-ws';
 import {Except, Merge, SetOptional} from 'type-fest';
 
-import {OutgoingMessageTypes, WebSocketOpCode, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, ResponseMessage} from './types.js';
+import {OutgoingMessageTypes, WebSocketOpCode, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, RequestBatchExecutionType, RequestBatchRequest, RequestBatchMessage, ResponseMessage, ResponseBatchMessage, RequestBatchOptions} from './types.js';
 import authenticationHashing from './utils/authenticationHashing.js';
 
 export const debug = createDebug('obs-websocket-js');
@@ -145,6 +145,29 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 		}
 
 		return responseData as OBSResponseTypes[Type];
+	}
+
+	/**
+	 * Send a batch request to obs-websocket
+	 *
+	 * @param requests Array of Request objects (type and data)
+	 * @param options A set of options for how the batch will be executed
+	 * @param options.executionType The mode of execution obs-websocket will run the batch in
+	 * @param options.haltOnFailure Whether obs-websocket should stop executing the batch if one request fails
+	 * @returns RequestBatch response
+	 */
+	async callBatch(requests: RequestBatchRequest[], options: RequestBatchOptions = {}): Promise<ResponseMessage[]> {
+		const requestId = BaseOBSWebSocket.generateMessageId();
+		const responsePromise = this.internalEventPromise<ResponseBatchMessage>(`res:${requestId}`);
+
+		await this.message(WebSocketOpCode.RequestBatch, {
+			requestId,
+			requests,
+			...options,
+		});
+
+		const {results} = await responsePromise;
+		return results;
 	}
 
 	/**
@@ -310,7 +333,8 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 					return;
 				}
 
-				case WebSocketOpCode.RequestResponse: {
+				case WebSocketOpCode.RequestResponse:
+				case WebSocketOpCode.RequestBatchResponse: {
 					const {requestId} = d;
 					this.internalListeners.emit(`res:${requestId}`, d);
 					return;
