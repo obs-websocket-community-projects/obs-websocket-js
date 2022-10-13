@@ -77,11 +77,14 @@ const headers = {
 	Authorization: process.env.GH_TOKEN ? `token ${process.env.GH_TOKEN}` : undefined,
 };
 
-const {body: release} = await got('https://api.github.com/repos/obsproject/obs-websocket/releases/latest', {
-	headers,
-	responseType: 'json',
-});
-const commit = (release as JsonObject).tag_name as string;
+let commit = process.env.GH_COMMIT
+if (!commit) {
+	const {body: release} = await got('https://api.github.com/repos/obsproject/obs-websocket/releases/latest', {
+		headers,
+		responseType: 'json',
+	});
+	commit = (release as JsonObject).tag_name as string;
+}
 
 const {body: protocol} = await got<GeneratedProtocol>(`https://raw.githubusercontent.com/obsproject/obs-websocket/${commit}/docs/generated/protocol.json`, {
 	headers,
