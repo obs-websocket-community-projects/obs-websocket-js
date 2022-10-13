@@ -140,7 +140,7 @@ export enum EventSubscription {
 	 *
 	 * Initial OBS Version: 5.0.0
 	 */
-	All = (General | Config | Scenes | Inputs | Transitions | Filters | Outputs | SceneItems | MediaInputs | Vendors),
+	All = (General | Config | Scenes | Inputs | Transitions | Filters | Outputs | SceneItems | MediaInputs | Vendors | Ui),
 	/**
 	 * Subscription value to receive the `InputVolumeMeters` high-volume event.
 	 *
@@ -629,6 +629,10 @@ export interface OBSEventTypes {
 		 * The specific state of the output
 		 */
 		outputState: string;
+		/**
+		 * File name for the saved recording, if record stopped. `null` otherwise
+		 */
+		outputPath: string;
 	};
 	ReplayBufferStateChanged: {
 		/**
@@ -1460,6 +1464,47 @@ export interface OBSRequestTypes {
 	StopReplayBuffer: never;
 	SaveReplayBuffer: never;
 	GetLastReplayBufferReplay: never;
+	GetOutputList: never;
+	GetOutputStatus: {
+		/**
+		 * Output name
+		 */
+		outputName: string;
+	};
+	ToggleOutput: {
+		/**
+		 * Output name
+		 */
+		outputName: string;
+	};
+	StartOutput: {
+		/**
+		 * Output name
+		 */
+		outputName: string;
+	};
+	StopOutput: {
+		/**
+		 * Output name
+		 */
+		outputName: string;
+	};
+	GetOutputSettings: {
+		/**
+		 * Output name
+		 */
+		outputName: string;
+	};
+	SetOutputSettings: {
+		/**
+		 * Output name
+		 */
+		outputName: string;
+		/**
+		 * Output settings
+		 */
+		outputSettings: JsonObject;
+	};
 	GetRecordStatus: never;
 	ToggleRecord: never;
 	StartRecord: never;
@@ -1900,6 +1945,42 @@ export interface OBSRequestTypes {
 		inputName: string;
 	};
 	GetMonitorList: never;
+	OpenVideoMixProjector: {
+		/**
+		 * Type of mix to open
+		 */
+		videoMixType: string;
+		/**
+		 * Monitor index, use `GetMonitorList` to obtain index
+		 *
+		 * @defaultValue -1: Opens projector in windowed mode
+		 */
+		monitorIndex?: number;
+		/**
+		 * Size/Position data for a windowed projector, in Qt Base64 encoded format. Mutually exclusive with `monitorIndex`
+		 *
+		 * @defaultValue N/A
+		 */
+		projectorGeometry?: string;
+	};
+	OpenSourceProjector: {
+		/**
+		 * Name of the source to open a projector for
+		 */
+		sourceName: string;
+		/**
+		 * Monitor index, use `GetMonitorList` to obtain index
+		 *
+		 * @defaultValue -1: Opens projector in windowed mode
+		 */
+		monitorIndex?: number;
+		/**
+		 * Size/Position data for a windowed projector, in Qt Base64 encoded format. Mutually exclusive with `monitorIndex`
+		 *
+		 * @defaultValue N/A
+		 */
+		projectorGeometry?: string;
+	};
 }
 
 export interface OBSResponseTypes {
@@ -2105,6 +2186,14 @@ export interface OBSResponseTypes {
 	BroadcastCustomEvent: undefined;
 	CallVendorRequest: {
 		/**
+		 * Echoed of `vendorName`
+		 */
+		vendorName: string;
+		/**
+		 * Echoed of `requestType`
+		 */
+		requestType: string;
+		/**
 		 * Object containing appropriate response data. {} if request does not provide any response data
 		 */
 		responseData: JsonObject;
@@ -2292,6 +2381,56 @@ export interface OBSResponseTypes {
 		 */
 		savedReplayPath: string;
 	};
+	GetOutputList: undefined;
+	GetOutputStatus: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+		/**
+		 * Whether the output is reconnecting
+		 */
+		outputReconnecting: boolean;
+		/**
+		 * Current formatted timecode string for the output
+		 */
+		outputTimecode: string;
+		/**
+		 * Current duration in milliseconds for the output
+		 */
+		outputDuration: number;
+		/**
+		 * Congestion of the output
+		 */
+		outputCongestion: number;
+		/**
+		 * Number of bytes sent by the output
+		 */
+		outputBytes: number;
+		/**
+		 * Number of frames skipped by the output's process
+		 */
+		outputSkippedFrames: number;
+		/**
+		 * Total number of frames delivered by the output's process
+		 */
+		outputTotalFrames: number;
+	};
+	ToggleOutput: {
+		/**
+		 * Whether the output is active
+		 */
+		outputActive: boolean;
+	};
+	StartOutput: undefined;
+	StopOutput: undefined;
+	GetOutputSettings: {
+		/**
+		 * Output settings
+		 */
+		outputSettings: JsonObject;
+	};
+	SetOutputSettings: undefined;
 	GetRecordStatus: {
 		/**
 		 * Whether the output is active
@@ -2316,7 +2455,12 @@ export interface OBSResponseTypes {
 	};
 	ToggleRecord: undefined;
 	StartRecord: undefined;
-	StopRecord: undefined;
+	StopRecord: {
+		/**
+		 * File name for the saved recording
+		 */
+		outputPath: string;
+	};
 	ToggleRecordPause: undefined;
 	PauseRecord: undefined;
 	ResumeRecord: undefined;
@@ -2474,6 +2618,10 @@ export interface OBSResponseTypes {
 		 */
 		outputDuration: number;
 		/**
+		 * Congestion of the output
+		 */
+		outputCongestion: number;
+		/**
 		 * Number of bytes sent by the output
 		 */
 		outputBytes: number;
@@ -2568,4 +2716,6 @@ export interface OBSResponseTypes {
 		 */
 		monitors: JsonObject[];
 	};
+	OpenVideoMixProjector: undefined;
+	OpenSourceProjector: undefined;
 }
