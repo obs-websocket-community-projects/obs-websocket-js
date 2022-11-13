@@ -534,7 +534,7 @@ export interface OBSEventTypes {
 		 */
 		inputName: string;
 		/**
-		 * New volume level in multimap
+		 * New volume level multiplier
 		 */
 		inputVolumeMul: number;
 		/**
@@ -849,6 +849,12 @@ export interface OBSEventTypes {
 		eventType: string;
 		/**
 		 * Vendor-provided event data. {} if event does not provide any data
+		 */
+		eventData: JsonObject;
+	};
+	CustomEvent: {
+		/**
+		 * Custom event data
 		 */
 		eventData: JsonObject;
 	};
@@ -1184,14 +1190,16 @@ export interface OBSRequestTypes {
 		 * Number of milliseconds to sleep for (if `SERIAL_REALTIME` mode)
 		 *
 		 * @restrictions >= 0, <= 50000
+		 * @defaultValue Unknown
 		 */
-		sleepMillis: number;
+		sleepMillis?: number;
 		/**
 		 * Number of frames to sleep for (if `SERIAL_FRAME` mode)
 		 *
 		 * @restrictions >= 0, <= 10000
+		 * @defaultValue Unknown
 		 */
-		sleepFrames: number;
+		sleepFrames?: number;
 	};
 	GetInputList: {
 		/**
@@ -2381,7 +2389,12 @@ export interface OBSResponseTypes {
 		 */
 		savedReplayPath: string;
 	};
-	GetOutputList: undefined;
+	GetOutputList: {
+		/**
+		 * Array of outputs
+		 */
+		outputs: JsonObject[];
+	};
 	GetOutputStatus: {
 		/**
 		 * Whether the output is active
@@ -2439,7 +2452,7 @@ export interface OBSResponseTypes {
 		/**
 		 * Whether the output is paused
 		 */
-		ouputPaused: boolean;
+		outputPaused: boolean;
 		/**
 		 * Current formatted timecode string for the output
 		 */
