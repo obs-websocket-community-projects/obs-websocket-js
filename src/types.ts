@@ -608,7 +608,7 @@ export interface OBSEventTypes {
 		/**
 		 * Action performed on the input. See `ObsMediaInputAction` enum
 		 */
-		mediaAction: string;
+		mediaAction: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NONE' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PLAY' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PAUSE' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_STOP' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NEXT' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PREVIOUS';
 	};
 	StreamStateChanged: {
 		/**
@@ -1448,7 +1448,7 @@ export interface OBSRequestTypes {
 		/**
 		 * Identifier of the `ObsMediaInputAction` enum
 		 */
-		mediaAction: string;
+		mediaAction: 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NONE' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PLAY' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PAUSE' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_STOP' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_RESTART' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_NEXT' | 'OBS_WEBSOCKET_MEDIA_INPUT_ACTION_PREVIOUS';
 	};
 	GetVirtualCamStatus: never;
 	ToggleVirtualCam: never;
