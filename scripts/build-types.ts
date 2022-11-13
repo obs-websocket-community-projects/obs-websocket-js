@@ -77,7 +77,7 @@ const headers = {
 	Authorization: process.env.GH_TOKEN ? `token ${process.env.GH_TOKEN}` : undefined,
 };
 
-let commit = process.env.GH_COMMIT
+let commit = process.argv[2] ?? process.env.GH_COMMIT;
 if (!commit) {
 	const {body: release} = await got('https://api.github.com/repos/obsproject/obs-websocket/releases/latest', {
 		headers,
