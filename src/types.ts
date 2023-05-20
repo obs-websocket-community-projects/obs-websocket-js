@@ -838,6 +838,12 @@ export interface OBSEventTypes {
 		 */
 		studioModeEnabled: boolean;
 	};
+	ScreenshotSaved: {
+		/**
+		 * Path of the saved image file
+		 */
+		savedScreenshotPath: string;
+	};
 	VendorEvent: {
 		/**
 		 * Name of the vendor emitting the event
