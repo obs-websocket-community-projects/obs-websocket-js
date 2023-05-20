@@ -1,9 +1,9 @@
 import {decode, encode} from '@msgpack/msgpack';
 import sha256 from 'crypto-js/sha256.js';
 import Base64 from 'crypto-js/enc-base64.js';
-import {JsonObject} from 'type-fest';
-import {AddressInfo, WebSocketServer} from 'ws';
-import {IncomingMessage, WebSocketOpCode, OutgoingMessage, ResponseBatchMessage, OBSRequestTypes, ResponseMessage} from '../../src/types.js';
+import {type JsonObject} from 'type-fest';
+import {type AddressInfo, WebSocketServer} from 'ws';
+import {type IncomingMessage, WebSocketOpCode, type OutgoingMessage, type ResponseBatchMessage, type OBSRequestTypes, type ResponseMessage} from '../../src/types.js';
 
 export interface MockServer {
 	server: WebSocketServer;
@@ -188,7 +188,7 @@ export async function makeServer(
 
 					for (const request of requests) {
 						// @ts-expect-error requestData only exists on _some_ request types, not all
-						const result = handleRequestData(request.requestId, request.requestType, request.requestData);
+						const result = handleRequestData(request.requestId, request.requestType, request.requestData as unknown);
 						response.results.push(result as ResponseMessage);
 
 						if (!result.requestStatus.result && shouldHalt) {

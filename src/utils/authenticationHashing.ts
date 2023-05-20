@@ -3,7 +3,6 @@ import Base64 from 'crypto-js/enc-base64.js';
 
 /**
  * SHA256 Hashing.
- *
  * @param  {string} [salt=''] salt.
  * @param  {string} [challenge=''] challenge.
  * @param  {string} msg Message to encode.

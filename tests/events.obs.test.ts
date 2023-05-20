@@ -1,7 +1,7 @@
-import anyTest, {TestFn} from 'ava';
+import anyTest, {type TestFn} from 'ava';
 
-import {makeServer, MockServer} from './helpers/dev-server.js';
-import OBSWebSocket, {OBSEventTypes, WebSocketOpCode} from '../src/json.js';
+import {makeServer, type MockServer} from './helpers/dev-server.js';
+import OBSWebSocket, {type OBSEventTypes, WebSocketOpCode} from '../src/json.js';
 
 const test = anyTest as TestFn<{
 	server: MockServer;

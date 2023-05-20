@@ -102,6 +102,7 @@ module.exports = {
 		'jsdoc/check-tag-names': ['warn', {
 			definedTags: ['category', 'complexity', 'defaultValue', 'initialVersion', 'restrictions', 'rpcVersion'],
 		}],
+		'@typescript-eslint/consistent-type-definitions': 'off',
 		// Better handled by typescript
 		'jsdoc/require-param-type': 'off',
 		'jsdoc/require-returns-type': 'off',

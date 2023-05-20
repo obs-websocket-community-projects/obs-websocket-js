@@ -2,9 +2,10 @@ import createDebug from 'debug';
 import EventEmitter from 'eventemitter3';
 // Import under alias so DOM's WebSocket type can be used
 import WebSocketIpml from 'isomorphic-ws';
-import {Except, Merge, SetOptional} from 'type-fest';
+import type {Except, Merge, SetOptional} from 'type-fest';
 
-import {OutgoingMessageTypes, WebSocketOpCode, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, RequestBatchExecutionType, RequestBatchRequest, RequestBatchMessage, ResponseMessage, ResponseBatchMessage, RequestBatchOptions} from './types.js';
+import {WebSocketOpCode} from './types.js';
+import type {OutgoingMessageTypes, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, RequestBatchExecutionType, RequestBatchRequest, RequestBatchMessage, ResponseMessage, ResponseBatchMessage, RequestBatchOptions} from './types.js';
 import authenticationHashing from './utils/authenticationHashing.js';
 
 export const debug = createDebug('obs-websocket-js');
@@ -53,7 +54,6 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Connect to an obs-websocket server
-	 *
 	 * @param url Websocket server to connect to (including ws:// or wss:// protocol)
 	 * @param password Password
 	 * @param identificationParams Data for Identify event
@@ -113,7 +113,6 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Update session parameters
-	 *
 	 * @param data Reidentify data
 	 * @returns Identified message data
 	 */
@@ -125,7 +124,6 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Send a request to obs-websocket
-	 *
 	 * @param requestType Request name
 	 * @param requestData Request data
 	 * @returns Request response
@@ -149,7 +147,6 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Send a batch request to obs-websocket
-	 *
 	 * @param requests Array of Request objects (type and data)
 	 * @param options A set of options for how the batch will be executed
 	 * @param options.executionType The mode of execution obs-websocket will run the batch in
@@ -316,7 +313,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @private
 	 * @param e Event
 	 */
-	protected async onMessage(e: MessageEvent) {
+	protected async onMessage(e: MessageEvent<string | Blob | ArrayBuffer>) {
 		try {
 			const {op, d} = await this.decodeMessage(e.data);
 			debug('socket.message: %d %j', op, d);
@@ -379,7 +376,6 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Encode a message for specified protocol
-	 *
 	 * @param data Outgoing message
 	 * @returns Outgoing message to send via websocket
 	 */
@@ -387,7 +383,6 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 
 	/**
 	 * Decode a message for specified protocol
-	 *
 	 * @param data Incoming message from websocket
 	 * @returns Parsed incoming message
 	 */

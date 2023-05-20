@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import {AddressInfo, WebSocketServer} from 'ws';
+import {type AddressInfo, WebSocketServer} from 'ws';
 
 import OBSWebSocket, {OBSWebSocketError} from '../src/json.js';
 
