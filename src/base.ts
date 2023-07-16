@@ -1,5 +1,5 @@
 import createDebug from 'debug';
-import EventEmitter from 'eventemitter3';
+import {EventEmitter} from 'eventemitter3';
 // Import under alias so DOM's WebSocket type can be used
 import WebSocketIpml from 'isomorphic-ws';
 import type {Except, Merge, SetOptional} from 'type-fest';
