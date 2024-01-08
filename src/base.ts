@@ -8,7 +8,7 @@ import {WebSocketOpCode} from './types.js';
 import type {OutgoingMessageTypes, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, RequestBatchExecutionType, RequestBatchRequest, RequestBatchMessage, ResponseMessage, ResponseBatchMessage, RequestBatchOptions} from './types.js';
 import authenticationHashing from './utils/authenticationHashing.js';
 
-export const debug = createDebug('obs-websocket-js');
+const debug = createDebug('obs-websocket-js');
 
 export class OBSWebSocketError extends Error {
 	constructor(public code: number, message: string) {
