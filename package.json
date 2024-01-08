@@ -49,7 +49,7 @@
   "scripts": {
     "build": "npm-run-all clean build:*",
     "build:bundle": "microbundle -f modern,esm,cjs --no-compress src/{json,msgpack}.ts --generateTypes false",
-    "build:types": "tsc --emitDeclarationOnly && tsc --noEmit --moduleResolution bundler",
+    "build:types": "tsc --emitDeclarationOnly && tsc --noEmit --moduleResolution bundler --module ESNext",
     "build:unpkg": "node scripts/generate-unpkg.js",
     "clean": "rimraf dist",
     "dev": "npm run build:bundle --watch",
