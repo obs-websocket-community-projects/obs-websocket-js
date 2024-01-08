@@ -6,6 +6,7 @@ node_modules
 *.iws
 *.iml
 .idea_modules
+.vscode
 
 # Logs
 logs

@@ -41,8 +41,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node-version: [16.x, 18.x, 19.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/previous-releases
+        node-version: [18.x, 20.x, 21.x]
 
     steps:
       - uses: actions/checkout@v3

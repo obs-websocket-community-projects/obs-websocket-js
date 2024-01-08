@@ -53,12 +53,12 @@
     "build:unpkg": "node scripts/generate-unpkg.js",
     "clean": "rimraf dist",
     "dev": "npm run build:bundle --watch",
-    "generate:obs-types": "node --loader=ts-node/esm scripts/build-types.ts",
+    "generate:obs-types": "node --import=tsx scripts/build-types.ts",
     "lint": "eslint . --ext .cjs,.js,.ts",
     "prepack": "npm run build",
     "report": "c8 report",
-    "test": "c8 ava",
-    "test:watch": "ava --watch"
+    "test": "cross-env NODE_OPTIONS=\"--import tsx\" c8 ava",
+    "test:watch": "cross-env NODE_OPTIONS=\"--import tsx\" ava --watch"
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.7.1",
@@ -77,8 +77,8 @@
     "@types/ws": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "ava": "^5.2.0",
-    "c8": "^7.11.3",
+    "ava": "^6.0.1",
+    "c8": "^9.0.0",
     "coveralls": "^3.1.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.2.0",
@@ -93,7 +93,7 @@
     "nyc": "^15.1.0",
     "rimraf": "^5.0.1",
     "source-map-support": "^0.5.21",
-    "ts-node": "^10.8.0",
+    "tsx": "4.2.1",
     "typescript": "^5.0.4"
   },
   "bugs": {
@@ -102,10 +102,10 @@
   "homepage": "https://github.com/obs-websocket-community-projects/obs-websocket-js#readme",
   "ava": {
     "extensions": {
-      "ts": "module"
+      "ts": "commonjs"
     },
     "nodeArguments": [
-      "--loader=ts-node/esm"
+      "--import=tsx/esm"
     ],
     "verbose": true
   },

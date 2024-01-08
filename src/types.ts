@@ -999,6 +999,12 @@ export interface OBSRequestTypes {
 		streamServiceSettings: JsonObject;
 	};
 	GetRecordDirectory: never;
+	SetRecordDirectory: {
+		/**
+		 * Output directory
+		 */
+		recordDirectory: string;
+	};
 	GetSourceFilterList: {
 		/**
 		 * Name of the source
@@ -2025,6 +2031,7 @@ export interface OBSResponseTypes {
 		 */
 		recordDirectory: string;
 	};
+	SetRecordDirectory: undefined;
 	GetSourceFilterList: {
 		/**
 		 * Array of filters
