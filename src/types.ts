@@ -445,6 +445,20 @@ export interface OBSEventTypes {
 		 */
 		filterName: string;
 	};
+	SourceFilterSettingsChanged: {
+		/**
+		 * Name of the source the filter is on
+		 */
+		sourceName: string;
+		/**
+		 * Name of the filter
+		 */
+		filterName: string;
+		/**
+		 * New settings object of the filter
+		 */
+		filterSettings: JsonObject;
+	};
 	SourceFilterEnableStateChanged: {
 		/**
 		 * Name of the source the filter is on
@@ -465,6 +479,10 @@ export interface OBSEventTypes {
 		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 		/**
 		 * The kind of the input
 		 */
@@ -487,8 +505,16 @@ export interface OBSEventTypes {
 		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 	};
 	InputNameChanged: {
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 		/**
 		 * Old name of the input
 		 */
@@ -498,11 +524,29 @@ export interface OBSEventTypes {
 		 */
 		inputName: string;
 	};
+	InputSettingsChanged: {
+		/**
+		 * Name of the input
+		 */
+		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
+		/**
+		 * New settings object of the input
+		 */
+		inputSettings: JsonObject;
+	};
 	InputActiveStateChanged: {
 		/**
 		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 		/**
 		 * Whether the input is active
 		 */
@@ -514,6 +558,10 @@ export interface OBSEventTypes {
 		 */
 		inputName: string;
 		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
+		/**
 		 * Whether the input is showing
 		 */
 		videoShowing: boolean;
@@ -523,6 +571,10 @@ export interface OBSEventTypes {
 		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 		/**
 		 * Whether the input is muted
 		 */
@@ -534,6 +586,10 @@ export interface OBSEventTypes {
 		 */
 		inputName: string;
 		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
+		/**
 		 * New volume level multiplier
 		 */
 		inputVolumeMul: number;
@@ -544,9 +600,13 @@ export interface OBSEventTypes {
 	};
 	InputAudioBalanceChanged: {
 		/**
-		 * Name of the affected input
+		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 		/**
 		 * New audio balance value of the input
 		 */
@@ -558,6 +618,10 @@ export interface OBSEventTypes {
 		 */
 		inputName: string;
 		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
+		/**
 		 * New sync offset in milliseconds
 		 */
 		inputAudioSyncOffset: number;
@@ -568,6 +632,10 @@ export interface OBSEventTypes {
 		 */
 		inputName: string;
 		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
+		/**
 		 * Object of audio tracks along with their associated enable states
 		 */
 		inputAudioTracks: JsonObject;
@@ -577,6 +645,10 @@ export interface OBSEventTypes {
 		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 		/**
 		 * New monitor type of the input
 		 */
@@ -593,18 +665,30 @@ export interface OBSEventTypes {
 		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 	};
 	MediaInputPlaybackEnded: {
 		/**
 		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 	};
 	MediaInputActionTriggered: {
 		/**
 		 * Name of the input
 		 */
 		inputName: string;
+		/**
+		 * UUID of the input
+		 */
+		inputUuid: string;
 		/**
 		 * Action performed on the input. See `ObsMediaInputAction` enum
 		 */
@@ -666,9 +750,17 @@ export interface OBSEventTypes {
 		 */
 		sceneName: string;
 		/**
+		 * UUID of the scene the item was added to
+		 */
+		sceneUuid: string;
+		/**
 		 * Name of the underlying source (input/scene)
 		 */
 		sourceName: string;
+		/**
+		 * UUID of the underlying source (input/scene)
+		 */
+		sourceUuid: string;
 		/**
 		 * Numeric ID of the scene item
 		 */
@@ -684,9 +776,17 @@ export interface OBSEventTypes {
 		 */
 		sceneName: string;
 		/**
+		 * UUID of the scene the item was removed from
+		 */
+		sceneUuid: string;
+		/**
 		 * Name of the underlying source (input/scene)
 		 */
 		sourceName: string;
+		/**
+		 * UUID of the underlying source (input/scene)
+		 */
+		sourceUuid: string;
 		/**
 		 * Numeric ID of the scene item
 		 */
@@ -698,6 +798,10 @@ export interface OBSEventTypes {
 		 */
 		sceneName: string;
 		/**
+		 * UUID of the scene
+		 */
+		sceneUuid: string;
+		/**
 		 * Array of scene item objects
 		 */
 		sceneItems: JsonObject[];
@@ -707,6 +811,10 @@ export interface OBSEventTypes {
 		 * Name of the scene the item is in
 		 */
 		sceneName: string;
+		/**
+		 * UUID of the scene the item is in
+		 */
+		sceneUuid: string;
 		/**
 		 * Numeric ID of the scene item
 		 */
@@ -722,6 +830,10 @@ export interface OBSEventTypes {
 		 */
 		sceneName: string;
 		/**
+		 * UUID of the scene the item is in
+		 */
+		sceneUuid: string;
+		/**
 		 * Numeric ID of the scene item
 		 */
 		sceneItemId: number;
@@ -736,6 +848,10 @@ export interface OBSEventTypes {
 		 */
 		sceneName: string;
 		/**
+		 * UUID of the scene the item is in
+		 */
+		sceneUuid: string;
+		/**
 		 * Numeric ID of the scene item
 		 */
 		sceneItemId: number;
@@ -745,6 +861,10 @@ export interface OBSEventTypes {
 		 * The name of the scene the item is in
 		 */
 		sceneName: string;
+		/**
+		 * The UUID of the scene the item is in
+		 */
+		sceneUuid: string;
 		/**
 		 * Numeric ID of the scene item
 		 */
@@ -760,6 +880,10 @@ export interface OBSEventTypes {
 		 */
 		sceneName: string;
 		/**
+		 * UUID of the new scene
+		 */
+		sceneUuid: string;
+		/**
 		 * Whether the new scene is a group
 		 */
 		isGroup: boolean;
@@ -770,11 +894,19 @@ export interface OBSEventTypes {
 		 */
 		sceneName: string;
 		/**
+		 * UUID of the removed scene
+		 */
+		sceneUuid: string;
+		/**
 		 * Whether the scene was a group
 		 */
 		isGroup: boolean;
 	};
 	SceneNameChanged: {
+		/**
+		 * UUID of the scene
+		 */
+		sceneUuid: string;
 		/**
 		 * Old name of the scene
 		 */
@@ -789,12 +921,20 @@ export interface OBSEventTypes {
 		 * Name of the scene that was switched to
 		 */
 		sceneName: string;
+		/**
+		 * UUID of the scene that was switched to
+		 */
+		sceneUuid: string;
 	};
 	CurrentPreviewSceneChanged: {
 		/**
 		 * Name of the scene that was switched to
 		 */
 		sceneName: string;
+		/**
+		 * UUID of the scene that was switched to
+		 */
+		sceneUuid: string;
 	};
 	SceneListChanged: {
 		/**
@@ -807,6 +947,10 @@ export interface OBSEventTypes {
 		 * Name of the new transition
 		 */
 		transitionName: string;
+		/**
+		 * UUID of the new transition
+		 */
+		transitionUuid: string;
 	};
 	CurrentSceneTransitionDurationChanged: {
 		/**
@@ -819,18 +963,30 @@ export interface OBSEventTypes {
 		 * Scene transition name
 		 */
 		transitionName: string;
+		/**
+		 * Scene transition UUID
+		 */
+		transitionUuid: string;
 	};
 	SceneTransitionEnded: {
 		/**
 		 * Scene transition name
 		 */
 		transitionName: string;
+		/**
+		 * Scene transition UUID
+		 */
+		transitionUuid: string;
 	};
 	SceneTransitionVideoEnded: {
 		/**
 		 * Scene transition name
 		 */
 		transitionName: string;
+		/**
+		 * Scene transition UUID
+		 */
+		transitionUuid: string;
 	};
 	StudioModeStateChanged: {
 		/**
@@ -1005,11 +1161,18 @@ export interface OBSRequestTypes {
 		 */
 		recordDirectory: string;
 	};
+	GetSourceFilterKindList: never;
 	GetSourceFilterList: {
 		/**
 		 * Name of the source
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 	};
 	GetSourceFilterDefaultSettings: {
 		/**
@@ -1020,8 +1183,14 @@ export interface OBSRequestTypes {
 	CreateSourceFilter: {
 		/**
 		 * Name of the source to add the filter to
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source to add the filter to
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Name of the new filter to be created
 		 */
@@ -1039,8 +1208,14 @@ export interface OBSRequestTypes {
 	RemoveSourceFilter: {
 		/**
 		 * Name of the source the filter is on
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source the filter is on
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Name of the filter to remove
 		 */
@@ -1049,8 +1224,14 @@ export interface OBSRequestTypes {
 	SetSourceFilterName: {
 		/**
 		 * Name of the source the filter is on
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source the filter is on
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Current name of the filter
 		 */
@@ -1063,8 +1244,14 @@ export interface OBSRequestTypes {
 	GetSourceFilter: {
 		/**
 		 * Name of the source
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Name of the filter
 		 */
@@ -1073,8 +1260,14 @@ export interface OBSRequestTypes {
 	SetSourceFilterIndex: {
 		/**
 		 * Name of the source the filter is on
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source the filter is on
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Name of the filter
 		 */
@@ -1088,8 +1281,14 @@ export interface OBSRequestTypes {
 	SetSourceFilterSettings: {
 		/**
 		 * Name of the source the filter is on
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source the filter is on
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Name of the filter to set the settings of
 		 */
@@ -1107,8 +1306,14 @@ export interface OBSRequestTypes {
 	SetSourceFilterEnabled: {
 		/**
 		 * Name of the source the filter is on
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source the filter is on
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Name of the filter
 		 */
@@ -1147,6 +1352,11 @@ export interface OBSRequestTypes {
 		 * Name of the hotkey to trigger
 		 */
 		hotkeyName: string;
+		/**
+		 * Name of context of the hotkey to trigger
+		 * @defaultValue Unknown
+		 */
+		contextName?: string;
 	};
 	TriggerHotkeyByKeySequence: {
 		/**
@@ -1213,8 +1423,14 @@ export interface OBSRequestTypes {
 	CreateInput: {
 		/**
 		 * Name of the scene to add the input to as a scene item
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene to add the input to as a scene item
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Name of the new input to created
 		 */
@@ -1237,14 +1453,26 @@ export interface OBSRequestTypes {
 	RemoveInput: {
 		/**
 		 * Name of the input to remove
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to remove
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetInputName: {
 		/**
 		 * Current input name
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * Current input UUID
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * New name for the input
 		 */
@@ -1259,14 +1487,26 @@ export interface OBSRequestTypes {
 	GetInputSettings: {
 		/**
 		 * Name of the input to get the settings of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to get the settings of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetInputSettings: {
 		/**
 		 * Name of the input to set the settings of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to set the settings of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Object of settings to apply
 		 */
@@ -1280,14 +1520,26 @@ export interface OBSRequestTypes {
 	GetInputMute: {
 		/**
 		 * Name of input to get the mute state of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of input to get the mute state of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetInputMute: {
 		/**
 		 * Name of the input to set the mute state of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to set the mute state of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Whether to mute the input or not
 		 */
@@ -1296,20 +1548,38 @@ export interface OBSRequestTypes {
 	ToggleInputMute: {
 		/**
 		 * Name of the input to toggle the mute state of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to toggle the mute state of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	GetInputVolume: {
 		/**
 		 * Name of the input to get the volume of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to get the volume of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetInputVolume: {
 		/**
 		 * Name of the input to set the volume of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to set the volume of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Volume setting in mul
 		 * @restrictions >= 0, <= 20
@@ -1326,14 +1596,26 @@ export interface OBSRequestTypes {
 	GetInputAudioBalance: {
 		/**
 		 * Name of the input to get the audio balance of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to get the audio balance of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetInputAudioBalance: {
 		/**
 		 * Name of the input to set the audio balance of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to set the audio balance of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * New audio balance value
 		 * @restrictions >= 0.0, <= 1.0
@@ -1343,14 +1625,26 @@ export interface OBSRequestTypes {
 	GetInputAudioSyncOffset: {
 		/**
 		 * Name of the input to get the audio sync offset of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to get the audio sync offset of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetInputAudioSyncOffset: {
 		/**
 		 * Name of the input to set the audio sync offset of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to set the audio sync offset of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * New audio sync offset in milliseconds
 		 * @restrictions >= -950, <= 20000
@@ -1360,14 +1654,26 @@ export interface OBSRequestTypes {
 	GetInputAudioMonitorType: {
 		/**
 		 * Name of the input to get the audio monitor type of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to get the audio monitor type of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetInputAudioMonitorType: {
 		/**
 		 * Name of the input to set the audio monitor type of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to set the audio monitor type of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Audio monitor type
 		 */
@@ -1376,14 +1682,26 @@ export interface OBSRequestTypes {
 	GetInputAudioTracks: {
 		/**
 		 * Name of the input
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetInputAudioTracks: {
 		/**
 		 * Name of the input
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Track settings to apply
 		 */
@@ -1392,8 +1710,14 @@ export interface OBSRequestTypes {
 	GetInputPropertiesListPropertyItems: {
 		/**
 		 * Name of the input
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Name of the list property to get the items of
 		 */
@@ -1402,8 +1726,14 @@ export interface OBSRequestTypes {
 	PressInputPropertiesButton: {
 		/**
 		 * Name of the input
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Name of the button property to press
 		 */
@@ -1412,14 +1742,26 @@ export interface OBSRequestTypes {
 	GetMediaInputStatus: {
 		/**
 		 * Name of the media input
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the media input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	SetMediaInputCursor: {
 		/**
 		 * Name of the media input
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the media input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * New cursor position to set
 		 * @restrictions >= 0
@@ -1429,8 +1771,14 @@ export interface OBSRequestTypes {
 	OffsetMediaInputCursor: {
 		/**
 		 * Name of the media input
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the media input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Value to offset the current cursor position by
 		 */
@@ -1439,8 +1787,14 @@ export interface OBSRequestTypes {
 	TriggerMediaInputAction: {
 		/**
 		 * Name of the media input
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the media input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 		/**
 		 * Identifier of the `ObsMediaInputAction` enum
 		 */
@@ -1507,20 +1861,38 @@ export interface OBSRequestTypes {
 	GetSceneItemList: {
 		/**
 		 * Name of the scene to get the items of
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene to get the items of
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 	};
 	GetGroupSceneItemList: {
 		/**
 		 * Name of the group to get the items of
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the group to get the items of
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 	};
 	GetSceneItemId: {
 		/**
 		 * Name of the scene or group to search in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene or group to search in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Name of the source to find
 		 */
@@ -1532,15 +1904,44 @@ export interface OBSRequestTypes {
 		 */
 		searchOffset?: number;
 	};
+	GetSceneItemSource: {
+		/**
+		 * Name of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
+		/**
+		 * Numeric ID of the scene item
+		 * @restrictions >= 0
+		 */
+		sceneItemId: number;
+	};
 	CreateSceneItem: {
 		/**
 		 * Name of the scene to create the new item in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene to create the new item in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Name of the source to add to the scene
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source to add to the scene
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Enable state to apply to the scene item on creation
 		 * @defaultValue True
@@ -1550,8 +1951,14 @@ export interface OBSRequestTypes {
 	RemoveSceneItem: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1561,8 +1968,14 @@ export interface OBSRequestTypes {
 	DuplicateSceneItem: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1570,15 +1983,26 @@ export interface OBSRequestTypes {
 		sceneItemId: number;
 		/**
 		 * Name of the scene to create the duplicated item in
-		 * @defaultValue `sceneName` is assumed
+		 * @defaultValue From scene is assumed
 		 */
 		destinationSceneName?: string;
+		/**
+		 * UUID of the scene to create the duplicated item in
+		 * @defaultValue From scene is assumed
+		 */
+		destinationSceneUuid?: string;
 	};
 	GetSceneItemTransform: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1588,8 +2012,14 @@ export interface OBSRequestTypes {
 	SetSceneItemTransform: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1603,8 +2033,14 @@ export interface OBSRequestTypes {
 	GetSceneItemEnabled: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1614,8 +2050,14 @@ export interface OBSRequestTypes {
 	SetSceneItemEnabled: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1629,8 +2071,14 @@ export interface OBSRequestTypes {
 	GetSceneItemLocked: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1640,8 +2088,14 @@ export interface OBSRequestTypes {
 	SetSceneItemLocked: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1655,8 +2109,14 @@ export interface OBSRequestTypes {
 	GetSceneItemIndex: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1666,8 +2126,14 @@ export interface OBSRequestTypes {
 	SetSceneItemIndex: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1682,8 +2148,14 @@ export interface OBSRequestTypes {
 	GetSceneItemBlendMode: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1693,8 +2165,14 @@ export interface OBSRequestTypes {
 	SetSceneItemBlendMode: {
 		/**
 		 * Name of the scene the item is in
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene the item is in
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Numeric ID of the scene item
 		 * @restrictions >= 0
@@ -1710,16 +2188,28 @@ export interface OBSRequestTypes {
 	GetCurrentProgramScene: never;
 	SetCurrentProgramScene: {
 		/**
-		 * Scene to set as the current program scene
+		 * Scene name to set as the current program scene
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * Scene UUID to set as the current program scene
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 	};
 	GetCurrentPreviewScene: never;
 	SetCurrentPreviewScene: {
 		/**
-		 * Scene to set as the current preview scene
+		 * Scene name to set as the current preview scene
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * Scene UUID to set as the current preview scene
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 	};
 	CreateScene: {
 		/**
@@ -1730,14 +2220,26 @@ export interface OBSRequestTypes {
 	RemoveScene: {
 		/**
 		 * Name of the scene to remove
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene to remove
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 	};
 	SetSceneName: {
 		/**
 		 * Name of the scene to be renamed
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene to be renamed
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * New name for the scene
 		 */
@@ -1746,14 +2248,26 @@ export interface OBSRequestTypes {
 	GetSceneSceneTransitionOverride: {
 		/**
 		 * Name of the scene
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 	};
 	SetSceneSceneTransitionOverride: {
 		/**
 		 * Name of the scene
+		 * @defaultValue Unknown
 		 */
-		sceneName: string;
+		sceneName?: string;
+		/**
+		 * UUID of the scene
+		 * @defaultValue Unknown
+		 */
+		sceneUuid?: string;
 		/**
 		 * Name of the scene transition to use as override. Specify `null` to remove
 		 * @defaultValue Unchanged
@@ -1769,14 +2283,26 @@ export interface OBSRequestTypes {
 	GetSourceActive: {
 		/**
 		 * Name of the source to get the active state of
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source to get the active state of
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 	};
 	GetSourceScreenshot: {
 		/**
 		 * Name of the source to take a screenshot of
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source to take a screenshot of
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Image compression format to use. Use `GetVersion` to get compatible image formats
 		 */
@@ -1803,8 +2329,14 @@ export interface OBSRequestTypes {
 	SaveSourceScreenshot: {
 		/**
 		 * Name of the source to take a screenshot of
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source to take a screenshot of
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Image compression format to use. Use `GetVersion` to get compatible image formats
 		 */
@@ -1893,20 +2425,38 @@ export interface OBSRequestTypes {
 	OpenInputPropertiesDialog: {
 		/**
 		 * Name of the input to open the dialog of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to open the dialog of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	OpenInputFiltersDialog: {
 		/**
 		 * Name of the input to open the dialog of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to open the dialog of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	OpenInputInteractDialog: {
 		/**
 		 * Name of the input to open the dialog of
+		 * @defaultValue Unknown
 		 */
-		inputName: string;
+		inputName?: string;
+		/**
+		 * UUID of the input to open the dialog of
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
 	};
 	GetMonitorList: never;
 	OpenVideoMixProjector: {
@@ -1928,8 +2478,14 @@ export interface OBSRequestTypes {
 	OpenSourceProjector: {
 		/**
 		 * Name of the source to open a projector for
+		 * @defaultValue Unknown
 		 */
-		sourceName: string;
+		sourceName?: string;
+		/**
+		 * UUID of the source to open a projector for
+		 * @defaultValue Unknown
+		 */
+		sourceUuid?: string;
 		/**
 		 * Monitor index, use `GetMonitorList` to obtain index
 		 * @defaultValue -1: Opens projector in windowed mode
@@ -2032,6 +2588,12 @@ export interface OBSResponseTypes {
 		recordDirectory: string;
 	};
 	SetRecordDirectory: undefined;
+	GetSourceFilterKindList: {
+		/**
+		 * Array of source filter kinds
+		 */
+		sourceFilterKinds: string[];
+	};
 	GetSourceFilterList: {
 		/**
 		 * Array of filters
@@ -2207,6 +2769,10 @@ export interface OBSResponseTypes {
 		mic4: string;
 	};
 	CreateInput: {
+		/**
+		 * UUID of the newly created input
+		 */
+		inputUuid: string;
 		/**
 		 * ID of the newly created scene item
 		 */
@@ -2419,7 +2985,12 @@ export interface OBSResponseTypes {
 		 */
 		outputBytes: number;
 	};
-	ToggleRecord: undefined;
+	ToggleRecord: {
+		/**
+		 * The new active state of the output
+		 */
+		outputActive: boolean;
+	};
 	StartRecord: undefined;
 	StopRecord: {
 		/**
@@ -2447,6 +3018,16 @@ export interface OBSResponseTypes {
 		 * Numeric ID of the scene item
 		 */
 		sceneItemId: number;
+	};
+	GetSceneItemSource: {
+		/**
+		 * Name of the source associated with the scene item
+		 */
+		sourceName: string;
+		/**
+		 * UUID of the source associated with the scene item
+		 */
+		sourceUuid: string;
 	};
 	CreateSceneItem: {
 		/**
@@ -2498,13 +3079,21 @@ export interface OBSResponseTypes {
 	SetSceneItemBlendMode: undefined;
 	GetSceneList: {
 		/**
-		 * Current program scene
+		 * Current program scene name. Can be `null` if internal state desync
 		 */
 		currentProgramSceneName: string;
 		/**
-		 * Current preview scene. `null` if not in studio mode
+		 * Current program scene UUID. Can be `null` if internal state desync
+		 */
+		currentProgramSceneUuid: string;
+		/**
+		 * Current preview scene name. `null` if not in studio mode
 		 */
 		currentPreviewSceneName: string;
+		/**
+		 * Current preview scene UUID. `null` if not in studio mode
+		 */
+		currentPreviewSceneUuid: string;
 		/**
 		 * Array of scenes
 		 */
@@ -2518,19 +3107,48 @@ export interface OBSResponseTypes {
 	};
 	GetCurrentProgramScene: {
 		/**
-		 * Current program scene
+		 * Current program scene name
+		 */
+		sceneName: string;
+		/**
+		 * Current program scene UUID
+		 */
+		sceneUuid: string;
+		/**
+		 * Current program scene name (Deprecated)
 		 */
 		currentProgramSceneName: string;
+		/**
+		 * Current program scene UUID (Deprecated)
+		 */
+		currentProgramSceneUuid: string;
 	};
 	SetCurrentProgramScene: undefined;
 	GetCurrentPreviewScene: {
 		/**
-		 * Current preview scene
+		 * Current preview scene name
+		 */
+		sceneName: string;
+		/**
+		 * Current preview scene UUID
+		 */
+		sceneUuid: string;
+		/**
+		 * Current preview scene name
 		 */
 		currentPreviewSceneName: string;
+		/**
+		 * Current preview scene UUID
+		 */
+		currentPreviewSceneUuid: string;
 	};
 	SetCurrentPreviewScene: undefined;
-	CreateScene: undefined;
+	CreateScene: {
+		/**
+		 * UUID of the created scene
+		 */
+		sceneUuid: string;
+	};
 	RemoveScene: undefined;
 	SetSceneName: undefined;
 	GetSceneSceneTransitionOverride: {
@@ -2560,12 +3178,7 @@ export interface OBSResponseTypes {
 		 */
 		imageData: string;
 	};
-	SaveSourceScreenshot: {
-		/**
-		 * Base64-encoded screenshot
-		 */
-		imageData: string;
-	};
+	SaveSourceScreenshot: undefined;
 	GetStreamStatus: {
 		/**
 		 * Whether the output is active
@@ -2621,6 +3234,10 @@ export interface OBSResponseTypes {
 		 */
 		currentSceneTransitionName: string;
 		/**
+		 * UUID of the current scene transition. Can be null
+		 */
+		currentSceneTransitionUuid: string;
+		/**
 		 * Kind of the current scene transition. Can be null
 		 */
 		currentSceneTransitionKind: string;
@@ -2634,6 +3251,10 @@ export interface OBSResponseTypes {
 		 * Name of the transition
 		 */
 		transitionName: string;
+		/**
+		 * UUID of the transition
+		 */
+		transitionUuid: string;
 		/**
 		 * Kind of the transition
 		 */

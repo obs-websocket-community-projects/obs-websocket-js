@@ -77,7 +77,7 @@ const headers = {
 };
 
 // Defaulting to the branch for now to get the latest docs-only changes
-let commit = process.argv[2] ?? process.env.GH_COMMIT ?? 'master';
+let commit = process.argv[2] ?? process.env.GH_COMMIT;
 // Get the latest tag
 if (!commit) {
 	const {body: tags} = await got('https://api.github.com/repos/obsproject/obs-websocket/tags', {
@@ -88,6 +88,7 @@ if (!commit) {
 	commit = tags[0].name as string;
 }
 
+console.log(`Getting protocol for ${commit}`);
 const {body: protocol} = await got<GeneratedProtocol>(`https://raw.githubusercontent.com/obsproject/obs-websocket/${commit}/docs/generated/protocol.json`, {
 	headers,
 	responseType: 'json',
