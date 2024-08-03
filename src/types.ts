@@ -1020,6 +1020,13 @@ export interface OBSEventTypes {
 		 */
 		eventData: JsonObject;
 	};
+
+	RecordFileChanged: {
+		/**
+		 * File name that the output has begun writing to
+		 */
+		newOutputPath: string;
+	};
 }
 
 // Requests and Responses
@@ -2497,6 +2504,15 @@ export interface OBSRequestTypes {
 		 */
 		projectorGeometry?: string;
 	};
+
+	CreateRecordChapter: {
+		/**
+		 * Name of the chapter
+		 */
+		chapterName?: string;
+	};
+
+	SplitRecordFile: never;
 }
 
 export interface OBSResponseTypes {
@@ -3305,4 +3321,6 @@ export interface OBSResponseTypes {
 	};
 	OpenVideoMixProjector: undefined;
 	OpenSourceProjector: undefined;
+	CreateRecordChapter: undefined;
+	SplitRecordFile: undefined;
 }
