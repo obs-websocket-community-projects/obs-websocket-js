@@ -718,6 +718,12 @@ export interface OBSEventTypes {
 		 */
 		outputPath: string;
 	};
+	RecordFileChanged: {
+		/**
+		 * File name that the output has begun writing to
+		 */
+		newOutputPath: string;
+	};
 	ReplayBufferStateChanged: {
 		/**
 		 * Whether the output is active
@@ -1019,13 +1025,6 @@ export interface OBSEventTypes {
 		 * Custom event data
 		 */
 		eventData: JsonObject;
-	};
-
-	RecordFileChanged: {
-		/**
-		 * File name that the output has begun writing to
-		 */
-		newOutputPath: string;
 	};
 }
 
@@ -1865,6 +1864,14 @@ export interface OBSRequestTypes {
 	ToggleRecordPause: never;
 	PauseRecord: never;
 	ResumeRecord: never;
+	SplitRecordFile: never;
+	CreateRecordChapter: {
+		/**
+		 * Name of the new chapter
+		 * @defaultValue Unknown
+		 */
+		chapterName?: string;
+	};
 	GetSceneItemList: {
 		/**
 		 * Name of the scene to get the items of
@@ -2504,15 +2511,6 @@ export interface OBSRequestTypes {
 		 */
 		projectorGeometry?: string;
 	};
-
-	CreateRecordChapter: {
-		/**
-		 * Name of the chapter
-		 */
-		chapterName?: string;
-	};
-
-	SplitRecordFile: never;
 }
 
 export interface OBSResponseTypes {
@@ -3017,6 +3015,8 @@ export interface OBSResponseTypes {
 	ToggleRecordPause: undefined;
 	PauseRecord: undefined;
 	ResumeRecord: undefined;
+	SplitRecordFile: undefined;
+	CreateRecordChapter: undefined;
 	GetSceneItemList: {
 		/**
 		 * Array of scene items in the scene
@@ -3321,6 +3321,4 @@ export interface OBSResponseTypes {
 	};
 	OpenVideoMixProjector: undefined;
 	OpenSourceProjector: undefined;
-	CreateRecordChapter: undefined;
-	SplitRecordFile: undefined;
 }
