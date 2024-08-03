@@ -6,7 +6,7 @@
 
 ## Building the Project Locally
 
-- Install [node.js v18.18 or greater](http://nodejs.org)
+- Install [node.js v20 or greater](http://nodejs.org)
 - Clone/Fork the repo
 - Install dependencies with `npm install`
 - Generate the browser distributable Javascript file with `npm run build`  
