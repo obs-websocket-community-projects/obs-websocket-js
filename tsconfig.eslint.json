@@ -7,9 +7,10 @@
   "include": [
     "scripts/**/*.js",
     "scripts/**/*.ts",
+    "src/**/*.cts",
     "src/**/*.ts",
     "tests/**/*.ts",
     ".eslintrc.cjs",
-    "*.d.ts"
+    "*.ts"
   ]
 }

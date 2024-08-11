@@ -7,7 +7,6 @@ module.exports = {
 	],
 	parserOptions: {
 		project: './tsconfig.eslint.json',
-		extraFileExtensions: ['.cjs'],
 	},
 	rules: {
 		'@typescript-eslint/naming-convention': [

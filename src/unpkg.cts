@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import JSONOBSWebSocket, {EventSubscription, OBSWebSocketError, RequestBatchExecutionType, WebSocketOpCode} from './json.js';
 
-export default class OBSWebSocket extends JSONOBSWebSocket {
+module.exports = class OBSWebSocket extends JSONOBSWebSocket {
 	static OBSWebSocketError = OBSWebSocketError;
 	static WebSocketOpCode = WebSocketOpCode;
 	static EventSubscription = EventSubscription;
 	static RequestBatchExecutionType = RequestBatchExecutionType;
-}
+};

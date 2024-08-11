@@ -16,30 +16,48 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/json.d.ts",
-      "require": "./dist/json.cjs",
-      "browser": "./dist/json.modern.js",
-      "default": "./dist/msgpack.modern.js"
+      "browser": {
+        "types": "./dist/json.d.ts",
+        "default": "./dist/json.js"
+      },
+      "import": {
+        "types": "./dist/msgpack.d.ts",
+        "default": "./dist/msgpack.js"
+      },
+      "require": {
+        "types": "./dist/msgpack.d.cts",
+        "default": "./dist/msgpack.cjs"
+      }
     },
     "./json": {
-      "types": "./dist/json.d.ts",
-      "require": "./dist/json.cjs",
-      "default": "./dist/json.modern.js"
+      "import": {
+        "types": "./dist/json.d.ts",
+        "default": "./dist/json.js"
+      },
+      "require": {
+        "types": "./dist/json.d.cts",
+        "default": "./dist/json.cjs"
+      }
     },
     "./msgpack": {
-      "types": "./dist/json.d.ts",
-      "require": "./dist/msgpack.cjs",
-      "default": "./dist/msgpack.modern.js"
+      "import": {
+        "types": "./dist/msgpack.d.ts",
+        "default": "./dist/msgpack.js"
+      },
+      "require": {
+        "types": "./dist/msgpack.d.cts",
+        "default": "./dist/msgpack.cjs"
+      }
     }
   },
   "main": "dist/json.cjs",
-  "module": "dist/json.module.js",
+  "module": "dist/json.js",
   "amdName": "OBSWebSocket",
-  "jsdelivr": "dist/obs-ws.min.js",
-  "unpkg": "dist/obs-ws.min.js",
+  "jsdelivr": "dist/obs-ws.global.js",
+  "unpkg": "dist/obs-ws.global.js",
   "types": "dist/json.d.ts",
   "engines": {
-    "node": ">12.0"
+    "node": ">16.0"
   },
   "sideEffects": false,
   "files": [
@@ -48,9 +66,8 @@
   ],
   "scripts": {
     "build": "npm-run-all clean build:*",
-    "build:bundle": "microbundle -f modern,esm,cjs --no-compress src/{json,msgpack}.ts --generateTypes false",
-    "build:types": "tsc --emitDeclarationOnly && tsc --noEmit --moduleResolution bundler --module ESNext",
-    "build:unpkg": "node scripts/generate-unpkg.js",
+    "build:bundle": "tsup src/json.ts src/msgpack.ts --splitting --sourcemap --dts --format esm,cjs --target node16",
+    "build:unpkg": "tsup --entry.obs-ws src/unpkg.cts --target es6 --format iife --platform browser --global-name OBSWebSocket --minify",
     "clean": "rimraf dist",
     "dev": "npm run build:bundle --watch",
     "generate:obs-types": "node --import=tsx scripts/build-types.ts",
@@ -58,6 +75,7 @@
     "prepack": "npm run build",
     "report": "c8 report",
     "test": "cross-env NODE_OPTIONS=\"--import tsx\" c8 ava",
+    "test:types": "tsc --noEmit --moduleResolution bundler --module ESNext",
     "test:watch": "cross-env NODE_OPTIONS=\"--import tsx\" ava --watch"
   },
   "dependencies": {
@@ -87,11 +105,11 @@
     "eslint-plugin-jsdoc": "^44.2.4",
     "got": "^12.0.0",
     "lodash.deburr": "^4.1.0",
-    "microbundle": "^0.15.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "rimraf": "^5.0.1",
     "source-map-support": "^0.5.21",
+    "tsup": "^8.2.4",
     "tsx": "4.2.1",
     "typescript": "^5.0.4"
   },

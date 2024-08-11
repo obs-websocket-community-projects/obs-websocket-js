@@ -4,7 +4,7 @@ export type {EventTypes} from './base.js';
 import {type IncomingMessage, type OutgoingMessage} from './types.js';
 export * from './types.js';
 
-export default class OBSWebSocket extends BaseOBSWebSocket {
+export class OBSWebSocket extends BaseOBSWebSocket {
 	protocol = 'obswebsocket.json';
 
 	protected async encodeMessage(data: OutgoingMessage): Promise<string> {
@@ -15,3 +15,5 @@ export default class OBSWebSocket extends BaseOBSWebSocket {
 		return JSON.parse(data) as IncomingMessage;
 	}
 }
+
+export default OBSWebSocket;

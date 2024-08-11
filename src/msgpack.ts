@@ -5,7 +5,7 @@ export type {EventTypes} from './base.js';
 import type {IncomingMessage, OutgoingMessage} from './types.js';
 export * from './types.js';
 
-export default class OBSWebSocket extends BaseOBSWebSocket {
+export class OBSWebSocket extends BaseOBSWebSocket {
 	protocol = 'obswebsocket.msgpack';
 
 	protected async encodeMessage(data: OutgoingMessage): Promise<ArrayBufferView> {
@@ -21,3 +21,5 @@ export default class OBSWebSocket extends BaseOBSWebSocket {
 		return decode(data as ArrayBuffer) as IncomingMessage;
 	}
 }
+
+export default OBSWebSocket;

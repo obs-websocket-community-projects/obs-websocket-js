@@ -41,7 +41,7 @@ yarn add obs-websocket-js
 
 ### Standalone file / CDN build
 
-Standalone js file is available from [the latest github release](https://github.com/obs-websocket-community-projects/obs-websocket-js/releases) or from jsdeliver & unpkg CDN's:
+Standalone js file is available from jsdeliver & unpkg CDN's:
 
 ```
 https://cdn.jsdelivr.net/npm/obs-websocket-js
@@ -65,19 +65,19 @@ In addition each version has both modern and legacy builds. Modern bundlers will
 
 ### Creating an OBS Websocket client
 
-`OBSWebSocket` is available as the default export in ES Modules:
+`OBSWebSocket` is available as a named export in ES Modules:
 
 ```ts
-import OBSWebSocket from 'obs-websocket-js';
+import { OBSWebSocket } from 'obs-websocket-js';
 
 const obs = new OBSWebSocket();
 ```
 
-When using commonjs `require()` it is available under the `default` object key:
+When using commonjs `require()` it is available under the `OBSWebSocket` object key:
 
 ```ts
-const {default: OBSWebSocket} = require('obs-websocket-js');
-const OBSWebSocket = require('obs-websocket-js').default;
+const { OBSWebSocket } = require('obs-websocket-js');
+const OBSWebSocket = require('obs-websocket-js').OBSWebSocket;
 
 const obs = new OBSWebSocket();
 ```
