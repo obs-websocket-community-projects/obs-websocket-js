@@ -718,6 +718,12 @@ export interface OBSEventTypes {
 		 */
 		outputPath: string;
 	};
+	RecordFileChanged: {
+		/**
+		 * File name that the output has begun writing to
+		 */
+		newOutputPath: string;
+	};
 	ReplayBufferStateChanged: {
 		/**
 		 * Whether the output is active
@@ -1858,6 +1864,14 @@ export interface OBSRequestTypes {
 	ToggleRecordPause: never;
 	PauseRecord: never;
 	ResumeRecord: never;
+	SplitRecordFile: never;
+	CreateRecordChapter: {
+		/**
+		 * Name of the new chapter
+		 * @defaultValue Unknown
+		 */
+		chapterName?: string;
+	};
 	GetSceneItemList: {
 		/**
 		 * Name of the scene to get the items of
@@ -3001,6 +3015,8 @@ export interface OBSResponseTypes {
 	ToggleRecordPause: undefined;
 	PauseRecord: undefined;
 	ResumeRecord: undefined;
+	SplitRecordFile: undefined;
+	CreateRecordChapter: undefined;
 	GetSceneItemList: {
 		/**
 		 * Array of scene items in the scene
