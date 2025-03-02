@@ -256,7 +256,7 @@ To listen for events emitted by obs-websocket use the event emitter API methods.
 Parameter | Description
 ---|---
 `event`<br />`string` | Event type ([see obs-websocket documentation](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#events))
-`handler`<br />`Function` | Function that is called when event is sent by the server. Recieves data as the first argument ([see obs-websocket documentation for the event](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#events))
+`handler`<br />`Function` | Function that is called when event is sent by the server. Receives data as the first argument ([see obs-websocket documentation for the event](https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#events))
 
 
 ```ts
@@ -288,7 +288,7 @@ In addition to obs-websocket events, following events are emitted by obs-websock
 
 ## Typescript Support
 
-This library is written in typescript and typescript definitions are published with the package. Each package is released with typescript defintions matching the currently released version of obs-websocket. This data can be reused from `OBSEventTypes`, `OBSRequestTypes` and `OBSResponseTypes` named exports, though in most cases function parameters will enforce the typings correctly.
+This library is written in typescript and typescript definitions are published with the package. Each package is released with typescript definitions matching the currently released version of obs-websocket. This data can be reused from `OBSEventTypes`, `OBSRequestTypes` and `OBSResponseTypes` named exports, though in most cases function parameters will enforce the typings correctly.
 
 ```ts
 import OBSWebSocket, {OBSEventTypes, OBSRequestTypes, OBSResponseTypes} from 'obs-websocket-js';
