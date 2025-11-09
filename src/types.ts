@@ -492,6 +492,10 @@ export interface OBSEventTypes {
 		 */
 		unversionedInputKind: string;
 		/**
+		 * Bitflag value for the caps that an input supports. See obs_source_info.output_flags in the libobs docs
+		 */
+		inputKindCaps: number;
+		/**
 		 * The settings configured to the input when it was created
 		 */
 		inputSettings: JsonObject;
@@ -1713,6 +1717,62 @@ export interface OBSRequestTypes {
 		 */
 		inputAudioTracks: JsonObject;
 	};
+	GetInputDeinterlaceMode: {
+		/**
+		 * Name of the input
+		 * @defaultValue Unknown
+		 */
+		inputName?: string;
+		/**
+		 * UUID of the input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
+	};
+	SetInputDeinterlaceMode: {
+		/**
+		 * Name of the input
+		 * @defaultValue Unknown
+		 */
+		inputName?: string;
+		/**
+		 * UUID of the input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
+		/**
+		 * Deinterlace mode for the input
+		 */
+		inputDeinterlaceMode: string;
+	};
+	GetInputDeinterlaceFieldOrder: {
+		/**
+		 * Name of the input
+		 * @defaultValue Unknown
+		 */
+		inputName?: string;
+		/**
+		 * UUID of the input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
+	};
+	SetInputDeinterlaceFieldOrder: {
+		/**
+		 * Name of the input
+		 * @defaultValue Unknown
+		 */
+		inputName?: string;
+		/**
+		 * UUID of the input
+		 * @defaultValue Unknown
+		 */
+		inputUuid?: string;
+		/**
+		 * Deinterlace field order for the input
+		 */
+		inputDeinterlaceFieldOrder: string;
+	};
 	GetInputPropertiesListPropertyItems: {
 		/**
 		 * Name of the input
@@ -2863,6 +2923,20 @@ export interface OBSResponseTypes {
 		inputAudioTracks: JsonObject;
 	};
 	SetInputAudioTracks: undefined;
+	GetInputDeinterlaceMode: {
+		/**
+		 * Deinterlace mode of the input
+		 */
+		inputDeinterlaceMode: string;
+	};
+	SetInputDeinterlaceMode: undefined;
+	GetInputDeinterlaceFieldOrder: {
+		/**
+		 * Deinterlace field order of the input
+		 */
+		inputDeinterlaceFieldOrder: string;
+	};
+	SetInputDeinterlaceFieldOrder: undefined;
 	GetInputPropertiesListPropertyItems: {
 		/**
 		 * Array of items in the list property
