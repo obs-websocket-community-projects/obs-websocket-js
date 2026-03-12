@@ -136,11 +136,17 @@ export enum EventSubscription {
 	 */
 	Ui = (1 << 10),
 	/**
+	 * Subscription value to receive events in the `Canvases` category.
+	 *
+	 * Initial OBS Version: 5.7.0
+	 */
+	Canvases = (1 << 11),
+	/**
 	 * Helper to receive all non-high-volume events.
 	 *
 	 * Initial OBS Version: 5.0.0
 	 */
-	All = (General | Config | Scenes | Inputs | Transitions | Filters | Outputs | SceneItems | MediaInputs | Vendors | Ui),
+	All = (General | Config | Scenes | Inputs | Transitions | Filters | Outputs | SceneItems | MediaInputs | Vendors | Ui | Canvases),
 	/**
 	 * Subscription value to receive the `InputVolumeMeters` high-volume event.
 	 *
@@ -349,6 +355,40 @@ export type ResponseBatchMessage = {
 
 // Events
 export interface OBSEventTypes {
+	CanvasCreated: {
+		/**
+		 * Name of the new canvas
+		 */
+		canvasName: string;
+		/**
+		 * UUID of the new canvas
+		 */
+		canvasUuid: string;
+	};
+	CanvasRemoved: {
+		/**
+		 * Name of the removed canvas
+		 */
+		canvasName: string;
+		/**
+		 * UUID of the removed canvas
+		 */
+		canvasUuid: string;
+	};
+	CanvasNameChanged: {
+		/**
+		 * UUID of the canvas
+		 */
+		canvasUuid: string;
+		/**
+		 * Old name of the canvas
+		 */
+		oldCanvasName: string;
+		/**
+		 * New name of the canvas
+		 */
+		canvasName: string;
+	};
 	CurrentSceneCollectionChanging: {
 		/**
 		 * Name of the current scene collection
@@ -1034,6 +1074,7 @@ export interface OBSEventTypes {
 
 // Requests and Responses
 export interface OBSRequestTypes {
+	GetCanvasList: never;
 	GetPersistentData: {
 		/**
 		 * The data realm to select. `OBS_WEBSOCKET_DATA_REALM_GLOBAL` or `OBS_WEBSOCKET_DATA_REALM_PROFILE`
@@ -1174,6 +1215,11 @@ export interface OBSRequestTypes {
 	GetSourceFilterKindList: never;
 	GetSourceFilterList: {
 		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the source
 		 * @defaultValue Unknown
 		 */
@@ -1191,6 +1237,11 @@ export interface OBSRequestTypes {
 		filterKind: string;
 	};
 	CreateSourceFilter: {
+		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the source to add the filter to
 		 * @defaultValue Unknown
@@ -1217,6 +1268,11 @@ export interface OBSRequestTypes {
 	};
 	RemoveSourceFilter: {
 		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the source the filter is on
 		 * @defaultValue Unknown
 		 */
@@ -1232,6 +1288,11 @@ export interface OBSRequestTypes {
 		filterName: string;
 	};
 	SetSourceFilterName: {
+		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the source the filter is on
 		 * @defaultValue Unknown
@@ -1253,6 +1314,11 @@ export interface OBSRequestTypes {
 	};
 	GetSourceFilter: {
 		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the source
 		 * @defaultValue Unknown
 		 */
@@ -1268,6 +1334,11 @@ export interface OBSRequestTypes {
 		filterName: string;
 	};
 	SetSourceFilterIndex: {
+		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the source the filter is on
 		 * @defaultValue Unknown
@@ -1289,6 +1360,11 @@ export interface OBSRequestTypes {
 		filterIndex: number;
 	};
 	SetSourceFilterSettings: {
+		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the source the filter is on
 		 * @defaultValue Unknown
@@ -1314,6 +1390,11 @@ export interface OBSRequestTypes {
 		overlay?: boolean;
 	};
 	SetSourceFilterEnabled: {
+		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the source the filter is on
 		 * @defaultValue Unknown
@@ -1431,6 +1512,11 @@ export interface OBSRequestTypes {
 	};
 	GetSpecialInputs: never;
 	CreateInput: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene to add the input to as a scene item
 		 * @defaultValue Unknown
@@ -1934,6 +2020,11 @@ export interface OBSRequestTypes {
 	};
 	GetSceneItemList: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene to get the items of
 		 * @defaultValue Unknown
 		 */
@@ -1946,6 +2037,11 @@ export interface OBSRequestTypes {
 	};
 	GetGroupSceneItemList: {
 		/**
+		 * UUID of the canvas the group is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the group to get the items of
 		 * @defaultValue Unknown
 		 */
@@ -1957,6 +2053,11 @@ export interface OBSRequestTypes {
 		sceneUuid?: string;
 	};
 	GetSceneItemId: {
+		/**
+		 * UUID of the canvas the scene or group is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene or group to search in
 		 * @defaultValue Unknown
@@ -1980,6 +2081,11 @@ export interface OBSRequestTypes {
 	};
 	GetSceneItemSource: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
 		 */
@@ -1996,6 +2102,11 @@ export interface OBSRequestTypes {
 		sceneItemId: number;
 	};
 	CreateSceneItem: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene to create the new item in
 		 * @defaultValue Unknown
@@ -2024,6 +2135,11 @@ export interface OBSRequestTypes {
 	};
 	RemoveSceneItem: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
 		 */
@@ -2040,6 +2156,11 @@ export interface OBSRequestTypes {
 		sceneItemId: number;
 	};
 	DuplicateSceneItem: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
@@ -2068,6 +2189,11 @@ export interface OBSRequestTypes {
 	};
 	GetSceneItemTransform: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
 		 */
@@ -2084,6 +2210,11 @@ export interface OBSRequestTypes {
 		sceneItemId: number;
 	};
 	SetSceneItemTransform: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
@@ -2106,6 +2237,11 @@ export interface OBSRequestTypes {
 	};
 	GetSceneItemEnabled: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
 		 */
@@ -2122,6 +2258,11 @@ export interface OBSRequestTypes {
 		sceneItemId: number;
 	};
 	SetSceneItemEnabled: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
@@ -2144,6 +2285,11 @@ export interface OBSRequestTypes {
 	};
 	GetSceneItemLocked: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
 		 */
@@ -2160,6 +2306,11 @@ export interface OBSRequestTypes {
 		sceneItemId: number;
 	};
 	SetSceneItemLocked: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
@@ -2182,6 +2333,11 @@ export interface OBSRequestTypes {
 	};
 	GetSceneItemIndex: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
 		 */
@@ -2198,6 +2354,11 @@ export interface OBSRequestTypes {
 		sceneItemId: number;
 	};
 	SetSceneItemIndex: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
@@ -2221,6 +2382,11 @@ export interface OBSRequestTypes {
 	};
 	GetSceneItemBlendMode: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
 		 */
@@ -2237,6 +2403,11 @@ export interface OBSRequestTypes {
 		sceneItemId: number;
 	};
 	SetSceneItemBlendMode: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene the item is in
 		 * @defaultValue Unknown
@@ -2257,7 +2428,13 @@ export interface OBSRequestTypes {
 		 */
 		sceneItemBlendMode: string;
 	};
-	GetSceneList: never;
+	GetSceneList: {
+		/**
+		 * UUID of the canvas the scenes are in
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+	};
 	GetGroupList: never;
 	GetCurrentProgramScene: never;
 	SetCurrentProgramScene: {
@@ -2287,11 +2464,21 @@ export interface OBSRequestTypes {
 	};
 	CreateScene: {
 		/**
+		 * UUID of the canvas to create the new scene in. Leave default to assume main canvas
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name for the new scene
 		 */
 		sceneName: string;
 	};
 	RemoveScene: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene to remove
 		 * @defaultValue Unknown
@@ -2304,6 +2491,11 @@ export interface OBSRequestTypes {
 		sceneUuid?: string;
 	};
 	SetSceneName: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene to be renamed
 		 * @defaultValue Unknown
@@ -2321,6 +2513,11 @@ export interface OBSRequestTypes {
 	};
 	GetSceneSceneTransitionOverride: {
 		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the scene
 		 * @defaultValue Unknown
 		 */
@@ -2332,6 +2529,11 @@ export interface OBSRequestTypes {
 		sceneUuid?: string;
 	};
 	SetSceneSceneTransitionOverride: {
+		/**
+		 * UUID of the canvas the scene is in, if using the sceneName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the scene
 		 * @defaultValue Unknown
@@ -2356,6 +2558,11 @@ export interface OBSRequestTypes {
 	};
 	GetSourceActive: {
 		/**
+		 * UUID of the canvas the source is in, if using sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the source to get the active state of
 		 * @defaultValue Unknown
 		 */
@@ -2367,6 +2574,11 @@ export interface OBSRequestTypes {
 		sourceUuid?: string;
 	};
 	GetSourceScreenshot: {
+		/**
+		 * UUID of the canvas the source is in, if using sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the source to take a screenshot of
 		 * @defaultValue Unknown
@@ -2401,6 +2613,11 @@ export interface OBSRequestTypes {
 		imageCompressionQuality?: number;
 	};
 	SaveSourceScreenshot: {
+		/**
+		 * UUID of the canvas the source is in, if using sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
 		/**
 		 * Name of the source to take a screenshot of
 		 * @defaultValue Unknown
@@ -2551,6 +2768,11 @@ export interface OBSRequestTypes {
 	};
 	OpenSourceProjector: {
 		/**
+		 * UUID of the canvas the source is in, if using the sourceName field
+		 * @defaultValue Unknown
+		 */
+		canvasUuid?: string;
+		/**
 		 * Name of the source to open a projector for
 		 * @defaultValue Unknown
 		 */
@@ -2574,6 +2796,12 @@ export interface OBSRequestTypes {
 }
 
 export interface OBSResponseTypes {
+	GetCanvasList: {
+		/**
+		 * Array of canvases
+		 */
+		canvases: JsonObject[];
+	};
 	GetPersistentData: {
 		/**
 		 * Value associated with the slot. `null` if not set
@@ -3169,19 +3397,19 @@ export interface OBSResponseTypes {
 	SetSceneItemBlendMode: undefined;
 	GetSceneList: {
 		/**
-		 * Current program scene name. Can be `null` if internal state desync
+		 * Current program scene name. Can be `null` if non-main canvas or internal state desync
 		 */
 		currentProgramSceneName: string;
 		/**
-		 * Current program scene UUID. Can be `null` if internal state desync
+		 * Current program scene UUID. Can be `null` if non-main canvas or internal state desync
 		 */
 		currentProgramSceneUuid: string;
 		/**
-		 * Current preview scene name. `null` if not in studio mode
+		 * Current preview scene name. `null` if not in studio mode or non-main canvas
 		 */
 		currentPreviewSceneName: string;
 		/**
-		 * Current preview scene UUID. `null` if not in studio mode
+		 * Current preview scene UUID. `null` if not in studio mode or non-main canvas
 		 */
 		currentPreviewSceneUuid: string;
 		/**
