@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>obs-websocket-js-vite-sample</title>
+</head>
+<body>
+	<div id="app">
+		<h1>Connect</h1>
+		<form id="connect-form">
+			<input id="address" placeholder="Address (ws://localhost:4455)">
+			<input id="password" placeholder="Password" type="password">
+			<button id="address_button" type="submit">Connect</button>
+
+			<p>Status:</p>
+			<pre><code id="status"></code></pre>
+		</form>
+
+		<h1>Scene List</h1>
+		<div id="scene_list"></div>
+
+	</div>
+	<script type="module" src="/src/main.js"></script>
+</body>
+</html>
