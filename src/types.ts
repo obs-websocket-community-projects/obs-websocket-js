@@ -348,9 +348,11 @@ export type ResponseMessage<T = keyof OBSResponseTypes> = T extends keyof OBSRes
 	responseData: OBSResponseTypes[T];
 } : never;
 
-export type ResponseBatchMessage = {
+export type ResponseBatchMessage<
+	T extends Array<(keyof OBSRequestTypes)> = Array<(keyof OBSRequestTypes)>,
+> = {
 	requestId: string;
-	results: ResponseMessage[];
+	results: {[K in keyof T]: ResponseMessage<T[K]>};
 };
 
 // Events

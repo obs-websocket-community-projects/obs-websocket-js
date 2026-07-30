@@ -37,7 +37,7 @@ test('single request without parameters', async t => {
 	const {client} = t.context;
 	const [res] = await client.callBatch([{requestType: 'GetVersion'}]);
 
-	t.is((res.responseData as OBSResponseTypes['GetVersion']).obsVersion, '5.0.0-mock.0');
+	t.is((res.responseData).obsVersion, '5.0.0-mock.0');
 });
 
 test('multiple requests with mixed parameters', async t => {
@@ -48,7 +48,7 @@ test('multiple requests with mixed parameters', async t => {
 		{requestType: 'GetVersion'},
 	]);
 
-	t.is((res1.responseData as OBSResponseTypes['GetVersion']).obsVersion, '5.0.0-mock.0');
-	t.is((res2.responseData as OBSResponseTypes['BroadcastCustomEvent']), undefined);
-	t.is((res3.responseData as OBSResponseTypes['GetVersion']).obsVersion, '5.0.0-mock.0');
+	t.is((res1.responseData).obsVersion, '5.0.0-mock.0');
+	t.is((res2.responseData), undefined);
+	t.is((res3.responseData).obsVersion, '5.0.0-mock.0');
 });
