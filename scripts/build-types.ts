@@ -253,10 +253,27 @@ export type ResponseMessage<T = keyof OBSResponseTypes> = T extends keyof OBSRes
 	responseData: OBSResponseTypes[T];
 } : never;
 
-export type ResponseBatchMessage = {
+export type ResponseBatchMessage<
+	T extends Array<(keyof OBSRequestTypes)> = Array<(keyof OBSRequestTypes)>,
+> = {
 	requestId: string;
-	results: ResponseMessage[];
-}
+	// Per the obs-websocket protocol, when haltOnFailure halts the batch early this can be shorter than T.
+	results: Array<ResponseMessage<T[number]>>;
+};
+
+/**
+ * Union of a tuple and all of its prefixes, e.g. [A, B] -> [] | [A] | [A, B].
+ * Models haltOnFailure batches, where obs-websocket returns only the processed requests.
+ */
+type TuplePrefixes<T extends unknown[]> =
+	T extends [...infer Head, unknown] ? T | TuplePrefixes<Head> : T;
+
+export type RequestBatchResults<
+	T extends Array<(keyof OBSRequestTypes)>,
+	O extends RequestBatchOptions = RequestBatchOptions,
+> = O['haltOnFailure'] extends true
+	? TuplePrefixes<{[K in keyof T]: ResponseMessage<T[K]>}>
+	: {[K in keyof T]: ResponseMessage<T[K]>};
 
 // Events
 export interface OBSEventTypes {

@@ -5,7 +5,7 @@ import WebSocketIpml from 'isomorphic-ws';
 import type {Except, Merge, SetOptional} from 'type-fest';
 
 import {WebSocketOpCode} from './types.js';
-import type {OutgoingMessageTypes, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, RequestBatchExecutionType, RequestBatchRequest, RequestBatchMessage, ResponseMessage, ResponseBatchMessage, RequestBatchOptions} from './types.js';
+import type {OutgoingMessageTypes, OutgoingMessage, OBSEventTypes, IncomingMessage, IncomingMessageTypes, OBSRequestTypes, OBSResponseTypes, RequestMessage, RequestBatchExecutionType, RequestBatchRequest, RequestBatchMessage, ResponseMessage, ResponseBatchMessage, RequestBatchOptions, RequestBatchResults} from './types.js';
 import authenticationHashing from './utils/authenticationHashing.js';
 
 const debug = createDebug('obs-websocket-js');
@@ -150,13 +150,18 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 	 * @param requests Array of Request objects (type and data)
 	 * @param options A set of options for how the batch will be executed
 	 * @param options.executionType The mode of execution obs-websocket will run the batch in
-	 * @param options.haltOnFailure Whether obs-websocket should stop executing the batch if one request fails
+	 * @param options.haltOnFailure Whether obs-websocket should stop executing the batch if one request fails.
+	 * Pass this as a literal `true` (not a `boolean` variable) to get an accurate return type: obs-websocket omits
+	 * unprocessed requests from the results when it halts early, so the result array can be shorter than `requests`.
 	 * @returns RequestBatch response
 	 */
-	async callBatch<T extends Array<(keyof OBSRequestTypes)>>(
+	async callBatch<
+		T extends Array<(keyof OBSRequestTypes)>,
+		const O extends RequestBatchOptions = RequestBatchOptions,
+	>(
 		requests: [...{[K in keyof T]: RequestBatchRequest<T[K]>}],
-		options: RequestBatchOptions = {},
-	): Promise<{[K in keyof T]: ResponseMessage<T[K]>}> {
+		options: O = {} as O,
+	): Promise<RequestBatchResults<T, O>> {
 		const requestId = BaseOBSWebSocket.generateMessageId();
 		const responsePromise = this.internalEventPromise<ResponseBatchMessage<T>>(`res:${requestId}`);
 
@@ -167,7 +172,7 @@ export abstract class BaseOBSWebSocket extends EventEmitter<MapValueToArgsArray<
 		});
 
 		const {results} = await responsePromise;
-		return results;
+		return results as RequestBatchResults<T, O>;
 	}
 
 	/**
