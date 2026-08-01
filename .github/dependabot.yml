@@ -1,0 +1,61 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    cooldown:
+      default-days: 3
+    groups:
+      lint-and-format-tooling:
+        patterns:
+          - "eslint*"
+          - "@typescript-eslint/*"
+      typescript-and-build:
+        patterns:
+          - "typescript"
+          - "tsup"
+          - "tsx"
+          - "type-fest"
+      test-tooling:
+        patterns:
+          - "ava"
+          - "c8"
+      other-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "npm"
+    directories:
+      - "/samples/node-sample"
+      - "/samples/vite-sample"
+    schedule:
+      interval: "monthly"
+    groups:
+      samples:
+        patterns:
+          - "*"
+
+  # Frozen as a legacy reference: pins Vue 2.4.4 (EOL) and has no
+  # package-lock.json, so version-update PRs aren't viable here.
+  - package-ecosystem: "npm"
+    directory: "/samples/web-tester"
+    schedule:
+      interval: "monthly"
+    ignore:
+      - dependency-name: "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
