@@ -94,7 +94,7 @@
     "@types/ws": "^8.2.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "ava": "^6.0.1",
+    "ava": "^8.0.1",
     "c8": "^9.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.2.0",
@@ -116,9 +116,9 @@
   },
   "homepage": "https://github.com/obs-websocket-community-projects/obs-websocket-js#readme",
   "ava": {
-    "extensions": {
-      "ts": "commonjs"
-    },
+    "extensions": [
+      "ts"
+    ],
     "nodeArguments": [
       "--import=tsx/esm"
     ],
