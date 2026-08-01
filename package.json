@@ -57,7 +57,7 @@
   "unpkg": "dist/obs-ws.global.js",
   "types": "dist/json.d.ts",
   "engines": {
-    "node": ">16.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "files": [
