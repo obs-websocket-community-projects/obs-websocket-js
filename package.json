@@ -109,7 +109,7 @@
     "source-map-support": "^0.5.21",
     "tsup": "^8.5.1",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^7.0.2"
   },
   "bugs": {
     "url": "https://github.com/obs-websocket-community-projects/obs-websocket-js/issues"
